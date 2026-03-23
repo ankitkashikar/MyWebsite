@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: Deploy Static Website
 
 on:
   push:
@@ -7,22 +7,14 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+      # Step 1: Checkout your repository
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Build
-      run: |
-        npm install
-        npx webpack
+      # Step 2: Deploy static files
+      # Replace this with your hosting/deploy command if needed
+      - name: Deploy static files
+        run: echo "Static site deployment (replace with your deploy command)"
