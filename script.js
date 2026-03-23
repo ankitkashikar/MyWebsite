@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     orderForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const btn = orderForm.querySelector('.btn-submit');
-      btn.textContent = '✓ Order Placed! We'll see you soon.';
+      btn.textContent = "✓ Order Placed! We'll see you soon.";
       btn.style.background = '#2e7d32';
       btn.disabled = true;
     });
