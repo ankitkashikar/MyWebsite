@@ -727,6 +727,39 @@ footer {
 }
 .btn-submit:hover { background: var(--dark-red); }
 
+/* ===== SCROLL ZOOM-IN ANIMATION ===== */
+.zoom-on-scroll {
+  transform: scale(0.82);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.85s ease;
+  will-change: transform, opacity;
+}
+.zoom-on-scroll.zoomed {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Staggered delays for sibling zoom items */
+.zoom-on-scroll:nth-child(1) { transition-delay: 0s; }
+.zoom-on-scroll:nth-child(2) { transition-delay: 0.12s; }
+.zoom-on-scroll:nth-child(3) { transition-delay: 0.24s; }
+.zoom-on-scroll:nth-child(4) { transition-delay: 0.36s; }
+.zoom-on-scroll:nth-child(5) { transition-delay: 0.48s; }
+
+/* Zoom for full sections (about strip, order split) */
+.zoom-section {
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.9s ease;
+  will-change: transform, opacity;
+}
+.zoom-section.zoomed {
+  transform: scale(1);
+  opacity: 1;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 960px) {
   .social-grid { grid-template-columns: repeat(3, 1fr); }

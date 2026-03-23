@@ -76,6 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* -- Scroll Zoom-In Animation -- */
+  const zoomEls = document.querySelectorAll('.zoom-on-scroll, .zoom-section');
+  if (zoomEls.length) {
+    const zoomObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('zoomed');
+          zoomObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    zoomEls.forEach(el => zoomObserver.observe(el));
+  }
+
   /* -- Navbar scroll shadow -- */
   window.addEventListener('scroll', () => {
     const nb = document.querySelector('.navbar');
