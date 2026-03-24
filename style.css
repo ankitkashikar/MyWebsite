@@ -177,61 +177,34 @@ ul { list-style: none; }
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  min-height: 520px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
   overflow: hidden;
   background: var(--red);
 }
+
 .hero-bg {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.28;
+  height: auto;          /* shows full image, no cropping */
+  display: block;
+  object-fit: unset;
+  opacity: 1;            /* fully visible */
+  position: relative;    /* not absolute anymore */
 }
+
 .hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #fff;
-  padding: 60px 20px;
-  max-width: 660px;
-  animation: fadeUp 0.8s ease forwards;
+  display: none;         /* hide text overlay since image already has text */
 }
-.hero-content h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 7vw, 5rem);
-  font-weight: 700;
-  line-height: 1.05;
-  margin-bottom: 16px;
-  letter-spacing: -0.5px;
-}
-.hero-content p {
-  font-size: 1rem;
-  opacity: 0.88;
-  margin-bottom: 28px;
-  letter-spacing: 0.4px;
-}
-.btn-hero {
-  display: inline-block;
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 10px 34px;
-  border-radius: 40px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transition: all var(--transition);
-}
-.btn-hero:hover { background: #fff; color: var(--red); }
+
 .scroll-indicator {
-  margin-top: 32px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.6rem;
   animation: bounce 1.6s ease-in-out infinite;
   opacity: 0.7;
+  color: #fff;
+  z-index: 2;
 }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
