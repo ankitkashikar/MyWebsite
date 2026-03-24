@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -- Active nav link -- */
-  const path = window.location.pathname;
+  const path = globalThis.location.pathname;
   document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
     const href = a.getAttribute('href') || '';
     if (path.endsWith(href) && href !== 'index.html') a.classList.add('active');
@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const revealItems = document.querySelectorAll('.cat-item, .menu-item, .menu-section');
   if (revealItems.length) {
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      entries.forEach(e => { 
+        if (e.isIntersecting) { 
+          e.target.classList.add('visible'); 
+          obs.unobserve(e.target); 
+        } 
+      });
     }, { threshold: 0.1 });
     revealItems.forEach(el => obs.observe(el));
   }
@@ -91,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -- Navbar scroll shadow -- */
-  window.addEventListener('scroll', () => {
+  addEventListener('scroll', () => {
     const nb = document.querySelector('.navbar');
     if (nb) {
-      nb.style.boxShadow = window.scrollY > 10 ? '0 2px 16px rgba(0,0,0,0.1)' : 'none';
+      nb.style.boxShadow = scrollY > 10 
+        ? '0 2px 16px rgba(0,0,0,0.1)' 
+        : 'none';
     }
   });
 
