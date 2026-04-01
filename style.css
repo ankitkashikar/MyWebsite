@@ -83,13 +83,12 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .logo-svg { width: 42px; height: 42px; }
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-  font-family: var(--font-body);
-  font-weight: 700;
-  text-transform: uppercase;
+.logo-wrap img,
+.logo-svg {
+  width: 38px !important;
+  height: 38px !important;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 .logo-text span:nth-child(1) { font-size: 0.5rem; letter-spacing: 3px; }
 .logo-text span:nth-child(2) { font-size: 0.9rem; letter-spacing: 2px; }
