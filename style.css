@@ -76,19 +76,21 @@ ul { list-style: none; }
   z-index: 200;
   gap: 16px;
 }
+.navbar {
+  align-items: center;
+}
+
 .logo-wrap {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
 }
-.logo-svg { width: 42px; height: 42px; }
+
 .logo-wrap img,
 .logo-svg {
-  width: 70px;
-  height: 70px;
+  width: 38px !important;
+  height: 38px !important;
   flex-shrink: 0;
-  object-fit: contain;
 }
 .logo-text span:nth-child(1) { font-size: 0.5rem; letter-spacing: 3px; }
 .logo-text span:nth-child(2) { font-size: 0.9rem; letter-spacing: 2px; }
