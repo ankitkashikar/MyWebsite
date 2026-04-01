@@ -85,8 +85,8 @@ ul { list-style: none; }
 .logo-svg { width: 42px; height: 42px; }
 .logo-wrap img,
 .logo-svg {
-  width: 38px !important;
-  height: 38px !important;
+  width: 50px !important;
+  height: 50px !important;
   flex-shrink: 0;
   object-fit: contain;
 }
