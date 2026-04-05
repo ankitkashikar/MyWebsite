@@ -87,9 +87,13 @@ ul { list-style: none; }
 }
 
 .logo-wrap img,
+.logo-wrap .logo-svg,
 .logo-svg {
   width: 38px !important;
   height: 38px !important;
+  max-width: 38px !important;
+  max-height: 38px !important;
+  object-fit: contain;
   flex-shrink: 0;
 }
 .logo-text span:nth-child(1) { font-size: 0.5rem; letter-spacing: 3px; }
