@@ -721,19 +721,3 @@ footer {
   .newsletter-row input { min-width: unset; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
-
-
-/* Add this anywhere inside your style.css file */
-.nav-links a:hover {
-    color: #e08b46 !important; 
-}
-
-/* Ensure the hamburger menu displays properly on mobile screens */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none !important;
-    }
-    .hamburger {
-        display: block !important;
-    }
-}
