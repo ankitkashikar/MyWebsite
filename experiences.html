@@ -59,7 +59,21 @@
 
   <!-- FOOTER -->
   <footer id="contact">
-    <div class="footer-grid">
+    <style>
+      .footer-grid-with-map {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr 1.5fr !important;
+        gap: 40px !important;
+        align-items: start !important;
+      }
+      @media (max-width: 900px) {
+        .footer-grid-with-map { grid-template-columns: 1fr 1fr !important; }
+      }
+      @media (max-width: 560px) {
+        .footer-grid-with-map { grid-template-columns: 1fr !important; }
+      }
+    </style>
+    <div class="footer-grid footer-grid-with-map">
       <div class="footer-col">
         <h4>Contact Us</h4>
         <p>+91-8956150583</p>
@@ -75,25 +89,20 @@
         <p>Mon – Sun: 4pm – 2am</p>
         <p>Closed Every Second Tuesday</p>
       </div>
-    </div>
-    <div class="footer-col footer-map-col" style="position: relative;">
+      <div class="footer-col">
         <h4>Find Us</h4>
-        <div style="width: 100%; height: 160px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+        <div style="width:100%; height:160px; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); box-shadow:0 4px 20px rgba(0,0,0,0.08);">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654!2d73.7368!3d18.5912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb00b7b5b5b5%3A0x0!2sStreet+of+Europe%2C+Hinjawadi%2C+Pune%2C+Maharashtra+411057!5e0!3m2!1sen!2sin!4v1"
-            width="100%"
-            height="160"
-            style="border:0; display:block;"
-            allowfullscreen=""
-            loading="lazy"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
+            width="100%" height="160" style="border:0; display:block;"
+            allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             title="The Chinese Bliss Location">
           </iframe>
         </div>
-        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune" target="_blank" style="display: inline-block; margin-top: 10px; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: #c0392b; text-decoration: none; border-bottom: 1px solid #c0392b; padding-bottom: 1px;">Get Directions →</a>
+        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" style="display:inline-block; margin-top:10px; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#c0392b; text-decoration:none; border-bottom:1px solid #c0392b; padding-bottom:1px;">Get Directions →</a>
       </div>
     </div>
-    
     <div class="newsletter-row">
       <input type="email" placeholder="Enter your email *" />
       <label><input type="checkbox" /> Yes, subscribe me to your newsletter.</label>
