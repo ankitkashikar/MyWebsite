@@ -6,10 +6,10 @@
   <title>The Chinese Bliss – The Real Deal on Indo Chinese Food</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- TOP BAR -->
   <div class="top-bar">
     <a href="order-online.html">Place Your Bulk Order Now</a>
     <a href="#" class="top-bar-login">
@@ -18,39 +18,29 @@
     </a>
   </div>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-  <a href="index.html" class="logo-wrap">
-  <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-  <div class="logo-text">
+  <header class="navbar" style="background-color: #000000; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; height: 90px;">
+    <div class="brand" style="display: flex; align-items: center; height: 100%;">
+      <a href="index.html">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss Logo" class="logo" style="max-height: 70px; width: auto;">
+      </a>
     </div>
-    </a>
-    <nav class="nav-links">
-      <a href="index.html" class="active">About</a>
-      <a href="menu.html">Menu</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="experiences.html">Experiences</a>
+    
+    <nav class="nav-links" style="display: flex; align-items: center; gap: 40px;">
+      <a href="index.html" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 500;">About Us</a>
+      <a href="order-online.html" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 500;">Order Now</a>
+      <a href="#" class="store-locator" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-location-dot" style="font-size: 20px;"></i> Store Locator
+      </a>
     </nav>
-    <div class="nav-actions">
-      <a href="index.html#contact" class="btn-ghost">Reservations</a>
-      <a href="order-online.html" class="btn-solid">Order Online</a>
-    </div>
-    <button class="hamburger" id="ham" aria-label="Menu">☰</button>
+    <button class="hamburger" id="ham" aria-label="Menu" style="color: white; background: none; border: none; font-size: 24px; cursor: pointer; display: none;">☰</button>
   </header>
 
-  <!-- MOBILE NAV -->
   <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">About</a>
-    <a href="menu.html">Menu</a>
-    <a href="index.html#contact">Contact</a>
-    <a href="experiences.html">Experiences</a>
-    <div class="nav-btns">
-      <a href="index.html#contact" class="btn-ghost">Reservations</a>
-      <a href="order-online.html" class="btn-solid">Order Online</a>
-    </div>
+    <a href="index.html">About Us</a>
+    <a href="order-online.html">Order Now</a>
+    <a href="#">Store Locator</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <img
       src="images/TCB_Banner.png"
@@ -65,7 +55,6 @@
     </div>
   </section>
 
-  <!-- CATEGORIES -->
   <section class="categories">
     <div class="cat-grid">
       <div class="cat-item zoom-on-scroll">
@@ -113,7 +102,6 @@
     <a href="order-online.html" class="btn-red-outline">Order Now</a>
   </section>
 
-  <!-- ABOUT BANNER -->
   <section class="about-strip zoom-section">
     <img
       src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg"
@@ -138,7 +126,6 @@
     </div>
   </section>
 
-  <!-- ORDER + RESERVATION SPLIT -->
   <section class="order-split zoom-section">
     <div class="order-left">
       <svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,7 +156,6 @@
     </div>
   </section>
 
-  <!-- SOCIAL FEED -->
   <section class="social-section">
     <p class="pre-label">Follow</p>
     <h2 class="social-handle">@thechinesebliss</h2>
@@ -183,7 +169,6 @@
     <button class="load-more" id="loadMore">Load More</button>
   </section>
 
-  <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-grid">
       <div class="footer-col">
