@@ -6,6 +6,19 @@
   <title>The Chinese Bliss – The Real Deal on Indo Chinese Food</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    .nav-links a {
+      text-decoration: none !important;
+      border-bottom: none !important;
+      padding-bottom: 3px;
+    }
+    .nav-links a.active {
+      color: #c0392b !important;
+    }
+    .nav-links a:hover:not(.active) {
+      color: #fff !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -20,10 +33,9 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-  <a href="index.html" class="logo-wrap">
-  <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-  <div class="logo-text">
-    </div>
+    <a href="index.html" class="logo-wrap">
+      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
+      <div class="logo-text"></div>
     </a>
     <nav class="nav-links">
       <a href="index.html" class="active">About</a>
@@ -126,7 +138,7 @@
         <p class="tagline">We're bringing Bold Indo-Chinese flavors, prepared fresh for your plate.</p>
         <div class="wave">〜</div>
         <p class="body-text">
-        Welcome to The Chinese Bliss, where bold flavors, fresh ingredients, and authentic cooking come together to create a truly satisfying experience.Our kitchen is inspired by the vibrant spirit of Indo Chinese cuisine. Every order is prepared fresh, ensuring rich flavors, irresistible aromas, and the perfect balance of taste.
+          Welcome to The Chinese Bliss, where bold flavors, fresh ingredients, and authentic cooking come together to create a truly satisfying experience. Our kitchen is inspired by the vibrant spirit of Indo Chinese cuisine. Every order is prepared fresh, ensuring rich flavors, irresistible aromas, and the perfect balance of taste.
         </p>
       </div>
       <div class="stamp">
@@ -185,7 +197,7 @@
 
   <!-- FOOTER -->
   <footer id="contact">
-    <div class="footer-grid">
+    <div class="footer-grid footer-grid-with-map">
       <div class="footer-col">
         <h4>Contact Us</h4>
         <p>+91-8956150583</p>
@@ -199,7 +211,23 @@
       <div class="footer-col">
         <h4>Opening Hours</h4>
         <p>Mon – Sun: 4pm – 2am</p>
-        <p>Closed Every Second Tuesday </p>
+        <p>Closed Every Second Tuesday</p>
+      </div>
+      <div class="footer-col">
+        <h4>Find Us</h4>
+        <div style="width:100%; height:160px; border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
+            width="100%"
+            height="160"
+            style="border:0; display:block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="The Chinese Bliss Location">
+          </iframe>
+        </div>
+        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" style="display:inline-block; margin-top:10px; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#c0392b; text-decoration:none; border-bottom:1px solid #c0392b; padding-bottom:1px;">Get Directions →</a>
       </div>
     </div>
 
@@ -212,12 +240,12 @@
       <button class="btn-join">Join</button>
     </div>
 
-    <div class="footer-bottom" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%;">
-      <div class="footer-logo-wrap" style="flex: 1; display: flex; align-items: center;">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="34" height="34" style="object-fit: contain;" />
+    <div class="footer-bottom" style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; width:100%;">
+      <div class="footer-logo-wrap" style="flex:1; display:flex; align-items:center;">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="34" height="34" style="object-fit:contain;" />
       </div>
-      <p class="footer-copy" style="flex: 1; text-align: center; margin: 0;">©2026 by The Chinese Bliss.</p>
-      <div class="social-icons" style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+      <p class="footer-copy" style="flex:1; text-align:center; margin:0;">©2026 by The Chinese Bliss.</p>
+      <div class="social-icons" style="flex:1; display:flex; align-items:center; justify-content:flex-end; gap:12px;">
         <a href="https://www.yelp.com" target="_blank">
           <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
         </a>
