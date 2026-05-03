@@ -1,51 +1,32 @@
-/* ===== SHARED SCRIPT ===== */
+/* ============================================================
+   The Chinese Bliss — script.js
+   ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* -- Mobile hamburger -- */
-  const ham = document.getElementById('ham');
+  /* ── Hamburger ───────────────────────────────────────── */
+  const ham       = document.getElementById('ham');
   const mobileNav = document.getElementById('mobileNav');
+
   if (ham && mobileNav) {
     ham.addEventListener('click', () => {
+      ham.classList.toggle('open');
       mobileNav.classList.toggle('open');
-      ham.textContent = mobileNav.classList.contains('open') ? '✕' : '☰';
     });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
+    // close when a link is tapped
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        ham.classList.remove('open');
         mobileNav.classList.remove('open');
-        ham.textContent = '☰';
       });
     });
   }
 
-  /* -- Active nav link -- */
-  const path = globalThis.location.pathname;
-  document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if (path.endsWith(href) && href !== 'index.html') a.classList.add('active');
-    if ((path === '/' || path.endsWith('index.html')) && href === 'index.html') a.classList.add('active');
-  });
-
-  /* -- Scroll reveal for category items -- */
-  const revealItems = document.querySelectorAll('.cat-item, .menu-item, .menu-section');
-  if (revealItems.length) {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { 
-        if (e.isIntersecting) { 
-          e.target.classList.add('visible'); 
-          obs.unobserve(e.target); 
-        } 
-      });
-    }, { threshold: 0.1 });
-    revealItems.forEach(el => obs.observe(el));
-  }
-
-  /* -- Load More social images -- */
+  /* ── Load More (social grid) ─────────────────────────── */
   const loadMoreBtn = document.getElementById('loadMore');
-  const socialHidden = document.querySelectorAll('.social-hidden');
-  if (loadMoreBtn && socialHidden.length) {
+  if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', () => {
-      socialHidden.forEach(img => {
+      document.querySelectorAll('.social-hidden').forEach(img => {
         img.classList.remove('social-hidden');
         img.style.display = '';
       });
@@ -53,56 +34,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* -- Reservation form validation -- */
-  const joinBtn = document.querySelector('.btn-join');
-  if (joinBtn) {
-    joinBtn.addEventListener('click', () => {
-      const emailInput = document.querySelector('.newsletter-row input[type="email"]');
-      if (emailInput && emailInput.value.includes('@')) {
-        joinBtn.textContent = '✓ Subscribed!';
-        joinBtn.style.background = '#2e7d32';
-        emailInput.value = '';
-      } else if (emailInput) {
-        emailInput.style.borderColor = 'red';
-        setTimeout(() => emailInput.style.borderColor = '', 1800);
-      }
+  /* ── Intersection Observer — unified scroll reveal ───── */
+  const revealItems = document.querySelectorAll(
+    '.reveal, .zoom-on-scroll, .zoom-section, .cat-item, .menu-section'
+  );
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const el = entry.target;
+
+      // new class
+      if (el.classList.contains('reveal'))         el.classList.add('visible');
+      // legacy classes
+      if (el.classList.contains('zoom-on-scroll')) el.classList.add('zoomed');
+      if (el.classList.contains('zoom-section'))   el.classList.add('zoomed');
+      // category items (old .visible system)
+      if (el.classList.contains('cat-item'))       el.classList.add('visible');
+      // menu sections
+      if (el.classList.contains('menu-section'))   el.classList.add('zoomed');
+
+      observer.unobserve(el);
     });
-  }
-
-  /* -- Order form submit -- */
-  const orderForm = document.getElementById('orderForm');
-  if (orderForm) {
-    orderForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const btn = orderForm.querySelector('.btn-submit');
-      btn.textContent = "✓ Order Placed! We'll see you soon.";
-      btn.style.background = '#2e7d32';
-      btn.disabled = true;
-    });
-  }
-
-  /* -- Scroll Zoom-In Animation -- */
-  const zoomEls = document.querySelectorAll('.zoom-on-scroll, .zoom-section');
-  if (zoomEls.length) {
-    const zoomObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('zoomed');
-          zoomObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    zoomEls.forEach(el => zoomObserver.observe(el));
-  }
-
-  /* -- Navbar scroll shadow -- */
-  addEventListener('scroll', () => {
-    const nb = document.querySelector('.navbar');
-    if (nb) {
-      nb.style.boxShadow = scrollY > 10 
-        ? '0 2px 16px rgba(0,0,0,0.1)' 
-        : 'none';
-    }
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
   });
+
+  revealItems.forEach(el => observer.observe(el));
+
+  /* ── Navbar scroll shadow ────────────────────────────── */
+  const navbar = document.getElementById('navbar');
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.style.boxShadow = '0 4px 24px rgba(0,0,0,0.35)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    }, { passive: true });
+  }
 
 });
