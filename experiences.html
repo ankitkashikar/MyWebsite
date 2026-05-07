@@ -5,23 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Experiences | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    .nav-links a {
-      text-decoration: none !important;
-      border-bottom: 2px solid transparent !important;
-      padding-bottom: 2px;
-    }
-    .nav-links a.active {
-      text-decoration: none !important;
-      border-bottom: 2px solid #c0392b !important;
-      color: #c0392b !important;
-    }
-    .nav-links a:hover:not(.active) {
-      border-bottom: 2px solid rgba(192,57,43,0.35) !important;
-      color: #c0392b !important;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- NO inline <style> block — style.css handles everything -->
 </head>
 <body>
 
@@ -29,17 +14,18 @@
   <div class="top-bar">
     <a href="order-online.html">Order Online Now – No Delivery Fee</a>
     <a href="#" class="top-bar-login">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
       Log In
     </a>
   </div>
 
   <!-- NAVBAR -->
-  <header class="navbar">
-      <a href="index.html" class="logo-wrap">
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="logo-wrap">
       <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-      <div class="logo-text">
-      </div>
     </a>
     <nav class="nav-links">
       <a href="index.html">About</a>
@@ -51,7 +37,9 @@
       <a href="index.html#contact" class="btn-ghost">Reservations</a>
       <a href="order-online.html" class="btn-solid">Order Online</a>
     </div>
-    <button class="hamburger" id="ham" aria-label="Menu">☰</button>
+    <button class="hamburger" id="ham" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
   <!-- MOBILE NAV -->
@@ -66,29 +54,77 @@
     </div>
   </nav>
 
-  <!-- CONTENT -->
-  <main class="experiences-page">
-    <p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Experiences</p>
-    <h1>Experiences</h1>
-    <p>We're not offering any experiences at the moment.<br/>Check back soon.</p>
-  </main>
+  <!-- EXPERIENCES HERO -->
+  <section class="exp-hero">
+    <div class="exp-hero-inner reveal">
+      <p class="section-pre-label">Coming Soon</p>
+      <h1>Experiences</h1>
+      <p class="exp-hero-sub">Something special is being crafted for you.<br/>Unique dining experiences, curated events,<br/>and unforgettable evenings at The Chinese Bliss.</p>
+      <div class="exp-divider">
+        <span class="divider-line"></span>
+        <span class="divider-ornament">✦</span>
+        <span class="divider-line"></span>
+      </div>
+      <a href="index.html#contact" class="btn-red-outline">Get Notified</a>
+    </div>
+  </section>
+
+  <!-- TEASER CARDS -->
+  <section class="exp-teasers">
+    <div class="exp-grid">
+
+      <div class="exp-card reveal">
+        <div class="exp-card-icon">
+          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Private Dining</h3>
+        <p>Exclusive table bookings for special occasions. Celebrate birthdays, anniversaries, and corporate events with a personal touch.</p>
+      </div>
+
+      <div class="exp-card reveal" style="transition-delay:0.12s">
+        <div class="exp-card-icon">
+          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h3>Chef's Table</h3>
+        <p>An intimate tasting experience where our head chef guides you through the bold flavours of Indo-Chinese cuisine, course by course.</p>
+      </div>
+
+      <div class="exp-card reveal" style="transition-delay:0.24s">
+        <div class="exp-card-icon">
+          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h3>Pop-Up Events</h3>
+        <p>Seasonal pop-up nights with special menus, live music, and themed evenings celebrating the vibrant culture of Indo-Chinese food.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NOTIFY STRIP -->
+  <section class="exp-notify reveal">
+    <p class="section-pre-label">Stay in the Loop</p>
+    <h2>Be the First to Know</h2>
+    <p>Drop your email and we'll notify you the moment our experiences go live.</p>
+    <div class="exp-notify-form">
+      <input type="email" placeholder="Enter your email address" class="exp-email-input" />
+      <button class="btn-solid exp-notify-btn">Notify Me</button>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer id="contact">
-    <style>
-      .footer-grid-with-map {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr 1.5fr !important;
-        gap: 40px !important;
-        align-items: start !important;
-      }
-      @media (max-width: 900px) {
-        .footer-grid-with-map { grid-template-columns: 1fr 1fr !important; }
-      }
-      @media (max-width: 560px) {
-        .footer-grid-with-map { grid-template-columns: 1fr !important; }
-      }
-    </style>
     <div class="footer-grid footer-grid-with-map">
       <div class="footer-col">
         <h4>Contact Us</h4>
@@ -107,32 +143,34 @@
       </div>
       <div class="footer-col">
         <h4>Find Us</h4>
-        <div style="width:100%; height:160px; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <div class="map-wrap">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
-            width="100%" height="160" style="border:0; display:block;"
+            width="100%" height="160" style="border:0;display:block;"
             allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             title="The Chinese Bliss Location">
           </iframe>
         </div>
-        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" style="display:inline-block; margin-top:10px; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#c0392b; text-decoration:none; border-bottom:1px solid #c0392b; padding-bottom:1px;">Get Directions →</a>
+        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" class="directions-link">Get Directions →</a>
       </div>
     </div>
+
     <div class="newsletter-row">
       <input type="email" placeholder="Enter your email *" />
       <label><input type="checkbox" /> Yes, subscribe me to your newsletter.</label>
       <button class="btn-join">Join</button>
     </div>
-    <div class="footer-bottom" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%;">
-      <div class="footer-logo-wrap" style="flex: 1; display: flex; align-items: center;">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="34" height="34" style="object-fit: contain;" />
+
+    <div class="footer-bottom">
+      <div class="footer-logo-wrap">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="32" height="32" style="object-fit:contain;" />
       </div>
-      <p class="footer-copy" style="flex: 1; text-align: center; margin: 0;">©2026 by The Chinese Bliss.</p>
-      <div class="social-icons" style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 12px;">
+      <p class="footer-copy">©2026 by The Chinese Bliss.</p>
+      <div class="social-icons">
         <a href="https://www.yelp.com" target="_blank"><img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/></a>
-        <a href="https://www.facebook.com/wix" target="_blank"><img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/></a>
-        <a href="https://www.instagram.com/wix" target="_blank"><img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/></a>
+        <a href="https://www.facebook.com" target="_blank"><img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/></a>
+        <a href="https://www.instagram.com" target="_blank"><img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/></a>
       </div>
     </div>
   </footer>
