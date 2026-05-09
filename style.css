@@ -1187,3 +1187,92 @@ footer {
   .hero-cta { font-size: 0.72rem; padding: 10px 22px; letter-spacing: 1.2px; }
   .cat-grid { flex-direction: column; align-items: center; }
 }
+
+/* ===== ORDER FULL WIDTH (replaces order-split) ===== */
+.order-full {
+  background: var(--off-white);
+  position: relative;
+  overflow: hidden;
+}
+.order-full::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 90% 10%, rgba(192,57,43,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 90%, rgba(192,57,43,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.order-full-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.order-full-inner .order-label {
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 600;
+}
+.order-full-inner .order-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--black);
+}
+.order-full-inner .order-heading em {
+  font-style: italic;
+  color: var(--red);
+}
+.order-full-inner .order-sub {
+  font-size: 0.88rem;
+  color: var(--gray);
+  line-height: 1.8;
+  max-width: 520px;
+}
+.order-full-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+.btn-order-primary {
+  background: var(--red);
+  color: #fff;
+  padding: 12px 40px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background var(--transition);
+  font-family: var(--font-body);
+}
+.btn-order-primary:hover { background: var(--dark-red); }
+.btn-order-secondary {
+  color: var(--red);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--red);
+  padding-bottom: 2px;
+  transition: opacity var(--transition);
+  font-family: var(--font-body);
+}
+.btn-order-secondary:hover { opacity: 0.7; }
+
+@media (max-width: 700px) {
+  .order-full-inner { padding: 56px 24px; gap: 14px; }
+  .order-full-inner .order-heading { font-size: 1.9rem; }
+  .order-full-actions { flex-direction: column; gap: 12px; }
+}
