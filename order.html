@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Online | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Order page specific styles ── */
+    .order-hero {
+      background: var(--charcoal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle animated background glow */
+    .order-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 40%, rgba(192,57,43,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 60%, rgba(192,57,43,0.1) 0%, transparent 50%);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+
+    /* Back link */
+    .order-back {
+      position: absolute;
+      top: 100px;
+      left: 40px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
+      transition: color 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+    }
+    .order-back:hover { color: rgba(255,255,255,0.9); }
+
+    /* Content wrapper */
+    .order-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 680px;
+      width: 100%;
+      animation: fadeUpIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+    @keyframes fadeUpIn {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .order-pre {
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .order-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .order-subtitle {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 52px;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+    }
+
+    /* Platform cards */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+      animation: fadeUpIn 0.7s 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    .platform-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 40px 28px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .platform-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 16px;
+    }
+    .platform-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+
+    /* Swiggy card */
+    .platform-card--swiggy:hover {
+      border-color: rgba(252, 128, 25, 0.5);
+      background: rgba(252, 128, 25, 0.07);
+    }
+    .platform-card--swiggy::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(252,128,25,0.12) 0%, transparent 70%);
+    }
+    .platform-card--swiggy:hover::before { opacity: 1; }
+
+    /* Zomato card */
+    .platform-card--zomato:hover {
+      border-color: rgba(225, 37, 27, 0.5);
+      background: rgba(225, 37, 27, 0.07);
+    }
+    .platform-card--zomato::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(225,37,27,0.12) 0%, transparent 70%);
+    }
+    .platform-card--zomato:hover::before { opacity: 1; }
+
+    /* Logo container */
+    .platform-logo-wrap {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .platform-card:hover .platform-logo-wrap {
+      transform: scale(1.08);
+    }
+    .platform-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    /* Swiggy SVG logo */
+    .swiggy-logo-bg {
+      background: #FC8019;
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Zomato SVG logo */
+    .zomato-logo-bg {
+      background: #E1251B;
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .platform-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.3px;
+      position: relative;
+      z-index: 1;
+    }
+    .platform-desc {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+      letter-spacing: 0.2px;
+      position: relative;
+      z-index: 1;
+    }
+    .platform-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 40px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .platform-card--swiggy .platform-cta {
+      color: #FC8019;
+      border: 1px solid rgba(252,128,25,0.35);
+      background: rgba(252,128,25,0.06);
+    }
+    .platform-card--swiggy:hover .platform-cta {
+      background: #FC8019;
+      color: #fff;
+      border-color: #FC8019;
+    }
+    .platform-card--zomato .platform-cta {
+      color: #E1251B;
+      border: 1px solid rgba(225,37,27,0.35);
+      background: rgba(225,37,27,0.06);
+    }
+    .platform-card--zomato:hover .platform-cta {
+      background: #E1251B;
+      color: #fff;
+      border-color: #E1251B;
+    }
+
+    /* Divider between cards */
+    .order-or {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: fadeUpIn 0.7s 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+    .order-or span { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+    /* Mobile */
+    @media (max-width: 560px) {
+      .platform-grid { grid-template-columns: 1fr; gap: 14px; }
+      .platform-card { padding: 32px 24px; flex-direction: row; text-align: left; gap: 20px; }
+      .platform-logo-wrap { width: 60px; height: 60px; flex-shrink: 0; }
+      .swiggy-logo-bg, .zomato-logo-bg { width: 60px; height: 60px; border-radius: 14px; }
+      .platform-card-text { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+      .platform-name { font-size: 1.3rem; }
+      .platform-cta { align-self: flex-start; }
+      .order-back { top: 80px; left: 20px; }
+    }
+    @media (max-width: 400px) {
+      .order-title { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="order.html">Order Online Now – No Delivery Fee</a>
+    <a href="#" class="top-bar-login">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Log In
+    </a>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="experiences.html">Experiences</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="order.html" class="btn-solid">Order Online</a>
+    </div>
+    <button class="hamburger" id="ham" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="experiences.html">Experiences</a>
+    <div class="nav-btns">
+      <a href="order.html" class="btn-solid">Order Online</a>
+    </div>
+  </nav>
+
+  <!-- MAIN ORDER CONTENT -->
+  <main class="order-hero">
+
+    <!-- Back link -->
+    <a href="index.html" class="order-back">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Home
+    </a>
+
+    <div class="order-content">
+      <span class="order-pre">The Chinese Bliss</span>
+      <h1 class="order-title">Order Fresh,<br/>Delivered Fast</h1>
+      <p class="order-subtitle">Choose your preferred delivery partner below.<br/>Hot food at your door in 30 minutes.</p>
+
+      <!-- PLATFORM CARDS -->
+      <div class="platform-grid">
+
+        <!-- SWIGGY -->
+        <!--
+          IMPORTANT: Replace the href below with your actual Swiggy restaurant URL.
+          Example: https://www.swiggy.com/restaurants/the-chinese-bliss-hinjawadi-pune-XXXXXX
+          Find it by searching your restaurant on Swiggy and copying the URL.
+        -->
+        <a href="https://www.swiggy.com" target="_blank" rel="noopener noreferrer" class="platform-card platform-card--swiggy">
+          <div class="platform-logo-wrap">
+            <div class="swiggy-logo-bg">
+              <!-- Swiggy flame icon in SVG -->
+              <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10 C35 10 22 24 22 40 C22 52 30 60 38 66 C44 70 46 76 44 82 C43 86 40 89 40 89 C40 89 58 84 62 70 C64 62 60 56 56 52 C52 48 50 44 52 38 C54 32 60 28 60 28 C60 28 50 30 46 40 C44 46 46 52 50 56 C54 60 56 66 54 72 C52 76 48 80 48 80 C48 80 66 72 66 56 C66 44 56 36 56 28 C56 20 62 14 62 14 C62 14 50 10 50 10Z" fill="white" opacity="0.95"/>
+              </svg>
+            </div>
+          </div>
+          <div class="platform-card-text">
+            <div class="platform-name">Swiggy</div>
+            <div class="platform-desc">Fast delivery · Live tracking</div>
+            <div class="platform-cta">
+              Order Now
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- ZOMATO -->
+        <!--
+          IMPORTANT: Replace the href below with your actual Zomato restaurant URL.
+          Example: https://www.zomato.com/pune/the-chinese-bliss-hinjawadi
+          Find it by searching your restaurant on Zomato and copying the URL.
+        -->
+        <a href="https://www.zomato.com" target="_blank" rel="noopener noreferrer" class="platform-card platform-card--zomato">
+          <div class="platform-logo-wrap">
+            <div class="zomato-logo-bg">
+              <!-- Zomato Z icon in SVG -->
+              <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="12" y="76" font-size="72" font-weight="900" font-family="Arial, sans-serif" fill="white">Z</text>
+              </svg>
+            </div>
+          </div>
+          <div class="platform-card-text">
+            <div class="platform-name">Zomato</div>
+            <div class="platform-desc">Quick delivery · Reviews &amp; ratings</div>
+            <div class="platform-cta">
+              Order Now
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="order-or">
+        <span></span>
+        Both platforms offer free delivery on select orders
+        <span></span>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
