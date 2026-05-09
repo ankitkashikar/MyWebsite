@@ -1188,7 +1188,7 @@ footer {
   .cat-grid { flex-direction: column; align-items: center; }
 }
 
-/* ===== ORDER FULL WIDTH (replaces order-split) ===== */
+/* ===== ORDER FULL WIDTH (replaces order-split on index) ===== */
 .order-full {
   background: var(--off-white);
   position: relative;
