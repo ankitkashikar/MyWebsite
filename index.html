@@ -11,7 +11,7 @@
 
   <!-- TOP BAR -->
   <div class="top-bar">
-    <a href="order.html">Place Your Bulk Order Now</a>
+    <a href="bulk-order.html">Place Your Bulk Order Now</a>
     <a href="#" class="top-bar-login">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -33,6 +33,7 @@
       <a href="experiences.html">Experiences</a>
     </nav>
     <div class="nav-actions">
+      
       <a href="order.html" class="btn-solid">Order Online</a>
     </div>
     <button class="hamburger" id="ham" aria-label="Open menu">
@@ -47,6 +48,7 @@
     <a href="index.html#contact">Contact</a>
     <a href="experiences.html">Experiences</a>
     <div class="nav-btns">
+      
       <a href="order.html" class="btn-solid">Order Online</a>
     </div>
   </nav>
@@ -212,13 +214,25 @@
 
   <!-- ═══════════════════ ORDER + RESERVATION SPLIT ═══════════════════ -->
   <section class="order-full reveal">
-    <div class="order-full-inner">
+    <div class="order-left reveal">
       <p class="order-label">Fresh Off The Wok</p>
-      <h2 class="order-heading">Ready in <em>30 Minutes</em> — Delivered Hot To Your Door</h2>
-      <p class="order-sub">Bold Indo-Chinese flavours with no compromise on freshness. Every dish is prepared fresh the moment you order.</p>
-      <div class="order-full-actions">
-        <a href="order.html" class="btn-order-primary">Order Now</a>
-        <a href="menu.html" class="btn-order-secondary">View Full Menu →</a>
+      <h2 class="order-heading">Ready in<br/><em>30 Minutes</em></h2>
+      <p class="order-sub">Bold Indo-Chinese flavours delivered hot to your door. No compromise on freshness, ever.</p>
+      <a href="order.html" class="btn-red-outline">Order Now</a>
+    </div>
+    <div class="order-right reveal" style="transition-delay:0.15s">
+      <div class="reservation-box">
+        <div class="res-icon-wrap">
+          <svg width="32" height="32" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="14" width="44" height="36" rx="4" stroke="white" stroke-width="2" fill="none"/>
+            <path d="M8 24 h44" stroke="white" stroke-width="2"/>
+            <path d="M20 8 v12 M40 8 v12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 34 h4 M28 34 h4 M36 34 h4 M20 42 h4 M28 42 h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Reservations</h3>
+        <p class="res-sub">Book a table and dine in style</p>
+        <a href="#contact" class="btn-white-outline">Make a Reservation</a>
       </div>
     </div>
   </section>
