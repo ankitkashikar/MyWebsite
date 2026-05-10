@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulk Order | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    .bulk-section { background: #121212; min-height: 100vh; padding: 120px 24px 60px; display: flex; justify-content: center; }
+    .form-card { max-width: 700px; width: 100%; background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #333; }
+    h2 { font-family: 'Cormorant Garamond', serif; color: #fff; font-size: 2.5rem; text-align: center; margin-bottom: 30px; }
+    .input-group { margin-bottom: 20px; }
+    label { display: block; color: #aaa; font-size: 0.9rem; margin-bottom: 8px; }
+    input, select, textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
+    .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .menu-item { display: flex; align-items: center; color: #fff; font-size: 0.9rem; }
+    .menu-item input { width: auto; margin-right: 10px; }
+    .btn-submit { width: 100%; padding: 15px; background: #c0392b; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 30px; }
+    @media (max-width: 500px) { .menu-list { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="bulk-section">
+    <div class="form-card">
+      <h2>Bulk Order Enquiry</h2>
+      <form action="#" method="POST">
+        <div class="input-group"><label>Full Name</label><input type="text" required></div>
+        <div class="input-group"><label>Phone Number</label><input type="tel" required></div>
+        <div class="input-group"><label>Event Date</label><input type="date" required></div>
+        <div class="input-group"><label>Estimated Guests</label><input type="number" required></div>
+        
+        <label>Menu Interests</label>
+        <div class="menu-list">
+          <label class="menu-item"><input type="checkbox"> Soups</label>
+          <label class="menu-item"><input type="checkbox"> Starters (Veg/Non-Veg)</label>
+          <label class="menu-item"><input type="checkbox"> Signature Noodles</label>
+          <label class="menu-item"><input type="checkbox"> Fried Rice Varieties</label>
+          <label class="menu-item"><input type="checkbox"> Gravy Main Course</label>
+        </div>
+
+        <div class="input-group" style="margin-top:20px;"><label>Additional Notes</label><textarea rows="3"></textarea></div>
+        <button type="submit" class="btn-submit">Send Request</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
