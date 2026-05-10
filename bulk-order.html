@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulk Order | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Page wrapper ── */
+    .bulk-page {
+      background: var(--warm-white);
+      min-height: 100vh;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── Hero strip ── */
+    .bulk-hero {
+      background: var(--charcoal);
+      text-align: center;
+      padding: 56px 24px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bulk-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 50%, rgba(192,57,43,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 50%, rgba(192,57,43,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .bulk-hero-inner {
+      position: relative;
+      z-index: 2;
+      animation: fadeUpIn 0.65s cubic-bezier(0.25,0.46,0.45,0.94) both;
+    }
+    @keyframes fadeUpIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .bulk-hero .pre-label {
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .bulk-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .bulk-hero p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+
+    /* ── Main two-col layout ── */
+    .bulk-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 0 0;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── Menu section ── */
+    .bulk-menu h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--black);
+    }
+    .bulk-menu-sub {
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-bottom: 28px;
+    }
+
+    .menu-category { margin-bottom: 32px; }
+    .menu-category-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--black);
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--red);
+      display: inline-block;
+      margin-bottom: 14px;
+      letter-spacing: 0.2px;
+    }
+
+    .menu-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      margin-bottom: 8px;
+      gap: 12px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .menu-row:hover { border-color: rgba(192,57,43,0.25); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+    .menu-row-info { flex: 1; }
+    .menu-row-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+    .menu-row-price {
+      font-size: 0.78rem;
+      color: var(--red);
+      font-weight: 600;
+    }
+    .menu-row-badges { display: flex; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+
+    /* Quantity stepper */
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      background: var(--warm-white);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+      font-family: var(--font-body);
+    }
+    .qty-btn:hover { background: rgba(192,57,43,0.08); color: var(--red); }
+    .qty-display {
+      width: 36px;
+      height: 32px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      background: #fff;
+      color: var(--black);
+      font-family: var(--font-body);
+      outline: none;
+    }
+
+    /* ── Order summary sidebar ── */
+    .bulk-form-wrap {
+      position: sticky;
+      top: 100px;
+    }
+    .bulk-form {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+    .bulk-form h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--black);
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Order summary list */
+    .order-summary {
+      min-height: 60px;
+      margin-bottom: 20px;
+    }
+    .summary-empty {
+      font-size: 0.82rem;
+      color: rgba(0,0,0,0.3);
+      text-align: center;
+      padding: 20px 0;
+      font-style: italic;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--black);
+      gap: 8px;
+    }
+    .summary-item-name { flex: 1; }
+    .summary-item-qty { color: var(--red); font-weight: 600; white-space: nowrap; }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 12px 0 0;
+      color: var(--black);
+      margin-top: 4px;
+    }
+    .summary-total span:last-child { color: var(--red); }
+
+    /* Form fields */
+    .bulk-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .bulk-field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+    .bulk-field input,
+    .bulk-field select,
+    .bulk-field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      color: var(--black);
+      background: var(--warm-white);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .bulk-field input:focus,
+    .bulk-field select:focus,
+    .bulk-field textarea:focus { border-color: var(--red); }
+    .bulk-field textarea { resize: vertical; min-height: 70px; }
+
+    .btn-bulk-submit {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 0.25s ease;
+      margin-top: 16px;
+      letter-spacing: 0.3px;
+    }
+    .btn-bulk-submit:hover { background: var(--dark-red); }
+
+    .bulk-note {
+      font-size: 0.72rem;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    /* Success message */
+    .submit-success {
+      display: none;
+      text-align: center;
+      padding: 24px 16px;
+    }
+    .submit-success .success-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    .submit-success h4 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+    .submit-success p {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .bulk-layout { grid-template-columns: 1fr; }
+      .bulk-form-wrap { position: static; }
+    }
+    @media (max-width: 600px) {
+      .bulk-page { padding: 40px 16px 60px; }
+      .bulk-hero { padding: 44px 20px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="bulk-order.html">Place Your Bulk Order Now</a>
+    <a href="#" class="top-bar-login">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Log In
+    </a>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <a href="index.html" class="logo-wrap">
+      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="experiences.html">Experiences</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="order.html" class="btn-solid">Order Online</a>
+    </div>
+    <button class="hamburger" id="ham" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="index.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="experiences.html">Experiences</a>
+    <div class="nav-btns">
+      <a href="order.html" class="btn-solid">Order Online</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="bulk-hero">
+    <div class="bulk-hero-inner">
+      <span class="pre-label">The Chinese Bliss</span>
+      <h1>Bulk Order Form</h1>
+      <p>Catering for events, offices &amp; parties · Minimum order 10 persons · We deliver fresh</p>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="bulk-page">
+    <div class="bulk-layout">
+
+      <!-- LEFT: Menu with quantity steppers -->
+      <div class="bulk-menu">
+        <h2>Select Your Items</h2>
+        <p class="bulk-menu-sub">Add quantities next to each dish. Your order summary updates in real time →</p>
+
+        <!-- SOUPS -->
+        <div class="menu-category">
+          <div class="menu-category-title">Soups</div>
+
+          <div class="menu-row" data-item="Pork belly yakisoba" data-price="12">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Pork belly yakisoba</div>
+              <div class="menu-row-price">₹12.00 per person</div>
+              <div class="menu-row-badges"></div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus" aria-label="Decrease">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus" aria-label="Increase">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Veggie soup" data-price="16">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Veggie soup</div>
+              <div class="menu-row-price">₹16.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-veg">Vegetarian</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Beef noodle soup" data-price="14">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Beef noodle soup</div>
+              <div class="menu-row-price">₹14.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-gf">Gluten Free</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Chicken soup" data-price="17">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Chicken soup</div>
+              <div class="menu-row-price">₹17.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-hot">Hot</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DUMPLINGS -->
+        <div class="menu-category">
+          <div class="menu-category-title">Dumplings</div>
+
+          <div class="menu-row" data-item="Fried pork dumplings" data-price="11">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Fried pork dumplings</div>
+              <div class="menu-row-price">₹11.00 per person</div>
+              <div class="menu-row-badges"></div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Hot & spicy wonton" data-price="13">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Hot &amp; spicy wonton</div>
+              <div class="menu-row-price">₹13.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-hot">Hot</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Chicken dumplings" data-price="12">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Chicken dumplings</div>
+              <div class="menu-row-price">₹12.00 per person</div>
+              <div class="menu-row-badges"></div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Veggie dumplings" data-price="13">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Veggie dumplings</div>
+              <div class="menu-row-price">₹13.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-vegan">Vegan</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOODLES -->
+        <div class="menu-category">
+          <div class="menu-category-title">Noodles</div>
+
+          <div class="menu-row" data-item="Bangkok noodles, extra spicy" data-price="17">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Bangkok noodles, extra spicy</div>
+              <div class="menu-row-price">₹17.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-hot">Hot</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Sumo noodles" data-price="15">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Sumo noodles</div>
+              <div class="menu-row-price">₹15.00 per person</div>
+              <div class="menu-row-badges"></div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Ginger scallion noodles" data-price="16">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Ginger scallion noodles</div>
+              <div class="menu-row-price">₹16.00 per person</div>
+              <div class="menu-row-badges"></div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Veggie noodles" data-price="16">
+            <div class="menu-row-info">
+              <div class="menu-row-name">Veggie noodles</div>
+              <div class="menu-row-price">₹16.00 per person</div>
+              <div class="menu-row-badges">
+                <span class="badge badge-veg">Vegetarian</span>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end bulk-menu -->
+
+      <!-- RIGHT: Sticky order form -->
+      <div class="bulk-form-wrap">
+        <div class="bulk-form" id="bulkForm">
+          <h3>Your Order Summary</h3>
+
+          <div class="order-summary" id="orderSummary">
+            <p class="summary-empty" id="summaryEmpty">No items selected yet. Add quantities from the menu →</p>
+          </div>
+
+          <div class="summary-total" id="summaryTotal" style="display:none;">
+            <span>Estimated Total</span>
+            <span id="totalPrice">₹0</span>
+          </div>
+
+          <div class="bulk-fields">
+            <div class="bulk-field">
+              <label>Your Name *</label>
+              <input type="text" id="clientName" placeholder="Full name" required />
+            </div>
+            <div class="bulk-field">
+              <label>Phone Number *</label>
+              <input type="tel" id="clientPhone" placeholder="+91 00000 00000" required />
+            </div>
+            <div class="bulk-field">
+              <label>Email Address</label>
+              <input type="email" id="clientEmail" placeholder="you@example.com" />
+            </div>
+            <div class="bulk-field">
+              <label>Event / Occasion</label>
+              <input type="text" id="clientEvent" placeholder="e.g. Corporate lunch, Birthday party" />
+            </div>
+            <div class="bulk-field">
+              <label>Delivery Date &amp; Time *</label>
+              <input type="datetime-local" id="clientDate" required />
+            </div>
+            <div class="bulk-field">
+              <label>Delivery Address *</label>
+              <input type="text" id="clientAddress" placeholder="Full address with landmark" required />
+            </div>
+            <div class="bulk-field">
+              <label>Special Instructions</label>
+              <textarea id="clientNotes" placeholder="Allergies, spice level, packaging preferences..."></textarea>
+            </div>
+          </div>
+
+          <button class="btn-bulk-submit" id="submitBtn" onclick="submitBulkOrder()">
+            Send Bulk Order Request
+          </button>
+          <p class="bulk-note">We'll call you within 2 hours to confirm your order &amp; finalise pricing.</p>
+        </div>
+
+        <!-- Success state -->
+        <div class="submit-success" id="submitSuccess">
+          <div class="success-icon">🎉</div>
+          <h4>Order Request Sent!</h4>
+          <p>Thank you! Our team will call you within 2 hours to confirm your bulk order and discuss final pricing.</p>
+          <br/>
+          <a href="index.html" class="btn-red-outline" style="margin-top:8px;">Back to Home</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Quantity steppers ──────────────────────────────────
+    document.querySelectorAll('.menu-row').forEach(row => {
+      const minus = row.querySelector('.qty-minus');
+      const plus  = row.querySelector('.qty-plus');
+      const input = row.querySelector('.qty-display');
+
+      plus.addEventListener('click', () => {
+        input.value = parseInt(input.value) + 1;
+        updateSummary();
+      });
+
+      minus.addEventListener('click', () => {
+        const current = parseInt(input.value);
+        if (current > 0) { input.value = current - 1; updateSummary(); }
+      });
+    });
+
+    // ── Build order summary ────────────────────────────────
+    function updateSummary() {
+      const summaryEl   = document.getElementById('orderSummary');
+      const emptyEl     = document.getElementById('summaryEmpty');
+      const totalRow    = document.getElementById('summaryTotal');
+      const totalPriceEl = document.getElementById('totalPrice');
+
+      const rows = document.querySelectorAll('.menu-row');
+      let html  = '';
+      let total = 0;
+      let count = 0;
+
+      rows.forEach(row => {
+        const qty   = parseInt(row.querySelector('.qty-display').value);
+        const name  = row.dataset.item;
+        const price = parseInt(row.dataset.price);
+        if (qty > 0) {
+          const subtotal = qty * price;
+          total += subtotal;
+          count++;
+          html += `
+            <div class="summary-item">
+              <span class="summary-item-name">${name}</span>
+              <span class="summary-item-qty">×${qty} — ₹${subtotal}</span>
+            </div>`;
+        }
+      });
+
+      if (count === 0) {
+        emptyEl.style.display = 'block';
+        totalRow.style.display = 'none';
+        summaryEl.innerHTML = '';
+        summaryEl.appendChild(emptyEl);
+      } else {
+        emptyEl.style.display = 'none';
+        summaryEl.innerHTML = html;
+        totalRow.style.display = 'flex';
+        totalPriceEl.textContent = '₹' + total.toLocaleString('en-IN');
+      }
+    }
+
+    // ── Submit handler ─────────────────────────────────────
+    function submitBulkOrder() {
+      const name    = document.getElementById('clientName').value.trim();
+      const phone   = document.getElementById('clientPhone').value.trim();
+      const date    = document.getElementById('clientDate').value;
+      const address = document.getElementById('clientAddress').value.trim();
+
+      if (!name)    { alert('Please enter your name.'); return; }
+      if (!phone)   { alert('Please enter your phone number.'); return; }
+      if (!date)    { alert('Please select a delivery date and time.'); return; }
+      if (!address) { alert('Please enter your delivery address.'); return; }
+
+      // Check at least one item selected
+      const hasItems = [...document.querySelectorAll('.qty-display')]
+        .some(input => parseInt(input.value) > 0);
+      if (!hasItems) { alert('Please select at least one item from the menu.'); return; }
+
+      // Hide form, show success
+      document.getElementById('bulkForm').style.display = 'none';
+      document.getElementById('submitSuccess').style.display = 'block';
+
+      // In production: send data to your backend / WhatsApp / email API here
+      console.log('Bulk order submitted', { name, phone, date, address });
+    }
+  </script>
+</body>
+</html>
