@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+
+    /* ═══════════════════════════════════════
+       ORDER PAGE LAYOUT
+    ═══════════════════════════════════════ */
     .order-hero {
       background: var(--charcoal);
       min-height: 100vh;
@@ -14,7 +18,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 24px;
+      padding: 80px 24px 60px;
       position: relative;
       overflow: hidden;
     }
@@ -32,9 +36,10 @@
       from { opacity: 0.6; }
       to   { opacity: 1; }
     }
+
     .order-back {
       position: absolute;
-      top: 100px;
+      top: 88px;
       left: 40px;
       font-size: 0.78rem;
       color: rgba(255,255,255,0.45);
@@ -59,6 +64,7 @@
       from { opacity: 0; transform: translateY(32px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     .order-pre {
       font-size: 0.68rem;
       letter-spacing: 3px;
@@ -80,16 +86,18 @@
     .order-subtitle {
       font-size: 0.88rem;
       color: rgba(255,255,255,0.45);
-      margin-bottom: 52px;
-      line-height: 1.6;
+      margin-bottom: 48px;
+      line-height: 1.7;
     }
 
-    /* ── 3-card grid ── */
+    /* ═══════════════════════════════════════
+       PLATFORM GRID — Desktop: 3 columns
+    ═══════════════════════════════════════ */
     .platform-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
       animation: fadeUpIn 0.7s 0.15s cubic-bezier(0.25,0.46,0.45,0.94) both;
     }
 
@@ -97,14 +105,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 36px 24px;
+      justify-content: flex-start;
+      gap: 14px;
+      padding: 36px 20px 32px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
       text-decoration: none;
-      cursor: pointer;
       transition:
         transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94),
         background 0.3s ease,
@@ -126,51 +133,40 @@
       box-shadow: 0 24px 60px rgba(0,0,0,0.4);
     }
 
-    /* Swiggy */
-    .platform-card--swiggy:hover {
-      border-color: rgba(252,128,25,0.5);
-      background: rgba(252,128,25,0.07);
-    }
-    .platform-card--swiggy::before {
-      background: radial-gradient(ellipse at 50% 0%, rgba(252,128,25,0.12) 0%, transparent 70%);
-    }
+    /* Swiggy hover */
+    .platform-card--swiggy:hover { border-color: rgba(252,128,25,0.5); background: rgba(252,128,25,0.07); }
+    .platform-card--swiggy::before { background: radial-gradient(ellipse at 50% 0%, rgba(252,128,25,0.12) 0%, transparent 70%); }
     .platform-card--swiggy:hover::before { opacity: 1; }
 
-    /* Zomato */
-    .platform-card--zomato:hover {
-      border-color: rgba(225,37,27,0.5);
-      background: rgba(225,37,27,0.07);
-    }
-    .platform-card--zomato::before {
-      background: radial-gradient(ellipse at 50% 0%, rgba(225,37,27,0.12) 0%, transparent 70%);
-    }
+    /* Zomato hover */
+    .platform-card--zomato:hover { border-color: rgba(225,37,27,0.5); background: rgba(225,37,27,0.07); }
+    .platform-card--zomato::before { background: radial-gradient(ellipse at 50% 0%, rgba(225,37,27,0.12) 0%, transparent 70%); }
     .platform-card--zomato:hover::before { opacity: 1; }
 
-    /* Bulk Order */
-    .platform-card--bulk:hover {
-      border-color: rgba(192,57,43,0.55);
-      background: rgba(192,57,43,0.08);
-    }
-    .platform-card--bulk::before {
-      background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.14) 0%, transparent 70%);
-    }
+    /* Bulk hover */
+    .platform-card--bulk:hover { border-color: rgba(192,57,43,0.55); background: rgba(192,57,43,0.08); }
+    .platform-card--bulk::before { background: radial-gradient(ellipse at 50% 0%, rgba(192,57,43,0.14) 0%, transparent 70%); }
     .platform-card--bulk:hover::before { opacity: 1; }
 
-    /* Logo wrapper */
+    /* ═══════════════════════════════════════
+       LOGO WRAP — identical size for ALL 3
+    ═══════════════════════════════════════ */
     .platform-logo-wrap {
-      width: 84px;
-      height: 84px;
+      width: 80px;
+      height: 80px;
       border-radius: 20px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
       transition: transform 0.3s ease;
       position: relative;
       z-index: 1;
-      flex-shrink: 0;
     }
     .platform-card:hover .platform-logo-wrap { transform: scale(1.08); }
+
+    /* PNG logos fill the wrap */
     .platform-logo-wrap img {
       width: 100%;
       height: 100%;
@@ -179,27 +175,40 @@
       border-radius: 20px;
     }
 
+    /* Bulk icon — solid red bg, same 80×80 size */
+    .bulk-icon-bg {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════
+       CARD TEXT BLOCK
+    ═══════════════════════════════════════ */
     .platform-card-text {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
+      position: relative;
+      z-index: 1;
     }
     .platform-name {
       font-family: var(--font-display);
-      font-size: 1.45rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: #fff;
       letter-spacing: 0.2px;
-      position: relative;
-      z-index: 1;
     }
     .platform-desc {
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       color: rgba(255,255,255,0.4);
       line-height: 1.5;
-      position: relative;
-      z-index: 1;
       text-align: center;
     }
     .platform-cta {
@@ -213,34 +222,16 @@
       padding: 7px 18px;
       border-radius: 40px;
       transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-      margin-top: 4px;
+      margin-top: 6px;
     }
-    .platform-card--swiggy .platform-cta {
-      color: #FC8019;
-      border: 1px solid rgba(252,128,25,0.35);
-      background: rgba(252,128,25,0.06);
-    }
-    .platform-card--swiggy:hover .platform-cta {
-      background: #FC8019; color: #fff; border-color: #FC8019;
-    }
-    .platform-card--zomato .platform-cta {
-      color: #E1251B;
-      border: 1px solid rgba(225,37,27,0.35);
-      background: rgba(225,37,27,0.06);
-    }
-    .platform-card--zomato:hover .platform-cta {
-      background: #E1251B; color: #fff; border-color: #E1251B;
-    }
-    .platform-card--bulk .platform-cta {
-      color: var(--red);
-      border: 1px solid rgba(192,57,43,0.35);
-      background: rgba(192,57,43,0.06);
-    }
-    .platform-card--bulk:hover .platform-cta {
-      background: var(--red); color: #fff; border-color: var(--red);
-    }
+
+    /* CTA colours per card */
+    .platform-card--swiggy .platform-cta { color: #FC8019; border: 1px solid rgba(252,128,25,0.35); background: rgba(252,128,25,0.06); }
+    .platform-card--swiggy:hover .platform-cta { background: #FC8019; color: #fff; border-color: #FC8019; }
+    .platform-card--zomato .platform-cta { color: #E1251B; border: 1px solid rgba(225,37,27,0.35); background: rgba(225,37,27,0.06); }
+    .platform-card--zomato:hover .platform-cta { background: #E1251B; color: #fff; border-color: #E1251B; }
+    .platform-card--bulk .platform-cta { color: var(--red); border: 1px solid rgba(192,57,43,0.35); background: rgba(192,57,43,0.06); }
+    .platform-card--bulk:hover .platform-cta { background: var(--red); color: #fff; border-color: var(--red); }
 
     /* Bottom note */
     .order-or {
@@ -255,21 +246,88 @@
     }
     .order-or span { flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
 
-    /* Responsive */
-    @media (max-width: 700px) {
-      .platform-grid { grid-template-columns: 1fr; gap: 12px; }
-      .platform-card { flex-direction: row; text-align: left; padding: 24px 20px; gap: 18px; }
-      .platform-card-text { align-items: flex-start; }
-      .platform-logo-wrap { width: 60px; height: 60px; border-radius: 14px; flex-shrink: 0; }
+    /* ═══════════════════════════════════════
+       TABLET: 2 columns, Bulk full width
+    ═══════════════════════════════════════ */
+    @media (max-width: 900px) and (min-width: 601px) {
+      .platform-grid {
+        grid-template-columns: 1fr 1fr;
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .platform-card--bulk {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: center;
+        gap: 24px;
+        padding: 28px 32px;
+      }
+      .platform-card--bulk .platform-card-text { align-items: flex-start; }
+    }
+
+    /* ═══════════════════════════════════════
+       MOBILE: 1 column, horizontal row layout
+       ALL 3 cards identical — icon left, text right
+    ═══════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .order-hero { padding: 72px 16px 48px; }
+      .order-back { top: 76px; left: 20px; }
+      .order-subtitle { margin-bottom: 32px; }
+
+      .platform-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Every card: horizontal row */
+      .platform-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 18px;
+        padding: 22px 20px;
+        text-align: left;
+      }
+
+      /* Logo — fixed 60×60 for all three */
+      .platform-logo-wrap {
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+        flex-shrink: 0;
+      }
       .platform-logo-wrap img { border-radius: 14px; }
-      .bulk-icon-bg { width: 60px; height: 60px; border-radius: 14px; }
-      .order-back { top: 80px; left: 20px; }
+      .bulk-icon-bg {
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+      }
+      .bulk-icon-bg svg { width: 28px; height: 28px; }
+
+      /* Text block left-aligned */
+      .platform-card-text {
+        align-items: flex-start;
+        flex: 1;
+        gap: 3px;
+      }
+      .platform-name { font-size: 1.25rem; }
+      .platform-desc { font-size: 0.73rem; }
+      .platform-cta {
+        font-size: 0.68rem;
+        padding: 5px 14px;
+        margin-top: 4px;
+      }
     }
-    @media (max-width: 900px) and (min-width: 701px) {
-      .platform-grid { grid-template-columns: 1fr 1fr; }
-      .platform-card--bulk { grid-column: 1 / -1; flex-direction: row; max-width: 400px; margin: 0 auto; width: 100%; }
+
+    @media (max-width: 360px) {
+      .order-title { font-size: 1.8rem; }
+      .platform-grid { max-width: 100%; }
     }
-    @media (max-width: 400px) { .order-title { font-size: 1.9rem; } }
+
   </style>
 </head>
 <body>
@@ -337,70 +395,60 @@
       <div class="platform-grid">
 
         <!-- SWIGGY — replace href with your actual Swiggy restaurant URL -->
-        <a href="https://www.swiggy.com/city/pune/chinese-bliss-mulshi-hinjewadi-phase-1-rest1067333"
+        <a href="https://www.swiggy.com"
            target="_blank" rel="noopener noreferrer"
            class="platform-card platform-card--swiggy">
           <div class="platform-logo-wrap">
-            <img src="images/Swiggy_icon.png" alt="Swiggy" />
+            <img src="images/swiggy.png" alt="Swiggy" />
           </div>
           <div class="platform-card-text">
             <div class="platform-name">Swiggy</div>
             <div class="platform-desc">Fast delivery · Live tracking</div>
             <div class="platform-cta">
               Order Now
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </div>
         </a>
 
         <!-- ZOMATO — replace href with your actual Zomato restaurant URL -->
-        <a href="https://www.zomato.com/pune/the-chinese-bliss-hinjawadi/order"
+        <a href="https://www.zomato.com"
            target="_blank" rel="noopener noreferrer"
            class="platform-card platform-card--zomato">
           <div class="platform-logo-wrap">
-            <img src="images/Zomato_icon.png" alt="Zomato" />
+            <img src="images/zomato.png" alt="Zomato" />
           </div>
           <div class="platform-card-text">
             <div class="platform-name">Zomato</div>
             <div class="platform-desc">Quick delivery · Reviews &amp; ratings</div>
             <div class="platform-cta">
               Order Now
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </div>
         </a>
 
-        <!-- BULK ORDER — internal page -->
-        <!-- BULK ORDER — internal page -->
-<a href="bulk-order.html" class="platform-card platform-card--bulk">
+        <!-- BULK ORDER -->
+        <a href="bulk-order.html" class="platform-card platform-card--bulk">
+          <div class="platform-logo-wrap">
+            <div class="bulk-icon-bg">
+              <svg width="36" height="36" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <path d="M9 12h6M9 16h4"/>
+              </svg>
+            </div>
+          </div>
+          <div class="platform-card-text">
+            <div class="platform-name">Bulk Order</div>
+            <div class="platform-desc">Events · Offices · Parties</div>
+            <div class="platform-cta">
+              Place Order
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
 
-  <div class="platform-logo-wrap">
-    <img src="images/BulkOrder_icon.png" alt="Bulk Order" />
-  </div>
-
-  <div class="platform-card-text">
-    
-    <div class="platform-name">Bulk Order</div>
-
-    <div class="platform-desc">
-      Events · Offices · Parties
-    </div>
-
-    <div class="platform-cta">
-      Place Order
-
-      <svg width="12" height="12"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           viewBox="0 0 24 24">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
-      </svg>
-    </div>
-
-  </div>
-
-</a>
       </div>
 
       <div class="order-or">
