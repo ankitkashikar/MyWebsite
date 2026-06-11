@@ -1,4 +1,4 @@
-Use the following directly as your **README.md** file:
+**README.md**
 
 # 🍜 The Chinese Bliss
 
