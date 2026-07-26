@@ -5,313 +5,369 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Chinese Bliss – The Real Deal on Indo Chinese Food</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <a href="bulk-order.html">Place Your Bulk Order Now</a>
-    <a href="#" class="top-bar-login">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-      Log In
-    </a>
-  </div>
-
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <a href="index.html" class="logo-wrap">
-      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-    </a>
-    <nav class="nav-links">
-      <a href="index.html" class="active">About</a>
-      <a href="menu.html">Menu</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="experiences.html">Experiences</a>
-    </nav>
-    <div class="nav-actions">
-      
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
-    <button class="hamburger" id="ham" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- MOBILE NAV -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">About</a>
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <a href="index.html" class="logo-wrap">
+    <img src="images/chinese logo.png" alt="The Chinese Bliss">
+  </a>
+  <nav class="nav-links">
+    <a href="index.html" class="active">About</a>
     <a href="menu.html">Menu</a>
     <a href="index.html#contact">Contact</a>
     <a href="experiences.html">Experiences</a>
-    <div class="nav-btns">
-      
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
   </nav>
+  <div class="nav-actions">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-  <!-- ═══════════════════ HERO ═══════════════════ -->
-  <section class="hero">
-    <div class="hero-img-wrap">
-      <img src="images/TCB_Banner.png" alt="The Chinese Bliss – Bold Indo Chinese Food" class="hero-bg" />
-      <div class="hero-overlay">
-        <a href="menu.html" class="hero-cta">
-          <span>View Our Menu</span>
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html">About</a>
+  <a href="menu.html">Menu</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="experiences.html">Experiences</a>
+  <div class="mnav-btns">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-wrap">
+    <img src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg" alt="" class="hero-bg-img" />
+    <div class="hero-bg-overlay"></div>
+  </div>
+  <div class="hero-inner">
+    <!-- LEFT -->
+    <div class="hero-text">
+      <p class="hero-eyebrow">AUTHENTIC · FRESH · FLAVORFUL</p>
+      <h1 class="hero-h1">
+        The Chinese<br>
+        <em class="hero-red">Bliss</em>
+      </h1>
+      <p class="hero-sub">Authentic Indo-Chinese flavours,<br>made fresh for you.</p>
+      <div class="hero-ctas">
+        <a href="order.html" class="btn-primary">
+          Order Now
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
+        <a href="menu.html" class="btn-outline">View Menu</a>
+      </div>
+      <div class="hero-pills">
+        <span class="pill"><svg width="13" height="13" fill="#e84545" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>4.7 Rating</span>
+        <span class="pill"><svg width="13" height="13" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>30 Min Delivery</span>
+        <span class="pill"><svg width="13" height="13" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>10k+ Happy Customers</span>
       </div>
     </div>
-    <div class="scroll-indicator" aria-hidden="true">
-      <span class="scroll-dot"></span>
-    </div>
-  </section>
-
-  <!-- ═══════════════════ TRUST BAR ═══════════════════ -->
-  <div class="trust-bar">
-    <div class="trust-item">
-      <svg width="18" height="18" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-      <span>Authentic Indo-Chinese</span>
-    </div>
-    <div class="trust-sep">✦</div>
-    <div class="trust-item">
-      <svg width="18" height="18" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span>Open Until 2am</span>
-    </div>
-    <div class="trust-sep">✦</div>
-    <div class="trust-item">
-      <svg width="18" height="18" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>Dine In &amp; Delivery</span>
-    </div>
-    <div class="trust-sep">✦</div>
-    <div class="trust-item">
-      <svg width="18" height="18" fill="none" stroke="#c0392b" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      <span>Made Fresh Every Order</span>
+    <!-- RIGHT -->
+    <div class="hero-right">
+      <div class="hero-img-card">
+        <img src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg" alt="The Chinese Bliss Food" class="hero-food-img" />
+        <div class="hero-badge top-left">
+          <svg width="16" height="16" fill="#f5a623" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div><div class="badge-val">4.7★</div><div class="badge-lbl">Average Rating</div></div>
+        </div>
+        <div class="hero-badge bottom-right">
+          <span style="font-size:1.4rem">🚀</span>
+          <div><div class="badge-val">30 Min</div><div class="badge-lbl">Fast Delivery</div></div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- ═══════════════════ DIVIDER ═══════════════════ -->
-  <div class="section-divider"><span class="divider-line"></span><span class="divider-ornament">✦</span><span class="divider-line"></span></div>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="tb-item">
+    <svg width="22" height="22" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+    <div><div class="tb-title">Authentic</div><div class="tb-sub">Indo-Chinese</div></div>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-item">
+    <svg width="22" height="22" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <div><div class="tb-title">Made Fresh</div><div class="tb-sub">Every Order</div></div>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-item">
+    <svg width="22" height="22" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <div><div class="tb-title">Dine In &amp; Delivery</div><div class="tb-sub">Till 2 AM</div></div>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="tb-item">
+    <svg width="22" height="22" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <div><div class="tb-title">Loved by Thousands</div><div class="tb-sub">4.7★ Rating</div></div>
+  </div>
+</div>
 
-  <!-- ═══════════════════ CATEGORIES ═══════════════════ -->
-  <section class="categories">
-    <p class="section-pre-label">What We Do Best</p>
-    <div class="cat-grid">
-
-      <div class="cat-item reveal">
-        <div class="cat-icon-wrap">
-          <svg width="56" height="56" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 64 Q48 48 78 64" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M15 70 h66" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M33 49 Q36 38 48 36 Q60 38 63 49" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M44 31 Q44 21 48 18 Q52 21 52 31" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M35 29 Q35 22 39 19" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M57 29 Q57 22 61 19" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Soups</h3>
-        <p>Rich broths, bold spice, authentic Indo-Chinese warmth in every bowl.</p>
-        <a href="menu.html" class="cat-link">Explore →</a>
-      </div>
-
-      <div class="cat-item reveal" style="transition-delay:0.12s">
-        <div class="cat-icon-wrap">
-          <svg width="56" height="56" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="48" cy="66" rx="28" ry="9" stroke="#c0392b" stroke-width="2.5" fill="none"/>
-            <path d="M22 54 Q30 32 48 30 Q66 32 74 54" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M32 48 Q37 36 48 36 Q59 36 64 48" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M40 44 Q44 37 48 37 Q52 37 56 44" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Noodles</h3>
-        <p>Wok-tossed, flame-kissed noodles with our signature house sauces.</p>
-        <a href="menu.html" class="cat-link">Explore →</a>
-      </div>
-
-      <div class="cat-item reveal" style="transition-delay:0.24s">
-        <div class="cat-icon-wrap">
-          <svg width="56" height="56" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="34" cy="60" rx="16" ry="10" stroke="#c0392b" stroke-width="2.5" fill="none"/>
-            <ellipse cx="62" cy="58" rx="16" ry="10" stroke="#c0392b" stroke-width="2.5" fill="none"/>
-            <path d="M22 58 Q25 45 34 41 Q43 45 46 58" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M50 56 Q53 43 62 39 Q71 43 74 56" stroke="#c0392b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <path d="M34 34 Q43 22 48 25 Q53 22 62 34" stroke="#c0392b" stroke-width="2" fill="none" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Fried Rice</h3>
-        <p>Perfectly fried, aromatic rice with crisp vegetables and bold flavour.</p>
-        <a href="menu.html" class="cat-link">Explore →</a>
-      </div>
-
+<!-- CUSTOMER FAVORITES -->
+<section class="section favorites-section">
+  <div class="sec-header">
+    <div>
+      <p class="pre-label">OUR SIGNATURE DISHES</p>
+      <h2 class="sec-title">Customer Favorites</h2>
     </div>
-    <a href="order.html" class="btn-red-outline">Order Now</a>
-  </section>
-
-  <!-- ═══════════════════ DIVIDER ═══════════════════ -->
-  <div class="section-divider"><span class="divider-line"></span><span class="divider-ornament">✦</span><span class="divider-line"></span></div>
-
-  <!-- ═══════════════════ ABOUT STRIP ═══════════════════ -->
-  <section class="about-strip reveal">
-    <img src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg"
-      alt="Bamboo steamers" class="about-strip-bg" />
-    <div class="about-strip-inner">
-      <div class="about-words">
-        <h2>Fresh.<br/>Authentic.<br/>Simple.</h2>
-        <p class="tagline"><em>Bold Indo-Chinese flavours, prepared fresh for your plate.</em></p>
-        <div class="wave">〜</div>
-        <p class="body-text">
-          Welcome to The Chinese Bliss — where bold flavours, fresh ingredients, and authentic cooking
-          come together to create a truly satisfying experience. Every order is prepared fresh, ensuring
-          rich flavours, irresistible aromas, and the perfect balance of taste.
-        </p>
+  </div>
+  <div class="fav-grid">
+    <div class="fav-card reveal">
+      <div class="fav-img-wrap">
+        <span class="fav-badge-tag">Bestseller</span>
+        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/01.jpg" alt="Hakka Noodles"/>
       </div>
-
-      <!-- BRAND EMBLEM — pure CSS, no image dependency -->
-      <div class="brand-emblem" aria-hidden="true">
-        <svg class="emblem-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- outer dashed ring -->
-          <circle cx="100" cy="100" r="94" stroke="#c0392b" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
-          <!-- inner solid ring -->
-          <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-          <!-- decorative inner fill ring -->
-          <circle cx="100" cy="100" r="66" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-
-          <!-- Top arc text: THE CHINESE BLISS -->
-          <defs>
-            <path id="top-arc" d="M 100,100 m -72,0 a 72,72 0 0,1 144,0"/>
-            <path id="bot-arc" d="M 100,100 m -60,0 a 60,60 0 0,0 120,0"/>
-          </defs>
-          <text font-size="9" fill="rgba(255,255,255,0.6)" font-family="'DM Sans', sans-serif" letter-spacing="3">
-            <textPath href="#top-arc" startOffset="8%">✦  THE CHINESE BLISS  ✦</textPath>
-          </text>
-          <text font-size="8" fill="rgba(192,57,43,0.85)" font-family="'DM Sans', sans-serif" letter-spacing="2.5">
-            <textPath href="#bot-arc" startOffset="18%">PUNE · HINJAWADI</textPath>
-          </text>
-
-          <!-- Center ornament (chopsticks / bowl icon lines) -->
-          <line x1="100" y1="72" x2="100" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-          <ellipse cx="100" cy="104" rx="18" ry="5" stroke="#c0392b" stroke-width="1.5" opacity="0.7"/>
-          <path d="M 82 104 Q 82 118 100 120 Q 118 118 118 104" stroke="#c0392b" stroke-width="1.5" fill="none" opacity="0.7"/>
-
-          <!-- EST text -->
-          <text x="100" y="98" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.45)" font-family="'DM Sans', sans-serif" letter-spacing="2">EST.</text>
-          <text x="100" y="135" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.7)" font-family="'Cormorant Garamond', serif" font-style="italic">2024</text>
-
-          <!-- four small decorative dots at cardinal points -->
-          <circle cx="100" cy="10" r="2" fill="#c0392b" opacity="0.5"/>
-          <circle cx="190" cy="100" r="2" fill="#c0392b" opacity="0.5"/>
-          <circle cx="100" cy="190" r="2" fill="#c0392b" opacity="0.5"/>
-          <circle cx="10" cy="100" r="2" fill="#c0392b" opacity="0.5"/>
-        </svg>
+      <div class="fav-body">
+        <div class="fav-row"><span class="fav-name">Hakka Noodles</span><span class="fav-price">₹199</span></div>
+        <div class="fav-stars-row"><span class="stars">★★★★★</span><span class="fav-count">4.7 (230+)</span></div>
       </div>
     </div>
-  </section>
-
-  <!-- ═══════════════════ DIVIDER ═══════════════════ -->
-  <div class="section-divider section-divider--light"><span class="divider-line"></span><span class="divider-ornament">✦</span><span class="divider-line"></span></div>
-
-  <!-- ═══════════════════ ORDER + RESERVATION SPLIT ═══════════════════ -->
-  <section class="order-full reveal">
-    <div class="order-left reveal">
-      <p class="order-label">Fresh Off The Wok</p>
-      <h2 class="order-heading">Ready in<br/><em>30 Minutes</em></h2>
-      <p class="order-sub">Bold Indo-Chinese flavours delivered hot to your door. No compromise on freshness, ever.</p>
-      <a href="order.html" class="btn-red-outline">Order Now</a>
-    </div>
-    <div class="order-right reveal" style="transition-delay:0.15s">
-      <div class="reservation-box">
-        <div class="res-icon-wrap">
-          <svg width="32" height="32" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="14" width="44" height="36" rx="4" stroke="white" stroke-width="2" fill="none"/>
-            <path d="M8 24 h44" stroke="white" stroke-width="2"/>
-            <path d="M20 8 v12 M40 8 v12" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <path d="M20 34 h4 M28 34 h4 M36 34 h4 M20 42 h4 M28 42 h4" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <h3>Reservations</h3>
-        <p class="res-sub">Book a table and dine in style</p>
-        <a href="#contact" class="btn-white-outline">Make a Reservation</a>
+    <div class="fav-card reveal" style="transition-delay:.1s">
+      <div class="fav-img-wrap">
+        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/02.jpg" alt="Chilli Chicken"/>
+      </div>
+      <div class="fav-body">
+        <div class="fav-row"><span class="fav-name">Chilli Chicken</span><span class="fav-price">₹249</span></div>
+        <div class="fav-stars-row"><span class="stars">★★★★★</span><span class="fav-count">4.8 (180+)</span></div>
       </div>
     </div>
-  </section>
-
-  <!-- ═══════════════════ DIVIDER ═══════════════════ -->
-  <div class="section-divider"><span class="divider-line"></span><span class="divider-ornament">✦</span><span class="divider-line"></span></div>
-
-  <!-- ═══════════════════ SOCIAL FEED ═══════════════════ -->
-  <section class="social-section">
-    <p class="section-pre-label">Follow Us</p>
-    <h2 class="social-handle">@thechinesebliss</h2>
-    <div class="social-grid">
-      <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/01.jpg" alt="Instagram 1" loading="lazy" class="reveal"/>
-      <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/02.jpg" alt="Instagram 2" loading="lazy" class="reveal" style="transition-delay:0.08s"/>
-      <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/03.jpg" alt="Instagram 3" loading="lazy" class="reveal" style="transition-delay:0.16s"/>
-      <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/04.jpg" alt="Instagram 4" loading="lazy" class="reveal social-hidden" style="transition-delay:0.24s"/>
-      <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/05.jpg" alt="Instagram 5" loading="lazy" class="reveal social-hidden" style="transition-delay:0.32s"/>
-    </div>
-    <button class="load-more" id="loadMore">Load More</button>
-  </section>
-
-  <!-- ═══════════════════ FOOTER ═══════════════════ -->
-  <footer id="contact">
-    <div class="footer-grid footer-grid-with-map">
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <p>+91-8956150583</p>
-        <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a>
+    <div class="fav-card reveal" style="transition-delay:.2s">
+      <div class="fav-img-wrap">
+        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/03.jpg" alt="Schezwan Fried Rice"/>
       </div>
-      <div class="footer-col">
-        <h4>Address</h4>
-        <p>Shop No A1, Street of Europe, 24, Maan Rd, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi</p>
-        <p>Pune, Maharashtra 411057</p>
-      </div>
-      <div class="footer-col">
-        <h4>Opening Hours</h4>
-        <p>Mon – Sun: 4pm – 2am</p>
-        <p>Closed Every Second Tuesday</p>
-      </div>
-      <div class="footer-col">
-        <h4>Find Us</h4>
-        <div class="map-wrap">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
-            width="100%" height="160" style="border:0;display:block;"
-            allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="The Chinese Bliss Location">
-          </iframe>
-        </div>
-        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" class="directions-link">Get Directions →</a>
+      <div class="fav-body">
+        <div class="fav-row"><span class="fav-name">Schezwan Fried Rice</span><span class="fav-price">₹189</span></div>
+        <div class="fav-stars-row"><span class="stars">★★★★★</span><span class="fav-count">4.6 (150+)</span></div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="newsletter-row">
-      <input type="email" placeholder="Enter your email *" />
-      <label><input type="checkbox" /> Yes, subscribe me to your newsletter.</label>
-      <button class="btn-join">Join</button>
+<!-- OUR STORY -->
+<section class="our-story" id="our-story">
+  <div class="story-left reveal">
+    <p class="pre-label">OUR STORY</p>
+    <h2 class="story-title">Blending Tradition<br>With Taste</h2>
+    <p class="story-body">At The Chinese Bliss, we bring you the perfect fusion of authentic Chinese flavors and Indian spices. Every dish is crafted with premium ingredients and a lot of love.</p>
+  </div>
+  <div class="story-right">
+    <img src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg" alt="Chef at wok" class="story-img" />
+    <div class="story-overlay"></div>
+    <button class="play-btn" aria-label="Play video">
+      <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    </button>
+    <div class="story-stamp">
+      <svg viewBox="0 0 160 160" fill="none">
+        <defs><path id="arc" d="M80,80 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0"/></defs>
+        <circle cx="80" cy="80" r="72" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/>
+        <text font-size="10" fill="white" font-family="Manrope,sans-serif" letter-spacing="3.5" opacity="0.85">
+          <textPath href="#arc" startOffset="5%">✦ MADE FRESH · EVERY ORDER ✦ MADE FRESH · EVERY ORDER</textPath>
+        </text>
+        <g transform="translate(64,64)">
+          <ellipse cx="16" cy="24" rx="14" ry="5" stroke="white" stroke-width="1.5" opacity="0.7"/>
+          <path d="M4 19 Q8 9 16 8 Q24 9 28 19" stroke="white" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <path d="M13 5 Q13 0 16 -2 Q19 0 19 5" stroke="white" stroke-width="1.5" fill="none" opacity="0.5"/>
+        </g>
+      </svg>
     </div>
+  </div>
+</section>
 
-    <div class="footer-bottom">
-      <div class="footer-logo-wrap">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="32" height="32" style="object-fit:contain;" />
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-icon"><svg width="28" height="28" fill="none" stroke="#e84545" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+    <div class="stat-num">4550+</div>
+    <div class="stat-lbl">Orders Delivered</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal" style="transition-delay:.1s">
+    <div class="stat-icon"><svg width="28" height="28" fill="none" stroke="#e84545" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="stat-num">4.7★</div>
+    <div class="stat-lbl">Average Rating</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal" style="transition-delay:.2s">
+    <div class="stat-icon"><svg width="28" height="28" fill="none" stroke="#e84545" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <div class="stat-num">30 Mins</div>
+    <div class="stat-lbl">Average Delivery</div>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat-item reveal" style="transition-delay:.3s">
+    <div class="stat-icon"><svg width="28" height="28" fill="none" stroke="#e84545" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>
+    <div class="stat-num">2</div>
+    <div class="stat-lbl">Locations</div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="section testi-section">
+  <div class="sec-header">
+    <div>
+      <p class="pre-label">TESTIMONIALS</p>
+      <h2 class="sec-title">What Our Customers Say</h2>
+    </div>
+    <div class="testi-navs">
+      <button class="tnav-btn">←</button>
+      <button class="tnav-btn">→</button>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="tq">"</div>
+      <p class="testi-txt">Best Indo-Chinese in Pune! The flavors are just amazing and the portions are perfect.</p>
+      <div class="testi-author">
+        <div class="tav">R</div>
+        <div><div class="tname">Rahul Sharma</div><div class="tstars">★★★★★</div></div>
       </div>
-      <p class="footer-copy">©2026 by The Chinese Bliss.</p>
-      <div class="social-icons">
-        <a href="https://www.yelp.com" target="_blank" aria-label="Yelp">
-          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
-        </a>
-        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
-          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
-        </a>
-        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+    </div>
+    <div class="testi-card reveal" style="transition-delay:.12s">
+      <div class="tq">"</div>
+      <p class="testi-txt">Their Chilli Chicken and Schezwan Noodles are absolutely my favorite!</p>
+      <div class="testi-author">
+        <div class="tav">P</div>
+        <div><div class="tname">Priya Mehta</div><div class="tstars">★★★★★</div></div>
+      </div>
+    </div>
+    <div class="testi-card reveal" style="transition-delay:.24s">
+      <div class="tq">"</div>
+      <p class="testi-txt">Delivery is always on time and food is always hot and fresh. Highly recommended!</p>
+      <div class="testi-author">
+        <div class="tav">A</div>
+        <div><div class="tname">Amit Verma</div><div class="tstars">★★★★★</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="insta-section">
+  <p class="pre-label" style="text-align:center;margin-bottom:6px">FOLLOW US ON INSTAGRAM</p>
+  <h2 class="insta-handle">@thechinesebliss</h2>
+  <div class="insta-grid">
+    <div class="insta-item reveal"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/01.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+    <div class="insta-item reveal" style="transition-delay:.07s"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/02.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+    <div class="insta-item reveal" style="transition-delay:.14s"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/03.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+    <div class="insta-item reveal" style="transition-delay:.21s"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/04.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+    <div class="insta-item reveal" style="transition-delay:.28s"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/05.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+    <div class="insta-item reveal insta-hidden" style="transition-delay:.35s"><img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/01.jpg" alt=""/><div class="insta-hover"><svg width="22" height="22" fill="white" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div></div>
+  </div>
+  <button class="load-more-btn" id="loadMore">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Load More
+  </button>
+</section>
+
+
+
+
+<!-- CTA BANNER -->
+<section class="cta-strip">
+  <img src="https://static.wixstatic.com/media/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg/v1/fill/w_1165,h_479,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_d86a12c9f109497da61e9f9cb1d36970~mv2.jpg" alt="" class="cta-bg"/>
+  <div class="cta-overlay"></div>
+  <div class="cta-inner">
+    <div class="cta-text-block">
+      <p class="cta-eyebrow">READY TO ORDER?</p>
+      <h2 class="cta-h2">Craving something<br>delicious?</h2>
+      <p class="cta-sub">Order now and get your favorite dishes<br>delivered hot and fresh to your door.</p>
+      <div class="cta-divider"></div>
+      <div class="cta-meta">
+        <span>🕐 30 Min Delivery</span>
+        <span>⭐ 4.7 Rated</span>
+        <span>🔥 Made Fresh</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-main">
+    <div class="fcol fcol-brand">
+      <div class="footer-logo-row">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
+        <div class="footer-brand-name">THE CHINESE<br><span>BLISS</span></div>
+      </div>
+      <p class="footer-tagline">Authentic Indo-Chinese.<br>Made Fresh, Made for You.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com" target="_blank" class="fsoc">
           <img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/>
         </a>
+        <a href="https://www.facebook.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
+        </a>
+        <a href="https://www.yelp.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
+        </a>
       </div>
     </div>
-  </footer>
+    <div class="fcol">
+      <h4 class="fcol-title">Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="#our-story">Our Story</a>
+      <a href="experiences.html">Catering</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Contact Us</h4>
+      <a href="tel:+918956150583">📞 +91-8956150583</a>
+      <a href="mailto:chinesebliss1@gmail.com">✉️ chinesebliss1@gmail.com</a>
+      <p>📍 Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Opening Hours</h4>
+      <p>Mon – Sun</p>
+      <p>4:00 PM – 2:00 AM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 by The Chinese Bliss. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
 
-  <script src="script.js"></script>
+
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reveals = document.querySelectorAll('.reveal');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }});
+  }, { threshold: 0.10, rootMargin: '0px 0px -36px 0px' });
+  reveals.forEach(el => revObs.observe(el));
+
+  const ham = document.getElementById('ham');
+  const mnav = document.getElementById('mobileNav');
+  ham?.addEventListener('click', () => { ham.classList.toggle('open'); mnav.classList.toggle('open'); });
+
+  document.getElementById('loadMore')?.addEventListener('click', function() {
+    document.querySelectorAll('.insta-hidden').forEach(el => {
+      el.classList.remove('insta-hidden');
+      setTimeout(() => el.classList.add('visible'), 30);
+    });
+    this.style.display = 'none';
+  });
+
+  const nb = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (nb) nb.style.boxShadow = scrollY > 10 ? '0 4px 32px rgba(0,0,0,0.6)' : 'none';
+  }, { passive: true });
+
+  const fc = document.getElementById('floatCta');
+  function toggleFloat() { if (fc) fc.style.display = innerWidth <= 768 ? 'flex' : 'none'; }
+  toggleFloat(); window.addEventListener('resize', toggleFloat);
+});
+</script>
 </body>
 </html>
