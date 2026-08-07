@@ -5,246 +5,704 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menu | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <!-- NO inline <style> block — style.css handles everything -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       MENU PAGE — page-specific styles
+       Uses the real tokens from style.css (--red, --dark, --card, etc.)
+       ============================================================ */
+
+    /* ── Hero ── */
+    .menu-hero{
+      background:var(--dark2);
+      text-align:center;
+      padding:64px 24px 48px;
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--b);
+    }
+    .menu-hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse at 15% 50%, var(--glow) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 50%, rgba(192,57,43,.12) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    .menu-hero-inner{position:relative;z-index:2}
+    .menu-hero h1{
+      font-family:var(--fh);
+      font-size:clamp(2rem,5vw,3.2rem);
+      font-weight:700;
+      color:#fff;
+      letter-spacing:-0.5px;
+      margin-bottom:10px;
+    }
+    .menu-hero p{
+      font-size:.88rem;
+      color:var(--t2);
+      line-height:1.7;
+      max-width:480px;
+      margin:0 auto;
+    }
+
+    /* ── Sticky category nav + search/filter bar ── */
+    .menu-toolbar{
+      position:sticky;
+      top:72px;
+      z-index:200;
+      background:rgba(10,10,10,.94);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--b);
+      padding:16px 24px;
+    }
+    .menu-toolbar-inner{
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+    .cat-nav{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      scrollbar-width:none;
+      flex:1;
+      min-width:0;
+    }
+    .cat-nav::-webkit-scrollbar{display:none}
+    .cat-pill{
+      flex-shrink:0;
+      font-size:.76rem;
+      font-weight:600;
+      color:var(--t2);
+      padding:8px 16px;
+      border-radius:var(--rp);
+      border:1px solid var(--b2);
+      white-space:nowrap;
+      transition:all var(--tr);
+    }
+    .cat-pill:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+    .cat-pill.active{background:var(--red);border-color:var(--red);color:#fff}
+
+    .menu-controls{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .diet-filter{display:flex;gap:6px;background:var(--g);border:1px solid var(--b);border-radius:var(--rp);padding:3px}
+    .diet-btn{
+      font-size:.72rem;font-weight:700;padding:6px 13px;border-radius:var(--rp);
+      color:var(--t2);transition:all var(--tr);white-space:nowrap;
+    }
+    .diet-btn.active{background:var(--red);color:#fff}
+    .menu-search{
+      display:flex;align-items:center;gap:8px;
+      background:var(--g);border:1px solid var(--b);border-radius:var(--rp);
+      padding:8px 16px;min-width:180px;
+    }
+    .menu-search input{
+      background:none;border:none;outline:none;color:#fff;
+      font-family:var(--fb);font-size:.8rem;width:100%;
+    }
+    .menu-search input::placeholder{color:var(--t3)}
+    .menu-search svg{flex-shrink:0;opacity:.5}
+
+    /* ── Category sections ── */
+    .menu-body{max-width:900px;margin:0 auto;padding:56px 24px 80px}
+    .menu-category{margin-bottom:44px;scroll-margin-top:170px}
+    .menu-category-title{
+      font-family:var(--fh);
+      font-size:1.5rem;
+      font-weight:700;
+      color:#fff;
+      padding-bottom:10px;
+      border-bottom:2px solid var(--red);
+      display:inline-block;
+      margin-bottom:18px;
+      letter-spacing:.2px;
+    }
+    .menu-category-empty{
+      display:none;
+      font-size:.82rem;
+      color:var(--t3);
+      font-style:italic;
+      padding:8px 0;
+    }
+
+    /* ── Item row (white card, matches the bulk-order pattern) ── */
+    .menu-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 18px;
+      border-radius:var(--rm);
+      background:#fff;
+      margin-bottom:10px;
+      transition:transform var(--tr),box-shadow var(--tr);
+    }
+    .menu-row:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.35)}
+
+    .menu-row-left{display:flex;gap:12px;flex:1;min-width:0}
+    .diet-dot{
+      width:14px;height:14px;border:1.5px solid #2e7d32;border-radius:3px;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;
+    }
+    .diet-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#2e7d32}
+    .diet-dot.nonveg{border-color:#a33;}
+    .diet-dot.nonveg::after{background:#a33}
+
+    .menu-row-info{min-width:0}
+    .menu-row-name{font-size:.95rem;font-weight:700;color:#161616;margin-bottom:3px}
+    .menu-row-desc{font-size:.78rem;color:#7a7a7a;line-height:1.5;margin-bottom:6px}
+    .menu-row-badges{display:flex;gap:6px;flex-wrap:wrap}
+
+    .badge{
+      font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:var(--rp);
+      letter-spacing:.3px;text-transform:uppercase;
+    }
+    .badge-veg{background:rgba(46,125,50,.12);color:#2e7d32}
+    .badge-vegan{background:rgba(46,125,50,.12);color:#2e7d32}
+    .badge-gf{background:rgba(120,120,120,.14);color:#555}
+    .badge-hot{background:rgba(192,57,43,.12);color:var(--red)}
+    .badge-bestseller{background:rgba(245,166,35,.15);color:#b8790a}
+
+    .menu-row-price{
+      font-size:.98rem;font-weight:800;color:var(--red);
+      flex-shrink:0;white-space:nowrap;padding-top:1px;
+    }
+
+    /* ── Responsive ── */
+    @media(max-width:768px){
+      .menu-toolbar{top:64px;padding:12px 16px}
+      .menu-toolbar-inner{flex-direction:column;align-items:stretch;gap:12px}
+      .menu-controls{justify-content:space-between}
+      .menu-search{min-width:0;flex:1}
+      .menu-body{padding:40px 18px 64px}
+      .menu-category{scroll-margin-top:210px}
+      .menu-row{padding:14px}
+    }
+  </style>
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <a href="order.html">Place Your Bulk Order Now</a>
-    <a href="#" class="top-bar-login">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-      Log In
-    </a>
-  </div>
-
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <a href="index.html" class="logo-wrap">
-      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-    </a>
-    <nav class="nav-links">
-      <a href="index.html">About</a>
-      <a href="menu.html" class="active">Menu</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="experiences.html">Experiences</a>
-    </nav>
-    <div class="nav-actions">
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
-    <button class="hamburger" id="ham" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- MOBILE NAV -->
-  <nav class="mobile-nav" id="mobileNav">
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <a href="index.html" class="logo-wrap">
+    <img src="images/chinese logo.png" alt="The Chinese Bliss">
+  </a>
+  <nav class="nav-links">
     <a href="index.html">About</a>
-    <a href="menu.html">Menu</a>
+    <a href="menu.html" class="active">Menu</a>
     <a href="index.html#contact">Contact</a>
     <a href="experiences.html">Experiences</a>
-    <div class="nav-btns">
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
   </nav>
+  <div class="nav-actions">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-  <!-- MENU HERO — fixed structure matching style.css -->
-  <section class="inner-hero">
-    <img
-      src="images/TCB_Menu_Hero.png"
-      alt="Our Menu – The Chinese Bliss"
-      class="inner-hero-bg"
-    />
-    <div class="inner-hero-content">
-      <p class="inner-hero-pre">The Chinese Bliss</p>
-      <h1>Our Way, Our Menu</h1>
-    </div>
-  </section>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html">About</a>
+  <a href="menu.html">Menu</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="experiences.html">Experiences</a>
+  <div class="mnav-btns">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+  </div>
+</nav>
 
-  <!-- MENU CONTENT -->
-  <main class="menu-page">
+<!-- HERO -->
+<section class="menu-hero">
+  <div class="menu-hero-inner">
+    <span class="pre-label">The Chinese Bliss</span>
+    <h1>Our Menu</h1>
+    <p>Authentic Indo-Chinese, made fresh to order · Soups to sizzlers</p>
+  </div>
+</section>
 
-    <div class="menu-intro">
-      <h2>Our Way, Our Menu</h2>
-      <p>Small menu, endless flavours</p>
-      <hr class="menu-divider" style="margin-top:18px;" />
-    </div>
-
-    <!-- SOUPS -->
-    <section class="menu-section zoom-section">
-      <h2 class="menu-section-title">Soups</h2>
-      <div class="menu-items">
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Pork belly yakisoba</div>
-            <div class="menu-badges"></div>
-          </div>
-          <div class="menu-item-price">₹12.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_0803fd5ed1de4cf3ac42ba68f4b220ce~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_0803fd5ed1de4cf3ac42ba68f4b220ce~mv2.jpg" alt="Pork belly yakisoba" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Veggie soup</div>
-            <div class="menu-badges"><span class="badge badge-veg">Vegetarian</span></div>
-          </div>
-          <div class="menu-item-price">₹16.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_939c6f13278c4399990ca7b36a0522c5~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_939c6f13278c4399990ca7b36a0522c5~mv2.jpg" alt="Veggie soup" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Beef noodle soup</div>
-            <div class="menu-badges"><span class="badge badge-gf">Gluten Free</span></div>
-          </div>
-          <div class="menu-item-price">₹14.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_9344300643414cf3b5d8771732a4c08c~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_9344300643414cf3b5d8771732a4c08c~mv2.jpg" alt="Beef noodle soup" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Chicken soup</div>
-            <div class="menu-badges"><span class="badge badge-hot">Hot</span></div>
-          </div>
-          <div class="menu-item-price">₹17.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_1a7a2c139df44b75adf9887944548e62~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_1a7a2c139df44b75adf9887944548e62~mv2.jpg" alt="Chicken soup" class="menu-item-img" />
-        </div>
+<!-- STICKY TOOLBAR: category nav + search + veg filter -->
+<div class="menu-toolbar">
+  <div class="menu-toolbar-inner">
+    <nav class="cat-nav" id="catNav">
+      <a href="#cat-soups" class="cat-pill active">Soups</a>
+      <a href="#cat-starters" class="cat-pill">Starters</a>
+      <a href="#cat-dumplings" class="cat-pill">Momos &amp; Dumplings</a>
+      <a href="#cat-noodles" class="cat-pill">Noodles</a>
+      <a href="#cat-rice" class="cat-pill">Fried Rice</a>
+      <a href="#cat-manchurian" class="cat-pill">Manchurian &amp; Chilli</a>
+      <a href="#cat-combos" class="cat-pill">Combo Meals</a>
+    </nav>
+    <div class="menu-controls">
+      <div class="diet-filter" id="dietFilter">
+        <button class="diet-btn active" data-diet="all">All</button>
+        <button class="diet-btn" data-diet="veg">Veg</button>
+        <button class="diet-btn" data-diet="nonveg">Non-Veg</button>
       </div>
-    </section>
-
-    <!-- DUMPLINGS -->
-    <section class="menu-section zoom-section">
-      <h2 class="menu-section-title">Dumplings</h2>
-      <div class="menu-items">
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Fried pork dumplings</div>
-            <div class="menu-badges"></div>
-          </div>
-          <div class="menu-item-price">₹11.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_18f95c387fbe4c6286f81dc07c41b685~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_18f95c387fbe4c6286f81dc07c41b685~mv2.jpg" alt="Fried pork dumplings" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Hot &amp; spicy wonton</div>
-            <div class="menu-badges"><span class="badge badge-hot">Hot</span></div>
-          </div>
-          <div class="menu-item-price">₹13.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_d5fadc4213ff45909c8db00330ce2eb0~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_d5fadc4213ff45909c8db00330ce2eb0~mv2.jpg" alt="Hot & spicy wonton" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Chicken dumplings</div>
-            <div class="menu-badges"></div>
-          </div>
-          <div class="menu-item-price">₹12.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_9256ac8d42ca47f4a2aef0b89481effc~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_9256ac8d42ca47f4a2aef0b89481effc~mv2.jpg" alt="Chicken dumplings" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Veggie dumplings</div>
-            <div class="menu-badges"><span class="badge badge-vegan">Vegan</span></div>
-          </div>
-          <div class="menu-item-price">₹13.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_13ce56489d6b4a919071367062475485~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_13ce56489d6b4a919071367062475485~mv2.jpg" alt="Veggie dumplings" class="menu-item-img" />
-        </div>
-      </div>
-    </section>
-
-    <!-- NOODLES -->
-    <section class="menu-section zoom-section">
-      <h2 class="menu-section-title">Noodles</h2>
-      <div class="menu-items">
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Bangkok noodles, extra spicy</div>
-            <div class="menu-badges"><span class="badge badge-hot">Hot</span></div>
-          </div>
-          <div class="menu-item-price">₹17.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_4fc4293d1c254945bad5dc7dab4fd1da~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_4fc4293d1c254945bad5dc7dab4fd1da~mv2.jpg" alt="Bangkok noodles" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Sumo noodles</div>
-            <div class="menu-badges"></div>
-          </div>
-          <div class="menu-item-price">₹15.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_9d76d7bfeaa649fcafce9f353f83d30c~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_9d76d7bfeaa649fcafce9f353f83d30c~mv2.jpg" alt="Sumo noodles" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Ginger scallion noodles</div>
-            <div class="menu-badges"></div>
-          </div>
-          <div class="menu-item-price">₹16.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_a66e83f853214338ad56020471159a4d~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_a66e83f853214338ad56020471159a4d~mv2.jpg" alt="Ginger scallion noodles" class="menu-item-img" />
-        </div>
-        <div class="menu-item">
-          <div class="menu-item-info">
-            <div class="menu-item-name">Veggie noodles</div>
-            <div class="menu-badges"><span class="badge badge-veg">Vegetarian</span></div>
-          </div>
-          <div class="menu-item-price">₹16.00</div>
-          <img src="https://static.wixstatic.com/media/84770f_3b5e2d7e4d9849b0ab39d4b90a05a9b9~mv2.jpg/v1/fill/w_147,h_98,al_c,q_80,usm_0.66_1.00_0.01,blur_2,enc_auto/84770f_3b5e2d7e4d9849b0ab39d4b90a05a9b9~mv2.jpg" alt="Veggie noodles" class="menu-item-img" />
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer id="contact">
-    <div class="footer-grid footer-grid-with-map">
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <p>+91-8956150583</p>
-        <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a>
-      </div>
-      <div class="footer-col">
-        <h4>Address</h4>
-        <p>Shop No A1, Street of Europe, 24, Maan Rd, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi</p>
-        <p>Pune, Maharashtra 411057</p>
-      </div>
-      <div class="footer-col">
-        <h4>Opening Hours</h4>
-        <p>Mon – Sun: 4pm – 2am</p>
-        <p>Closed Every Second Tuesday</p>
-      </div>
-      <div class="footer-col">
-        <h4>Find Us</h4>
-        <div class="map-wrap">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
-            width="100%" height="160" style="border:0;display:block;"
-            allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="The Chinese Bliss Location">
-          </iframe>
-        </div>
-        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" class="directions-link">Get Directions →</a>
+      <div class="menu-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="menuSearch" placeholder="Search dishes..." />
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="newsletter-row">
-      <input type="email" placeholder="Enter your email *" />
-      <label><input type="checkbox" /> Yes, subscribe me to your newsletter.</label>
-      <button class="btn-join">Join</button>
+<!-- MENU BODY -->
+<div class="menu-body">
+
+  <!-- SOUPS -->
+  <div class="menu-category" id="cat-soups">
+    <div class="menu-category-title">Soups</div>
+
+    <div class="menu-row" data-name="dish name 1">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
     </div>
 
-    <div class="footer-bottom">
-      <div class="footer-logo-wrap">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="32" height="32" style="object-fit:contain;" />
+    <div class="menu-row" data-name="dish name 2">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+        </div>
       </div>
-      <p class="footer-copy">©2026 by The Chinese Bliss.</p>
-      <div class="social-icons">
-        <a href="https://www.yelp.com" target="_blank"><img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/></a>
-        <a href="https://www.facebook.com" target="_blank"><img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/></a>
-        <a href="https://www.instagram.com" target="_blank"><img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/></a>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 3">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 4">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- STARTERS -->
+  <div class="menu-category" id="cat-starters">
+    <div class="menu-category-title">Starters</div>
+
+    <div class="menu-row" data-name="dish name 5">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 6">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 7">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 8">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- MOMOS & DUMPLINGS -->
+  <div class="menu-category" id="cat-dumplings">
+    <div class="menu-category-title">Momos &amp; Dumplings</div>
+
+    <div class="menu-row" data-name="dish name 9">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 10">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 11">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 12">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- NOODLES -->
+  <div class="menu-category" id="cat-noodles">
+    <div class="menu-category-title">Noodles</div>
+
+    <div class="menu-row" data-name="dish name 13">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 14">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 15">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 16">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- FRIED RICE -->
+  <div class="menu-category" id="cat-rice">
+    <div class="menu-category-title">Fried Rice</div>
+
+    <div class="menu-row" data-name="dish name 17">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 18">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 19">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- MANCHURIAN & CHILLI -->
+  <div class="menu-category" id="cat-manchurian">
+    <div class="menu-category-title">Manchurian &amp; Chilli Specials</div>
+
+    <div class="menu-row" data-name="dish name 20">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span> <span class="badge badge-hot">Hot</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 21">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 22">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <!-- COMBO MEALS -->
+  <div class="menu-category" id="cat-combos">
+    <div class="menu-category-title">Combo Meals</div>
+
+    <div class="menu-row" data-name="dish name 23">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <div class="menu-row" data-name="dish name 24">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+        </div>
+      </div>
+      <div class="menu-row-price">₹000</div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-main">
+    <div class="fcol fcol-brand">
+      <div class="footer-logo-row">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
+        <div class="footer-brand-name">THE CHINESE<br><span>BLISS</span></div>
+      </div>
+      <p class="footer-tagline">Authentic Indo-Chinese.<br>Made Fresh, Made for You.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
+        </a>
+        <a href="https://www.yelp.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
+        </a>
       </div>
     </div>
-  </footer>
+    <div class="fcol">
+      <h4 class="fcol-title">Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="#our-story">Our Story</a>
+      <a href="experiences.html">Catering</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Contact Us</h4>
+      <a href="tel:+918956150583">📞 +91-8956150583</a>
+      <a href="mailto:chinesebliss1@gmail.com">✉️ chinesebliss1@gmail.com</a>
+      <p>📍 Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Opening Hours</h4>
+      <p>Mon – Sun</p>
+      <p>4:00 PM – 2:00 AM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 by The Chinese Bliss. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+<script>
+  // ── Category quick-nav: smooth scroll + active-pill on scroll ──
+  const catPills = document.querySelectorAll('.cat-pill');
+  const catSections = document.querySelectorAll('.menu-category');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      catPills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === '#' + id));
+    });
+  }, { rootMargin: '-180px 0px -70% 0px', threshold: 0 });
+  catSections.forEach(sec => navObserver.observe(sec));
+
+  // ── Veg / Non-Veg filter ──
+  const dietBtns = document.querySelectorAll('.diet-btn');
+  let currentDiet = 'all';
+
+  dietBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      dietBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDiet = btn.dataset.diet;
+      applyFilters();
+    });
+  });
+
+  // ── Search ──
+  const searchInput = document.getElementById('menuSearch');
+  searchInput.addEventListener('input', applyFilters);
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    catSections.forEach(section => {
+      const rows = section.querySelectorAll('.menu-row');
+      const emptyMsg = section.querySelector('.menu-category-empty');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const name = row.querySelector('.menu-row-name').textContent.toLowerCase();
+        const dot = row.querySelector('.diet-dot');
+        const isVeg = !dot.classList.contains('nonveg');
+
+        const matchesDiet = currentDiet === 'all' || (currentDiet === 'veg' && isVeg) || (currentDiet === 'nonveg' && !isVeg);
+        const matchesSearch = !query || name.includes(query);
+        const visible = matchesDiet && matchesSearch;
+
+        row.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+
+      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+  }
+</script>
+
 </body>
 </html>
