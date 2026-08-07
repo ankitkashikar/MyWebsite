@@ -7,16 +7,22 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    /* NOTE: this page previously used undefined CSS variables
+       (--warm-white, --charcoal, --black, --gray, --border,
+       --font-display, --font-body, --dark-red) which made dish
+       names render white-on-white (invisible) on the cards.
+       Fixed below to use the real tokens from style.css. */
+
     /* ── Page wrapper ── */
     .bulk-page {
-      background: var(--warm-white);
+      background: var(--dark);
       min-height: 100vh;
       padding: 60px 24px 80px;
     }
 
     /* ── Hero strip ── */
     .bulk-hero {
-      background: var(--charcoal);
+      background: var(--dark2);
       text-align: center;
       padding: 56px 24px 48px;
       position: relative;
@@ -50,7 +56,7 @@
       margin-bottom: 12px;
     }
     .bulk-hero h1 {
-      font-family: var(--font-display);
+      font-family: var(--fh);
       font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 700;
       color: #fff;
@@ -76,24 +82,24 @@
 
     /* ── Menu section ── */
     .bulk-menu h2 {
-      font-family: var(--font-display);
+      font-family: var(--fh);
       font-size: 1.8rem;
       font-weight: 600;
       margin-bottom: 6px;
-      color: var(--black);
+      color: #fff;
     }
     .bulk-menu-sub {
       font-size: 0.82rem;
-      color: var(--gray);
+      color: var(--t2);
       margin-bottom: 28px;
     }
 
     .menu-category { margin-bottom: 32px; }
     .menu-category-title {
-      font-family: var(--font-display);
+      font-family: var(--fh);
       font-size: 1.2rem;
       font-weight: 600;
-      color: var(--black);
+      color: #fff;
       padding-bottom: 8px;
       border-bottom: 2px solid var(--red);
       display: inline-block;
@@ -107,34 +113,40 @@
       justify-content: space-between;
       padding: 12px 14px;
       border-radius: 8px;
-      border: 1px solid var(--border);
       background: #fff;
       margin-bottom: 8px;
       gap: 12px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .menu-row:hover { border-color: rgba(192,57,43,0.25); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .menu-row:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
 
     .menu-row-info { flex: 1; }
     .menu-row-name {
       font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--black);
+      font-weight: 700;
+      color: #161616;
       margin-bottom: 2px;
     }
     .menu-row-price {
       font-size: 0.78rem;
       color: var(--red);
-      font-weight: 600;
+      font-weight: 700;
     }
     .menu-row-badges { display: flex; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.6rem; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+      letter-spacing: 0.3px; text-transform: uppercase;
+    }
+    .badge-veg { background: rgba(46,125,50,.12); color: #2e7d32; }
+    .badge-hot { background: rgba(192,57,43,.12); color: var(--red); }
+    .badge-gf { background: rgba(120,120,120,.14); color: #555; }
+    .badge-vegan { background: rgba(46,125,50,.12); color: #2e7d32; }
 
     /* Quantity stepper */
     .qty-stepper {
       display: flex;
       align-items: center;
-      gap: 0;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(0,0,0,.12);
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
@@ -142,16 +154,16 @@
     .qty-btn {
       width: 32px;
       height: 32px;
-      background: var(--warm-white);
+      background: #f5f5f5;
       border: none;
       cursor: pointer;
       font-size: 1.1rem;
-      color: var(--black);
+      color: #161616;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.15s ease;
-      font-family: var(--font-body);
+      font-family: var(--fb);
     }
     .qty-btn:hover { background: rgba(192,57,43,0.08); color: var(--red); }
     .qty-display {
@@ -159,13 +171,13 @@
       height: 32px;
       text-align: center;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       border: none;
-      border-left: 1px solid var(--border);
-      border-right: 1px solid var(--border);
+      border-left: 1px solid rgba(0,0,0,.12);
+      border-right: 1px solid rgba(0,0,0,.12);
       background: #fff;
-      color: var(--black);
-      font-family: var(--font-body);
+      color: #161616;
+      font-family: var(--fb);
       outline: none;
     }
 
@@ -176,19 +188,18 @@
     }
     .bulk-form {
       background: #fff;
-      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 32px 28px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
     }
     .bulk-form h3 {
-      font-family: var(--font-display);
+      font-family: var(--fh);
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 20px;
-      color: var(--black);
+      color: #161616;
       padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(0,0,0,.1);
     }
 
     /* Order summary list */
@@ -209,19 +220,19 @@
       align-items: center;
       font-size: 0.82rem;
       padding: 6px 0;
-      border-bottom: 1px solid var(--border);
-      color: var(--black);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      color: #161616;
       gap: 8px;
     }
     .summary-item-name { flex: 1; }
-    .summary-item-qty { color: var(--red); font-weight: 600; white-space: nowrap; }
+    .summary-item-qty { color: var(--red); font-weight: 700; white-space: nowrap; }
     .summary-total {
       display: flex;
       justify-content: space-between;
       font-size: 0.92rem;
       font-weight: 700;
       padding: 12px 0 0;
-      color: var(--black);
+      color: #161616;
       margin-top: 4px;
     }
     .summary-total span:last-child { color: var(--red); }
@@ -234,20 +245,20 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #888;
       margin-bottom: 5px;
     }
     .bulk-field input,
     .bulk-field select,
     .bulk-field textarea {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(0,0,0,.14);
       border-radius: 8px;
       padding: 10px 12px;
       font-size: 0.85rem;
-      font-family: var(--font-body);
-      color: var(--black);
-      background: var(--warm-white);
+      font-family: var(--fb);
+      color: #161616;
+      background: #fafafa;
       outline: none;
       transition: border-color 0.2s ease;
     }
@@ -266,16 +277,16 @@
       font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
-      font-family: var(--font-body);
+      font-family: var(--fb);
       transition: background 0.25s ease;
       margin-top: 16px;
       letter-spacing: 0.3px;
     }
-    .btn-bulk-submit:hover { background: var(--dark-red); }
+    .btn-bulk-submit:hover { background: var(--red2); }
 
     .bulk-note {
       font-size: 0.72rem;
-      color: var(--gray);
+      color: #888;
       text-align: center;
       margin-top: 10px;
       line-height: 1.5;
@@ -292,15 +303,15 @@
       margin-bottom: 12px;
     }
     .submit-success h4 {
-      font-family: var(--font-display);
+      font-family: var(--fh);
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 8px;
-      color: var(--black);
+      color: #161616;
     }
     .submit-success p {
       font-size: 0.82rem;
-      color: var(--gray);
+      color: #888;
       line-height: 1.6;
     }
 
@@ -372,19 +383,19 @@
   <div class="bulk-page">
     <div class="bulk-layout">
 
-      <!-- LEFT: Menu with quantity steppers -->
+      <!-- LEFT: Menu with quantity steppers (placeholder / dummy data) -->
       <div class="bulk-menu">
         <h2>Select Your Items</h2>
         <p class="bulk-menu-sub">Add quantities next to each dish. Your order summary updates in real time →</p>
 
-        <!-- SOUPS -->
+        <!-- SAMPLE CATEGORY -->
         <div class="menu-category">
-          <div class="menu-category-title">Soups</div>
+          <div class="menu-category-title">Sample Category</div>
 
-          <div class="menu-row" data-item="Pork belly yakisoba" data-price="12">
+          <div class="menu-row" data-item="Dish Name" data-price="150">
             <div class="menu-row-info">
-              <div class="menu-row-name">Pork belly yakisoba</div>
-              <div class="menu-row-price">₹12.00 per person</div>
+              <div class="menu-row-name">Dish Name</div>
+              <div class="menu-row-price">₹150.00 per person</div>
               <div class="menu-row-badges"></div>
             </div>
             <div class="qty-stepper">
@@ -394,10 +405,10 @@
             </div>
           </div>
 
-          <div class="menu-row" data-item="Veggie soup" data-price="16">
+          <div class="menu-row" data-item="Dish Name" data-price="180">
             <div class="menu-row-info">
-              <div class="menu-row-name">Veggie soup</div>
-              <div class="menu-row-price">₹16.00 per person</div>
+              <div class="menu-row-name">Dish Name</div>
+              <div class="menu-row-price">₹180.00 per person</div>
               <div class="menu-row-badges">
                 <span class="badge badge-veg">Vegetarian</span>
               </div>
@@ -409,25 +420,10 @@
             </div>
           </div>
 
-          <div class="menu-row" data-item="Beef noodle soup" data-price="14">
+          <div class="menu-row" data-item="Dish Name" data-price="200">
             <div class="menu-row-info">
-              <div class="menu-row-name">Beef noodle soup</div>
-              <div class="menu-row-price">₹14.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-gf">Gluten Free</span>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Chicken soup" data-price="17">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Chicken soup</div>
-              <div class="menu-row-price">₹17.00 per person</div>
+              <div class="menu-row-name">Dish Name</div>
+              <div class="menu-row-price">₹200.00 per person</div>
               <div class="menu-row-badges">
                 <span class="badge badge-hot">Hot</span>
               </div>
@@ -439,128 +435,7 @@
             </div>
           </div>
         </div>
-
-        <!-- DUMPLINGS -->
-        <div class="menu-category">
-          <div class="menu-category-title">Dumplings</div>
-
-          <div class="menu-row" data-item="Fried pork dumplings" data-price="11">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Fried pork dumplings</div>
-              <div class="menu-row-price">₹11.00 per person</div>
-              <div class="menu-row-badges"></div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Hot & spicy wonton" data-price="13">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Hot &amp; spicy wonton</div>
-              <div class="menu-row-price">₹13.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-hot">Hot</span>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Chicken dumplings" data-price="12">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Chicken dumplings</div>
-              <div class="menu-row-price">₹12.00 per person</div>
-              <div class="menu-row-badges"></div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Veggie dumplings" data-price="13">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Veggie dumplings</div>
-              <div class="menu-row-price">₹13.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-vegan">Vegan</span>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- NOODLES -->
-        <div class="menu-category">
-          <div class="menu-category-title">Noodles</div>
-
-          <div class="menu-row" data-item="Bangkok noodles, extra spicy" data-price="17">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Bangkok noodles, extra spicy</div>
-              <div class="menu-row-price">₹17.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-hot">Hot</span>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Sumo noodles" data-price="15">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Sumo noodles</div>
-              <div class="menu-row-price">₹15.00 per person</div>
-              <div class="menu-row-badges"></div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Ginger scallion noodles" data-price="16">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Ginger scallion noodles</div>
-              <div class="menu-row-price">₹16.00 per person</div>
-              <div class="menu-row-badges"></div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Veggie noodles" data-price="16">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Veggie noodles</div>
-              <div class="menu-row-price">₹16.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-veg">Vegetarian</span>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-        </div>
+        <!-- end sample category -->
 
       </div><!-- end bulk-menu -->
 
