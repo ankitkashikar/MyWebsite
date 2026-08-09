@@ -663,29 +663,40 @@
     });
 
     // ── Coupons ──────────────────────────────────────────────
-    // NOTE: hardcoded client-side for now. Real coupon management
-    // (usage limits, expiry, per-customer codes) needs a backend/DB —
-    // that's Ankit's side. This is a working UI + discount calculator.
-    const COUPONS = {
-      'WELCOME10': { type: 'percent', value: 10,  label: '10% off' },
-      'FLAT100':   { type: 'flat',    value: 100, label: '₹100 off' },
-      'BULK500':   { type: 'percent', value: 15,  minOrder: 3000, label: '15% off orders above ₹3,000' }
-    };
-    let appliedCoupon = null; // { code, discount }
+    // ⚠️ SECURITY: this now calls a backend endpoint to validate
+    // the coupon and calculate the discount, instead of checking
+    // a local list. That's what makes it safe from DevTools
+    // tampering — the discount amount comes from the server's
+    // response, not from anything computed in this file.
+    //
+    // TODO (Ankit): implement POST /api/coupons/validate
+    //   Request body:  { code: string, orderTotal: number }
+    //   Success reply: { valid: true, discount: number, label: string }
+    //   Failure reply: { valid: false, message: string }
+    // Until that route exists, applying a coupon will show a
+    // "not connected yet" message below — this is expected.
+    let appliedCoupon = null; // { code, discount, label }
 
     function calcDiscount(total) {
       if (!appliedCoupon) return 0;
-      const c = COUPONS[appliedCoupon];
-      if (!c) return 0;
-      if (c.minOrder && total < c.minOrder) return 0;
-      let discount = c.type === 'percent' ? Math.round(total * c.value / 100) : c.value;
-      return Math.min(discount, total);
+      return Math.min(appliedCoupon.discount, total);
     }
 
-    document.getElementById('btnApplyCoupon').addEventListener('click', () => {
+    async function validateCouponOnServer(code, orderTotal) {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, orderTotal })
+      });
+      if (!res.ok) throw new Error('request-failed');
+      return res.json(); // { valid, discount, label } or { valid:false, message }
+    }
+
+    document.getElementById('btnApplyCoupon').addEventListener('click', async () => {
       const codeInput = document.getElementById('couponInput');
       const code = codeInput.value.trim().toUpperCase();
       const msgEl = document.getElementById('couponMsg');
+      const applyBtn = document.getElementById('btnApplyCoupon');
       const items = getCartItems();
       const total = cartTotal(items);
 
@@ -693,28 +704,36 @@
 
       if (!code) { msgEl.textContent = 'Enter a coupon code.'; msgEl.classList.add('error'); return; }
 
-      const c = COUPONS[code];
-      if (!c) {
-        msgEl.textContent = 'Invalid coupon code.';
+      applyBtn.disabled = true;
+      applyBtn.textContent = 'Checking...';
+
+      try {
+        const result = await validateCouponOnServer(code, total);
+
+        if (!result.valid) {
+          msgEl.textContent = result.message || 'Invalid coupon code.';
+          msgEl.classList.add('error');
+          return;
+        }
+
+        appliedCoupon = { code, discount: result.discount, label: result.label };
+        msgEl.textContent = '';
+        msgEl.classList.remove('error', 'success');
+
+        document.getElementById('couponRow').style.display = 'none';
+        const tag = document.getElementById('couponAppliedTag');
+        tag.classList.add('visible');
+        document.getElementById('couponAppliedText').textContent = `${code} applied — ${result.label}`;
+
+        renderSummaryBox();
+      } catch (e) {
+        // Backend route doesn't exist yet — expected until Ankit builds it
+        msgEl.textContent = 'Coupon system isn\'t connected yet — check back soon.';
         msgEl.classList.add('error');
-        return;
+      } finally {
+        applyBtn.disabled = false;
+        applyBtn.textContent = 'Apply';
       }
-      if (c.minOrder && total < c.minOrder) {
-        msgEl.textContent = `This code needs a minimum order of ₹${c.minOrder.toLocaleString('en-IN')}.`;
-        msgEl.classList.add('error');
-        return;
-      }
-
-      appliedCoupon = code;
-      msgEl.textContent = '';
-      msgEl.classList.remove('error', 'success');
-
-      document.getElementById('couponRow').style.display = 'none';
-      const tag = document.getElementById('couponAppliedTag');
-      tag.classList.add('visible');
-      document.getElementById('couponAppliedText').textContent = `${code} applied — ${c.label}`;
-
-      renderSummaryBox();
     });
 
     document.getElementById('btnRemoveCoupon').addEventListener('click', () => {
@@ -743,7 +762,7 @@
 
       if (discount > 0) {
         discountRow.style.display = 'flex';
-        discountLabel.textContent = `Discount (${appliedCoupon})`;
+        discountLabel.textContent = `Discount (${appliedCoupon.code})`;
         discountValue.textContent = '−₹' + discount.toLocaleString('en-IN');
       } else {
         discountRow.style.display = 'none';
@@ -849,7 +868,7 @@
       // In production: send this to your backend / WhatsApp / email / payment API
       console.log('Bulk order placed', {
         name, phone, event, date, address, notes, items,
-        subtotal: cartTotal(items), coupon: appliedCoupon, discount: calcDiscount(cartTotal(items)),
+        subtotal: cartTotal(items), coupon: appliedCoupon ? appliedCoupon.code : null, discount: calcDiscount(cartTotal(items)),
         total: finalTotal()
       });
 
