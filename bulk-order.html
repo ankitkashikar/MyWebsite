@@ -226,8 +226,35 @@
     .summary-box { background: #f9f7f6; border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
     .summary-box-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #888; margin-bottom: 8px; }
     .summary-box-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: #161616; padding: 4px 0; }
+    .summary-box-discount { display: flex; justify-content: space-between; font-size: 0.8rem; color: #2e7d32; padding: 4px 0; font-weight: 700; }
     .summary-box-total { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 800; color: #161616; padding-top: 8px; margin-top: 6px; border-top: 1px solid rgba(0,0,0,.08); }
     .summary-box-total span:last-child { color: var(--red); }
+
+    /* Coupon code */
+    .coupon-row { display: flex; gap: 8px; margin-top: 6px; }
+    .coupon-row input {
+      flex: 1; border: 1px solid rgba(0,0,0,.14); border-radius: 8px; padding: 11px 13px;
+      font-size: 0.85rem; font-family: var(--fb); color: #161616; background: #fafafa; outline: none;
+      text-transform: uppercase; transition: border-color .2s ease;
+    }
+    .coupon-row input:focus { border-color: var(--red); }
+    .coupon-row input::placeholder { text-transform: none; }
+    .btn-coupon-apply {
+      background: #161616; color: #fff; border: none; padding: 0 18px; border-radius: 8px;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: var(--fb);
+      transition: background .2s ease; white-space: nowrap;
+    }
+    .btn-coupon-apply:hover { background: var(--red); }
+    .coupon-msg { font-size: 0.75rem; margin-top: 7px; display: none; }
+    .coupon-msg.success { display: block; color: #2e7d32; }
+    .coupon-msg.error { display: block; color: var(--red); }
+    .coupon-applied-tag {
+      display: none; align-items: center; justify-content: space-between; gap: 8px;
+      background: rgba(46,125,50,.08); border: 1px solid rgba(46,125,50,.25); border-radius: 8px;
+      padding: 9px 13px; font-size: 0.8rem; color: #2e7d32; font-weight: 700; margin-top: 6px;
+    }
+    .coupon-applied-tag.visible { display: flex; }
+    .coupon-remove { background: none; border: none; color: #2e7d32; font-size: 0.75rem; text-decoration: underline; cursor: pointer; font-weight: 600; }
 
     .pay-amount { text-align: center; padding: 6px 0 20px; }
     .pay-amount-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: .4px; }
@@ -471,9 +498,25 @@
           <textarea id="custNotes" placeholder="Allergies, spice level, packaging preferences..."></textarea>
         </div>
 
+        <div class="dm-field">
+          <label>Coupon Code</label>
+          <div class="coupon-row" id="couponRow">
+            <input type="text" id="couponInput" placeholder="Enter code" />
+            <button class="btn-coupon-apply" id="btnApplyCoupon">Apply</button>
+          </div>
+          <div class="coupon-applied-tag" id="couponAppliedTag">
+            <span id="couponAppliedText"></span>
+            <button class="coupon-remove" id="btnRemoveCoupon">Remove</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+        </div>
+
         <div class="summary-box" id="summaryBox">
           <div class="summary-box-title">Order Summary</div>
           <div id="summaryBoxItems"></div>
+          <div class="summary-box-discount" id="summaryBoxDiscountRow" style="display:none;">
+            <span id="summaryBoxDiscountLabel">Discount</span><span id="summaryBoxDiscountValue">−₹0</span>
+          </div>
           <div class="summary-box-total"><span>Total</span><span id="summaryBoxTotal">₹0</span></div>
         </div>
 
@@ -603,15 +646,99 @@
       showStep('stepAddress');
     });
 
+    // ── Coupons ──────────────────────────────────────────────
+    // NOTE: hardcoded client-side for now. Real coupon management
+    // (usage limits, expiry, per-customer codes) needs a backend/DB —
+    // that's Ankit's side. This is a working UI + discount calculator.
+    const COUPONS = {
+      'WELCOME10': { type: 'percent', value: 10,  label: '10% off' },
+      'FLAT100':   { type: 'flat',    value: 100, label: '₹100 off' },
+      'BULK500':   { type: 'percent', value: 15,  minOrder: 3000, label: '15% off orders above ₹3,000' }
+    };
+    let appliedCoupon = null; // { code, discount }
+
+    function calcDiscount(total) {
+      if (!appliedCoupon) return 0;
+      const c = COUPONS[appliedCoupon];
+      if (!c) return 0;
+      if (c.minOrder && total < c.minOrder) return 0;
+      let discount = c.type === 'percent' ? Math.round(total * c.value / 100) : c.value;
+      return Math.min(discount, total);
+    }
+
+    document.getElementById('btnApplyCoupon').addEventListener('click', () => {
+      const codeInput = document.getElementById('couponInput');
+      const code = codeInput.value.trim().toUpperCase();
+      const msgEl = document.getElementById('couponMsg');
+      const items = getCartItems();
+      const total = cartTotal(items);
+
+      msgEl.className = 'coupon-msg';
+
+      if (!code) { msgEl.textContent = 'Enter a coupon code.'; msgEl.classList.add('error'); return; }
+
+      const c = COUPONS[code];
+      if (!c) {
+        msgEl.textContent = 'Invalid coupon code.';
+        msgEl.classList.add('error');
+        return;
+      }
+      if (c.minOrder && total < c.minOrder) {
+        msgEl.textContent = `This code needs a minimum order of ₹${c.minOrder.toLocaleString('en-IN')}.`;
+        msgEl.classList.add('error');
+        return;
+      }
+
+      appliedCoupon = code;
+      msgEl.textContent = '';
+      msgEl.classList.remove('error', 'success');
+
+      document.getElementById('couponRow').style.display = 'none';
+      const tag = document.getElementById('couponAppliedTag');
+      tag.classList.add('visible');
+      document.getElementById('couponAppliedText').textContent = `${code} applied — ${c.label}`;
+
+      renderSummaryBox();
+    });
+
+    document.getElementById('btnRemoveCoupon').addEventListener('click', () => {
+      appliedCoupon = null;
+      document.getElementById('couponInput').value = '';
+      document.getElementById('couponRow').style.display = 'flex';
+      document.getElementById('couponAppliedTag').classList.remove('visible');
+      renderSummaryBox();
+    });
+
     // ── STEP 2: Details + Summary ─────────────────────────────
     function renderSummaryBox() {
       const items = getCartItems();
       const itemsEl = document.getElementById('summaryBoxItems');
       const totalEl = document.getElementById('summaryBoxTotal');
+      const discountRow = document.getElementById('summaryBoxDiscountRow');
+      const discountLabel = document.getElementById('summaryBoxDiscountLabel');
+      const discountValue = document.getElementById('summaryBoxDiscountValue');
+
       let html = '';
       items.forEach(i => { html += `<div class="summary-box-item"><span>${i.name} ×${i.qty}</span><span>₹${i.qty * i.price}</span></div>`; });
       itemsEl.innerHTML = html;
-      totalEl.textContent = '₹' + cartTotal(items).toLocaleString('en-IN');
+
+      const subtotal = cartTotal(items);
+      const discount = calcDiscount(subtotal);
+
+      if (discount > 0) {
+        discountRow.style.display = 'flex';
+        discountLabel.textContent = `Discount (${appliedCoupon})`;
+        discountValue.textContent = '−₹' + discount.toLocaleString('en-IN');
+      } else {
+        discountRow.style.display = 'none';
+      }
+
+      totalEl.textContent = '₹' + (subtotal - discount).toLocaleString('en-IN');
+    }
+
+    function finalTotal() {
+      const subtotal = cartTotal(getCartItems());
+      return subtotal - calcDiscount(subtotal);
     }
 
     document.getElementById('btnPlaceOrder').addEventListener('click', () => {
@@ -625,7 +752,7 @@
       if (!date)    { alert('Please select a delivery date and time.'); return; }
       if (!address) { alert('Please enter your delivery address.'); return; }
 
-      document.getElementById('payAmount').textContent = '₹' + cartTotal(getCartItems()).toLocaleString('en-IN');
+      document.getElementById('payAmount').textContent = '₹' + finalTotal().toLocaleString('en-IN');
       showStep('stepPayment');
     });
 
@@ -640,11 +767,19 @@
       const items = getCartItems();
 
       // In production: send this to your backend / WhatsApp / email / payment API
-      console.log('Bulk order placed', { name, phone, event, date, address, notes, items, total: cartTotal(items) });
+      console.log('Bulk order placed', {
+        name, phone, event, date, address, notes, items,
+        subtotal: cartTotal(items), coupon: appliedCoupon, discount: calcDiscount(cartTotal(items)),
+        total: finalTotal()
+      });
 
       showStep('stepSuccess');
       setTimeout(() => {
         document.querySelectorAll('.qty-display').forEach(i => i.value = 0);
+        appliedCoupon = null;
+        document.getElementById('couponInput').value = '';
+        document.getElementById('couponRow').style.display = 'flex';
+        document.getElementById('couponAppliedTag').classList.remove('visible');
         refreshCartBar();
       }, 400);
     });
