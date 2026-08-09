@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bulk Order | The Chinese Bliss</title>
+  <title>The Chinese Bliss Delivery | Bulk &amp; Direct Orders</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
@@ -111,22 +111,32 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 14px;
-      border-radius: 8px;
+      padding: 14px 16px;
+      border-radius: 10px;
       background: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       gap: 12px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .menu-row:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
 
-    .menu-row-info { flex: 1; }
+    .menu-row-left { display: flex; gap: 10px; flex: 1; min-width: 0; }
+    .diet-dot {
+      width: 13px; height: 13px; border: 1.5px solid #2e7d32; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 3px;
+    }
+    .diet-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #2e7d32; }
+    .diet-dot.nonveg { border-color: #a33; }
+    .diet-dot.nonveg::after { background: #a33; }
+
+    .menu-row-info { min-width: 0; flex: 1; }
     .menu-row-name {
       font-size: 0.9rem;
       font-weight: 700;
       color: #161616;
       margin-bottom: 2px;
     }
+    .menu-row-desc { font-size: 0.76rem; color: #7a7a7a; line-height: 1.45; margin-bottom: 4px; }
     .menu-row-price {
       font-size: 0.78rem;
       color: var(--red);
@@ -141,6 +151,7 @@
     .badge-hot { background: rgba(192,57,43,.12); color: var(--red); }
     .badge-gf { background: rgba(120,120,120,.14); color: #555; }
     .badge-vegan { background: rgba(46,125,50,.12); color: #2e7d32; }
+    .badge-bestseller { background: rgba(245,166,35,.15); color: #b8790a; }
 
     /* Quantity stepper */
     .qty-stepper {
@@ -206,6 +217,8 @@
     .order-summary {
       min-height: 60px;
       margin-bottom: 20px;
+      max-height: 280px;
+      overflow-y: auto;
     }
     .summary-empty {
       font-size: 0.82rem;
@@ -323,6 +336,7 @@
     @media (max-width: 600px) {
       .bulk-page { padding: 40px 16px 60px; }
       .bulk-hero { padding: 44px 20px 36px; }
+      .menu-row { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -374,8 +388,8 @@
   <div class="bulk-hero">
     <div class="bulk-hero-inner">
       <span class="pre-label">The Chinese Bliss</span>
-      <h1>Bulk Order Form</h1>
-      <p>Catering for events, offices &amp; parties · Minimum order 10 persons · We deliver fresh</p>
+      <h1>The Chinese Bliss Delivery</h1>
+      <p>Full menu, delivered fresh · Order for yourself, or catering for events, offices &amp; parties</p>
     </div>
   </div>
 
@@ -383,20 +397,24 @@
   <div class="bulk-page">
     <div class="bulk-layout">
 
-      <!-- LEFT: Menu with quantity steppers (placeholder / dummy data) -->
+      <!-- LEFT: Full menu with quantity steppers -->
       <div class="bulk-menu">
         <h2>Select Your Items</h2>
         <p class="bulk-menu-sub">Add quantities next to each dish. Your order summary updates in real time →</p>
 
-        <!-- SAMPLE CATEGORY -->
+        <!-- SOUPS -->
         <div class="menu-category">
-          <div class="menu-category-title">Sample Category</div>
+          <div class="menu-category-title">Soups</div>
 
           <div class="menu-row" data-item="Dish Name" data-price="150">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Dish Name</div>
-              <div class="menu-row-price">₹150.00 per person</div>
-              <div class="menu-row-badges"></div>
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹150</div>
+                <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
+              </div>
             </div>
             <div class="qty-stepper">
               <button class="qty-btn qty-minus" aria-label="Decrease">−</button>
@@ -405,12 +423,14 @@
             </div>
           </div>
 
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Dish Name</div>
-              <div class="menu-row-price">₹180.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-veg">Vegetarian</span>
+          <div class="menu-row" data-item="Dish Name" data-price="150">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹150</div>
+                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
               </div>
             </div>
             <div class="qty-stepper">
@@ -420,12 +440,31 @@
             </div>
           </div>
 
-          <div class="menu-row" data-item="Dish Name" data-price="200">
-            <div class="menu-row-info">
-              <div class="menu-row-name">Dish Name</div>
-              <div class="menu-row-price">₹200.00 per person</div>
-              <div class="menu-row-badges">
-                <span class="badge badge-hot">Hot</span>
+          <div class="menu-row" data-item="Dish Name" data-price="150">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹150</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="150">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹150</div>
+                <div class="menu-row-badges"></div>
               </div>
             </div>
             <div class="qty-stepper">
@@ -435,7 +474,376 @@
             </div>
           </div>
         </div>
-        <!-- end sample category -->
+
+        <!-- STARTERS -->
+        <div class="menu-category">
+          <div class="menu-category-title">Starters</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOMOS & DUMPLINGS -->
+        <div class="menu-category">
+          <div class="menu-category-title">Momos &amp; Dumplings</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="170">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹170</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="170">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹170</div>
+                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="170">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹170</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="170">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹170</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOODLES -->
+        <div class="menu-category">
+          <div class="menu-category-title">Noodles</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="190">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹190</div>
+                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="190">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹190</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="190">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹190</div>
+                <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="190">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹190</div>
+                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRIED RICE -->
+        <div class="menu-category">
+          <div class="menu-category-title">Fried Rice</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="180">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹180</div>
+                <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MANCHURIAN & CHILLI -->
+        <div class="menu-category">
+          <div class="menu-category-title">Manchurian &amp; Chilli Specials</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="210">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹210</div>
+                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span> <span class="badge badge-hot">Hot</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="210">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹210</div>
+                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="210">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹210</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMBO MEALS -->
+        <div class="menu-category">
+          <div class="menu-category-title">Combo Meals</div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="280">
+            <div class="menu-row-left">
+              <span class="diet-dot"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹280</div>
+                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+
+          <div class="menu-row" data-item="Dish Name" data-price="280">
+            <div class="menu-row-left">
+              <span class="diet-dot nonveg"></span>
+              <div class="menu-row-info">
+                <div class="menu-row-name">Dish Name</div>
+                <div class="menu-row-desc">Add-ons &amp; description go here</div>
+                <div class="menu-row-price">₹280</div>
+                <div class="menu-row-badges"></div>
+              </div>
+            </div>
+            <div class="qty-stepper">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+        </div>
 
       </div><!-- end bulk-menu -->
 
@@ -468,7 +876,7 @@
             </div>
             <div class="bulk-field">
               <label>Event / Occasion</label>
-              <input type="text" id="clientEvent" placeholder="e.g. Corporate lunch, Birthday party" />
+              <input type="text" id="clientEvent" placeholder="e.g. Corporate lunch, Birthday party (optional for regular orders)" />
             </div>
             <div class="bulk-field">
               <label>Delivery Date &amp; Time *</label>
@@ -485,16 +893,16 @@
           </div>
 
           <button class="btn-bulk-submit" id="submitBtn" onclick="submitBulkOrder()">
-            Send Bulk Order Request
+            Send Order Request
           </button>
-          <p class="bulk-note">We'll call you within 2 hours to confirm your order &amp; finalise pricing.</p>
+          <p class="bulk-note">We'll call you shortly to confirm your order &amp; finalise pricing.</p>
         </div>
 
         <!-- Success state -->
         <div class="submit-success" id="submitSuccess">
           <div class="success-icon">🎉</div>
           <h4>Order Request Sent!</h4>
-          <p>Thank you! Our team will call you within 2 hours to confirm your bulk order and discuss final pricing.</p>
+          <p>Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
           <br/>
           <a href="index.html" class="btn-red-outline" style="margin-top:8px;">Back to Home</a>
         </div>
@@ -585,7 +993,7 @@
       document.getElementById('submitSuccess').style.display = 'block';
 
       // In production: send data to your backend / WhatsApp / email API here
-      console.log('Bulk order submitted', { name, phone, date, address });
+      console.log('Order submitted', { name, phone, date, address });
     }
   </script>
 </body>
