@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       ADMIN PAGE — coupon management (owner only)
+
+       ⚠️ IMPORTANT FOR ANKIT — this page is UI ONLY right now.
+       Every fetch() call below points at a placeholder API route
+       that doesn't exist yet. Nothing here is secure until:
+         1. These routes are implemented server-side
+         2. /api/admin/login actually checks a password against a
+            database and returns a session token / sets a cookie
+         3. /api/coupons/* routes REQUIRE that valid session before
+            allowing add/edit/delete (never trust the browser)
+         4. The public-facing "Apply Coupon" button on menu.html /
+            bulk-order.html (already updated) calls
+            POST /api/coupons/validate — that route must do the
+            real validation server-side. The client only displays
+            the result it's given.
+
+       Suggested API contract:
+         POST /api/admin/login        { email, password } → { token }
+         GET  /api/coupons            (auth required)      → [{ id, code, type, value, minOrder, active }]
+         POST /api/coupons            (auth required)      { code, type, value, minOrder, active } → created coupon
+         PUT  /api/coupons/:id        (auth required)      { ...fields } → updated coupon
+         DELETE /api/coupons/:id      (auth required)      → 204
+         POST /api/coupons/validate   (public)              { code, orderTotal } → { valid, discount, message }
+       ============================================================ */
+
+    body { background: var(--dark); min-height: 100vh; }
+
+    .admin-shell { max-width: 720px; margin: 0 auto; padding: 60px 24px 100px; }
+
+    /* Login screen */
+    .login-wrap {
+      max-width: 380px; margin: 100px auto 0; background: #fff; border-radius: var(--rl);
+      padding: 36px 30px; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .login-wrap h2 { font-family: var(--fh); font-size: 1.5rem; font-weight: 700; color: #161616; margin-bottom: 6px; text-align: center; }
+    .login-wrap p.sub { font-size: .8rem; color: #888; text-align: center; margin-bottom: 24px; }
+    .admin-field { margin-bottom: 14px; }
+    .admin-field label { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: #888; margin-bottom: 5px; }
+    .admin-field input {
+      width: 100%; border: 1px solid rgba(0,0,0,.14); border-radius: var(--rs); padding: 11px 13px;
+      font-size: .85rem; font-family: var(--fb); color: #161616; background: #fafafa; outline: none;
+      transition: border-color .2s ease;
+    }
+    .admin-field input:focus { border-color: var(--red); }
+    .btn-admin { width: 100%; background: var(--red); color: #fff; border: none; padding: 13px; border-radius: var(--rs); font-size: .85rem; font-weight: 700; cursor: pointer; font-family: var(--fb); transition: background .2s ease; margin-top: 6px; }
+    .btn-admin:hover { background: var(--red2); }
+    .login-error { font-size: .78rem; color: var(--red); text-align: center; margin-top: 12px; display: none; }
+    .login-error.visible { display: block; }
+    .login-note { font-size: .7rem; color: #aaa; text-align: center; margin-top: 16px; line-height: 1.6; }
+
+    /* Dashboard */
+    .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .dash-header h1 { font-family: var(--fh); font-size: 1.7rem; font-weight: 700; color: #fff; }
+    .btn-logout { font-size: .76rem; color: var(--t2); border: 1px solid var(--b2); padding: 8px 16px; border-radius: var(--rp); transition: all var(--tr); background: none; cursor: pointer; }
+    .btn-logout:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+
+    .backend-warning {
+      background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.3); border-radius: var(--rm);
+      padding: 14px 18px; font-size: .78rem; color: #d4a017; line-height: 1.6; margin-bottom: 28px;
+    }
+    .backend-warning strong { color: #f5a623; }
+
+    .add-coupon-card { background: #fff; border-radius: var(--rl); padding: 24px 26px; margin-bottom: 24px; }
+    .add-coupon-card h3 { font-family: var(--fh); font-size: 1.15rem; font-weight: 700; color: #161616; margin-bottom: 16px; }
+    .coupon-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .coupon-form-grid .admin-field.span-2 { grid-column: 1 / -1; }
+    .admin-field select {
+      width: 100%; border: 1px solid rgba(0,0,0,.14); border-radius: var(--rs); padding: 11px 13px;
+      font-size: .85rem; font-family: var(--fb); color: #161616; background: #fafafa; outline: none;
+    }
+    .toggle-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+    .toggle-row input { width: 16px; height: 16px; }
+    .toggle-row label { font-size: .8rem; color: #161616; text-transform: none; letter-spacing: 0; font-weight: 600; }
+
+    .coupon-list { background: #fff; border-radius: var(--rl); overflow: hidden; }
+    .coupon-list-header { padding: 18px 22px; border-bottom: 1px solid rgba(0,0,0,.08); font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #888; }
+    .coupon-row-item {
+      display: flex; align-items: center; justify-content: space-between; padding: 16px 22px;
+      border-bottom: 1px solid rgba(0,0,0,.06); gap: 12px;
+    }
+    .coupon-row-item:last-child { border-bottom: none; }
+    .coupon-row-code { font-size: .92rem; font-weight: 800; color: #161616; }
+    .coupon-row-meta { font-size: .76rem; color: #888; margin-top: 2px; }
+    .coupon-row-status { font-size: .65rem; font-weight: 700; padding: 3px 9px; border-radius: var(--rp); text-transform: uppercase; letter-spacing: .3px; }
+    .coupon-row-status.active { background: rgba(46,125,50,.12); color: #2e7d32; }
+    .coupon-row-status.inactive { background: rgba(120,120,120,.14); color: #777; }
+    .coupon-row-actions { display: flex; gap: 8px; }
+    .icon-btn { background: none; border: none; cursor: pointer; color: #999; padding: 6px; border-radius: 6px; display: flex; transition: all .15s ease; }
+    .icon-btn:hover { background: rgba(0,0,0,.06); color: #161616; }
+    .icon-btn.danger:hover { background: rgba(192,57,43,.1); color: var(--red); }
+    .empty-list { text-align: center; padding: 40px 20px; color: #999; font-size: .85rem; }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div class="login-wrap" id="loginScreen">
+    <h2>Admin Login</h2>
+    <p class="sub">The Chinese Bliss — Coupon Manager</p>
+
+    <div class="admin-field">
+      <label>Email</label>
+      <input type="email" id="adminEmail" placeholder="owner@thechinesebliss.com" />
+    </div>
+    <div class="admin-field">
+      <label>Password</label>
+      <input type="password" id="adminPassword" placeholder="••••••••" />
+    </div>
+    <button class="btn-admin" id="btnLogin">Log In</button>
+    <p class="login-error" id="loginError">Invalid email or password.</p>
+
+    <p class="login-note">Access is restricted to the restaurant owner/admin.<br/>Contact Ankit if you've lost your credentials.</p>
+  </div>
+
+  <!-- DASHBOARD (hidden until login succeeds) -->
+  <div class="admin-shell" id="dashboard" style="display:none;">
+    <div class="dash-header">
+      <h1>Coupon Codes</h1>
+      <button class="btn-logout" id="btnLogout">Log Out</button>
+    </div>
+
+    <div class="backend-warning">
+      <strong>Heads up:</strong> this page's buttons are wired to call a backend API (see comments in the file), but that API doesn't exist yet. Nothing entered here is saved or affects real customers until Ankit builds the server-side endpoints and connects a database. Right now this is a working preview of the interface only.
+    </div>
+
+    <div class="add-coupon-card">
+      <h3>Add New Coupon</h3>
+      <div class="coupon-form-grid">
+        <div class="admin-field">
+          <label>Code</label>
+          <input type="text" id="newCode" placeholder="e.g. WELCOME10" style="text-transform:uppercase;" />
+        </div>
+        <div class="admin-field">
+          <label>Type</label>
+          <select id="newType">
+            <option value="percent">Percentage off</option>
+            <option value="flat">Flat amount off</option>
+          </select>
+        </div>
+        <div class="admin-field">
+          <label>Value</label>
+          <input type="number" id="newValue" placeholder="e.g. 10 (for 10% or ₹10)" min="0" />
+        </div>
+        <div class="admin-field">
+          <label>Minimum Order (optional)</label>
+          <input type="number" id="newMinOrder" placeholder="e.g. 500" min="0" />
+        </div>
+        <div class="admin-field span-2 toggle-row">
+          <input type="checkbox" id="newActive" checked />
+          <label for="newActive">Active immediately</label>
+        </div>
+      </div>
+      <button class="btn-admin" id="btnAddCoupon" style="margin-top:14px;">Add Coupon</button>
+    </div>
+
+    <div class="coupon-list">
+      <div class="coupon-list-header">All Coupons</div>
+      <div id="couponListBody">
+        <p class="empty-list">No coupons yet — add one above.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════════════════════
+    // ⚠️ PLACEHOLDER API LAYER — replace with real fetch() calls
+    // to Ankit's backend once it exists. Each function below is
+    // exactly where that wiring goes. Until then, this uses
+    // sessionStorage purely so the UI is demoable — this is NOT
+    // real persistence and NOT secure. Delete the sessionStorage
+    // fallback once the real API is connected.
+    // ══════════════════════════════════════════════════════════
+
+    async function apiLogin(email, password) {
+      // TODO (Ankit): replace with:
+      // const res = await fetch('/api/admin/login', {
+      //   method: 'POST', headers: {'Content-Type':'application/json'},
+      //   body: JSON.stringify({ email, password })
+      // });
+      // if (!res.ok) throw new Error('Invalid credentials');
+      // const { token } = await res.json();
+      // sessionStorage.setItem('adminToken', token);
+
+      // Placeholder demo behavior only:
+      if (email && password) {
+        sessionStorage.setItem('adminToken', 'demo-token');
+        return true;
+      }
+      throw new Error('Invalid credentials');
+    }
+
+    async function apiGetCoupons() {
+      // TODO (Ankit): replace with:
+      // const res = await fetch('/api/coupons', {
+      //   headers: { Authorization: 'Bearer ' + sessionStorage.getItem('adminToken') }
+      // });
+      // return res.json();
+      const raw = sessionStorage.getItem('demoCoupons');
+      return raw ? JSON.parse(raw) : [];
+    }
+
+    async function apiAddCoupon(coupon) {
+      // TODO (Ankit): replace with:
+      // await fetch('/api/coupons', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + sessionStorage.getItem('adminToken') },
+      //   body: JSON.stringify(coupon)
+      // });
+      const list = await apiGetCoupons();
+      coupon.id = Date.now().toString();
+      list.push(coupon);
+      sessionStorage.setItem('demoCoupons', JSON.stringify(list));
+    }
+
+    async function apiDeleteCoupon(id) {
+      // TODO (Ankit): replace with:
+      // await fetch('/api/coupons/' + id, {
+      //   method: 'DELETE',
+      //   headers: { Authorization: 'Bearer ' + sessionStorage.getItem('adminToken') }
+      // });
+      const list = await apiGetCoupons();
+      sessionStorage.setItem('demoCoupons', JSON.stringify(list.filter(c => c.id !== id)));
+    }
+
+    async function apiToggleCoupon(id) {
+      // TODO (Ankit): replace with a PUT /api/coupons/:id call
+      const list = await apiGetCoupons();
+      const updated = list.map(c => c.id === id ? { ...c, active: !c.active } : c);
+      sessionStorage.setItem('demoCoupons', JSON.stringify(updated));
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // UI wiring
+    // ══════════════════════════════════════════════════════════
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboard = document.getElementById('dashboard');
+
+    function showDashboard() {
+      loginScreen.style.display = 'none';
+      dashboard.style.display = 'block';
+      renderCouponList();
+    }
+
+    document.getElementById('btnLogin').addEventListener('click', async () => {
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const errorEl = document.getElementById('loginError');
+      try {
+        await apiLogin(email, password);
+        errorEl.classList.remove('visible');
+        showDashboard();
+      } catch (e) {
+        errorEl.classList.add('visible');
+      }
+    });
+
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      sessionStorage.removeItem('adminToken');
+      dashboard.style.display = 'none';
+      loginScreen.style.display = 'block';
+      document.getElementById('adminPassword').value = '';
+    });
+
+    document.getElementById('btnAddCoupon').addEventListener('click', async () => {
+      const code = document.getElementById('newCode').value.trim().toUpperCase();
+      const type = document.getElementById('newType').value;
+      const value = parseFloat(document.getElementById('newValue').value);
+      const minOrder = parseFloat(document.getElementById('newMinOrder').value) || 0;
+      const active = document.getElementById('newActive').checked;
+
+      if (!code) { alert('Enter a coupon code.'); return; }
+      if (!value || value <= 0) { alert('Enter a valid discount value.'); return; }
+
+      await apiAddCoupon({ code, type, value, minOrder, active });
+
+      document.getElementById('newCode').value = '';
+      document.getElementById('newValue').value = '';
+      document.getElementById('newMinOrder').value = '';
+      document.getElementById('newActive').checked = true;
+
+      renderCouponList();
+    });
+
+    async function renderCouponList() {
+      const list = await apiGetCoupons();
+      const body = document.getElementById('couponListBody');
+
+      if (list.length === 0) {
+        body.innerHTML = '<p class="empty-list">No coupons yet — add one above.</p>';
+        return;
+      }
+
+      body.innerHTML = list.map(c => `
+        <div class="coupon-row-item">
+          <div>
+            <div class="coupon-row-code">${c.code}</div>
+            <div class="coupon-row-meta">${c.type === 'percent' ? c.value + '% off' : '₹' + c.value + ' off'}${c.minOrder ? ' · min order ₹' + c.minOrder : ''}</div>
+          </div>
+          <span class="coupon-row-status ${c.active ? 'active' : 'inactive'}">${c.active ? 'Active' : 'Inactive'}</span>
+          <div class="coupon-row-actions">
+            <button class="icon-btn" onclick="handleToggle('${c.id}')" title="${c.active ? 'Deactivate' : 'Activate'}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </button>
+            <button class="icon-btn danger" onclick="handleDelete('${c.id}')" title="Delete">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function handleToggle(id) { await apiToggleCoupon(id); renderCouponList(); }
+    async function handleDelete(id) {
+      if (!confirm('Delete this coupon?')) return;
+      await apiDeleteCoupon(id);
+      renderCouponList();
+    }
+
+    // Auto-login if a demo session already exists (so refresh doesn't log you out)
+    if (sessionStorage.getItem('adminToken')) showDashboard();
+  </script>
+</body>
+</html>
