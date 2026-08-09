@@ -222,6 +222,18 @@
     }
     .dm-field input:focus, .dm-field textarea:focus { border-color: var(--red); }
     .dm-field textarea { resize: vertical; min-height: 60px; }
+    .dm-field input.invalid, .dm-field textarea.invalid { border-color: var(--red); background: #fdf3f2; }
+    .dm-field input.valid, .dm-field textarea.valid { border-color: #2e7d32; }
+
+    .field-error {
+      display: none; font-size: 0.72rem; color: var(--red); margin-top: 5px; font-weight: 600;
+    }
+    .field-error.visible { display: block; }
+    .field-hint-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .field-hint-row .field-error { margin-top: 5px; flex: 1; }
+    .field-counter { font-size: 0.7rem; color: #999; margin-top: 5px; white-space: nowrap; }
+    .field-counter.under { color: var(--red); }
+    .field-counter.ok { color: #2e7d32; }
 
     .summary-box { background: #f9f7f6; border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
     .summary-box-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #888; margin-bottom: 8px; }
@@ -479,8 +491,8 @@
         </div>
         <div class="dm-field">
           <label>Phone Number *</label>
-          <input type="tel" id="custPhone" placeholder="+91 00000 00000" />
-        </div>
+          <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
+          <p class="field-error" id="custPhoneError">Please enter a valid 10-digit phone number.</p>        </div>
         <div class="dm-field">
           <label>Event / Occasion</label>
           <input type="text" id="custEvent" placeholder="e.g. Corporate lunch, Birthday party" />
@@ -491,7 +503,11 @@
         </div>
         <div class="dm-field">
           <label>Delivery Address *</label>
-          <input type="text" id="custAddress" placeholder="Full address with landmark" />
+          <input type="text" id="custAddress" placeholder="Full address with landmark (min 25 characters)" maxlength="100" />
+          <div class="field-hint-row">
+            <p class="field-error" id="custAddressError">Address must be between 25 and 100 characters.</p>
+            <span class="field-counter" id="custAddressCounter">0 / 100</span>
+          </div>
         </div>
         <div class="dm-field">
           <label>Special Instructions</label>
@@ -736,6 +752,55 @@
       totalEl.textContent = '₹' + (subtotal - discount).toLocaleString('en-IN');
     }
 
+    // ── Live field validation ───────────────────────────────
+    const phoneInput = document.getElementById('custPhone');
+    const phoneError = document.getElementById('custPhoneError');
+    const addressInput = document.getElementById('custAddress');
+    const addressError = document.getElementById('custAddressError');
+    const addressCounter = document.getElementById('custAddressCounter');
+
+    function isValidPhone(value) {
+      return /^[0-9]{10}$/.test(value.trim());
+    }
+    function isValidAddress(value) {
+      const len = value.trim().length;
+      return len >= 25 && len <= 100;
+    }
+
+    // Phone: digits only, capped at 10 as they type
+    phoneInput.addEventListener('input', () => {
+      phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+      const valid = isValidPhone(phoneInput.value);
+      phoneInput.classList.toggle('invalid', phoneInput.value.length > 0 && !valid);
+      phoneInput.classList.toggle('valid', valid);
+      phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !valid);
+    });
+    phoneInput.addEventListener('blur', () => {
+      phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
+    });
+
+    // Address: live character counter + min/max validation
+    addressInput.addEventListener('input', () => {
+      const len = addressInput.value.length;
+      addressCounter.textContent = `${len} / 100`;
+      addressCounter.classList.remove('under', 'ok');
+      if (len === 0) {
+        addressInput.classList.remove('invalid', 'valid');
+        addressError.classList.remove('visible');
+      } else if (len < 25) {
+        addressCounter.classList.add('under');
+        addressInput.classList.add('invalid');
+        addressInput.classList.remove('valid');
+        addressError.textContent = `Address must be at least 25 characters (${25 - len} more needed).`;
+        addressError.classList.add('visible');
+      } else {
+        addressCounter.classList.add('ok');
+        addressInput.classList.remove('invalid');
+        addressInput.classList.add('valid');
+        addressError.classList.remove('visible');
+      }
+    });
+
     function finalTotal() {
       const subtotal = cartTotal(getCartItems());
       return subtotal - calcDiscount(subtotal);
@@ -743,14 +808,29 @@
 
     document.getElementById('btnPlaceOrder').addEventListener('click', () => {
       const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
+      const phone = phoneInput.value.trim();
       const date = document.getElementById('custDate').value;
-      const address = document.getElementById('custAddress').value.trim();
+      const address = addressInput.value.trim();
+      let firstInvalid = null;
 
-      if (!name)    { alert('Please enter your name.'); return; }
-      if (!phone)   { alert('Please enter your phone number.'); return; }
+      if (!name) { alert('Please enter your name.'); return; }
+
+      if (!isValidPhone(phone)) {
+        phoneInput.classList.add('invalid');
+        phoneError.classList.add('visible');
+        firstInvalid = firstInvalid || phoneInput;
+      }
+      if (!isValidAddress(address)) {
+        addressInput.classList.add('invalid');
+        addressError.classList.add('visible');
+        addressError.textContent = address.length < 25
+          ? `Address must be at least 25 characters (${25 - address.length} more needed).`
+          : 'Address must be 100 characters or fewer.';
+        firstInvalid = firstInvalid || addressInput;
+      }
+      if (firstInvalid) { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+
       if (!date)    { alert('Please select a delivery date and time.'); return; }
-      if (!address) { alert('Please enter your delivery address.'); return; }
 
       document.getElementById('payAmount').textContent = '₹' + finalTotal().toLocaleString('en-IN');
       showStep('stepPayment');
