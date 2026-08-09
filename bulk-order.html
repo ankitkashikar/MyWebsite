@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Chinese Bliss Delivery | Bulk &amp; Direct Orders</title>
+  <title>Bulk Order | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* NOTE: this page previously used undefined CSS variables
        (--warm-white, --charcoal, --black, --gray, --border,
-       --font-display, --font-body, --dark-red) which made dish
-       names render white-on-white (invisible) on the cards.
-       Fixed below to use the real tokens from style.css. */
+       --font-display, --font-body, --dark-red) causing invisible
+       white-on-white dish names, AND a sticky sidebar that didn't
+       fit the viewport on mobile/scroll. Both fixed below —
+       the order summary is now a fixed bottom cart bar + drawer,
+       same pattern as menu.html, instead of a tall sticky sidebar. */
 
     /* ── Page wrapper ── */
     .bulk-page {
       background: var(--dark);
       min-height: 100vh;
-      padding: 60px 24px 80px;
+      padding: 60px 24px 140px;
     }
 
     /* ── Hero strip ── */
@@ -69,18 +71,8 @@
       line-height: 1.7;
     }
 
-    /* ── Main two-col layout ── */
-    .bulk-layout {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 56px 0 0;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 48px;
-      align-items: start;
-    }
-
-    /* ── Menu section ── */
+    /* ── Menu section (single column now, no sidebar) ── */
+    .bulk-menu { max-width: 720px; margin: 0 auto; padding-top: 56px; }
     .bulk-menu h2 {
       font-family: var(--fh);
       font-size: 1.8rem;
@@ -94,24 +86,11 @@
       margin-bottom: 28px;
     }
 
-    .menu-category { margin-bottom: 32px; }
-    .menu-category-title {
-      font-family: var(--fh);
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #fff;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--red);
-      display: inline-block;
-      margin-bottom: 14px;
-      letter-spacing: 0.2px;
-    }
-
     .menu-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 16px;
+      padding: 16px 18px;
       border-radius: 10px;
       background: #fff;
       margin-bottom: 10px;
@@ -130,217 +109,168 @@
     .diet-dot.nonveg::after { background: #a33; }
 
     .menu-row-info { min-width: 0; flex: 1; }
-    .menu-row-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #161616;
-      margin-bottom: 2px;
-    }
-    .menu-row-desc { font-size: 0.76rem; color: #7a7a7a; line-height: 1.45; margin-bottom: 4px; }
-    .menu-row-price {
-      font-size: 0.78rem;
-      color: var(--red);
-      font-weight: 700;
-    }
-    .menu-row-badges { display: flex; gap: 5px; margin-top: 4px; flex-wrap: wrap; }
+    .menu-row-name { font-size: 0.92rem; font-weight: 700; color: #161616; margin-bottom: 2px; }
+    .menu-row-desc { font-size: 0.77rem; color: #7a7a7a; line-height: 1.45; margin-bottom: 4px; }
+    .menu-row-price { font-size: 0.8rem; color: var(--red); font-weight: 700; }
+    .menu-row-badges { display: flex; gap: 5px; margin-bottom: 4px; flex-wrap: wrap; }
     .badge {
       font-size: 0.6rem; font-weight: 700; padding: 3px 8px; border-radius: 999px;
       letter-spacing: 0.3px; text-transform: uppercase;
     }
     .badge-veg { background: rgba(46,125,50,.12); color: #2e7d32; }
     .badge-hot { background: rgba(192,57,43,.12); color: var(--red); }
-    .badge-gf { background: rgba(120,120,120,.14); color: #555; }
-    .badge-vegan { background: rgba(46,125,50,.12); color: #2e7d32; }
     .badge-bestseller { background: rgba(245,166,35,.15); color: #b8790a; }
 
     /* Quantity stepper */
     .qty-stepper {
-      display: flex;
-      align-items: center;
-      border: 1px solid rgba(0,0,0,.12);
-      border-radius: 8px;
-      overflow: hidden;
-      flex-shrink: 0;
+      display: flex; align-items: center; border: 1px solid rgba(0,0,0,.12);
+      border-radius: 8px; overflow: hidden; flex-shrink: 0;
     }
     .qty-btn {
-      width: 32px;
-      height: 32px;
-      background: #f5f5f5;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: #161616;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s ease;
-      font-family: var(--fb);
+      width: 32px; height: 32px; background: #f5f5f5; border: none; cursor: pointer;
+      font-size: 1.1rem; color: #161616; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s ease; font-family: var(--fb);
     }
     .qty-btn:hover { background: rgba(192,57,43,0.08); color: var(--red); }
     .qty-display {
-      width: 36px;
-      height: 32px;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 700;
-      border: none;
-      border-left: 1px solid rgba(0,0,0,.12);
-      border-right: 1px solid rgba(0,0,0,.12);
-      background: #fff;
-      color: #161616;
-      font-family: var(--fb);
-      outline: none;
+      width: 36px; height: 32px; text-align: center; font-size: 0.85rem; font-weight: 700;
+      border: none; border-left: 1px solid rgba(0,0,0,.12); border-right: 1px solid rgba(0,0,0,.12);
+      background: #fff; color: #161616; font-family: var(--fb); outline: none;
     }
 
-    /* ── Order summary sidebar ── */
-    .bulk-form-wrap {
-      position: sticky;
-      top: 100px;
+    /* ══════════════════════════════════════════════════════
+       FIXED CART BAR — replaces the old sticky sidebar
+       ══════════════════════════════════════════════════════ */
+    .cart-bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 400;
+      display: none; justify-content: center;
+      padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(10,10,10,1) 30%, transparent 100%);
     }
-    .bulk-form {
-      background: #fff;
-      border-radius: 16px;
-      padding: 32px 28px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    .cart-bar.visible { display: flex; }
+    .cart-bar-inner {
+      width: 100%; max-width: 480px; background: var(--red); border-radius: 999px;
+      padding: 12px 10px 12px 22px; display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.55); cursor: pointer; transition: transform .2s ease;
     }
-    .bulk-form h3 {
-      font-family: var(--fh);
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: #161616;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(0,0,0,.1);
-    }
-
-    /* Order summary list */
-    .order-summary {
-      min-height: 60px;
-      margin-bottom: 20px;
-      max-height: 280px;
-      overflow-y: auto;
-    }
-    .summary-empty {
-      font-size: 0.82rem;
-      color: rgba(0,0,0,0.3);
-      text-align: center;
-      padding: 20px 0;
-      font-style: italic;
-    }
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(0,0,0,.08);
-      color: #161616;
-      gap: 8px;
-    }
-    .summary-item-name { flex: 1; }
-    .summary-item-qty { color: var(--red); font-weight: 700; white-space: nowrap; }
-    .summary-total {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.92rem;
-      font-weight: 700;
-      padding: 12px 0 0;
-      color: #161616;
-      margin-top: 4px;
-    }
-    .summary-total span:last-child { color: var(--red); }
-
-    /* Form fields */
-    .bulk-fields { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-    .bulk-field label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 5px;
-    }
-    .bulk-field input,
-    .bulk-field select,
-    .bulk-field textarea {
-      width: 100%;
-      border: 1px solid rgba(0,0,0,.14);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 0.85rem;
-      font-family: var(--fb);
-      color: #161616;
-      background: #fafafa;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-    .bulk-field input:focus,
-    .bulk-field select:focus,
-    .bulk-field textarea:focus { border-color: var(--red); }
-    .bulk-field textarea { resize: vertical; min-height: 70px; }
-
-    .btn-bulk-submit {
-      width: 100%;
-      background: var(--red);
-      color: #fff;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: var(--fb);
-      transition: background 0.25s ease;
-      margin-top: 16px;
-      letter-spacing: 0.3px;
-    }
-    .btn-bulk-submit:hover { background: var(--red2); }
-
-    .bulk-note {
-      font-size: 0.72rem;
-      color: #888;
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.5;
+    .cart-bar-inner:hover { transform: translateY(-2px); }
+    .cart-bar-info { display: flex; flex-direction: column; color: #fff; }
+    .cart-bar-count { font-size: 0.72rem; opacity: .85; font-weight: 600; }
+    .cart-bar-total { font-size: 1rem; font-weight: 800; }
+    .cart-bar-cta {
+      background: rgba(255,255,255,.18); color: #fff; font-size: .82rem; font-weight: 700;
+      padding: 11px 20px; border-radius: 999px; display: flex; align-items: center; gap: 6px; white-space: nowrap;
     }
 
-    /* Success message */
-    .submit-success {
-      display: none;
-      text-align: center;
-      padding: 24px 16px;
+    /* ══════════════════════════════════════════════════════
+       CHECKOUT DRAWER
+       ══════════════════════════════════════════════════════ */
+    .drawer-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 500;
+      display: none; opacity: 0; transition: opacity .25s ease;
     }
-    .submit-success .success-icon {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
+    .drawer-backdrop.open { display: block; opacity: 1; }
+
+    .drawer {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 501;
+      max-width: 520px; margin: 0 auto; background: #fff; border-radius: 22px 22px 0 0;
+      max-height: 88vh; display: flex; flex-direction: column;
+      transform: translateY(100%); transition: transform .3s cubic-bezier(.25,.46,.45,.94);
     }
-    .submit-success h4 {
-      font-family: var(--fh);
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #161616;
+    .drawer.open { transform: translateY(0); }
+    .drawer-handle { width: 40px; height: 4px; background: rgba(0,0,0,.15); border-radius: 2px; margin: 12px auto 4px; flex-shrink: 0; }
+    .drawer-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 22px 12px; border-bottom: 1px solid rgba(0,0,0,.08); flex-shrink: 0;
     }
-    .submit-success p {
-      font-size: 0.82rem;
-      color: #888;
-      line-height: 1.6;
+    .drawer-header h3 { font-family: var(--fh); font-size: 1.25rem; font-weight: 700; color: #161616; }
+    .drawer-back, .drawer-close {
+      background: none; border: none; cursor: pointer; color: #888; padding: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .drawer-back:hover, .drawer-close:hover { color: #161616; }
+    .drawer-back { display: none; }
+    .drawer-body { padding: 18px 22px 22px; overflow-y: auto; flex: 1; }
+    .drawer-step { display: none; }
+    .drawer-step.active { display: block; }
+
+    .cart-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,.07); }
+    .cart-line-name { font-size: 0.87rem; font-weight: 700; color: #161616; }
+    .cart-line-price { font-size: 0.76rem; color: #888; margin-top: 2px; }
+    .cart-line-sub { font-size: 0.85rem; font-weight: 700; color: var(--red); white-space: nowrap; }
+    .cart-empty-msg { text-align: center; padding: 32px 10px; color: #999; font-size: 0.85rem; }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0 6px; font-size: 0.95rem; font-weight: 800; color: #161616; }
+    .cart-total-row span:last-child { color: var(--red); }
+
+    .btn-drawer-primary {
+      width: 100%; background: var(--red); color: #fff; border: none; padding: 15px;
+      border-radius: 8px; font-size: 0.88rem; font-weight: 700; cursor: pointer;
+      font-family: var(--fb); transition: background .25s ease; margin-top: 16px;
+    }
+    .btn-drawer-primary:hover { background: var(--red2); }
+    .btn-drawer-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+    .dm-field { margin-bottom: 13px; }
+    .dm-field label {
+      display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: .4px;
+      text-transform: uppercase; color: #888; margin-bottom: 5px;
+    }
+    .dm-field input, .dm-field textarea {
+      width: 100%; border: 1px solid rgba(0,0,0,.14); border-radius: 8px; padding: 11px 13px;
+      font-size: 0.85rem; font-family: var(--fb); color: #161616; background: #fafafa; outline: none;
+      transition: border-color .2s ease;
+    }
+    .dm-field input:focus, .dm-field textarea:focus { border-color: var(--red); }
+    .dm-field textarea { resize: vertical; min-height: 60px; }
+
+    .summary-box { background: #f9f7f6; border-radius: 10px; padding: 14px 16px; margin-top: 18px; }
+    .summary-box-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #888; margin-bottom: 8px; }
+    .summary-box-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: #161616; padding: 4px 0; }
+    .summary-box-total { display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 800; color: #161616; padding-top: 8px; margin-top: 6px; border-top: 1px solid rgba(0,0,0,.08); }
+    .summary-box-total span:last-child { color: var(--red); }
+
+    .pay-amount { text-align: center; padding: 6px 0 20px; }
+    .pay-amount-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: .4px; }
+    .pay-amount-value { font-family: var(--fh); font-size: 2.2rem; font-weight: 800; color: #161616; margin-top: 4px; }
+    .qr-box {
+      width: 220px; height: 220px; margin: 0 auto 18px; background: #f5f5f5; border: 1.5px dashed rgba(0,0,0,.18);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-direction: column;
+      gap: 8px; color: #999; font-size: 0.78rem; text-align: center; padding: 16px;
+    }
+    .qr-box svg { opacity: .35; }
+    .pay-note { font-size: 0.76rem; color: #888; text-align: center; line-height: 1.6; margin-top: 6px; }
+    .pay-upi { text-align: center; font-size: 0.82rem; color: #161616; font-weight: 700; margin-top: 10px; }
+
+    .success-step { text-align: center; padding: 20px 6px; }
+    .success-icon { font-size: 2.6rem; margin-bottom: 12px; }
+    .success-step h4 { font-family: var(--fh); font-size: 1.35rem; font-weight: 700; color: #161616; margin-bottom: 8px; }
+    .success-step p { font-size: 0.83rem; color: #888; line-height: 1.6; }
+    .btn-drawer-secondary {
+      display: inline-block; margin-top: 18px; color: var(--red); font-weight: 700; font-size: 0.82rem;
+      border: 1px solid rgba(192,57,43,.3); padding: 10px 22px; border-radius: 999px;
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-      .bulk-layout { grid-template-columns: 1fr; }
-      .bulk-form-wrap { position: static; }
-    }
     @media (max-width: 600px) {
-      .bulk-page { padding: 40px 16px 60px; }
+      .bulk-page { padding: 40px 16px 130px; }
       .bulk-hero { padding: 44px 20px 36px; }
-      .menu-row { flex-wrap: wrap; }
+      .bulk-menu { padding-top: 40px; }
+      .drawer { max-height: 92vh; border-radius: 18px 18px 0 0; }
     }
   </style>
 </head>
 <body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="bulk-order.html">Place Your Bulk Order Now</a>
+    <a href="#" class="top-bar-login">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Log In
+    </a>
+  </div>
 
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
@@ -348,7 +278,7 @@
       <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
     </a>
     <nav class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="index.html">About</a>
       <a href="menu.html">Menu</a>
       <a href="index.html#contact">Contact</a>
       <a href="experiences.html">Experiences</a>
@@ -363,7 +293,7 @@
 
   <!-- MOBILE NAV -->
   <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">Home</a>
+    <a href="index.html">About</a>
     <a href="menu.html">Menu</a>
     <a href="index.html#contact">Contact</a>
     <a href="experiences.html">Experiences</a>
@@ -376,523 +306,202 @@
   <div class="bulk-hero">
     <div class="bulk-hero-inner">
       <span class="pre-label">The Chinese Bliss</span>
-      <h1>The Chinese Bliss Delivery</h1>
-      <p>Full menu, delivered fresh · Order for yourself, or catering for events, offices &amp; parties</p>
+      <h1>Bulk Order Form</h1>
+      <p>Catering for events, offices &amp; parties · Minimum order 10 persons · We deliver fresh</p>
     </div>
   </div>
 
   <!-- MAIN CONTENT -->
   <div class="bulk-page">
-    <div class="bulk-layout">
+    <div class="bulk-menu">
+      <h2>Select Your Items</h2>
+      <p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom.</p>
 
-      <!-- LEFT: Full menu with quantity steppers -->
-      <div class="bulk-menu">
-        <h2>Select Your Items</h2>
-        <p class="bulk-menu-sub">Add quantities next to each dish. Your order summary updates in real time →</p>
-
-        <!-- SOUPS -->
-        <div class="menu-category">
-          <div class="menu-category-title">Soups</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="150">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹150</div>
-                <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus" aria-label="Decrease">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus" aria-label="Increase">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="150">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹150</div>
-                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="150">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹150</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="150">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹150</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
+      <div class="menu-row" data-item="Dish Name" data-price="150">
+        <div class="menu-row-left">
+          <span class="diet-dot"></span>
+          <div class="menu-row-info">
+            <div class="menu-row-name">Dish Name</div>
+            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
+            <div class="menu-row-price">₹150.00 per person</div>
           </div>
         </div>
+        <div class="qty-stepper">
+          <button class="qty-btn qty-minus" aria-label="Decrease">−</button>
+          <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+          <button class="qty-btn qty-plus" aria-label="Increase">+</button>
+        </div>
+      </div>
 
-        <!-- STARTERS -->
-        <div class="menu-category">
-          <div class="menu-category-title">Starters</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
+      <div class="menu-row" data-item="Dish Name" data-price="180">
+        <div class="menu-row-left">
+          <span class="diet-dot nonveg"></span>
+          <div class="menu-row-info">
+            <div class="menu-row-name">Dish Name</div>
+            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+            <div class="menu-row-price">₹180.00 per person</div>
           </div>
         </div>
+        <div class="qty-stepper">
+          <button class="qty-btn qty-minus">−</button>
+          <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+          <button class="qty-btn qty-plus">+</button>
+        </div>
+      </div>
 
-        <!-- MOMOS & DUMPLINGS -->
-        <div class="menu-category">
-          <div class="menu-category-title">Momos &amp; Dumplings</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="170">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹170</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="170">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹170</div>
-                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="170">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹170</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="170">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹170</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
+      <div class="menu-row" data-item="Dish Name" data-price="190">
+        <div class="menu-row-left">
+          <span class="diet-dot"></span>
+          <div class="menu-row-info">
+            <div class="menu-row-name">Dish Name</div>
+            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
+            <div class="menu-row-price">₹190.00 per person</div>
           </div>
         </div>
+        <div class="qty-stepper">
+          <button class="qty-btn qty-minus">−</button>
+          <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+          <button class="qty-btn qty-plus">+</button>
+        </div>
+      </div>
 
-        <!-- NOODLES -->
-        <div class="menu-category">
-          <div class="menu-category-title">Noodles</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="190">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹190</div>
-                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="190">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹190</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="190">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹190</div>
-                <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="190">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹190</div>
-                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
+      <div class="menu-row" data-item="Dish Name" data-price="200">
+        <div class="menu-row-left">
+          <span class="diet-dot nonveg"></span>
+          <div class="menu-row-info">
+            <div class="menu-row-name">Dish Name</div>
+            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-badges"></div>
+            <div class="menu-row-price">₹200.00 per person</div>
           </div>
         </div>
+        <div class="qty-stepper">
+          <button class="qty-btn qty-minus">−</button>
+          <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+          <button class="qty-btn qty-plus">+</button>
+        </div>
+      </div>
 
-        <!-- FRIED RICE -->
-        <div class="menu-category">
-          <div class="menu-category-title">Fried Rice</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="180">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹180</div>
-                <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
+      <div class="menu-row" data-item="Dish Name" data-price="280">
+        <div class="menu-row-left">
+          <span class="diet-dot"></span>
+          <div class="menu-row-info">
+            <div class="menu-row-name">Dish Name</div>
+            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+            <div class="menu-row-price">₹280.00 per person</div>
           </div>
         </div>
+        <div class="qty-stepper">
+          <button class="qty-btn qty-minus">−</button>
+          <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
+          <button class="qty-btn qty-plus">+</button>
+        </div>
+      </div>
 
-        <!-- MANCHURIAN & CHILLI -->
-        <div class="menu-category">
-          <div class="menu-category-title">Manchurian &amp; Chilli Specials</div>
+    </div>
+  </div>
 
-          <div class="menu-row" data-item="Dish Name" data-price="210">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹210</div>
-                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span> <span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
+  <!-- FIXED CART BAR -->
+  <div class="cart-bar" id="cartBar">
+    <div class="cart-bar-inner" id="cartBarInner">
+      <div class="cart-bar-info">
+        <span class="cart-bar-count" id="cartBarCount">0 items</span>
+        <span class="cart-bar-total" id="cartBarTotal">₹0</span>
+      </div>
+      <span class="cart-bar-cta">
+        View Order
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </div>
+  </div>
 
-          <div class="menu-row" data-item="Dish Name" data-price="210">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹210</div>
-                <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
+  <!-- CHECKOUT DRAWER -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <button class="drawer-back" id="drawerBack">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <h3 id="drawerTitle">Your Order</h3>
+      <button class="drawer-close" id="drawerClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
 
-          <div class="menu-row" data-item="Dish Name" data-price="210">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹210</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
+    <div class="drawer-body">
+
+      <!-- STEP 1: Cart review -->
+      <div class="drawer-step active" id="stepCart">
+        <div id="cartLines"></div>
+        <div class="cart-total-row" id="cartTotalRow" style="display:none;">
+          <span>Total</span><span id="cartTotalValue">₹0</span>
+        </div>
+        <button class="btn-drawer-primary" id="btnToAddress">Proceed to Checkout</button>
+      </div>
+
+      <!-- STEP 2: Details + Summary -->
+      <div class="drawer-step" id="stepAddress">
+        <div class="dm-field">
+          <label>Your Name *</label>
+          <input type="text" id="custName" placeholder="Full name" />
+        </div>
+        <div class="dm-field">
+          <label>Phone Number *</label>
+          <input type="tel" id="custPhone" placeholder="+91 00000 00000" />
+        </div>
+        <div class="dm-field">
+          <label>Event / Occasion</label>
+          <input type="text" id="custEvent" placeholder="e.g. Corporate lunch, Birthday party" />
+        </div>
+        <div class="dm-field">
+          <label>Delivery Date &amp; Time *</label>
+          <input type="datetime-local" id="custDate" />
+        </div>
+        <div class="dm-field">
+          <label>Delivery Address *</label>
+          <input type="text" id="custAddress" placeholder="Full address with landmark" />
+        </div>
+        <div class="dm-field">
+          <label>Special Instructions</label>
+          <textarea id="custNotes" placeholder="Allergies, spice level, packaging preferences..."></textarea>
         </div>
 
-        <!-- COMBO MEALS -->
-        <div class="menu-category">
-          <div class="menu-category-title">Combo Meals</div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="280">
-            <div class="menu-row-left">
-              <span class="diet-dot"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹280</div>
-                <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
-
-          <div class="menu-row" data-item="Dish Name" data-price="280">
-            <div class="menu-row-left">
-              <span class="diet-dot nonveg"></span>
-              <div class="menu-row-info">
-                <div class="menu-row-name">Dish Name</div>
-                <div class="menu-row-desc">Add-ons &amp; description go here</div>
-                <div class="menu-row-price">₹280</div>
-                <div class="menu-row-badges"></div>
-              </div>
-            </div>
-            <div class="qty-stepper">
-              <button class="qty-btn qty-minus">−</button>
-              <input class="qty-display" type="number" value="0" min="0" max="500" readonly />
-              <button class="qty-btn qty-plus">+</button>
-            </div>
-          </div>
+        <div class="summary-box" id="summaryBox">
+          <div class="summary-box-title">Order Summary</div>
+          <div id="summaryBoxItems"></div>
+          <div class="summary-box-total"><span>Total</span><span id="summaryBoxTotal">₹0</span></div>
         </div>
 
-      </div><!-- end bulk-menu -->
+        <button class="btn-drawer-primary" id="btnPlaceOrder">Place Order</button>
+      </div>
 
-      <!-- RIGHT: Sticky order form -->
-      <div class="bulk-form-wrap">
-        <div class="bulk-form" id="bulkForm">
-          <h3>Your Order Summary</h3>
-
-          <div class="order-summary" id="orderSummary">
-            <p class="summary-empty" id="summaryEmpty">No items selected yet. Add quantities from the menu →</p>
-          </div>
-
-          <div class="summary-total" id="summaryTotal" style="display:none;">
-            <span>Estimated Total</span>
-            <span id="totalPrice">₹0</span>
-          </div>
-
-          <div class="bulk-fields">
-            <div class="bulk-field">
-              <label>Your Name *</label>
-              <input type="text" id="clientName" placeholder="Full name" required />
-            </div>
-            <div class="bulk-field">
-              <label>Phone Number *</label>
-              <input type="tel" id="clientPhone" placeholder="+91 00000 00000" required />
-            </div>
-            <div class="bulk-field">
-              <label>Email Address</label>
-              <input type="email" id="clientEmail" placeholder="you@example.com" />
-            </div>
-            <div class="bulk-field">
-              <label>Event / Occasion</label>
-              <input type="text" id="clientEvent" placeholder="e.g. Corporate lunch, Birthday party (optional for regular orders)" />
-            </div>
-            <div class="bulk-field">
-              <label>Delivery Date &amp; Time *</label>
-              <input type="datetime-local" id="clientDate" required />
-            </div>
-            <div class="bulk-field">
-              <label>Delivery Address *</label>
-              <input type="text" id="clientAddress" placeholder="Full address with landmark" required />
-            </div>
-            <div class="bulk-field">
-              <label>Special Instructions</label>
-              <textarea id="clientNotes" placeholder="Allergies, spice level, packaging preferences..."></textarea>
-            </div>
-          </div>
-
-          <button class="btn-bulk-submit" id="submitBtn" onclick="submitBulkOrder()">
-            Send Order Request
-          </button>
-          <p class="bulk-note">We'll call you shortly to confirm your order &amp; finalise pricing.</p>
+      <!-- STEP 3: Payment -->
+      <div class="drawer-step" id="stepPayment">
+        <div class="pay-amount">
+          <div class="pay-amount-label">Amount to Pay</div>
+          <div class="pay-amount-value" id="payAmount">₹0</div>
         </div>
+        <div class="qr-box">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 14h3v3M14 18h3v3M18 21h3v-3"/></svg>
+          <span>UPI QR code goes here<br/>(replace with your real QR image)</span>
+        </div>
+        <div class="pay-upi">UPI ID: yourbusiness@upi</div>
+        <p class="pay-note">Scan &amp; pay using any UPI app, then tap below.<br/>Real payment verification needs a backend/payment gateway — this button currently just confirms the order.</p>
+        <button class="btn-drawer-primary" id="btnConfirmPayment">I've Completed Payment</button>
+      </div>
 
-        <!-- Success state -->
-        <div class="submit-success" id="submitSuccess">
+      <!-- STEP 4: Success -->
+      <div class="drawer-step" id="stepSuccess">
+        <div class="success-step">
           <div class="success-icon">🎉</div>
           <h4>Order Request Sent!</h4>
           <p>Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
-          <br/>
-          <a href="index.html" class="btn-red-outline" style="margin-top:8px;">Back to Home</a>
+          <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
         </div>
       </div>
 
@@ -901,88 +510,144 @@
 
   <script src="script.js"></script>
   <script>
-    // ── Quantity steppers ──────────────────────────────────
+    // ── Cart state ──────────────────────────────────────────
+    function getCartItems() {
+      const items = [];
+      document.querySelectorAll('.menu-row').forEach(row => {
+        const qty = parseInt(row.querySelector('.qty-display').value);
+        if (qty > 0) {
+          items.push({ name: row.dataset.item, price: parseInt(row.dataset.price), qty: qty });
+        }
+      });
+      return items;
+    }
+    function cartTotal(items) { return items.reduce((sum, i) => sum + i.price * i.qty, 0); }
+    function cartCount(items) { return items.reduce((sum, i) => sum + i.qty, 0); }
+
+    // ── Quantity steppers ───────────────────────────────────
     document.querySelectorAll('.menu-row').forEach(row => {
       const minus = row.querySelector('.qty-minus');
       const plus  = row.querySelector('.qty-plus');
       const input = row.querySelector('.qty-display');
-
-      plus.addEventListener('click', () => {
-        input.value = parseInt(input.value) + 1;
-        updateSummary();
-      });
-
+      plus.addEventListener('click', () => { input.value = parseInt(input.value) + 1; refreshCartBar(); });
       minus.addEventListener('click', () => {
         const current = parseInt(input.value);
-        if (current > 0) { input.value = current - 1; updateSummary(); }
+        if (current > 0) { input.value = current - 1; refreshCartBar(); }
       });
     });
 
-    // ── Build order summary ────────────────────────────────
-    function updateSummary() {
-      const summaryEl   = document.getElementById('orderSummary');
-      const emptyEl     = document.getElementById('summaryEmpty');
-      const totalRow    = document.getElementById('summaryTotal');
-      const totalPriceEl = document.getElementById('totalPrice');
-
-      const rows = document.querySelectorAll('.menu-row');
-      let html  = '';
-      let total = 0;
-      let count = 0;
-
-      rows.forEach(row => {
-        const qty   = parseInt(row.querySelector('.qty-display').value);
-        const name  = row.dataset.item;
-        const price = parseInt(row.dataset.price);
-        if (qty > 0) {
-          const subtotal = qty * price;
-          total += subtotal;
-          count++;
-          html += `
-            <div class="summary-item">
-              <span class="summary-item-name">${name}</span>
-              <span class="summary-item-qty">×${qty} — ₹${subtotal}</span>
-            </div>`;
-        }
-      });
-
-      if (count === 0) {
-        emptyEl.style.display = 'block';
-        totalRow.style.display = 'none';
-        summaryEl.innerHTML = '';
-        summaryEl.appendChild(emptyEl);
+    // ── Fixed cart bar ──────────────────────────────────────
+    const cartBar = document.getElementById('cartBar');
+    function refreshCartBar() {
+      const items = getCartItems();
+      const count = cartCount(items);
+      const total = cartTotal(items);
+      if (count > 0) {
+        cartBar.classList.add('visible');
+        document.getElementById('cartBarCount').textContent = count + (count === 1 ? ' item' : ' items');
+        document.getElementById('cartBarTotal').textContent = '₹' + total.toLocaleString('en-IN');
       } else {
-        emptyEl.style.display = 'none';
-        summaryEl.innerHTML = html;
-        totalRow.style.display = 'flex';
-        totalPriceEl.textContent = '₹' + total.toLocaleString('en-IN');
+        cartBar.classList.remove('visible');
       }
     }
+    document.getElementById('cartBarInner').addEventListener('click', () => openDrawer('stepCart'));
 
-    // ── Submit handler ─────────────────────────────────────
-    function submitBulkOrder() {
-      const name    = document.getElementById('clientName').value.trim();
-      const phone   = document.getElementById('clientPhone').value.trim();
-      const date    = document.getElementById('clientDate').value;
-      const address = document.getElementById('clientAddress').value.trim();
+    // ── Drawer + step navigation ─────────────────────────────
+    const drawer = document.getElementById('drawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const drawerBack = document.getElementById('drawerBack');
+    const steps = ['stepCart', 'stepAddress', 'stepPayment', 'stepSuccess'];
+    const titles = { stepCart: 'Your Order', stepAddress: 'Delivery Details', stepPayment: 'Payment', stepSuccess: 'Order Confirmed' };
+    const backTargets = { stepAddress: 'stepCart', stepPayment: 'stepAddress' };
+
+    function openDrawer(step) { renderCartStep(); showStep(step); drawer.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeDrawer() { drawer.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow = ''; }
+    function showStep(step) {
+      steps.forEach(s => document.getElementById(s).classList.toggle('active', s === step));
+      drawerTitle.textContent = titles[step];
+      drawerBack.style.display = backTargets[step] ? 'flex' : 'none';
+      drawerBack.dataset.target = backTargets[step] || '';
+    }
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    drawerBack.addEventListener('click', () => { if (drawerBack.dataset.target) showStep(drawerBack.dataset.target); });
+
+    // ── STEP 1: Cart ──────────────────────────────────────
+    function renderCartStep() {
+      const items = getCartItems();
+      const linesEl = document.getElementById('cartLines');
+      const totalRow = document.getElementById('cartTotalRow');
+      const totalVal = document.getElementById('cartTotalValue');
+      const btnNext = document.getElementById('btnToAddress');
+
+      if (items.length === 0) {
+        linesEl.innerHTML = '<p class="cart-empty-msg">Your order is empty. Add some dishes from the menu!</p>';
+        totalRow.style.display = 'none';
+        btnNext.disabled = true;
+        return;
+      }
+      btnNext.disabled = false;
+      totalRow.style.display = 'flex';
+      let html = '';
+      items.forEach(i => {
+        html += `<div class="cart-line"><div><div class="cart-line-name">${i.name}</div><div class="cart-line-price">${i.qty} × ₹${i.price}</div></div><div class="cart-line-sub">₹${i.qty * i.price}</div></div>`;
+      });
+      linesEl.innerHTML = html;
+      totalVal.textContent = '₹' + cartTotal(items).toLocaleString('en-IN');
+    }
+
+    document.getElementById('btnToAddress').addEventListener('click', () => {
+      if (getCartItems().length === 0) return;
+      renderSummaryBox();
+      showStep('stepAddress');
+    });
+
+    // ── STEP 2: Details + Summary ─────────────────────────────
+    function renderSummaryBox() {
+      const items = getCartItems();
+      const itemsEl = document.getElementById('summaryBoxItems');
+      const totalEl = document.getElementById('summaryBoxTotal');
+      let html = '';
+      items.forEach(i => { html += `<div class="summary-box-item"><span>${i.name} ×${i.qty}</span><span>₹${i.qty * i.price}</span></div>`; });
+      itemsEl.innerHTML = html;
+      totalEl.textContent = '₹' + cartTotal(items).toLocaleString('en-IN');
+    }
+
+    document.getElementById('btnPlaceOrder').addEventListener('click', () => {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const date = document.getElementById('custDate').value;
+      const address = document.getElementById('custAddress').value.trim();
 
       if (!name)    { alert('Please enter your name.'); return; }
       if (!phone)   { alert('Please enter your phone number.'); return; }
       if (!date)    { alert('Please select a delivery date and time.'); return; }
       if (!address) { alert('Please enter your delivery address.'); return; }
 
-      // Check at least one item selected
-      const hasItems = [...document.querySelectorAll('.qty-display')]
-        .some(input => parseInt(input.value) > 0);
-      if (!hasItems) { alert('Please select at least one item from the menu.'); return; }
+      document.getElementById('payAmount').textContent = '₹' + cartTotal(getCartItems()).toLocaleString('en-IN');
+      showStep('stepPayment');
+    });
 
-      // Hide form, show success
-      document.getElementById('bulkForm').style.display = 'none';
-      document.getElementById('submitSuccess').style.display = 'block';
+    // ── STEP 3: Payment ───────────────────────────────────────
+    document.getElementById('btnConfirmPayment').addEventListener('click', () => {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const event = document.getElementById('custEvent').value.trim();
+      const date = document.getElementById('custDate').value;
+      const address = document.getElementById('custAddress').value.trim();
+      const notes = document.getElementById('custNotes').value.trim();
+      const items = getCartItems();
 
-      // In production: send data to your backend / WhatsApp / email API here
-      console.log('Order submitted', { name, phone, date, address });
-    }
+      // In production: send this to your backend / WhatsApp / email / payment API
+      console.log('Bulk order placed', { name, phone, event, date, address, notes, items, total: cartTotal(items) });
+
+      showStep('stepSuccess');
+      setTimeout(() => {
+        document.querySelectorAll('.qty-display').forEach(i => i.value = 0);
+        refreshCartBar();
+      }, 400);
+    });
   </script>
 </body>
 </html>
