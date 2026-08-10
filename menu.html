@@ -311,8 +311,50 @@
     }
     .summary-box-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#888;margin-bottom:8px}
     .summary-box-item{display:flex;justify-content:space-between;font-size:.8rem;color:#161616;padding:4px 0}
+    .summary-box-discount{display:flex;justify-content:space-between;font-size:.8rem;color:#2e7d32;padding:4px 0;font-weight:700}
     .summary-box-total{display:flex;justify-content:space-between;font-size:.88rem;font-weight:800;color:#161616;padding-top:8px;margin-top:6px;border-top:1px solid rgba(0,0,0,.08)}
     .summary-box-total span:last-child{color:var(--red)}
+
+    /* Delivery slot scroller */
+    .slot-scroller{
+      display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 4px;
+    }
+    .slot-scroller::-webkit-scrollbar{display:none}
+    .slot-chip{
+      flex-shrink:0;padding:10px 16px;border-radius:var(--rp);border:1px solid rgba(0,0,0,.14);
+      background:#fafafa;font-size:.78rem;font-weight:600;color:#161616;cursor:pointer;
+      transition:all .15s ease;white-space:nowrap;font-family:var(--fb);
+    }
+    .slot-chip:hover{border-color:rgba(192,57,43,.4)}
+    .slot-chip.selected{background:var(--red);border-color:var(--red);color:#fff}
+    .slot-chip .slot-chip-sub{display:block;font-size:.65rem;opacity:.75;margin-top:1px;font-weight:500}
+
+    /* Coupon code */
+    .coupon-row{display:flex;gap:8px;margin-top:6px}
+    .coupon-row input{
+      flex:1;border:1px solid rgba(0,0,0,.14);border-radius:var(--rs);padding:11px 13px;
+      font-size:.85rem;font-family:var(--fb);color:#161616;background:#fafafa;outline:none;
+      text-transform:uppercase;transition:border-color .2s ease;
+    }
+    .coupon-row input:focus{border-color:var(--red)}
+    .coupon-row input::placeholder{text-transform:none}
+    .btn-coupon-apply{
+      background:#161616;color:#fff;border:none;padding:0 18px;border-radius:var(--rs);
+      font-size:.8rem;font-weight:700;cursor:pointer;font-family:var(--fb);
+      transition:background .2s ease;white-space:nowrap;
+    }
+    .btn-coupon-apply:hover{background:var(--red)}
+    .btn-coupon-apply:disabled{background:#ccc;cursor:not-allowed}
+    .coupon-msg{font-size:.75rem;margin-top:7px;display:none}
+    .coupon-msg.success{display:block;color:#2e7d32}
+    .coupon-msg.error{display:block;color:var(--red)}
+    .coupon-applied-tag{
+      display:none;align-items:center;justify-content:space-between;gap:8px;
+      background:rgba(46,125,50,.08);border:1px solid rgba(46,125,50,.25);border-radius:var(--rs);
+      padding:9px 13px;font-size:.8rem;color:#2e7d32;font-weight:700;margin-top:6px;
+    }
+    .coupon-applied-tag.visible{display:flex}
+    .coupon-remove{background:none;border:none;color:#2e7d32;font-size:.75rem;text-decoration:underline;cursor:pointer;font-weight:600}
 
     /* Payment step */
     .pay-amount{text-align:center;padding:6px 0 20px}
@@ -981,6 +1023,11 @@
         <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
         <p class="field-error" id="custPhoneError">Please enter a valid 10-digit phone number.</p>      </div>
       <div class="dm-field">
+        <label>Delivery Slot *</label>
+        <div class="slot-scroller" id="slotScroller"></div>
+        <p class="field-error" id="slotError">Please select a delivery slot.</p>
+      </div>
+      <div class="dm-field">
         <label>Delivery Address *</label>
         <input type="text" id="custAddress" placeholder="Full address with landmark (min 25 characters)" maxlength="100" />
         <div class="field-hint-row">
@@ -993,9 +1040,25 @@
         <textarea id="custNotes" placeholder="Allergies, spice level, packaging preferences..."></textarea>
       </div>
 
+      <div class="dm-field">
+        <label>Coupon Code</label>
+        <div class="coupon-row" id="couponRow">
+          <input type="text" id="couponInput" placeholder="Enter code" />
+          <button class="btn-coupon-apply" id="btnApplyCoupon">Apply</button>
+        </div>
+        <div class="coupon-applied-tag" id="couponAppliedTag">
+          <span id="couponAppliedText"></span>
+          <button class="coupon-remove" id="btnRemoveCoupon">Remove</button>
+        </div>
+        <p class="coupon-msg" id="couponMsg"></p>
+      </div>
+
       <div class="summary-box" id="summaryBox">
         <div class="summary-box-title">Order Summary</div>
         <div id="summaryBoxItems"></div>
+        <div class="summary-box-discount" id="summaryBoxDiscountRow" style="display:none;">
+          <span id="summaryBoxDiscountLabel">Discount</span><span id="summaryBoxDiscountValue">−₹0</span>
+        </div>
         <div class="summary-box-total"><span>Total</span><span id="summaryBoxTotal">₹0</span></div>
       </div>
 
@@ -1167,18 +1230,147 @@
     showStep('stepAddress');
   });
 
+  // ── Delivery slot scroller ───────────────────────────────
+  // Builds "ASAP" + half-hour slots for the next 4 hours from now.
+  let selectedSlot = null;
+  function buildSlots() {
+    const scroller = document.getElementById('slotScroller');
+    const slots = [{ label: 'ASAP', sub: '30–45 min' }];
+
+    const now = new Date();
+    let mins = now.getMinutes();
+    now.setMinutes(mins < 30 ? 30 : 60, 0, 0); // round up to next half hour
+
+    for (let i = 0; i < 6; i++) {
+      const start = new Date(now.getTime() + i * 30 * 60000);
+      const end = new Date(start.getTime() + 30 * 60000);
+      const fmt = d => d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
+      slots.push({ label: `${fmt(start)} – ${fmt(end)}`, sub: i === 0 ? 'Today' : '' });
+    }
+
+    scroller.innerHTML = slots.map((s, idx) => `
+      <button type="button" class="slot-chip${idx === 0 ? ' selected' : ''}" data-slot="${s.label}">
+        ${s.label}${s.sub ? `<span class="slot-chip-sub">${s.sub}</span>` : ''}
+      </button>
+    `).join('');
+
+    selectedSlot = slots[0].label;
+
+    scroller.querySelectorAll('.slot-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        scroller.querySelectorAll('.slot-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedSlot = chip.dataset.slot;
+        document.getElementById('slotError').classList.remove('visible');
+      });
+    });
+  }
+  buildSlots();
+
   // ── STEP 2: Address + Summary ───────────────────────────
   function renderSummaryBox() {
     const items = getCartItems();
     const itemsEl = document.getElementById('summaryBoxItems');
     const totalEl = document.getElementById('summaryBoxTotal');
+    const discountRow = document.getElementById('summaryBoxDiscountRow');
+    const discountLabel = document.getElementById('summaryBoxDiscountLabel');
+    const discountValue = document.getElementById('summaryBoxDiscountValue');
+
     let html = '';
     items.forEach(i => {
       html += `<div class="summary-box-item"><span>${i.name} ×${i.qty}</span><span>₹${i.qty * i.price}</span></div>`;
     });
     itemsEl.innerHTML = html;
-    totalEl.textContent = '₹' + cartTotal(items).toLocaleString('en-IN');
+
+    const subtotal = cartTotal(items);
+    const discount = calcDiscount(subtotal);
+
+    if (discount > 0) {
+      discountRow.style.display = 'flex';
+      discountLabel.textContent = `Discount (${appliedCoupon.code})`;
+      discountValue.textContent = '−₹' + discount.toLocaleString('en-IN');
+    } else {
+      discountRow.style.display = 'none';
+    }
+
+    totalEl.textContent = '₹' + (subtotal - discount).toLocaleString('en-IN');
   }
+
+  function finalTotal() {
+    const subtotal = cartTotal(getCartItems());
+    return subtotal - calcDiscount(subtotal);
+  }
+
+  // ── Coupons ──────────────────────────────────────────────
+  // ⚠️ SECURITY: calls a backend endpoint to validate the coupon
+  // and calculate the discount — the discount amount comes from
+  // the server's response, not from anything computed here, so
+  // it can't be faked via DevTools once the backend route exists.
+  //
+  // TODO (Ankit): implement POST /api/coupons/validate
+  //   Request body:  { code: string, orderTotal: number }
+  //   Success reply: { valid: true, discount: number, label: string }
+  //   Failure reply: { valid: false, message: string }
+  let appliedCoupon = null; // { code, discount, label }
+
+  function calcDiscount(total) {
+    if (!appliedCoupon) return 0;
+    return Math.min(appliedCoupon.discount, total);
+  }
+
+  async function validateCouponOnServer(code, orderTotal) {
+    const res = await fetch('/api/coupons/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, orderTotal })
+    });
+    if (!res.ok) throw new Error('request-failed');
+    return res.json();
+  }
+
+  document.getElementById('btnApplyCoupon').addEventListener('click', async () => {
+    const codeInput = document.getElementById('couponInput');
+    const code = codeInput.value.trim().toUpperCase();
+    const msgEl = document.getElementById('couponMsg');
+    const applyBtn = document.getElementById('btnApplyCoupon');
+    const total = cartTotal(getCartItems());
+
+    msgEl.className = 'coupon-msg';
+    if (!code) { msgEl.textContent = 'Enter a coupon code.'; msgEl.classList.add('error'); return; }
+
+    applyBtn.disabled = true;
+    applyBtn.textContent = 'Checking...';
+
+    try {
+      const result = await validateCouponOnServer(code, total);
+      if (!result.valid) {
+        msgEl.textContent = result.message || 'Invalid coupon code.';
+        msgEl.classList.add('error');
+        return;
+      }
+      appliedCoupon = { code, discount: result.discount, label: result.label };
+      msgEl.textContent = '';
+      msgEl.classList.remove('error', 'success');
+      document.getElementById('couponRow').style.display = 'none';
+      document.getElementById('couponAppliedTag').classList.add('visible');
+      document.getElementById('couponAppliedText').textContent = `${code} applied — ${result.label}`;
+      renderSummaryBox();
+    } catch (e) {
+      msgEl.textContent = "Coupon system isn't connected yet — check back soon.";
+      msgEl.classList.add('error');
+    } finally {
+      applyBtn.disabled = false;
+      applyBtn.textContent = 'Apply';
+    }
+  });
+
+  document.getElementById('btnRemoveCoupon').addEventListener('click', () => {
+    appliedCoupon = null;
+    document.getElementById('couponInput').value = '';
+    document.getElementById('couponRow').style.display = 'flex';
+    document.getElementById('couponAppliedTag').classList.remove('visible');
+    renderSummaryBox();
+  });
 
   // ── Live field validation ─────────────────────────────
   const phoneInput = document.getElementById('custPhone');
@@ -1235,6 +1427,10 @@
 
     if (!name) { alert('Please enter your name.'); return; }
 
+    if (!selectedSlot) {
+      document.getElementById('slotError').classList.add('visible');
+      firstInvalid = firstInvalid || document.getElementById('slotScroller');
+    }
     if (!isValidPhone(phone)) {
       phoneInput.classList.add('invalid');
       phoneError.classList.add('visible');
@@ -1250,7 +1446,7 @@
     }
     if (firstInvalid) { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
 
-    document.getElementById('payAmount').textContent = '₹' + cartTotal(getCartItems()).toLocaleString('en-IN');
+    document.getElementById('payAmount').textContent = '₹' + finalTotal().toLocaleString('en-IN');
     showStep('stepPayment');
   });
 
@@ -1263,13 +1459,22 @@
     const items = getCartItems();
 
     // In production: send this to your backend / WhatsApp / email / payment API
-    console.log('Order placed', { name, phone, address, notes, items, total: cartTotal(items) });
+    console.log('Order placed', {
+      name, phone, address, notes, slot: selectedSlot, items,
+      subtotal: cartTotal(items), coupon: appliedCoupon ? appliedCoupon.code : null,
+      discount: calcDiscount(cartTotal(items)), total: finalTotal()
+    });
 
     showStep('stepSuccess');
 
     // Reset quantities after a short delay so the drawer doesn't visibly empty mid-animation
     setTimeout(() => {
       document.querySelectorAll('.qty-display').forEach(i => i.value = 0);
+      appliedCoupon = null;
+      document.getElementById('couponInput').value = '';
+      document.getElementById('couponRow').style.display = 'flex';
+      document.getElementById('couponAppliedTag').classList.remove('visible');
+      buildSlots();
       refreshCartBar();
     }, 400);
   });
