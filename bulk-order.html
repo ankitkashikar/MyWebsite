@@ -492,7 +492,7 @@
         <div class="dm-field">
           <label>Phone Number *</label>
           <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
-          <p class="field-error" id="custPhoneError">Please enter a valid 10-digit phone number.</p>        </div>
+          <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>        </div>
         <div class="dm-field">
           <label>Event / Occasion</label>
           <input type="text" id="custEvent" placeholder="e.g. Corporate lunch, Birthday party" />
@@ -779,7 +779,13 @@
     const addressCounter = document.getElementById('custAddressCounter');
 
     function isValidPhone(value) {
-      return /^[0-9]{10}$/.test(value.trim());
+      const v = value.trim();
+      if (!/^[6-9][0-9]{9}$/.test(v)) return false;
+      if (/^(\d)\1{9}$/.test(v)) return false;
+      const ascending = '0123456789'.includes(v);
+      const descending = '9876543210'.includes(v);
+      if (ascending || descending) return false;
+      return true;
     }
     function isValidAddress(value) {
       const len = value.trim().length;
