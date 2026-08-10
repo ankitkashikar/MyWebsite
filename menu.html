@@ -316,18 +316,48 @@
     .summary-box-total span:last-child{color:var(--red)}
 
     /* Delivery slot scroller */
-    .slot-scroller{
-      display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 4px;
+    /* Delivery slot picker: Deliver Now / Schedule for Later */
+    .slot-mode-toggle{display:flex;gap:8px;margin-bottom:10px}
+    .slot-mode-btn{
+      flex:1;padding:9px;border-radius:var(--rs);border:1px solid rgba(0,0,0,.14);
+      background:#fafafa;font-size:.78rem;font-weight:700;color:#666;cursor:pointer;
+      transition:all .15s ease;font-family:var(--fb);
     }
-    .slot-scroller::-webkit-scrollbar{display:none}
+    .slot-mode-btn.active{background:#161616;color:#fff;border-color:#161616}
+
+    .slot-now-card{
+      display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--rm);
+      border:1.5px solid var(--red);background:rgba(192,57,43,.05);
+    }
+    .slot-now-icon{font-size:1.4rem;flex-shrink:0}
+    .slot-now-title{font-size:.85rem;font-weight:700;color:#161616}
+    .slot-now-sub{font-size:.72rem;color:#888;margin-top:1px}
+    .slot-now-check{margin-left:auto;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+
+    .slot-closed-card{
+      display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--rm);
+      border:1px solid rgba(0,0,0,.12);background:#f5f5f5;color:#888;font-size:.78rem;line-height:1.5;
+    }
+
+    .slot-day-tabs{display:flex;gap:8px;margin-bottom:10px}
+    .slot-day-tab{
+      padding:7px 14px;border-radius:var(--rp);border:1px solid rgba(0,0,0,.14);
+      background:#fafafa;font-size:.76rem;font-weight:600;color:#666;cursor:pointer;
+      transition:all .15s ease;font-family:var(--fb);
+    }
+    .slot-day-tab.active{background:var(--red);border-color:var(--red);color:#fff}
+
+    .slot-scroller{
+      display:flex;flex-wrap:wrap;gap:8px;max-height:190px;overflow-y:auto;padding:2px;
+    }
     .slot-chip{
-      flex-shrink:0;padding:10px 16px;border-radius:var(--rp);border:1px solid rgba(0,0,0,.14);
+      padding:10px 14px;border-radius:var(--rs);border:1px solid rgba(0,0,0,.14);
       background:#fafafa;font-size:.78rem;font-weight:600;color:#161616;cursor:pointer;
-      transition:all .15s ease;white-space:nowrap;font-family:var(--fb);
+      transition:all .15s ease;font-family:var(--fb);
     }
     .slot-chip:hover{border-color:rgba(192,57,43,.4)}
     .slot-chip.selected{background:var(--red);border-color:var(--red);color:#fff}
-    .slot-chip .slot-chip-sub{display:block;font-size:.65rem;opacity:.75;margin-top:1px;font-weight:500}
+    .slot-empty-msg{font-size:.78rem;color:#999;padding:8px 2px;font-style:italic}
 
     /* Coupon code */
     .coupon-row{display:flex;gap:8px;margin-top:6px}
@@ -1024,7 +1054,15 @@
         <p class="field-error" id="custPhoneError">Please enter a valid 10-digit phone number.</p>      </div>
       <div class="dm-field">
         <label>Delivery Slot *</label>
-        <div class="slot-scroller" id="slotScroller"></div>
+        <div class="slot-mode-toggle" id="slotModeToggle">
+          <button type="button" class="slot-mode-btn active" data-mode="now">Deliver Now</button>
+          <button type="button" class="slot-mode-btn" data-mode="later">Schedule for Later</button>
+        </div>
+        <div id="slotNowWrap"></div>
+        <div id="slotLaterWrap" style="display:none;">
+          <div class="slot-day-tabs" id="slotDayTabs"></div>
+          <div class="slot-scroller" id="slotScroller"></div>
+        </div>
         <p class="field-error" id="slotError">Please select a delivery slot.</p>
       </div>
       <div class="dm-field">
@@ -1230,31 +1268,114 @@
     showStep('stepAddress');
   });
 
-  // ── Delivery slot scroller ───────────────────────────────
-  // Builds "ASAP" + half-hour slots for the next 4 hours from now.
+  // ── Delivery slot picker ─────────────────────────────────
+  // Respects actual operating hours: 4:00 PM – 2:00 AM.
+  // "Deliver Now" only shows as available while open; otherwise
+  // it's replaced with a closed notice and "Schedule for Later"
+  // becomes the only option, defaulting to the next open slot.
+  const OPEN_HOUR = 16;   // 4:00 PM
+  const CLOSE_HOUR = 2;   // 2:00 AM (next day)
   let selectedSlot = null;
-  function buildSlots() {
-    const scroller = document.getElementById('slotScroller');
-    const slots = [{ label: 'ASAP', sub: '30–45 min' }];
+  let slotMode = 'now';
 
+  function getBusinessWindow(dayOffset) {
     const now = new Date();
-    let mins = now.getMinutes();
-    now.setMinutes(mins < 30 ? 30 : 60, 0, 0); // round up to next half hour
+    const anchor = new Date(now);
+    if (now.getHours() < CLOSE_HOUR) anchor.setDate(anchor.getDate() - 1); // still "today's" late-night window
+    anchor.setDate(anchor.getDate() + dayOffset);
+    anchor.setHours(OPEN_HOUR, 0, 0, 0);
+    const close = new Date(anchor);
+    close.setDate(close.getDate() + 1);
+    close.setHours(CLOSE_HOUR, 0, 0, 0);
+    return { open: anchor, close };
+  }
 
-    for (let i = 0; i < 6; i++) {
-      const start = new Date(now.getTime() + i * 30 * 60000);
-      const end = new Date(start.getTime() + 30 * 60000);
-      const fmt = d => d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
-      slots.push({ label: `${fmt(start)} – ${fmt(end)}`, sub: i === 0 ? 'Today' : '' });
+  function isOpenNow() {
+    const now = new Date();
+    const w = getBusinessWindow(0);
+    return now >= w.open && now < w.close;
+  }
+
+  function fmtTime(d) {
+    return d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true });
+  }
+  function fmtOpenTime(dayOffset) {
+    return fmtTime(getBusinessWindow(dayOffset).open);
+  }
+
+  function generateSlots(dayOffset) {
+    const w = getBusinessWindow(dayOffset);
+    const now = new Date();
+    let start = new Date(w.open);
+
+    if (dayOffset === 0 && now > start) {
+      start = new Date(now);
+      const m = start.getMinutes();
+      start.setMinutes(m < 30 ? 30 : 60, 0, 0);
     }
 
-    scroller.innerHTML = slots.map((s, idx) => `
-      <button type="button" class="slot-chip${idx === 0 ? ' selected' : ''}" data-slot="${s.label}">
-        ${s.label}${s.sub ? `<span class="slot-chip-sub">${s.sub}</span>` : ''}
-      </button>
-    `).join('');
+    const slots = [];
+    let cur = new Date(start);
+    while (cur < w.close) {
+      const end = new Date(cur.getTime() + 30 * 60000);
+      slots.push({ label: `${fmtTime(cur)} – ${fmtTime(end)}`, start: new Date(cur) });
+      cur = end;
+    }
+    return slots;
+  }
 
-    selectedSlot = slots[0].label;
+  function renderSlotNowWrap() {
+    const wrap = document.getElementById('slotNowWrap');
+    if (isOpenNow()) {
+      wrap.innerHTML = `
+        <div class="slot-now-card">
+          <span class="slot-now-icon">⚡</span>
+          <div>
+            <div class="slot-now-title">Deliver as soon as possible</div>
+            <div class="slot-now-sub">Estimated 30–45 minutes</div>
+          </div>
+          <span class="slot-now-check">✓</span>
+        </div>`;
+      selectedSlot = 'ASAP (30–45 min)';
+    } else {
+      wrap.innerHTML = `
+        <div class="slot-closed-card">
+          We're closed right now — opens today at ${fmtOpenTime(0)}. Schedule a delivery for later below.
+        </div>`;
+      selectedSlot = null;
+      switchSlotMode('later');
+    }
+  }
+
+  let activeDayOffset = 0;
+  function renderSlotDayTabs() {
+    const tabs = document.getElementById('slotDayTabs');
+    tabs.innerHTML = `
+      <button type="button" class="slot-day-tab${activeDayOffset === 0 ? ' active' : ''}" data-day="0">Today</button>
+      <button type="button" class="slot-day-tab${activeDayOffset === 1 ? ' active' : ''}" data-day="1">Tomorrow</button>
+    `;
+    tabs.querySelectorAll('.slot-day-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        activeDayOffset = parseInt(tab.dataset.day);
+        renderSlotDayTabs();
+        renderSlotChips();
+      });
+    });
+  }
+
+  function renderSlotChips() {
+    const scroller = document.getElementById('slotScroller');
+    const slots = generateSlots(activeDayOffset);
+    const dayLabel = activeDayOffset === 0 ? 'Today' : 'Tomorrow';
+
+    if (slots.length === 0) {
+      scroller.innerHTML = `<p class="slot-empty-msg">No more slots today — try Tomorrow.</p>`;
+      return;
+    }
+
+    scroller.innerHTML = slots.map(s => `
+      <button type="button" class="slot-chip" data-slot="${s.label} (${dayLabel})">${s.label}</button>
+    `).join('');
 
     scroller.querySelectorAll('.slot-chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -1264,6 +1385,29 @@
         document.getElementById('slotError').classList.remove('visible');
       });
     });
+  }
+
+  function switchSlotMode(mode) {
+    slotMode = mode;
+    document.querySelectorAll('.slot-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    document.getElementById('slotNowWrap').style.display = mode === 'now' ? 'block' : 'none';
+    document.getElementById('slotLaterWrap').style.display = mode === 'later' ? 'block' : 'none';
+    if (mode === 'now') {
+      renderSlotNowWrap();
+    } else {
+      selectedSlot = null;
+      renderSlotDayTabs();
+      renderSlotChips();
+    }
+  }
+
+  document.querySelectorAll('.slot-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchSlotMode(btn.dataset.mode));
+  });
+
+  function buildSlots() {
+    activeDayOffset = 0;
+    switchSlotMode(isOpenNow() ? 'now' : 'later');
   }
   buildSlots();
 
