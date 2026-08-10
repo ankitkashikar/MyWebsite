@@ -89,12 +89,6 @@
     .cat-pill.active{background:var(--red);border-color:var(--red);color:#fff}
 
     .menu-controls{display:flex;align-items:center;gap:10px;flex-shrink:0}
-    .diet-filter{display:flex;gap:6px;background:var(--g);border:1px solid var(--b);border-radius:var(--rp);padding:3px}
-    .diet-btn{
-      font-size:.72rem;font-weight:700;padding:6px 13px;border-radius:var(--rp);
-      color:var(--t2);transition:all var(--tr);white-space:nowrap;
-    }
-    .diet-btn.active{background:var(--red);color:#fff}
     .menu-search{
       display:flex;align-items:center;gap:8px;
       background:var(--g);border:1px solid var(--b);border-radius:var(--rp);
@@ -478,11 +472,6 @@
       <a href="#cat-combos" class="cat-pill">Combo Meals</a>
     </nav>
     <div class="menu-controls">
-      <div class="diet-filter" id="dietFilter">
-        <button class="diet-btn active" data-diet="all">All</button>
-        <button class="diet-btn" data-diet="veg">Veg</button>
-        <button class="diet-btn" data-diet="nonveg">Non-Veg</button>
-      </div>
       <div class="menu-search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input type="text" id="menuSearch" placeholder="Search dishes..." />
@@ -1638,19 +1627,6 @@
   }, { rootMargin: '-180px 0px -70% 0px', threshold: 0 });
   catSections.forEach(sec => navObserver.observe(sec));
 
-  // ── Veg / Non-Veg filter ──
-  const dietBtns = document.querySelectorAll('.diet-btn');
-  let currentDiet = 'all';
-
-  dietBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      dietBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentDiet = btn.dataset.diet;
-      applyFilters();
-    });
-  });
-
   // ── Search ──
   const searchInput = document.getElementById('menuSearch');
   searchInput.addEventListener('input', applyFilters);
@@ -1665,12 +1641,7 @@
 
       rows.forEach(row => {
         const name = row.querySelector('.menu-row-name').textContent.toLowerCase();
-        const dot = row.querySelector('.diet-dot');
-        const isVeg = !dot.classList.contains('nonveg');
-
-        const matchesDiet = currentDiet === 'all' || (currentDiet === 'veg' && isVeg) || (currentDiet === 'nonveg' && !isVeg);
-        const matchesSearch = !query || name.includes(query);
-        const visible = matchesDiet && matchesSearch;
+        const visible = !query || name.includes(query);
 
         row.style.display = visible ? '' : 'none';
         if (visible) visibleCount++;
