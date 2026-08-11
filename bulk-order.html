@@ -277,6 +277,23 @@
       gap: 8px; color: #999; font-size: 0.78rem; text-align: center; padding: 16px;
     }
     .qr-box svg { opacity: .35; }
+    .pay-method-toggle { display: flex; gap: 8px; margin-bottom: 20px; }
+    .pay-method-btn {
+      flex: 1; padding: 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,.14);
+      background: #fafafa; font-size: .8rem; font-weight: 700; color: #666; cursor: pointer;
+      transition: all .15s ease; font-family: var(--fb);
+    }
+    .pay-method-btn.active { background: #161616; color: #fff; border-color: #161616; }
+    .btn-upi-app {
+      display: flex; align-items: center; justify-content: center; gap: 8px; background: #161616; color: #fff;
+      text-decoration: none; padding: 12px; border-radius: 8px; font-size: .82rem; font-weight: 700;
+      margin-bottom: 14px; transition: background .2s ease; font-family: var(--fb);
+    }
+    .btn-upi-app:hover { background: var(--red); }
+    .cod-note-box {
+      background: #f9f7f6; border-radius: 10px; padding: 16px; font-size: .82rem; color: #161616;
+      line-height: 1.6; text-align: center; margin-bottom: 8px;
+    }
     .pay-note { font-size: 0.76rem; color: #888; text-align: center; line-height: 1.6; margin-top: 6px; }
     .pay-upi { text-align: center; font-size: 0.82rem; color: #161616; font-weight: 700; margin-top: 10px; }
 
@@ -541,25 +558,45 @@
 
       <!-- STEP 3: Payment -->
       <div class="drawer-step" id="stepPayment">
-        <div class="pay-amount">
-          <div class="pay-amount-label">Amount to Pay</div>
-          <div class="pay-amount-value" id="payAmount">₹0</div>
+        <div class="pay-method-toggle" id="payMethodToggle">
+          <button type="button" class="pay-method-btn active" data-method="upi">Pay via UPI</button>
+          <button type="button" class="pay-method-btn" data-method="cod">Cash on Delivery</button>
         </div>
-        <div class="qr-box">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 14h3v3M14 18h3v3M18 21h3v-3"/></svg>
-          <span>UPI QR code goes here<br/>(replace with your real QR image)</span>
+
+        <div id="payUpiWrap">
+          <div class="pay-amount">
+            <div class="pay-amount-label">Amount to Pay</div>
+            <div class="pay-amount-value" id="payAmount">₹0</div>
+          </div>
+          <div class="qr-box">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 14h3v3M14 18h3v3M18 21h3v-3"/></svg>
+            <span>UPI QR code goes here<br/>(replace with your real QR image)</span>
+          </div>
+          <a href="#" class="btn-upi-app" id="btnPayUpiApp" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+            Pay via UPI App
+          </a>
+          <div class="pay-upi">UPI ID: yourbusiness@upi</div>
+          <p class="pay-note">Scan the QR or tap "Pay via UPI App" to pay directly, then tap below.<br/>This doesn't verify the payment automatically — it just tells us you say you've paid. Our team will confirm it manually before preparing your order.</p>
+          <button class="btn-drawer-primary" id="btnConfirmPayment">I've Completed Payment</button>
         </div>
-        <div class="pay-upi">UPI ID: yourbusiness@upi</div>
-        <p class="pay-note">Scan &amp; pay using any UPI app, then tap below.<br/>Real payment verification needs a backend/payment gateway — this button currently just confirms the order.</p>
-        <button class="btn-drawer-primary" id="btnConfirmPayment">I've Completed Payment</button>
+
+        <div id="payCodWrap" style="display:none;">
+          <div class="pay-amount">
+            <div class="pay-amount-label">Amount to Pay in Cash</div>
+            <div class="pay-amount-value" id="payAmountCod">₹0</div>
+          </div>
+          <div class="cod-note-box">Please keep exact change ready if possible. Our delivery partner will collect this amount in cash when your order arrives.</div>
+          <button class="btn-drawer-primary" id="btnConfirmCod">Confirm Order (Cash on Delivery)</button>
+        </div>
       </div>
 
       <!-- STEP 4: Success -->
       <div class="drawer-step" id="stepSuccess">
         <div class="success-step">
-          <div class="success-icon">🎉</div>
-          <h4>Order Request Sent!</h4>
-          <p>Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
+          <div class="success-icon" id="successIcon">🎉</div>
+          <h4 id="successTitle">Order Request Sent</h4>
+          <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
           <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
         </div>
       </div>
@@ -857,28 +894,49 @@
 
       if (!date)    { alert('Please select a delivery date and time.'); return; }
 
-      document.getElementById('payAmount').textContent = '₹' + finalTotal().toLocaleString('en-IN');
+      const total = finalTotal();
+      document.getElementById('payAmount').textContent = '₹' + total.toLocaleString('en-IN');
+      document.getElementById('payAmountCod').textContent = '₹' + total.toLocaleString('en-IN');
+
+      // Build UPI deep link with the amount pre-filled. Replace pa= with your real UPI ID.
+      const upiLink = `upi://pay?pa=yourbusiness@upi&pn=The%20Chinese%20Bliss&am=${total}&cu=INR&tn=Order%20Payment`;
+      document.getElementById('btnPayUpiApp').setAttribute('href', upiLink);
+
+      switchPayMethod('upi');
       showStep('stepPayment');
     });
 
-    // ── STEP 3: Payment ───────────────────────────────────────
-    document.getElementById('btnConfirmPayment').addEventListener('click', () => {
-      const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
-      const event = document.getElementById('custEvent').value.trim();
-      const date = document.getElementById('custDate').value;
-      const address = document.getElementById('custAddress').value.trim();
-      const notes = document.getElementById('custNotes').value.trim();
+    // ── STEP 3: Payment method toggle ──────────────────────────
+    let selectedPayMethod = 'upi';
+    function switchPayMethod(method) {
+      selectedPayMethod = method;
+      document.querySelectorAll('.pay-method-btn').forEach(b => b.classList.toggle('active', b.dataset.method === method));
+      document.getElementById('payUpiWrap').style.display = method === 'upi' ? 'block' : 'none';
+      document.getElementById('payCodWrap').style.display = method === 'cod' ? 'block' : 'none';
+    }
+    document.querySelectorAll('.pay-method-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchPayMethod(btn.dataset.method));
+    });
+
+    function buildOrderPayload(paymentMethod) {
       const items = getCartItems();
+      return {
+        name: document.getElementById('custName').value.trim(),
+        phone: document.getElementById('custPhone').value.trim(),
+        event: document.getElementById('custEvent').value.trim(),
+        date: document.getElementById('custDate').value,
+        address: document.getElementById('custAddress').value.trim(),
+        notes: document.getElementById('custNotes').value.trim(),
+        items,
+        subtotal: cartTotal(items),
+        coupon: appliedCoupon ? appliedCoupon.code : null,
+        discount: calcDiscount(cartTotal(items)),
+        total: finalTotal(),
+        paymentMethod
+      };
+    }
 
-      // In production: send this to your backend / WhatsApp / email / payment API
-      console.log('Bulk order placed', {
-        name, phone, event, date, address, notes, items,
-        subtotal: cartTotal(items), coupon: appliedCoupon ? appliedCoupon.code : null, discount: calcDiscount(cartTotal(items)),
-        total: finalTotal()
-      });
-
-      showStep('stepSuccess');
+    function resetOrderState() {
       setTimeout(() => {
         document.querySelectorAll('.qty-display').forEach(i => i.value = 0);
         appliedCoupon = null;
@@ -887,6 +945,35 @@
         document.getElementById('couponAppliedTag').classList.remove('visible');
         refreshCartBar();
       }, 400);
+    }
+
+    // UPI: customer self-reports payment — NOT verified automatically.
+    // Wording reflects that honestly instead of implying confirmation.
+    document.getElementById('btnConfirmPayment').addEventListener('click', () => {
+      const payload = buildOrderPayload('upi');
+      // In production: send this to your backend / WhatsApp / email / payment API
+      console.log('Bulk order placed (UPI, unverified)', payload);
+
+      document.getElementById('successIcon').textContent = '⏳';
+      document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
+      document.getElementById('successMsg').textContent = "We've noted that you completed payment. Our team will verify it and call you within 2 hours to confirm before we start preparing your order.";
+
+      showStep('stepSuccess');
+      resetOrderState();
+    });
+
+    // Cash on Delivery: no payment claim to verify, so this wording is
+    // already accurate — nothing here is misleading.
+    document.getElementById('btnConfirmCod').addEventListener('click', () => {
+      const payload = buildOrderPayload('cod');
+      console.log('Bulk order placed (Cash on Delivery)', payload);
+
+      document.getElementById('successIcon').textContent = '🎉';
+      document.getElementById('successTitle').textContent = 'Order Request Sent';
+      document.getElementById('successMsg').textContent = `Thank you! Please keep ₹${payload.total.toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
+
+      showStep('stepSuccess');
+      resetOrderState();
     });
   </script>
 </body>
