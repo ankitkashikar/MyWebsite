@@ -5,171 +5,343 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Experiences | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       EXPERIENCES PAGE — visual gallery + event-hosting CTA
+       ============================================================ */
+
+    /* ── Hero ── */
+    .exp-hero{
+      background:var(--dark2);
+      text-align:center;
+      padding:64px 24px 48px;
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--b);
+    }
+    .exp-hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse at 15% 50%, var(--glow) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 50%, rgba(192,57,43,.12) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    .exp-hero-inner{position:relative;z-index:2}
+    .exp-hero h1{
+      font-family:var(--fh);
+      font-size:clamp(2rem,5vw,3.2rem);
+      font-weight:700;
+      color:#fff;
+      letter-spacing:-0.5px;
+      margin-bottom:10px;
+    }
+    .exp-hero p{
+      font-size:.88rem;
+      color:var(--t2);
+      line-height:1.7;
+      max-width:520px;
+      margin:0 auto;
+    }
+
+    /* ── Filter tabs ── */
+    .exp-filters{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:36px 24px 8px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .exp-filter-btn{
+      font-size:.78rem;font-weight:700;padding:9px 20px;border-radius:var(--rp);
+      border:1px solid var(--b2);color:var(--t2);transition:all var(--tr);background:var(--g);
+    }
+    .exp-filter-btn:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+    .exp-filter-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+
+    /* ── Gallery grid (masonry-ish via CSS columns) ── */
+    .exp-gallery{
+      max-width:1100px;margin:0 auto;padding:32px 24px 24px;
+      columns:3 260px;column-gap:16px;
+    }
+    .exp-item{
+      break-inside:avoid;margin-bottom:16px;border-radius:var(--rm);overflow:hidden;
+      position:relative;cursor:pointer;border:1px solid var(--b);
+      transition:transform var(--tr);
+    }
+    .exp-item:hover{transform:translateY(-4px)}
+    .exp-item img{width:100%;display:block;transition:transform .5s ease,filter .4s ease;filter:saturate(.9) brightness(.92)}
+    .exp-item:hover img{transform:scale(1.05);filter:saturate(1.05) brightness(1)}
+    .exp-item-overlay{
+      position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 45%);
+      display:flex;align-items:flex-end;padding:14px;opacity:0;transition:opacity var(--tr);
+    }
+    .exp-item:hover .exp-item-overlay{opacity:1}
+    .exp-item-tag{font-size:.68rem;font-weight:700;color:#fff;letter-spacing:.3px;text-transform:uppercase;background:rgba(192,57,43,.85);padding:4px 10px;border-radius:var(--rp)}
+    .exp-item.hidden{display:none}
+
+    /* ── Lightbox ── */
+    .lightbox-backdrop{
+      position:fixed;inset:0;background:rgba(5,5,5,.92);z-index:600;
+      display:none;align-items:center;justify-content:center;padding:40px 24px;
+    }
+    .lightbox-backdrop.open{display:flex}
+    .lightbox-img-wrap{max-width:900px;max-height:85vh;position:relative}
+    .lightbox-img-wrap img{max-width:100%;max-height:85vh;border-radius:var(--rm);display:block;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+    .lightbox-close{
+      position:absolute;top:-44px;right:0;background:none;border:none;color:#fff;cursor:pointer;
+      opacity:.7;transition:opacity var(--tr);
+    }
+    .lightbox-close:hover{opacity:1}
+
+    /* ── Event CTA banner ── */
+    .exp-cta{
+      position:relative;overflow:hidden;min-height:280px;display:flex;align-items:center;
+      margin-top:48px;
+    }
+    .exp-cta-bg{
+      position:absolute;inset:0;background:linear-gradient(135deg, rgba(10,10,10,.92) 0%, rgba(160,10,10,.35) 50%, rgba(10,10,10,.92) 100%);
+    }
+    .exp-cta-inner{
+      position:relative;z-index:2;width:100%;max-width:700px;margin:0 auto;
+      padding:56px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;
+    }
+    .exp-cta-h2{font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;color:#fff;line-height:1.15}
+    .exp-cta-sub{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:440px}
+    .exp-cta-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+
+    @media(max-width:768px){
+      .exp-gallery{columns:2 160px}
+      .exp-cta-inner{padding:44px 24px}
+    }
+    @media(max-width:480px){
+      .exp-gallery{columns:1}
+      .exp-filters{gap:8px;padding:28px 16px 4px}
+      .exp-filter-btn{padding:8px 16px;font-size:.74rem}
+    }
+  </style>
 </head>
 <body>
-  
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <a href="index.html" class="logo-wrap">
-      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
-    </a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="menu.html">Menu</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="experiences.html" class="active">Experiences</a>
-    </nav>
-    <div class="nav-actions">
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
-    <button class="hamburger" id="ham" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
 
-  <!-- MOBILE NAV -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">Home</a>
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <a href="index.html" class="logo-wrap">
+    <img src="images/chinese logo.png" alt="The Chinese Bliss">
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">About</a>
     <a href="menu.html">Menu</a>
     <a href="index.html#contact">Contact</a>
-    <a href="experiences.html">Experiences</a>
-    <div class="nav-btns">
-      <a href="order.html" class="btn-solid">Order Online</a>
-    </div>
+    <a href="experiences.html" class="active">Experiences</a>
   </nav>
+  <div class="nav-actions">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-  <!-- EXPERIENCES HERO -->
-  <section class="exp-hero">
-    <div class="exp-hero-inner reveal">
-      <p class="section-pre-label">Coming Soon</p>
-      <h1>Experiences</h1>
-      <p class="exp-hero-sub">
-        Something special is being crafted for you.<br/>
-        Unique dining experiences, curated events,<br/>
-        and unforgettable evenings at The Chinese Bliss.
-      </p>
-      <div class="exp-divider">
-        <span class="divider-line"></span>
-        <span class="divider-ornament">✦</span>
-        <span class="divider-line"></span>
-      </div>
-      <a href="index.html#contact" class="btn-red-outline">Get Notified</a>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html">About</a>
+  <a href="menu.html">Menu</a>
+  <a href="index.html#contact">Contact</a>
+  <a href="experiences.html">Experiences</a>
+  <div class="mnav-btns">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="exp-hero">
+  <div class="exp-hero-inner">
+    <span class="pre-label">The Chinese Bliss</span>
+    <h1>Experiences</h1>
+    <p>A closer look at the food, the space, and the moments we've been part of — from quiet dinners to full-blown celebrations.</p>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<div class="exp-filters" id="expFilters">
+  <button class="exp-filter-btn active" data-filter="all">All</button>
+  <button class="exp-filter-btn" data-filter="food">Food</button>
+  <button class="exp-filter-btn" data-filter="ambience">Ambience</button>
+  <button class="exp-filter-btn" data-filter="events">Events</button>
+</div>
+
+<!-- GALLERY -->
+<div class="exp-gallery" id="expGallery">
+
+  <div class="exp-item" data-cat="food">
+    <img src="https://picsum.photos/seed/tcb-food1/600/750" alt="Signature noodles plated" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Food</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="ambience">
+    <img src="https://picsum.photos/seed/tcb-interior1/600/450" alt="Restaurant interior seating" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Ambience</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="events">
+    <img src="https://picsum.photos/seed/tcb-event1/600/600" alt="Birthday celebration setup" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Events</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="food">
+    <img src="https://picsum.photos/seed/tcb-food2/600/500" alt="Chilli chicken close-up" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Food</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="ambience">
+    <img src="https://picsum.photos/seed/tcb-interior2/600/800" alt="Warm lighting and decor" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Ambience</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="events">
+    <img src="https://picsum.photos/seed/tcb-event2/600/500" alt="Corporate lunch spread" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Events</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="food">
+    <img src="https://picsum.photos/seed/tcb-food3/600/650" alt="Dumplings and dips" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Food</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="ambience">
+    <img src="https://picsum.photos/seed/tcb-interior3/600/500" alt="Bar and counter area" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Ambience</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="events">
+    <img src="https://picsum.photos/seed/tcb-event3/600/750" alt="Group celebration table" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Events</span></div>
+  </div>
+
+  <div class="exp-item" data-cat="food">
+    <img src="https://picsum.photos/seed/tcb-food4/600/550" alt="Fried rice bowl" />
+    <div class="exp-item-overlay"><span class="exp-item-tag">Food</span></div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-backdrop" id="lightbox">
+  <div class="lightbox-img-wrap">
+    <button class="lightbox-close" id="lightboxClose">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+</div>
+
+<!-- EVENT CTA -->
+<section class="exp-cta">
+  <div class="exp-cta-bg"></div>
+  <div class="exp-cta-inner">
+    <span class="pre-label">Planning Something?</span>
+    <h2 class="exp-cta-h2">Host Your Next Event With Us</h2>
+    <p class="exp-cta-sub">Birthdays, office lunches, celebrations — we cater fresh Indo-Chinese for groups of 10 or more, delivered straight to your venue.</p>
+    <div class="exp-cta-actions">
+      <a href="bulk-order.html" class="btn-primary">Start a Bulk Order</a>
+      <a href="index.html#contact" class="btn-outline">Contact Us</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- TEASER CARDS -->
-  <section class="exp-teasers">
-    <div class="exp-grid">
-
-      <div class="exp-card reveal">
-        <div class="exp-card-icon">
-          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <h3>Private Dining</h3>
-        <p>Exclusive table bookings for special occasions. Celebrate birthdays, anniversaries, and corporate events with a personal touch.</p>
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-main">
+    <div class="fcol fcol-brand">
+      <div class="footer-logo-row">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
+        <div class="footer-brand-name">THE CHINESE<br><span>BLISS</span></div>
       </div>
-
-      <div class="exp-card reveal" style="transition-delay:0.12s">
-        <div class="exp-card-icon">
-          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-        </div>
-        <h3>Chef's Table</h3>
-        <p>An intimate tasting experience where our head chef guides you through the bold flavours of Indo-Chinese cuisine, course by course.</p>
-      </div>
-
-      <div class="exp-card reveal" style="transition-delay:0.24s">
-        <div class="exp-card-icon">
-          <svg width="36" height="36" fill="none" stroke="#c0392b" stroke-width="1.5" viewBox="0 0 24 24">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </div>
-        <h3>Pop-Up Events</h3>
-        <p>Seasonal pop-up nights with special menus, live music, and themed evenings celebrating the vibrant culture of Indo-Chinese food.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- NOTIFY STRIP -->
-  <section class="exp-notify reveal">
-    <p class="section-pre-label">Stay in the Loop</p>
-    <h2>Be the First to Know</h2>
-    <p>Drop your email and we'll notify you the moment our experiences go live.</p>
-    <div class="exp-notify-form">
-      <input type="email" placeholder="Enter your email address" class="exp-email-input" />
-      <button class="btn-solid exp-notify-btn">Notify Me</button>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="contact">
-    <div class="footer-grid footer-grid-with-map">
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <p>+91-8956150583</p>
-        <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a>
-      </div>
-      <div class="footer-col">
-        <h4>Address</h4>
-        <p>Shop No A1, Street of Europe, 24, Maan Rd, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi</p>
-        <p>Pune, Maharashtra 411057</p>
-      </div>
-      <div class="footer-col">
-        <h4>Opening Hours</h4>
-        <p>Mon – Sun: 4pm – 2am</p>
-        <p>Closed Every Second Tuesday</p>
-      </div>
-      <div class="footer-col">
-        <h4>Find Us</h4>
-        <div class="map-wrap">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.654329456!2d73.73398987500001!3d18.591249999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bb9ece5b1e43%3A0x42b7c7c93e7b8a8!2sStreet%20of%20Europe%2C%20Hinjawadi%2C%20Pune%2C%20Maharashtra%20411057!5e0!3m2!1sen!2sin!4v1714000000000!5m2!1sen!2sin"
-            width="100%" height="160" style="border:0;display:block;"
-            allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="The Chinese Bliss Location">
-          </iframe>
-        </div>
-        <a href="https://maps.google.com/?q=Street+of+Europe+Hinjawadi+Pune+411057" target="_blank" class="directions-link">Get Directions →</a>
-      </div>
-    </div>
-
-    <div class="newsletter-row">
-      <input type="email" placeholder="Enter your email *" />
-      <label><input type="checkbox" /> Yes, subscribe me to your newsletter.</label>
-      <button class="btn-join">Join</button>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="footer-logo-wrap">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="32" height="32" style="object-fit:contain;" />
-      </div>
-      <p class="footer-copy">©2026 by The Chinese Bliss.</p>
-      <div class="social-icons">
-        <a href="https://www.yelp.com" target="_blank" aria-label="Yelp">
-          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
-        </a>
-        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
-          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
-        </a>
-        <a href="https://www.instagram.com" target="_blank" aria-label="Instagram">
+      <p class="footer-tagline">Authentic Indo-Chinese.<br>Made Fresh, Made for You.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com" target="_blank" class="fsoc">
           <img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/>
         </a>
+        <a href="https://www.facebook.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
+        </a>
+        <a href="https://www.yelp.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
+        </a>
       </div>
     </div>
-  </footer>
+    <div class="fcol">
+      <h4 class="fcol-title">Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="#our-story">Our Story</a>
+      <a href="experiences.html">Experiences</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Contact Us</h4>
+      <a href="tel:+918956150583">📞 +91-8956150583</a>
+      <a href="mailto:chinesebliss1@gmail.com">✉️ chinesebliss1@gmail.com</a>
+      <p>📍 Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Opening Hours</h4>
+      <p>Mon – Sun</p>
+      <p>4:00 PM – 2:00 AM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 by The Chinese Bliss. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+<script>
+  // ── Filter tabs ──────────────────────────────────────────
+  const filterBtns = document.querySelectorAll('.exp-filter-btn');
+  const items = document.querySelectorAll('.exp-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.cat === filter;
+        item.classList.toggle('hidden', !show);
+      });
+    });
+  });
+
+  // ── Lightbox ─────────────────────────────────────────────
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+    });
+  });
+
+  function closeLightbox() { lightbox.classList.remove('open'); }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
 </body>
 </html>
