@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Story | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       OUR STORY PAGE
+       ⚠️ PLACEHOLDER CONTENT — Ankit to replace with the real story.
+       Facts kept accurate (names, hometowns, roommates); everything
+       else (dates, specific anecdotes) is invented filler until the
+       real story is provided.
+       ============================================================ */
+
+    /* ── Hero ── */
+    .story-hero{
+      background:var(--dark2);
+      text-align:center;
+      padding:64px 24px 48px;
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--b);
+    }
+    .story-hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse at 15% 50%, var(--glow) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 50%, rgba(192,57,43,.12) 0%, transparent 50%);
+      pointer-events:none;
+    }
+    .story-hero-inner{position:relative;z-index:2}
+    .story-hero h1{
+      font-family:var(--fh);
+      font-size:clamp(2rem,5vw,3.2rem);
+      font-weight:700;
+      color:#fff;
+      letter-spacing:-0.5px;
+      margin-bottom:10px;
+    }
+    .story-hero p{
+      font-size:.88rem;
+      color:var(--t2);
+      line-height:1.7;
+      max-width:520px;
+      margin:0 auto;
+    }
+
+    /* ── Founders row ── */
+    .founders-section{max-width:1000px;margin:0 auto;padding:64px 24px 40px}
+    .founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+    .founder-card{
+      background:var(--card);border:1px solid var(--b);border-radius:var(--rl);
+      overflow:hidden;transition:transform var(--tr),border-color var(--tr);
+    }
+    .founder-card:hover{transform:translateY(-4px);border-color:rgba(192,57,43,.3)}
+    .founder-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:saturate(.9) brightness(.95)}
+    .founder-body{padding:22px 24px 26px}
+    .founder-name{font-family:var(--fh);font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:4px}
+    .founder-origin{font-size:.76rem;color:var(--red2);font-weight:700;letter-spacing:.3px;text-transform:uppercase;margin-bottom:12px}
+    .founder-bio{font-size:.85rem;color:var(--t2);line-height:1.75}
+
+    /* ── Story timeline ── */
+    .story-timeline{max-width:820px;margin:0 auto;padding:48px 24px 64px}
+    .story-block{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:64px}
+    .story-block:nth-child(even) .story-text{order:2}
+    .story-block:nth-child(even) .story-img-wrap{order:1}
+    .story-img-wrap{border-radius:var(--rl);overflow:hidden;border:1px solid var(--b)}
+    .story-img-wrap img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:saturate(.9) brightness(.9)}
+    .story-chapter{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red2);display:block;margin-bottom:10px}
+    .story-title{font-family:var(--fh);font-size:1.5rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:14px}
+    .story-body{font-size:.87rem;color:var(--t2);line-height:1.85}
+
+    /* ── Values strip ── */
+    .values-strip{background:#1a1a1a;border-top:1px solid var(--b);border-bottom:1px solid var(--b);padding:56px 24px}
+    .values-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center}
+    .value-icon{font-size:1.8rem;margin-bottom:12px}
+    .value-title{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:6px}
+    .value-desc{font-size:.78rem;color:var(--t2);line-height:1.6}
+
+    /* ── Closing CTA ── */
+    .story-cta{padding:64px 24px;text-align:center}
+    .story-cta h2{font-family:var(--fh);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:#fff;margin-bottom:12px}
+    .story-cta p{font-size:.85rem;color:var(--t2);margin-bottom:28px;max-width:440px;margin-left:auto;margin-right:auto}
+    .story-cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    @media(max-width:768px){
+      .founders-grid{grid-template-columns:1fr}
+      .story-block{grid-template-columns:1fr;gap:20px}
+      .story-block:nth-child(even) .story-text,
+      .story-block:nth-child(even) .story-img-wrap{order:0}
+      .values-inner{grid-template-columns:1fr;gap:28px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <a href="index.html" class="logo-wrap">
+    <img src="images/chinese logo.png" alt="The Chinese Bliss">
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="our-story.html" class="active">Our Story</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <div class="nav-actions">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+    <button class="hamburger" id="ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html">About</a>
+  <a href="menu.html">Menu</a>
+  <a href="our-story.html">Our Story</a>
+  <a href="index.html#contact">Contact</a>
+  <div class="mnav-btns">
+    <a href="bulk-order.html" class="btn-nav-bulk">Bulk Order</a>
+    <a href="order.html" class="btn-nav-order">Order Online</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="story-hero">
+  <div class="story-hero-inner">
+    <span class="pre-label">The Chinese Bliss</span>
+    <h1>Our Story</h1>
+    <p>Two roommates, one shared craving, and a kitchen that started it all.</p>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="founders-section">
+  <div class="founders-grid">
+    <div class="founder-card">
+      <img class="founder-img" src="https://picsum.photos/seed/tcb-founder-ankit/500/375" alt="Ankit, co-founder" />
+      <div class="founder-body">
+        <div class="founder-name">Ankit</div>
+        <div class="founder-origin">From Jabalpur</div>
+        <p class="founder-bio">[Placeholder] Ankit grew up in Jabalpur before moving to Pune, where a shared love of good food — and a serious craving for Indo-Chinese done right — set everything in motion.</p>
+      </div>
+    </div>
+    <div class="founder-card">
+      <img class="founder-img" src="https://picsum.photos/seed/tcb-founder-atul/500/375" alt="Atul, co-founder" />
+      <div class="founder-body">
+        <div class="founder-name">Atul</div>
+        <div class="founder-origin">From Nagpur</div>
+        <p class="founder-bio">[Placeholder] Atul made his way from Nagpur to Pune, bringing an eye for flavour and a stubborn refusal to settle for average Chinese food. The rest, as they say, is history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY TIMELINE -->
+<section class="story-timeline">
+
+  <div class="story-block">
+    <div class="story-text">
+      <span class="story-chapter">Chapter One</span>
+      <h3 class="story-title">Two Roommates, One Kitchen</h3>
+      <p class="story-body">[Placeholder] Ankit and Atul weren't always business partners — they were just two roommates sharing a flat in Pune, trying to survive on takeout that never quite hit the spot. Late nights often ended the same way: standing in a cramped kitchen, arguing over how much chilli was too much chilli, and cooking up Indo-Chinese food that reminded them both of home.</p>
+    </div>
+    <div class="story-img-wrap">
+      <img src="https://picsum.photos/seed/tcb-story-kitchen/600/450" alt="Early kitchen days" />
+    </div>
+  </div>
+
+  <div class="story-block">
+    <div class="story-text">
+      <span class="story-chapter">Chapter Two</span>
+      <h3 class="story-title">The Idea That Wouldn't Let Go</h3>
+      <p class="story-body">[Placeholder] What started as feeding themselves slowly turned into feeding friends, then neighbours, then anyone who happened to be around when the wok came out. The response was always the same: "you two should sell this." Eventually, they stopped ignoring it.</p>
+    </div>
+    <div class="story-img-wrap">
+      <img src="https://picsum.photos/seed/tcb-story-idea/600/450" alt="The idea taking shape" />
+    </div>
+  </div>
+
+  <div class="story-block">
+    <div class="story-text">
+      <span class="story-chapter">Chapter Three</span>
+      <h3 class="story-title">The Chinese Bliss Is Born</h3>
+      <p class="story-body">[Placeholder] With a shared kitchen, a handful of recipes perfected over countless late nights, and zero background in running a restaurant, Ankit and Atul launched The Chinese Bliss — a cloud kitchen built on one simple promise: authentic Indo-Chinese, made fresh, every single time.</p>
+    </div>
+    <div class="story-img-wrap">
+      <img src="https://picsum.photos/seed/tcb-story-launch/600/450" alt="Launch day" />
+    </div>
+  </div>
+
+  <div class="story-block">
+    <div class="story-text">
+      <span class="story-chapter">Today</span>
+      <h3 class="story-title">Still Cooking, Still Roommates at Heart</h3>
+      <p class="story-body">[Placeholder] Today, The Chinese Bliss delivers across the city — through Swiggy, Zomato, and now our own kitchen door. The setup has grown, but the standard hasn't changed: if Ankit and Atul wouldn't eat it themselves, it doesn't leave the kitchen.</p>
+    </div>
+    <div class="story-img-wrap">
+      <img src="https://picsum.photos/seed/tcb-story-today/600/450" alt="The Chinese Bliss today" />
+    </div>
+  </div>
+
+</section>
+
+<!-- VALUES -->
+<section class="values-strip">
+  <div class="values-inner">
+    <div>
+      <div class="value-icon">🔥</div>
+      <div class="value-title">Made Fresh, Always</div>
+      <p class="value-desc">Every order is cooked to order — no batch prep, no shortcuts.</p>
+    </div>
+    <div>
+      <div class="value-icon">🥢</div>
+      <div class="value-title">Authentic Recipes</div>
+      <p class="value-desc">Flavours built on real Indo-Chinese technique, not shortcuts from a packet.</p>
+    </div>
+    <div>
+      <div class="value-icon">🚀</div>
+      <div class="value-title">Built for Delivery</div>
+      <p class="value-desc">Every dish is designed to travel well and arrive exactly as it should.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="story-cta">
+  <h2>Taste the Story Yourself</h2>
+  <p>The best way to understand where we came from is to try what we make now.</p>
+  <div class="story-cta-actions">
+    <a href="menu.html" class="btn-primary">View Menu</a>
+    <a href="order.html" class="btn-outline">Order Online</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-main">
+    <div class="fcol fcol-brand">
+      <div class="footer-logo-row">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
+        <div class="footer-brand-name">THE CHINESE<br><span>BLISS</span></div>
+      </div>
+      <p class="footer-tagline">Authentic Indo-Chinese.<br>Made Fresh, Made for You.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/81af6121f84c41a5b4391d7d37fce12a.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/81af6121f84c41a5b4391d7d37fce12a.png" alt="Instagram"/>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/23fd2a2be53141ed810f4d3dcdcd01fa.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23fd2a2be53141ed810f4d3dcdcd01fa.png" alt="Facebook"/>
+        </a>
+        <a href="https://www.yelp.com" target="_blank" class="fsoc">
+          <img src="https://static.wixstatic.com/media/3ae0375b94ba46fca1f4e6c0f7992fc9.png/v1/fill/w_25,h_25,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3ae0375b94ba46fca1f4e6c0f7992fc9.png" alt="Yelp"/>
+        </a>
+      </div>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="bulk-order.html">Catering</a>
+      <a href="#contact">Contact Us</a>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Contact Us</h4>
+      <a href="tel:+918956150583">📞 +91-8956150583</a>
+      <a href="mailto:chinesebliss1@gmail.com">✉️ chinesebliss1@gmail.com</a>
+      <p>📍 Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+    </div>
+    <div class="fcol">
+      <h4 class="fcol-title">Opening Hours</h4>
+      <p>Mon – Sun</p>
+      <p>4:00 PM – 2:00 AM</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 by The Chinese Bliss. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
