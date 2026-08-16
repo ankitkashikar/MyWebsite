@@ -361,7 +361,7 @@
       <h2>Select Your Items</h2>
       <p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom.</p>
 
-      <div class="menu-row" data-item="Dish Name" data-price="150">
+      <div class="menu-row" data-id="B001" data-item="Dish Name" data-price="150">
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
@@ -378,7 +378,7 @@
         </div>
       </div>
 
-      <div class="menu-row" data-item="Dish Name" data-price="180">
+      <div class="menu-row" data-id="B002" data-item="Dish Name" data-price="180">
         <div class="menu-row-left">
           <span class="diet-dot nonveg"></span>
           <div class="menu-row-info">
@@ -395,7 +395,7 @@
         </div>
       </div>
 
-      <div class="menu-row" data-item="Dish Name" data-price="190">
+      <div class="menu-row" data-id="B003" data-item="Dish Name" data-price="190">
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
@@ -412,7 +412,7 @@
         </div>
       </div>
 
-      <div class="menu-row" data-item="Dish Name" data-price="200">
+      <div class="menu-row" data-id="B004" data-item="Dish Name" data-price="200">
         <div class="menu-row-left">
           <span class="diet-dot nonveg"></span>
           <div class="menu-row-info">
@@ -429,7 +429,7 @@
         </div>
       </div>
 
-      <div class="menu-row" data-item="Dish Name" data-price="280">
+      <div class="menu-row" data-id="B005" data-item="Dish Name" data-price="280">
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
@@ -593,18 +593,25 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="supabase-config.js"></script>
   <script>
     // ── Cart state ──────────────────────────────────────────
+    // NOTE: name/price here are only for showing the cart UI.
+    // The actual order submission sends id + qty only — the
+    // server looks up the real price, it never trusts these.
     function getCartItems() {
       const items = [];
       document.querySelectorAll('.menu-row').forEach(row => {
         const qty = parseInt(row.querySelector('.qty-display').value);
         if (qty > 0) {
-          items.push({ name: row.dataset.item, price: parseInt(row.dataset.price), qty: qty });
+          items.push({ id: row.dataset.id, name: row.dataset.item, price: parseInt(row.dataset.price), qty: qty });
         }
       });
       return items;
     }
+
+    // One idempotency key per checkout attempt.
+    let currentIdempotencyKey = newIdempotencyKey();
     function cartTotal(items) { return items.reduce((sum, i) => sum + i.price * i.qty, 0); }
     function cartCount(items) { return items.reduce((sum, i) => sum + i.qty, 0); }
 
@@ -906,21 +913,22 @@
       btn.addEventListener('click', () => switchPayMethod(btn.dataset.method));
     });
 
+    // Only sends product id + qty for pricing — name/price here are for
+    // display only and are ignored by the server.
     function buildOrderPayload(paymentMethod) {
       const items = getCartItems();
       return {
+        type: 'bulk',
+        idempotency_key: currentIdempotencyKey,
         name: document.getElementById('custName').value.trim(),
         phone: document.getElementById('custPhone').value.trim(),
-        event: document.getElementById('custEvent').value.trim(),
-        date: document.getElementById('custDate').value,
+        event_type: document.getElementById('custEvent').value.trim(),
+        delivery_datetime: document.getElementById('custDate').value,
         address: document.getElementById('custAddress').value.trim(),
         notes: document.getElementById('custNotes').value.trim(),
-        items,
-        subtotal: cartTotal(items),
-        coupon: appliedCoupon ? appliedCoupon.code : null,
-        discount: calcDiscount(cartTotal(items)),
-        total: finalTotal(),
-        paymentMethod
+        items: items.map(i => ({ id: i.id, qty: i.qty })),
+        payment_method: paymentMethod,
+        coupon_code: appliedCoupon ? appliedCoupon.code : null
       };
     }
 
@@ -932,36 +940,70 @@
         document.getElementById('couponRow').style.display = 'flex';
         document.getElementById('couponAppliedTag').classList.remove('visible');
         refreshCartBar();
+        currentIdempotencyKey = newIdempotencyKey();
       }, 400);
     }
 
-    // UPI: customer self-reports payment — NOT verified automatically.
-    // Wording reflects that honestly instead of implying confirmation.
-    document.getElementById('btnConfirmPayment').addEventListener('click', () => {
-      const payload = buildOrderPayload('upi');
-      // In production: send this to your backend / WhatsApp / email / payment API
-      console.log('Bulk order placed (UPI, unverified)', payload);
+    function showOrderError(message) {
+      let el = document.getElementById('orderSubmitError');
+      if (!el) {
+        el = document.createElement('p');
+        el.id = 'orderSubmitError';
+        el.className = 'field-error visible';
+        el.style.textAlign = 'center';
+        el.style.marginTop = '10px';
+        document.getElementById('stepPayment').appendChild(el);
+      }
+      el.textContent = message;
+      el.classList.add('visible');
+    }
 
-      document.getElementById('successIcon').textContent = '⏳';
-      document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
-      document.getElementById('successMsg').textContent = "We've noted that you completed payment. Our team will verify it and call you within 2 hours to confirm before we start preparing your order.";
+    function clearOrderError() {
+      const el = document.getElementById('orderSubmitError');
+      if (el) el.remove();
+    }
+
+    async function handleOrderConfirm(paymentMethod, btn) {
+      clearOrderError();
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Placing order…';
+
+      const payload = buildOrderPayload(paymentMethod);
+      const result = await submitOrder(payload);
+
+      btn.disabled = false;
+      btn.textContent = originalText;
+
+      if (!result.success) {
+        // Never show a fake success message on failure.
+        showOrderError(result.message || 'Could not place your order. Please try again.');
+        return;
+      }
+
+      if (paymentMethod === 'upi') {
+        document.getElementById('successIcon').textContent = '⏳';
+        document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
+        document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you within 2 hours to confirm before we start preparing your order.`;
+      } else {
+        document.getElementById('successIcon').textContent = '🎉';
+        document.getElementById('successTitle').textContent = 'Order Request Sent';
+        document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
+      }
 
       showStep('stepSuccess');
       resetOrderState();
+    }
+
+    // UPI: customer self-reports payment — NOT verified automatically.
+    document.getElementById('btnConfirmPayment').addEventListener('click', (e) => {
+      handleOrderConfirm('upi', e.currentTarget);
     });
 
     // Cash on Delivery: no payment claim to verify, so this wording is
     // already accurate — nothing here is misleading.
-    document.getElementById('btnConfirmCod').addEventListener('click', () => {
-      const payload = buildOrderPayload('cod');
-      console.log('Bulk order placed (Cash on Delivery)', payload);
-
-      document.getElementById('successIcon').textContent = '🎉';
-      document.getElementById('successTitle').textContent = 'Order Request Sent';
-      document.getElementById('successMsg').textContent = `Thank you! Please keep ₹${payload.total.toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
-
-      showStep('stepSuccess');
-      resetOrderState();
+    document.getElementById('btnConfirmCod').addEventListener('click', (e) => {
+      handleOrderConfirm('cod', e.currentTarget);
     });
   </script>
 </body>
