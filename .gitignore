@@ -1,0 +1,11 @@
+# Environment / secrets — never commit these
+.env
+.env.local
+.env.*.local
+*.key
+service-role*
+supabase/.temp/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
