@@ -1,7 +1,7 @@
 /* ============================================================
    THE CHINESE BLISS — Premium Redesign
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -10,7 +10,7 @@
   --b:rgba(255,255,255,.08);--b2:rgba(255,255,255,.14);
   --t:rgba(255,255,255,1);--t2:rgba(255,255,255,.60);--t3:rgba(255,255,255,.35);
   --g:rgba(255,255,255,.05);--g2:rgba(255,255,255,.09);
-  --fh:'Instrument Serif',Georgia,serif;
+  --fh:'Plus Jakarta Sans','DM Sans',Arial,sans-serif;
   --fb:'DM Sans',Arial,sans-serif;
   --rp:999px;--rl:20px;--rm:14px;--rs:8px;
   --tr:.25s ease;
@@ -23,8 +23,8 @@ img{display:block;max-width:100%}
 ul{list-style:none}
 
 /* ── SHARED ── */
-.pre-label{font-size:.72rem;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:var(--red2);display:block;margin-bottom:8px}
-.sec-title{font-family:var(--fh);font-size:clamp(2rem,3.8vw,3rem);font-weight:400;color:#fff;line-height:1.04;letter-spacing:-.02em}
+.pre-label{font-size:.72rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--red2);display:block;margin-bottom:8px}
+.sec-title{font-family:var(--fh);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:600;color:#fff;line-height:1.12;letter-spacing:-.035em}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.25,.46,.45,.94)}
 .reveal.visible{opacity:1;transform:translateY(0)}
 .section{padding:80px 60px}
@@ -39,7 +39,7 @@ ul{list-style:none}
 .view-all-btn:hover{border-color:var(--b2);color:#fff;background:var(--g)}
 
 /* ── TOP BAR ── */
-.top-bar{background:#0d0d0d;border-bottom:1px solid rgba(192,57,43,.18);color:rgba(255,255,255,.58);font-size:.74rem;letter-spacing:.7px;text-align:center;padding:8px 20px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--fb)}
+.top-bar{background:#0d0d0d;border-bottom:1px solid rgba(192,57,43,.18);color:rgba(255,255,255,.58);font-size:.74rem;letter-spacing:.45px;text-align:center;padding:8px 20px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--fb)}
 .top-bar a{color:rgba(255,255,255,.70);transition:color var(--tr)}
 .top-bar a:hover{color:#fff}
 .top-bar-login{position:absolute;right:20px;display:flex;align-items:center;gap:5px;font-size:.74rem;opacity:.60;transition:opacity var(--tr);text-decoration:none!important}
@@ -78,9 +78,9 @@ ul{list-style:none}
 .hero-bg-img{width:100%;height:100%;object-fit:cover;object-position:center;opacity:.30;filter:saturate(1.2)}
 .hero-bg-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,10,10,.95) 0%,rgba(10,10,10,.70) 50%,rgba(10,10,10,.30) 100%)}
 .hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;width:100%;max-width:1220px;margin:0 auto;padding:80px 60px}
-.hero-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:2.6px;color:var(--red2);margin-bottom:20px;display:block}
-.hero-h1{font-family:var(--fh);font-size:clamp(3.4rem,6.5vw,5.8rem);font-weight:400;line-height:.94;letter-spacing:-.035em;color:#fff;margin-bottom:20px}
-.hero-red{color:var(--red2);font-style:italic;display:block}
+.hero-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:1.8px;color:var(--red2);margin-bottom:20px;display:block}
+.hero-h1{font-family:var(--fh);font-size:clamp(3.1rem,6vw,5.15rem);font-weight:600;line-height:1.03;letter-spacing:-.05em;color:#fff;margin-bottom:20px}
+.hero-red{color:var(--red2);font-style:normal;display:block}
 .hero-sub{font-size:1.04rem;font-weight:400;color:var(--t2);line-height:1.68;margin-bottom:34px}
 .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px}
 .hero-pills{display:flex;gap:9px;flex-wrap:wrap}
@@ -111,7 +111,7 @@ ul{list-style:none}
 .fav-img-wrap{position:relative;overflow:hidden}
 .fav-img-wrap img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s ease}
 .fav-card:hover .fav-img-wrap img{transform:scale(1.06)}
-.fav-badge-tag{position:absolute;top:12px;left:12px;background:var(--red);color:#fff;font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:var(--rp);letter-spacing:.25px;z-index:2}
+.fav-badge-tag{position:absolute;top:12px;left:12px;background:var(--red);color:#fff;font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:var(--rp);letter-spacing:.2px;z-index:2}
 .fav-body{padding:16px 18px 20px}
 .fav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .fav-name{font-size:1rem;font-weight:600;color:#fff;letter-spacing:-.01em}
@@ -123,7 +123,7 @@ ul{list-style:none}
 /* ── OUR STORY ── */
 .our-story{display:grid;grid-template-columns:1fr 1fr;min-height:500px;border-top:1px solid var(--b);border-bottom:1px solid var(--b)}
 .story-left{padding:80px 64px;display:flex;flex-direction:column;justify-content:center;gap:20px;background:#111}
-.story-title{font-family:var(--fh);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;color:#fff;line-height:1.08;letter-spacing:-.02em}
+.story-title{font-family:var(--fh);font-size:clamp(2rem,3.4vw,2.85rem);font-weight:600;color:#fff;line-height:1.12;letter-spacing:-.035em}
 .story-body{font-size:.94rem;font-weight:400;color:var(--t2);line-height:1.76;max-width:380px}
 .story-right{position:relative;overflow:hidden;min-height:400px}
 .story-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.50)}
@@ -136,7 +136,7 @@ ul{list-style:none}
 /* ── STATS BAR ── */
 .stats-bar{background:#1a1a1a;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:center;padding:44px 60px;gap:0;flex-wrap:wrap}
 .stat-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 60px;text-align:center}
-.stat-num{font-family:var(--fh);font-size:2.3rem;font-weight:400;color:#fff;line-height:1;letter-spacing:-.02em}
+.stat-num{font-family:var(--fh);font-size:2.15rem;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.035em}
 .stat-lbl{font-size:.79rem;color:var(--t2);font-weight:500;letter-spacing:.1px}
 .stat-icon{margin-bottom:4px}
 .stat-div{width:1px;height:60px;background:rgba(255,255,255,.09);flex-shrink:0}
@@ -149,7 +149,7 @@ ul{list-style:none}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .testi-card{background:var(--card2);border:1px solid var(--b);border-radius:var(--rl);padding:28px 26px 24px;transition:border-color var(--tr),box-shadow var(--tr)}
 .testi-card:hover{border-color:rgba(192,57,43,.28);box-shadow:0 8px 36px rgba(0,0,0,.45)}
-.tq{font-family:var(--fh);font-size:3.4rem;line-height:.82;color:var(--red);font-weight:400;margin-bottom:14px}
+.tq{font-family:var(--fh);font-size:3rem;line-height:.82;color:var(--red);font-weight:600;margin-bottom:14px}
 .testi-txt{font-size:.92rem;font-weight:400;color:var(--t2);line-height:1.72;margin-bottom:22px}
 .testi-author{display:flex;align-items:center;gap:12px}
 .tav{width:38px;height:38px;border-radius:50%;background:rgba(192,57,43,.18);border:1px solid rgba(192,57,43,.32);display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:600;color:var(--red2);flex-shrink:0}
@@ -158,7 +158,7 @@ ul{list-style:none}
 
 /* ── INSTAGRAM ── */
 .insta-section{background:#0f0f0f;padding:72px 60px 64px;text-align:center;border-top:1px solid var(--b)}
-.insta-handle{font-family:var(--fh);font-style:italic;font-size:clamp(2rem,4vw,3rem);color:#fff;font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:40px}
+.insta-handle{font-family:var(--fh);font-style:normal;font-size:clamp(1.85rem,3.7vw,2.75rem);color:#fff;font-weight:600;line-height:1.12;letter-spacing:-.035em;margin-bottom:40px}
 .insta-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:1040px;margin:0 auto 32px}
 .insta-item{position:relative;overflow:hidden;border-radius:var(--rm);border:1px solid var(--b);cursor:pointer}
 .insta-item img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.78) brightness(.78);transition:transform .4s ease,filter .4s ease}
@@ -175,8 +175,8 @@ ul{list-style:none}
 .cta-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,10,.88) 0%,rgba(160,10,10,.30) 50%,rgba(10,10,10,.88) 100%)}
 .cta-inner{position:relative;z-index:2;width:100%;max-width:1000px;margin:0 auto;padding:52px 60px;display:flex;align-items:center;justify-content:center;text-align:center}
 .cta-text-block{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:680px}
-.cta-eyebrow{font-size:.71rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red2);display:block;margin-bottom:2px}
-.cta-h2{font-family:var(--fh);font-size:clamp(2.4rem,4vw,3.3rem);font-weight:400;color:#fff;line-height:1.04;margin:0;letter-spacing:-.025em}
+.cta-eyebrow{font-size:.71rem;font-weight:700;letter-spacing:1.9px;text-transform:uppercase;color:var(--red2);display:block;margin-bottom:2px}
+.cta-h2{font-family:var(--fh);font-size:clamp(2.25rem,3.8vw,3.05rem);font-weight:600;color:#fff;line-height:1.12;margin:0;letter-spacing:-.04em}
 .cta-sub{font-size:.95rem;font-weight:400;color:rgba(255,255,255,.55);line-height:1.65;margin:0;max-width:420px}
 .cta-divider{width:40px;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);border-radius:2px;margin:6px auto}
 .cta-meta{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;margin-top:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:50px;padding:10px 28px;backdrop-filter:blur(10px)}
@@ -189,13 +189,13 @@ footer{background:#0d0d0d!important;border-top:1px solid var(--b)}
 .footer-main{display:grid;grid-template-columns:1.5fr 1fr 1.3fr 1fr;gap:48px;padding:64px 60px 52px;border-bottom:1px solid var(--b)}
 .fcol-brand{display:flex;flex-direction:column;gap:14px}
 .footer-logo-row{display:flex;align-items:center;gap:12px}
-.footer-brand-name{font-family:var(--fh);font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.88);line-height:1.08;letter-spacing:.015em}
+.footer-brand-name{font-family:var(--fh);font-size:1.1rem;font-weight:600;color:rgba(255,255,255,.88);line-height:1.2;letter-spacing:-.02em}
 .footer-brand-name span{color:var(--red2)}
 .footer-tagline{font-size:.84rem;color:var(--t2);line-height:1.65}
 .footer-socials{display:flex;gap:12px;margin-top:4px}
 .fsoc img{width:22px;height:22px;filter:grayscale(1) brightness(2);opacity:.28;transition:all .3s ease}
 .fsoc:hover img{filter:none;opacity:1;transform:scale(1.12)}
-.fcol-title{font-size:.72rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#fff;margin-bottom:18px;font-family:var(--fb)}
+.fcol-title{font-size:.72rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#fff;margin-bottom:18px;font-family:var(--fb)}
 .fcol a,.fcol p{font-size:.85rem;color:rgba(255,255,255,.42);line-height:2;display:block;transition:color var(--tr);font-family:var(--fb)}
 .fcol a:hover{color:var(--red2)}
 .footer-order-btn{display:inline-block!important;margin-top:16px;background:var(--red);color:#fff!important;padding:10px 24px;border-radius:var(--rp);font-size:.84rem;font-weight:600;transition:background var(--tr),box-shadow var(--tr);font-family:var(--fb)}
@@ -250,7 +250,7 @@ footer{background:#0d0d0d!important;border-top:1px solid var(--b)}
   .hero-badge.bottom-right{bottom:12px;right:8px;padding:8px 12px}
   .badge-val{font-size:.88rem}
   .badge-lbl{font-size:.67rem}
-  .hero-h1{font-size:2.9rem}
+  .hero-h1{font-size:2.75rem;line-height:1.05}
   .hero-pills{gap:7px}
   .pill{font-size:.74rem;padding:5px 11px}
 
@@ -285,7 +285,7 @@ footer{background:#0d0d0d!important;border-top:1px solid var(--b)}
   body{padding-bottom:84px}
 }
 @media(max-width:480px){
-  .hero-h1{font-size:2.45rem}
+  .hero-h1{font-size:2.35rem}
   .hero-ctas{gap:10px}
   .btn-primary,.btn-outline{padding:11px 22px;font-size:.84rem}
   .fav-grid{max-width:100%}
@@ -297,29 +297,29 @@ footer{background:#0d0d0d!important;border-top:1px solid var(--b)}
    TYPOGRAPHY SYSTEM — menu/checkout page overrides only
    These use !important only because menu.html has later inline CSS.
    ============================================================ */
-.menu-hero h1{font-family:var(--fh)!important;font-size:clamp(2.6rem,5vw,3.8rem)!important;font-weight:400!important;line-height:1.02!important;letter-spacing:-.025em!important}
+.menu-hero h1{font-family:var(--fh)!important;font-size:clamp(2.35rem,4.5vw,3.25rem)!important;font-weight:600!important;line-height:1.1!important;letter-spacing:-.04em!important}
 .menu-hero p{font-family:var(--fb)!important;font-size:.96rem!important;font-weight:400!important;line-height:1.6!important}
 .cat-pill{font-family:var(--fb)!important;font-size:.82rem!important;font-weight:600!important;letter-spacing:-.005em!important}
 .menu-search input{font-family:var(--fb)!important;font-size:.88rem!important;font-weight:400!important;letter-spacing:-.005em!important}
-.menu-category-title{font-family:var(--fh)!important;font-size:2rem!important;font-weight:400!important;line-height:1.08!important;letter-spacing:-.02em!important}
-.menu-subcategory-title{font-family:var(--fb)!important;font-size:.76rem!important;font-weight:700!important;line-height:1.2!important;letter-spacing:1.15px!important}
+.menu-category-title{font-family:var(--fh)!important;font-size:1.7rem!important;font-weight:600!important;line-height:1.15!important;letter-spacing:-.035em!important}
+.menu-subcategory-title{font-family:var(--fb)!important;font-size:.76rem!important;font-weight:700!important;line-height:1.2!important;letter-spacing:.9px!important}
 .menu-row-name{font-family:var(--fb)!important;font-size:1rem!important;font-weight:600!important;line-height:1.35!important;letter-spacing:-.01em!important}
 .menu-row-desc{font-family:var(--fb)!important;font-size:.84rem!important;font-weight:400!important;line-height:1.55!important;letter-spacing:-.005em!important}
 .menu-row-price{font-family:var(--fb)!important;font-size:.92rem!important;font-weight:700!important;line-height:1.35!important}
-.combo-select-label{font-family:var(--fb)!important;font-size:.7rem!important;font-weight:700!important;letter-spacing:.7px!important}
+.combo-select-label{font-family:var(--fb)!important;font-size:.7rem!important;font-weight:700!important;letter-spacing:.6px!important}
 .combo-select{font-family:var(--fb)!important;font-size:.86rem!important;font-weight:500!important;line-height:1.35!important}
 .qty-btn,.qty-display{font-family:var(--fb)!important;font-weight:600!important}
-.drawer-header h3{font-family:var(--fh)!important;font-size:1.45rem!important;font-weight:400!important;line-height:1.1!important;letter-spacing:-.015em!important}
-.dm-field label,.summary-box-title{font-family:var(--fb)!important;font-size:.72rem!important;font-weight:700!important;letter-spacing:.7px!important}
+.drawer-header h3{font-family:var(--fh)!important;font-size:1.3rem!important;font-weight:600!important;line-height:1.2!important;letter-spacing:-.025em!important}
+.dm-field label,.summary-box-title{font-family:var(--fb)!important;font-size:.72rem!important;font-weight:700!important;letter-spacing:.6px!important}
 .dm-field input,.dm-field textarea,.coupon-row input{font-family:var(--fb)!important;font-size:.9rem!important;font-weight:400!important;line-height:1.45!important}
 .btn-drawer-primary,.btn-drawer-secondary,.slot-mode-btn,.slot-day-tab,.slot-chip,.pay-method-btn,.btn-coupon-apply,.btn-upi-app{font-family:var(--fb)!important;font-weight:600!important;letter-spacing:-.005em!important}
 .cart-line-name{font-family:var(--fb)!important;font-size:.92rem!important;font-weight:600!important;line-height:1.4!important}
 .cart-line-price,.cart-line-sub,.summary-box-item,.summary-box-discount,.summary-box-total{font-family:var(--fb)!important}
-.success-step h4{font-family:var(--fh)!important;font-size:1.55rem!important;font-weight:400!important;line-height:1.1!important;letter-spacing:-.015em!important}
+.success-step h4{font-family:var(--fh)!important;font-size:1.4rem!important;font-weight:600!important;line-height:1.2!important;letter-spacing:-.025em!important}
 
 @media(max-width:768px){
-  .menu-hero h1{font-size:2.75rem!important}
-  .menu-category-title{font-size:1.8rem!important}
+  .menu-hero h1{font-size:2.35rem!important}
+  .menu-category-title{font-size:1.55rem!important}
   .menu-row-name{font-size:.96rem!important}
   .menu-row-desc{font-size:.82rem!important}
 }
