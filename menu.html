@@ -498,6 +498,410 @@
       .menu-row{padding:14px;flex-wrap:wrap}
       .drawer{max-height:92vh;border-radius:18px 18px 0 0}
     }
+
+    /* ============================================================
+       MODERN GROUPED MENU — visual/alignment overrides only
+       ============================================================ */
+
+    .menu-hero{
+      padding:72px 24px 50px;
+    }
+    .menu-hero-inner{
+      max-width:720px;
+      margin:0 auto;
+    }
+    .menu-hero h1{
+      margin-bottom:8px;
+    }
+
+    .menu-toolbar{
+      padding:14px 24px;
+      background:rgba(10,10,10,.97);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+
+    .menu-toolbar-inner{
+      max-width:1080px;
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .cat-nav{
+      order:1;
+      width:auto;
+      flex:1 1 auto;
+      justify-content:flex-start;
+      gap:8px;
+      padding:2px;
+    }
+
+    .cat-pill{
+      min-height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 16px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.045);
+      color:rgba(255,255,255,.68);
+      font-size:.77rem;
+      font-weight:700;
+      letter-spacing:.1px;
+    }
+
+    .cat-pill:hover{
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-1px);
+    }
+
+    .cat-pill.active{
+      background:var(--red);
+      border-color:var(--red);
+      color:#fff;
+      box-shadow:0 8px 22px rgba(192,57,43,.28);
+    }
+
+    .menu-controls{
+      order:2;
+      width:280px;
+      flex:0 0 280px;
+      justify-content:stretch;
+    }
+
+    .menu-search{
+      width:100%;
+      min-width:0;
+      height:40px;
+      padding:0 14px;
+      border-radius:12px;
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.10);
+      transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .menu-search:focus-within{
+      background:rgba(255,255,255,.075);
+      border-color:rgba(255,255,255,.24);
+      box-shadow:0 0 0 3px rgba(255,255,255,.035);
+    }
+
+    .menu-search input{
+      font-size:.81rem;
+    }
+
+    .menu-search svg{
+      width:16px;
+      height:16px;
+      opacity:.58;
+    }
+
+    .menu-body{
+      max-width:980px;
+      padding:46px 24px 150px;
+    }
+
+    .menu-category{
+      margin-bottom:30px;
+      padding:28px;
+      scroll-margin-top:155px;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.032), rgba(255,255,255,.016));
+      box-shadow:0 18px 50px rgba(0,0,0,.12);
+    }
+
+    .menu-category-title{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin:0 0 24px;
+      padding:0;
+      border:0;
+      font-size:1.8rem;
+      letter-spacing:-.25px;
+    }
+
+    .menu-category-title::after{
+      content:'';
+      flex:1;
+      height:1px;
+      background:linear-gradient(90deg, rgba(192,57,43,.65), rgba(255,255,255,.06));
+    }
+
+    .menu-subcategory{
+      margin-bottom:30px;
+    }
+
+    .menu-subcategory:last-of-type{
+      margin-bottom:0;
+    }
+
+    .menu-subcategory-title{
+      width:max-content;
+      max-width:100%;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin:0 0 12px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.035);
+      color:rgba(255,255,255,.78);
+      font-size:.72rem;
+      font-weight:800;
+      line-height:1;
+      letter-spacing:.55px;
+    }
+
+    .menu-subcategory-title::before{
+      content:'';
+      width:7px;
+      height:7px;
+      flex:0 0 7px;
+      border-radius:50%;
+      background:#2e7d32;
+      box-shadow:0 0 0 3px rgba(46,125,50,.12);
+    }
+
+    .nonveg-subcategory .menu-subcategory-title::before{
+      background:#a33;
+      box-shadow:0 0 0 3px rgba(170,51,51,.12);
+    }
+
+    .menu-row{
+      min-height:78px;
+      padding:16px 18px;
+      margin-bottom:9px;
+      border:1px solid rgba(0,0,0,.055);
+      border-radius:14px;
+      background:#fff;
+      box-shadow:0 4px 14px rgba(0,0,0,.10);
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .menu-row:last-child{
+      margin-bottom:0;
+    }
+
+    .menu-row:hover{
+      transform:translateY(-1px);
+      border-color:rgba(192,57,43,.12);
+      box-shadow:0 9px 24px rgba(0,0,0,.15);
+    }
+
+    .menu-row-left{
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .menu-row-info{
+      flex:1;
+      min-width:0;
+    }
+
+    .menu-row-name{
+      margin-bottom:4px;
+      font-size:.95rem;
+      line-height:1.35;
+    }
+
+    .menu-row-desc{
+      margin-bottom:7px;
+      color:#858585;
+      font-size:.76rem;
+      line-height:1.45;
+    }
+
+    .menu-row-price{
+      margin-top:1px;
+      font-size:.88rem;
+      font-weight:800;
+    }
+
+    .qty-stepper{
+      margin-left:12px;
+      border-color:rgba(0,0,0,.10);
+      border-radius:10px;
+      background:#fafafa;
+    }
+
+    .qty-btn{
+      width:34px;
+      height:34px;
+      background:#fafafa;
+    }
+
+    .qty-display{
+      width:36px;
+      height:34px;
+      background:#fff;
+    }
+
+    .combo-select{
+      max-width:360px;
+      padding:9px 11px;
+      border-radius:9px;
+      background:#fbfbfb;
+    }
+
+    @media(max-width:900px){
+      .menu-toolbar-inner{
+        flex-direction:column;
+        align-items:stretch;
+        gap:10px;
+      }
+
+      .menu-controls{
+        order:1;
+        width:100%;
+        flex:0 0 auto;
+      }
+
+      .menu-search{
+        width:100%;
+        max-width:520px;
+        margin:0 auto;
+      }
+
+      .cat-nav{
+        order:2;
+        width:100%;
+        flex:0 0 auto;
+        justify-content:flex-start;
+      }
+    }
+
+    @media(max-width:768px){
+      .menu-hero{
+        padding:52px 18px 38px;
+      }
+
+      .menu-toolbar{
+        top:64px;
+        padding:10px 14px 12px;
+      }
+
+      .menu-toolbar-inner{
+        gap:9px;
+      }
+
+      .menu-search{
+        max-width:none;
+      }
+
+      .cat-nav{
+        gap:7px;
+        padding:1px 0 2px;
+      }
+
+      .cat-pill{
+        min-height:38px;
+        padding:8px 14px;
+        font-size:.73rem;
+        border-radius:11px;
+      }
+
+      .menu-body{
+        padding:28px 14px 150px;
+      }
+
+      .menu-category{
+        margin-bottom:20px;
+        padding:20px 14px;
+        scroll-margin-top:190px;
+        border-radius:18px;
+      }
+
+      .menu-category-title{
+        gap:12px;
+        margin-bottom:18px;
+        font-size:1.55rem;
+      }
+
+      .menu-subcategory{
+        margin-bottom:24px;
+      }
+
+      .menu-subcategory-title{
+        margin-bottom:10px;
+        padding:7px 11px;
+        font-size:.69rem;
+      }
+
+      .menu-row{
+        min-height:74px;
+        padding:14px;
+        gap:10px;
+        flex-wrap:nowrap;
+        border-radius:13px;
+      }
+
+      .menu-row-left{
+        gap:10px;
+      }
+
+      .menu-row-name{
+        font-size:.9rem;
+      }
+
+      .menu-row-desc{
+        font-size:.72rem;
+      }
+
+      .qty-stepper{
+        margin-left:6px;
+      }
+
+      .qty-btn{
+        width:32px;
+        height:32px;
+      }
+
+      .qty-display{
+        width:32px;
+        height:32px;
+      }
+
+      .combo-select{
+        max-width:100%;
+      }
+    }
+
+    @media(max-width:420px){
+      .menu-category{
+        padding:18px 12px;
+      }
+
+      .menu-row{
+        padding:13px 12px;
+      }
+
+      .diet-dot{
+        margin-top:2px;
+      }
+
+      .qty-stepper{
+        margin-left:2px;
+      }
+
+      .qty-btn{
+        width:30px;
+      }
+
+      .qty-display{
+        width:30px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -555,7 +959,7 @@
     </nav>
     <div class="menu-controls">
       <div class="menu-search">
-        <svg width="10" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input type="text" id="menuSearch" placeholder="Search dishes..." />
       </div>
     </div>
@@ -568,7 +972,7 @@
     <div class="menu-category" id="cat-starters">
     <div class="menu-category-title">Starters</div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory veg-subcategory">
       <div class="menu-subcategory-title">Veg Starters</div>
     <div class="menu-row" data-id="VS-1" data-item="Paneer Chilli" data-price="180">
       <div class="menu-row-left">
@@ -734,7 +1138,7 @@
   
     </div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory nonveg-subcategory">
       <div class="menu-subcategory-title">Non-Veg Starters</div>
     <div class="menu-row" data-id="NS-1" data-item="Chicken Chilli" data-price="220">
       <div class="menu-row-left">
@@ -874,7 +1278,7 @@
   <div class="menu-category" id="cat-noodles">
     <div class="menu-category-title">Noodles</div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory veg-subcategory">
       <div class="menu-subcategory-title">Veg Noodles</div>
     <div class="menu-row" data-id="VN-1" data-item="Veg Chilli Garlic Noodles" data-price="190">
       <div class="menu-row-left">
@@ -1040,7 +1444,7 @@
   
     </div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory nonveg-subcategory">
       <div class="menu-subcategory-title">Non-Veg Noodles</div>
     <div class="menu-row" data-id="NN-1" data-item="Chicken Burnt Garlic Noodles" data-price="230">
       <div class="menu-row-left">
@@ -1228,7 +1632,7 @@
   <div class="menu-category" id="cat-rice">
     <div class="menu-category-title">Fried Rice</div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory veg-subcategory">
       <div class="menu-subcategory-title">Veg Fried Rice</div>
     <div class="menu-row" data-id="VR-1" data-item="Veg Fried Rice" data-price="180">
       <div class="menu-row-left">
@@ -1410,7 +1814,7 @@
   
     </div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory nonveg-subcategory">
       <div class="menu-subcategory-title">Non-Veg Fried Rice</div>
     <div class="menu-row" data-id="NR-1" data-item="Chicken Chilli Fried Rice" data-price="220">
       <div class="menu-row-left">
@@ -1598,7 +2002,7 @@
   <div class="menu-category" id="cat-soups">
     <div class="menu-category-title">Soups</div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory veg-subcategory">
       <div class="menu-subcategory-title">Veg Soup</div>
     <div class="menu-row" data-id="VSP-1" data-item="Hot & Sour Soup" data-price="120">
       <div class="menu-row-left">
@@ -1700,7 +2104,7 @@
   
     </div>
 
-    <div class="menu-subcategory">
+    <div class="menu-subcategory nonveg-subcategory">
       <div class="menu-subcategory-title">Non-Veg Soup</div>
     <div class="menu-row" data-id="NSP-1" data-item="Chicken Clear Soup" data-price="150">
       <div class="menu-row-left">
