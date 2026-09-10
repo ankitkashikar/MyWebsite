@@ -157,6 +157,16 @@
       margin-bottom:18px;
       letter-spacing:.2px;
     }
+    .menu-subcategory{margin-bottom:30px}
+    .menu-subcategory:last-of-type{margin-bottom:0}
+    .menu-subcategory-title{
+      font-size:.78rem;
+      font-weight:800;
+      color:var(--t2);
+      letter-spacing:.7px;
+      text-transform:uppercase;
+      margin:2px 0 12px;
+    }
     .menu-category-empty{
       display:none;
       font-size:.82rem;
@@ -533,18 +543,14 @@
   </div>
 </section>
 
-<!-- STICKY TOOLBAR: category nav + search + veg filter -->
+<!-- STICKY TOOLBAR: category nav + search -->
 <div class="menu-toolbar">
   <div class="menu-toolbar-inner">
     <nav class="cat-nav" id="catNav">
-      <a href="#cat-veg-starters" class="cat-pill active">Veg Starters</a>
-      <a href="#cat-nonveg-starters" class="cat-pill">Non-Veg Starters</a>
-      <a href="#cat-veg-noodles" class="cat-pill">Veg Noodles</a>
-      <a href="#cat-nonveg-noodles" class="cat-pill">Non-Veg Noodles</a>
-      <a href="#cat-veg-rice" class="cat-pill">Veg Fried Rice</a>
-      <a href="#cat-nonveg-rice" class="cat-pill">Non-Veg Fried Rice</a>
-      <a href="#cat-veg-soup" class="cat-pill">Veg Soup</a>
-      <a href="#cat-nonveg-soup" class="cat-pill">Non-Veg Soup</a>
+      <a href="#cat-starters" class="cat-pill active">Starters</a>
+      <a href="#cat-noodles" class="cat-pill">Noodles</a>
+      <a href="#cat-rice" class="cat-pill">Fried Rice</a>
+      <a href="#cat-soups" class="cat-pill">Soups</a>
       <a href="#cat-combos" class="cat-pill">Combos</a>
     </nav>
     <div class="menu-controls">
@@ -559,9 +565,11 @@
 <!-- MENU BODY -->
 <div class="menu-body">
 
-  <div class="menu-category" id="cat-veg-starters">
-    <div class="menu-category-title">Veg Starters</div>
+    <div class="menu-category" id="cat-starters">
+    <div class="menu-category-title">Starters</div>
 
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Veg Starters</div>
     <div class="menu-row" data-id="VS-1" data-item="Paneer Chilli" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
@@ -723,12 +731,11 @@
       </div>
     </div>
 
-    <p class="menu-category-empty">No dishes match your search.</p>
-  </div>
+  
+    </div>
 
-  <div class="menu-category" id="cat-nonveg-starters">
-    <div class="menu-category-title">Non-Veg Starters</div>
-
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Non-Veg Starters</div>
     <div class="menu-row" data-id="NS-1" data-item="Chicken Chilli" data-price="220">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
@@ -858,12 +865,17 @@
       </div>
     </div>
 
+  
+    </div>
+
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <div class="menu-category" id="cat-veg-noodles">
-    <div class="menu-category-title">Veg Noodles</div>
+  <div class="menu-category" id="cat-noodles">
+    <div class="menu-category-title">Noodles</div>
 
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Veg Noodles</div>
     <div class="menu-row" data-id="VN-1" data-item="Veg Chilli Garlic Noodles" data-price="190">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
@@ -1025,12 +1037,11 @@
       </div>
     </div>
 
-    <p class="menu-category-empty">No dishes match your search.</p>
-  </div>
+  
+    </div>
 
-  <div class="menu-category" id="cat-nonveg-noodles">
-    <div class="menu-category-title">Non-Veg Noodles</div>
-
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Non-Veg Noodles</div>
     <div class="menu-row" data-id="NN-1" data-item="Chicken Burnt Garlic Noodles" data-price="230">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
@@ -1208,12 +1219,17 @@
       </div>
     </div>
 
+  
+    </div>
+
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <div class="menu-category" id="cat-veg-rice">
-    <div class="menu-category-title">Veg Fried Rice</div>
+  <div class="menu-category" id="cat-rice">
+    <div class="menu-category-title">Fried Rice</div>
 
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Veg Fried Rice</div>
     <div class="menu-row" data-id="VR-1" data-item="Veg Fried Rice" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
@@ -1391,12 +1407,11 @@
       </div>
     </div>
 
-    <p class="menu-category-empty">No dishes match your search.</p>
-  </div>
+  
+    </div>
 
-  <div class="menu-category" id="cat-nonveg-rice">
-    <div class="menu-category-title">Non-Veg Fried Rice</div>
-
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Non-Veg Fried Rice</div>
     <div class="menu-row" data-id="NR-1" data-item="Chicken Chilli Fried Rice" data-price="220">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
@@ -1574,12 +1589,17 @@
       </div>
     </div>
 
+  
+    </div>
+
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <div class="menu-category" id="cat-veg-soup">
-    <div class="menu-category-title">Veg Soup</div>
+  <div class="menu-category" id="cat-soups">
+    <div class="menu-category-title">Soups</div>
 
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Veg Soup</div>
     <div class="menu-row" data-id="VSP-1" data-item="Hot & Sour Soup" data-price="120">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
@@ -1677,12 +1697,11 @@
       </div>
     </div>
 
-    <p class="menu-category-empty">No dishes match your search.</p>
-  </div>
+  
+    </div>
 
-  <div class="menu-category" id="cat-nonveg-soup">
-    <div class="menu-category-title">Non-Veg Soup</div>
-
+    <div class="menu-subcategory">
+      <div class="menu-subcategory-title">Non-Veg Soup</div>
     <div class="menu-row" data-id="NSP-1" data-item="Chicken Clear Soup" data-price="150">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
@@ -1748,11 +1767,14 @@
       </div>
     </div>
 
+  
+    </div>
+
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <div class="menu-category" id="cat-combos">
-    <div class="menu-category-title">Combos (Choice of Starter)</div>
+<div class="menu-category" id="cat-combos">
+    <div class="menu-category-title">Combos</div>
 
     <div class="menu-row combo-row" data-id="CMB1-1" data-item="Veg Hakka Noodles Half + Choice of Veg Starter — Paneer Chilli (Gravy)" data-price="260" data-base-name="Veg Hakka Noodles Half + Choice of Veg Starter">
       <div class="menu-row-left">
