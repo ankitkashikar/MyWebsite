@@ -182,6 +182,18 @@
       background:#fff;color:#161616;font-family:var(--fb);outline:none;
     }
 
+    /* Combo "choice of starter" dropdown */
+    .combo-select-label{
+      display:block;font-size:.65rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase;
+      color:#999;margin-bottom:4px;
+    }
+    .combo-select{
+      width:100%;max-width:280px;border:1px solid rgba(0,0,0,.16);border-radius:var(--rs);
+      padding:8px 10px;font-size:.8rem;font-family:var(--fb);color:#161616;background:#fafafa;
+      outline:none;margin-bottom:6px;cursor:pointer;transition:border-color .2s ease;
+    }
+    .combo-select:focus{border-color:var(--red)}
+
     /* ══════════════════════════════════════════════════════
        FIXED CART BAR — always visible once items are added
        ══════════════════════════════════════════════════════ */
@@ -483,13 +495,15 @@
 <div class="menu-toolbar">
   <div class="menu-toolbar-inner">
     <nav class="cat-nav" id="catNav">
-      <a href="#cat-soups" class="cat-pill active">Soups</a>
-      <a href="#cat-starters" class="cat-pill">Starters</a>
-      <a href="#cat-dumplings" class="cat-pill">Momos &amp; Dumplings</a>
-      <a href="#cat-noodles" class="cat-pill">Noodles</a>
-      <a href="#cat-rice" class="cat-pill">Fried Rice</a>
-      <a href="#cat-manchurian" class="cat-pill">Manchurian &amp; Chilli</a>
-      <a href="#cat-combos" class="cat-pill">Combo Meals</a>
+      <a href="#cat-veg-starters" class="cat-pill active">Veg Starters</a>
+      <a href="#cat-nonveg-starters" class="cat-pill">Non-Veg Starters</a>
+      <a href="#cat-veg-noodles" class="cat-pill">Veg Noodles</a>
+      <a href="#cat-nonveg-noodles" class="cat-pill">Non-Veg Noodles</a>
+      <a href="#cat-veg-rice" class="cat-pill">Veg Fried Rice</a>
+      <a href="#cat-nonveg-rice" class="cat-pill">Non-Veg Fried Rice</a>
+      <a href="#cat-veg-soup" class="cat-pill">Veg Soup</a>
+      <a href="#cat-nonveg-soup" class="cat-pill">Non-Veg Soup</a>
+      <a href="#cat-combos" class="cat-pill">Combos</a>
     </nav>
     <div class="menu-controls">
       <div class="menu-search">
@@ -503,18 +517,17 @@
 <!-- MENU BODY -->
 <div class="menu-body">
 
-  <!-- SOUPS -->
-  <div class="menu-category" id="cat-soups">
-    <div class="menu-category-title">Soups</div>
+  <div class="menu-category" id="cat-veg-starters">
+    <div class="menu-category-title">Veg Starters</div>
 
-    <div class="menu-row" data-id="N001" data-item="Dish Name" data-price="150">
+    <div class="menu-row" data-id="VS-1" data-item="Paneer Chilli" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Paneer Chilli</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
-          <div class="menu-row-price">₹150</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -523,32 +536,14 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N002" data-item="Dish Name" data-price="150">
-      <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹150</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N003" data-item="Dish Name" data-price="150">
+    <div class="menu-row" data-id="VS-2" data-item="Paneer Garlic" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Paneer Garlic</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹150</div>
+          <div class="menu-row-price">₹180</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -557,15 +552,126 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N004" data-item="Dish Name" data-price="150">
+    <div class="menu-row" data-id="VS-3" data-item="Veg Manchurian Dry" data-price="180">
       <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
+        <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Manchurian Dry</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹150</div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-4" data-item="Paneer 65 (Dry)" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Paneer 65 (Dry)</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-5" data-item="Paneer Schezwan" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Paneer Schezwan</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-6" data-item="Soyabean Chilli (Dry)" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Soyabean Chilli (Dry)</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-7" data-item="Veg 65" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg 65</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-8" data-item="Veg Corn Crispy" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Corn Crispy</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-9" data-item="Veg Crispy" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Crispy</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VS-10" data-item="Veg Chinese Bhel" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Chinese Bhel</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -578,69 +684,129 @@
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <!-- STARTERS -->
-  <div class="menu-category" id="cat-starters">
-    <div class="menu-category-title">Starters</div>
+  <div class="menu-category" id="cat-nonveg-starters">
+    <div class="menu-category-title">Non-Veg Starters</div>
 
-    <div class="menu-row" data-id="N005" data-item="Dish Name" data-price="180">
-      <div class="menu-row-left">
-        <span class="diet-dot"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
-          <div class="menu-row-price">₹180</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N006" data-item="Dish Name" data-price="180">
+    <div class="menu-row" data-id="NS-1" data-item="Chicken Chilli" data-price="220">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹180</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N007" data-item="Dish Name" data-price="180">
-      <div class="menu-row-left">
-        <span class="diet-dot"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
-          <div class="menu-row-price">₹180</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N008" data-item="Dish Name" data-price="180">
-      <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Chicken Chilli</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹180</div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-2" data-item="Chicken Chinese Bhel" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Chinese Bhel</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-3" data-item="Chicken Crispy" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Crispy</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-4" data-item="Chicken Garlic Dry" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Garlic Dry</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-5" data-item="Chicken Lollipop Dry" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Lollipop Dry</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-6" data-item="Chicken Lollipop Masala" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Lollipop Masala</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-7" data-item="Chicken Schezwan (Dry)" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Schezwan (Dry)</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NS-8" data-item="Chicken 65" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken 65</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -653,18 +819,17 @@
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <!-- MOMOS & DUMPLINGS -->
-  <div class="menu-category" id="cat-dumplings">
-    <div class="menu-category-title">Momos &amp; Dumplings</div>
+  <div class="menu-category" id="cat-veg-noodles">
+    <div class="menu-category-title">Veg Noodles</div>
 
-    <div class="menu-row" data-id="N009" data-item="Dish Name" data-price="170">
+    <div class="menu-row" data-id="VN-1" data-item="Veg Chilli Garlic Noodles" data-price="190">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Chilli Garlic Noodles</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹170</div>
+          <div class="menu-row-price">₹190</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -673,32 +838,14 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N010" data-item="Dish Name" data-price="170">
-      <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹170</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N011" data-item="Dish Name" data-price="170">
+    <div class="menu-row" data-id="VN-2" data-item="Veg Cocktail Noodles" data-price="190">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Cocktail Noodles</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹170</div>
+          <div class="menu-row-price">₹190</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -707,38 +854,125 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N012" data-item="Dish Name" data-price="170">
-      <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹170</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <p class="menu-category-empty">No dishes match your search.</p>
-  </div>
-
-  <!-- NOODLES -->
-  <div class="menu-category" id="cat-noodles">
-    <div class="menu-category-title">Noodles</div>
-
-    <div class="menu-row" data-id="N013" data-item="Dish Name" data-price="190">
+    <div class="menu-row" data-id="VN-3" data-item="Veg Hakka Noodles" data-price="190">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Hakka Noodles</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-4" data-item="Veg Hong Kong Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Hong Kong Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-5" data-item="Veg Peri Peri Hakka Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Peri Peri Hakka Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-6" data-item="Veg Schezwan Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Schezwan Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-7" data-item="Veg Singapore Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Singapore Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-8" data-item="Veg Triple Schezwan Fried Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Triple Schezwan Fried Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-9" data-item="Veg Manchurian Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Manchurian Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹190</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VN-10" data-item="Veg Paneer Noodles" data-price="190">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Paneer Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
           <div class="menu-row-price">₹190</div>
         </div>
       </div>
@@ -749,14 +983,20 @@
       </div>
     </div>
 
-    <div class="menu-row" data-id="N014" data-item="Dish Name" data-price="190">
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <div class="menu-category" id="cat-nonveg-noodles">
+    <div class="menu-category-title">Non-Veg Noodles</div>
+
+    <div class="menu-row" data-id="NN-1" data-item="Chicken Burnt Garlic Noodles" data-price="230">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Chicken Burnt Garlic Noodles</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹190</div>
+          <div class="menu-row-price">₹230</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -765,32 +1005,158 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N015" data-item="Dish Name" data-price="190">
-      <div class="menu-row-left">
-        <span class="diet-dot"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
-          <div class="menu-row-price">₹190</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N016" data-item="Dish Name" data-price="190">
+    <div class="menu-row" data-id="NN-2" data-item="Chicken Chilli Garlic Noodles" data-price="230">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Chicken Chilli Garlic Noodles</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹190</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-3" data-item="Chicken Chilli Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Chilli Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-4" data-item="Chicken Drumstick Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Drumstick Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-5" data-item="Chicken Garlic And Onion Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Garlic And Onion Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-6" data-item="Chicken Hakka Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Hakka Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-7" data-item="Chicken Hong Kong Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Hong Kong Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-8" data-item="Chicken Schezwan Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Schezwan Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-9" data-item="Chicken Singapore Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Singapore Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-10" data-item="Chicken Triple Schezwan Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Triple Schezwan Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NN-11" data-item="Egg Hakka Noodles" data-price="230">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Egg Hakka Noodles</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹230</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -803,15 +1169,14 @@
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <!-- FRIED RICE -->
-  <div class="menu-category" id="cat-rice">
-    <div class="menu-category-title">Fried Rice</div>
+  <div class="menu-category" id="cat-veg-rice">
+    <div class="menu-category-title">Veg Fried Rice</div>
 
-    <div class="menu-row" data-id="N017" data-item="Dish Name" data-price="180">
+    <div class="menu-row" data-id="VR-1" data-item="Veg Fried Rice" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Fried Rice</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
           <div class="menu-row-price">₹180</div>
@@ -823,12 +1188,11 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N018" data-item="Dish Name" data-price="180">
+    <div class="menu-row" data-id="VR-2" data-item="Veg Fried Garlic Rice" data-price="180">
       <div class="menu-row-left">
-        <span class="diet-dot nonveg"></span>
+        <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Veg Fried Garlic Rice</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
           <div class="menu-row-price">₹180</div>
@@ -840,14 +1204,141 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N019" data-item="Dish Name" data-price="180">
+    <div class="menu-row" data-id="VR-3" data-item="Paneer Schezwan Fried Rice" data-price="180">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Paneer Schezwan Fried Rice</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-vegan">Vegan</span></div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-4" data-item="Veg Cocktail Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Cocktail Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-5" data-item="Veg Hong Kong Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Hong Kong Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-6" data-item="Veg Manchurian Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Manchurian Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-7" data-item="Veg Paneer Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Paneer Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-8" data-item="Veg Peri Peri Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Peri Peri Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-9" data-item="Veg Schezwan Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Schezwan Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-10" data-item="Veg Singapore Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Singapore Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹180</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VR-11" data-item="Veg Triple Schezwan Fried Rice" data-price="180">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Triple Schezwan Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
           <div class="menu-row-price">₹180</div>
         </div>
       </div>
@@ -861,35 +1352,17 @@
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <!-- MANCHURIAN & CHILLI -->
-  <div class="menu-category" id="cat-manchurian">
-    <div class="menu-category-title">Manchurian &amp; Chilli Specials</div>
+  <div class="menu-category" id="cat-nonveg-rice">
+    <div class="menu-category-title">Non-Veg Fried Rice</div>
 
-    <div class="menu-row" data-id="N020" data-item="Dish Name" data-price="210">
-      <div class="menu-row-left">
-        <span class="diet-dot"></span>
-        <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span> <span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹210</div>
-        </div>
-      </div>
-      <div class="qty-stepper">
-        <button class="qty-btn qty-minus">−</button>
-        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
-        <button class="qty-btn qty-plus">+</button>
-      </div>
-    </div>
-
-    <div class="menu-row" data-id="N021" data-item="Dish Name" data-price="210">
+    <div class="menu-row" data-id="NR-1" data-item="Chicken Chilli Fried Rice" data-price="220">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Chicken Chilli Fried Rice</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
-          <div class="menu-row-price">₹210</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -898,15 +1371,158 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N022" data-item="Dish Name" data-price="210">
+    <div class="menu-row" data-id="NR-2" data-item="Chicken Fried Rice" data-price="220">
       <div class="menu-row-left">
-        <span class="diet-dot"></span>
+        <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
+          <div class="menu-row-name">Chicken Fried Rice</div>
           <div class="menu-row-desc">Add-ons &amp; description go here</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹210</div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-3" data-item="Chicken Garlic and Onion Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Garlic and Onion Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-4" data-item="Chicken Burnt Garlic Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Burnt Garlic Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-5" data-item="Chicken Chopper Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Chopper Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-6" data-item="Chicken Drumstick Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Drumstick Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-7" data-item="Chicken Hong Kong Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Hong Kong Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-8" data-item="Chicken Schezwan Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Schezwan Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-9" data-item="Chicken Singapore Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Singapore Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-10" data-item="Chicken Triple Schezwan Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Triple Schezwan Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NR-11" data-item="Egg Fried Rice" data-price="220">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Egg Fried Rice</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹220</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -919,17 +1535,222 @@
     <p class="menu-category-empty">No dishes match your search.</p>
   </div>
 
-  <!-- COMBO MEALS -->
+  <div class="menu-category" id="cat-veg-soup">
+    <div class="menu-category-title">Veg Soup</div>
+
+    <div class="menu-row" data-id="VSP-1" data-item="Hot & Sour Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Hot & Sour Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VSP-2" data-item="Tomato Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Tomato Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VSP-3" data-item="Veg Clear Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Clear Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VSP-4" data-item="Veg Lemon Coriander Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Lemon Coriander Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VSP-5" data-item="Veg Manchow Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Manchow Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="VSP-6" data-item="Veg Noodle Soup" data-price="120">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Noodle Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹120</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
+  <div class="menu-category" id="cat-nonveg-soup">
+    <div class="menu-category-title">Non-Veg Soup</div>
+
+    <div class="menu-row" data-id="NSP-1" data-item="Chicken Clear Soup" data-price="150">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Clear Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹150</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NSP-2" data-item="Chicken Hot and Sour Soup" data-price="150">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Hot and Sour Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹150</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NSP-3" data-item="Chicken Lemon Coriander Soup" data-price="150">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Lemon Coriander Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹150</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row" data-id="NSP-4" data-item="Chicken Manchow Soup" data-price="150">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Manchow Soup</div>
+          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-badges"></div>
+          <div class="menu-row-price">₹150</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+
+    <p class="menu-category-empty">No dishes match your search.</p>
+  </div>
+
   <div class="menu-category" id="cat-combos">
-    <div class="menu-category-title">Combo Meals</div>
+    <div class="menu-category-title">Combos (Choice of Starter)</div>
 
-    <div class="menu-row" data-id="N023" data-item="Dish Name" data-price="280">
+    <div class="menu-row combo-row" data-id="CMB1-1" data-item="Veg Hakka Noodles Half + Choice of Veg Starter — Paneer Chilli (Gravy)" data-price="260" data-base-name="Veg Hakka Noodles Half + Choice of Veg Starter">
       <div class="menu-row-left">
         <span class="diet-dot"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
-          <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
+          <div class="menu-row-name">Veg Hakka Noodles Half + Choice of Veg Starter</div>
+          <div class="menu-row-desc">Half portion Veg Hakka Noodles with your choice of veg starter</div>
+          <div class="menu-row-badges"></div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB1-1|260|Veg Hakka Noodles Half + Choice of Veg Starter — Paneer Chilli (Gravy)" selected>Paneer Chilli (Gravy)</option>
+          <option value="CMB1-2|260|Veg Hakka Noodles Half + Choice of Veg Starter — Paneer Chilli (Semi Gravy)">Paneer Chilli (Semi Gravy)</option>
+          <option value="CMB1-3|260|Veg Hakka Noodles Half + Choice of Veg Starter — Paneer Chilli (Dry)">Paneer Chilli (Dry)</option>
+          <option value="CMB1-4|260|Veg Hakka Noodles Half + Choice of Veg Starter — Veg Manchurian (Gravy)">Veg Manchurian (Gravy)</option>
+          <option value="CMB1-5|260|Veg Hakka Noodles Half + Choice of Veg Starter — Veg Manchurian (Semi Gravy)">Veg Manchurian (Semi Gravy)</option>
+          <option value="CMB1-6|260|Veg Hakka Noodles Half + Choice of Veg Starter — Veg Manchurian (Dry)">Veg Manchurian (Dry)</option>
+          </select>
+          <div class="menu-row-price">₹260</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row combo-row" data-id="CMB2-1" data-item="Chicken Hakka Noodles Half + Choice of Starter — Chicken Chilli (Half)" data-price="280" data-base-name="Chicken Hakka Noodles Half + Choice of Starter">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Hakka Noodles Half + Choice of Starter</div>
+          <div class="menu-row-desc">Half portion Chicken Hakka Noodles with your choice of starter</div>
+          <div class="menu-row-badges"></div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB2-1|280|Chicken Hakka Noodles Half + Choice of Starter — Chicken Chilli (Half)" selected>Chicken Chilli (Half)</option>
+          <option value="CMB2-2|280|Chicken Hakka Noodles Half + Choice of Starter — Chicken Garlic (Half)">Chicken Garlic (Half)</option>
+          <option value="CMB2-3|280|Chicken Hakka Noodles Half + Choice of Starter — Paneer Chilli (Half)">Paneer Chilli (Half)</option>
+          <option value="CMB2-4|280|Chicken Hakka Noodles Half + Choice of Starter — Veg Manchurian (Half, Semi Gravy/Dry)">Veg Manchurian (Half, Semi Gravy/Dry)</option>
+          </select>
           <div class="menu-row-price">₹280</div>
         </div>
       </div>
@@ -939,15 +1760,91 @@
         <button class="qty-btn qty-plus">+</button>
       </div>
     </div>
-
-    <div class="menu-row" data-id="N024" data-item="Dish Name" data-price="280">
+    <div class="menu-row combo-row" data-id="CMB3-1" data-item="Egg Hakka Noodles + Choice of Starter — Paneer Chilli (Half)" data-price="260" data-base-name="Egg Hakka Noodles + Choice of Starter">
       <div class="menu-row-left">
         <span class="diet-dot nonveg"></span>
         <div class="menu-row-info">
-          <div class="menu-row-name">Dish Name</div>
-          <div class="menu-row-desc">Add-ons &amp; description go here</div>
+          <div class="menu-row-name">Egg Hakka Noodles + Choice of Starter</div>
+          <div class="menu-row-desc">Egg Hakka Noodles with your choice of starter</div>
           <div class="menu-row-badges"></div>
-          <div class="menu-row-price">₹280</div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB3-1|260|Egg Hakka Noodles + Choice of Starter — Paneer Chilli (Half)" selected>Paneer Chilli (Half)</option>
+          <option value="CMB3-2|260|Egg Hakka Noodles + Choice of Starter — Chicken Chilli (Half)">Chicken Chilli (Half)</option>
+          <option value="CMB3-3|260|Egg Hakka Noodles + Choice of Starter — Chicken Garlic (Half)">Chicken Garlic (Half)</option>
+          <option value="CMB3-4|260|Egg Hakka Noodles + Choice of Starter — Veg Manchurian (Half, Semi Gravy/Dry)">Veg Manchurian (Half, Semi Gravy/Dry)</option>
+          </select>
+          <div class="menu-row-price">₹260</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row combo-row" data-id="CMB4-1" data-item="Veg Fried Rice Half + Choice of Veg Starter — Paneer Chilli (Semi Gravy)" data-price="250" data-base-name="Veg Fried Rice Half + Choice of Veg Starter">
+      <div class="menu-row-left">
+        <span class="diet-dot"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Veg Fried Rice Half + Choice of Veg Starter</div>
+          <div class="menu-row-desc">Half portion Veg Fried Rice with your choice of veg starter</div>
+          <div class="menu-row-badges"></div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB4-1|250|Veg Fried Rice Half + Choice of Veg Starter — Paneer Chilli (Semi Gravy)" selected>Paneer Chilli (Semi Gravy)</option>
+          <option value="CMB4-2|250|Veg Fried Rice Half + Choice of Veg Starter — Paneer Chilli (Dry)">Paneer Chilli (Dry)</option>
+          <option value="CMB4-3|250|Veg Fried Rice Half + Choice of Veg Starter — Veg Manchurian (Gravy)">Veg Manchurian (Gravy)</option>
+          <option value="CMB4-4|250|Veg Fried Rice Half + Choice of Veg Starter — Veg Manchurian (Semi Gravy)">Veg Manchurian (Semi Gravy)</option>
+          <option value="CMB4-5|250|Veg Fried Rice Half + Choice of Veg Starter — Veg Manchurian (Dry)">Veg Manchurian (Dry)</option>
+          </select>
+          <div class="menu-row-price">₹250</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row combo-row" data-id="CMB5-1" data-item="Chicken Fried Rice Half + Choice of Starter — Chicken Chilli (Half)" data-price="270" data-base-name="Chicken Fried Rice Half + Choice of Starter">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Chicken Fried Rice Half + Choice of Starter</div>
+          <div class="menu-row-desc">Half portion Chicken Fried Rice with your choice of starter</div>
+          <div class="menu-row-badges"></div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB5-1|270|Chicken Fried Rice Half + Choice of Starter — Chicken Chilli (Half)" selected>Chicken Chilli (Half)</option>
+          <option value="CMB5-2|270|Chicken Fried Rice Half + Choice of Starter — Chicken Garlic (Half)">Chicken Garlic (Half)</option>
+          <option value="CMB5-3|270|Chicken Fried Rice Half + Choice of Starter — Paneer Chilli (Half)">Paneer Chilli (Half)</option>
+          <option value="CMB5-4|270|Chicken Fried Rice Half + Choice of Starter — Veg Manchurian (Half, Semi Gravy/Dry)">Veg Manchurian (Half, Semi Gravy/Dry)</option>
+          </select>
+          <div class="menu-row-price">₹270</div>
+        </div>
+      </div>
+      <div class="qty-stepper">
+        <button class="qty-btn qty-minus">−</button>
+        <input class="qty-display" type="number" value="0" min="0" max="50" readonly />
+        <button class="qty-btn qty-plus">+</button>
+      </div>
+    </div>
+    <div class="menu-row combo-row" data-id="CMB6-1" data-item="Egg Fried Rice Half + Choice of Starter — Chicken Chilli (Half)" data-price="250" data-base-name="Egg Fried Rice Half + Choice of Starter">
+      <div class="menu-row-left">
+        <span class="diet-dot nonveg"></span>
+        <div class="menu-row-info">
+          <div class="menu-row-name">Egg Fried Rice Half + Choice of Starter</div>
+          <div class="menu-row-desc">Half portion Egg Fried Rice with your choice of starter</div>
+          <div class="menu-row-badges"></div>
+          <label class="combo-select-label">Choice of Starter</label>
+          <select class="combo-select">
+          <option value="CMB6-1|250|Egg Fried Rice Half + Choice of Starter — Chicken Chilli (Half)" selected>Chicken Chilli (Half)</option>
+          <option value="CMB6-2|250|Egg Fried Rice Half + Choice of Starter — Paneer Chilli (Half)">Paneer Chilli (Half)</option>
+          <option value="CMB6-3|250|Egg Fried Rice Half + Choice of Starter — Chicken Garlic (Half)">Chicken Garlic (Half)</option>
+          <option value="CMB6-4|250|Egg Fried Rice Half + Choice of Starter — Veg Manchurian (Half, Semi Gravy/Dry)">Veg Manchurian (Half, Semi Gravy/Dry)</option>
+          </select>
+          <div class="menu-row-price">₹250</div>
         </div>
       </div>
       <div class="qty-stepper">
@@ -1212,6 +2109,23 @@
     minus.addEventListener('click', () => {
       const current = parseInt(input.value);
       if (current > 0) { input.value = current - 1; refreshCartBar(); }
+    });
+  });
+
+  // ── Combo "choice of starter" dropdowns ─────────────────
+  // Each combo row has ONE select of starter options. Picking an
+  // option swaps the row's data-id / data-price / data-item so the
+  // cart, checkout, and order payload all reflect the chosen starter.
+  // Format of each <option value="..."> is "id|price|full name".
+  document.querySelectorAll('.combo-select').forEach(sel => {
+    sel.addEventListener('change', () => {
+      const row = sel.closest('.menu-row');
+      const [id, price, fullName] = sel.value.split('|');
+      row.dataset.id = id;
+      row.dataset.price = price;
+      row.dataset.item = fullName;
+      row.querySelector('.menu-row-price').textContent = '₹' + price;
+      refreshCartBar();
     });
   });
 
