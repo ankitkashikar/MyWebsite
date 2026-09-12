@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EXTERNAL_SCHEMES = {"http", "https", "mailto", "tel", "javascript", "data"}
 LEGACY_FONTS = ("Manrope", "Cormorant", "DM Sans", "Instrument Serif", "Plus Jakarta Sans")
 LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀")
+DYNAMIC_PLACEHOLDER_HREF_IDS = {"btnPayUpiApp"}
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -98,7 +99,7 @@ for path in html_files:
 
     for anchor in parser.anchors:
         href = anchor.get("href", "")
-        if href == "#":
+        if href == "#" and anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS:
             warn(f"{name}: placeholder href=\"#\"")
         if anchor.get("target") == "_blank":
             rel_tokens = set(anchor.get("rel", "").lower().split())
