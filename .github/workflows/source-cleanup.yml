@@ -76,15 +76,12 @@ jobs:
                   raise SystemExit('Could not locate LEGACY_EMOJI marker')
               qa = qa.replace(marker, constant, 1)
 
-          old_check = '        if href == "#":\n            warn(f\'{name}: placeholder href="\\#"\')\n'
-          # The source string contains an escaped quote message but not an escaped #.
-          if old_check not in qa:
-              old_check = '        if href == "#":\n            warn(f\'{name}: placeholder href="#"\')\n'
-          new_check = '        if href == "#" and anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS:\n            warn(f\'{name}: placeholder href="#"\')\n'
+          old_condition = '        if href == "#":\n'
+          new_condition = '        if href == "#" and anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS:\n'
           if 'anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS' not in qa:
-              if qa.count(old_check) != 1:
-                  raise SystemExit('Could not locate placeholder href QA check')
-              qa = qa.replace(old_check, new_check, 1)
+              if qa.count(old_condition) != 1:
+                  raise SystemExit('Could not locate placeholder href QA condition')
+              qa = qa.replace(old_condition, new_condition, 1)
 
           if qa != original_qa:
               qa_path.write_text(qa, encoding='utf-8')
