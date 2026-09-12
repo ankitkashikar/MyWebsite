@@ -1,6 +1,142 @@
 /* ============================================================
-   THE CHINESE BLISS — Footer Social Alignment Fix
-   Keeps existing brand assets, centers them consistently.
+   THE CHINESE BLISS — Final Readability + Social Brand Polish
+   Desktop 100% zoom refinement. No business logic lives here.
+   ============================================================ */
+
+:root{
+  /* Brand icons are separate from the Lucide UI icon system. */
+  --brand-instagram:url('https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/instagram.svg');
+  --brand-facebook:url('https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/facebook.svg');
+  --brand-yelp:url('https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/yelp.svg');
+}
+
+/* ============================================================
+   100% ZOOM READABILITY
+   Keep the approved composition; only strengthen small UI copy.
+   ============================================================ */
+
+.nav-links a{
+  font-size:.8rem!important;
+  font-weight:500!important;
+  line-height:1.2!important;
+}
+
+.btn-nav-bulk,
+.btn-nav-order,
+.btn-solid{
+  font-size:.78rem!important;
+  font-weight:600!important;
+}
+
+.hero-pills .pill{
+  font-size:.72rem!important;
+  font-weight:500!important;
+}
+
+.badge-val{
+  font-size:.84rem!important;
+}
+.badge-lbl{
+  font-size:.64rem!important;
+}
+
+.tb-title{
+  font-size:.78rem!important;
+  font-weight:600!important;
+  line-height:1.25!important;
+}
+.tb-sub{
+  font-size:.66rem!important;
+  line-height:1.35!important;
+}
+
+.fav-name{
+  font-size:.86rem!important;
+  font-weight:600!important;
+}
+.fav-count{
+  font-size:.66rem!important;
+}
+
+.testi-txt{
+  font-size:.82rem!important;
+  line-height:1.65!important;
+}
+.tname{
+  font-size:.76rem!important;
+  font-weight:600!important;
+}
+
+.cta-meta span::after{
+  font-size:.74rem!important;
+}
+
+/* ============================================================
+   FOOTER TYPOGRAPHY
+   ============================================================ */
+
+.footer-tagline{
+  font-size:.82rem!important;
+  line-height:1.72!important;
+  color:rgba(255,255,255,.52)!important;
+}
+
+.fcol-title{
+  font-size:.72rem!important;
+  font-weight:700!important;
+  letter-spacing:.13em!important;
+}
+
+.fcol > a,
+.fcol > p{
+  font-size:.84rem!important;
+  line-height:1.72!important;
+  color:rgba(255,255,255,.53)!important;
+}
+
+.footer-main > .fcol:nth-child(3) > a,
+.footer-main > .fcol:nth-child(3) > p{
+  gap:11px!important;
+  min-height:26px!important;
+  margin-bottom:8px!important;
+}
+
+.footer-main > .fcol:nth-child(3) > a::before,
+.footer-main > .fcol:nth-child(3) > p::before{
+  width:16px!important;
+  height:16px!important;
+  flex-basis:16px!important;
+  margin-top:2px!important;
+}
+
+.footer-main > .fcol:nth-child(3) > a[href^="tel:"]::after,
+.footer-main > .fcol:nth-child(3) > a[href^="mailto:"]::after{
+  font-size:.83rem!important;
+  line-height:1.55!important;
+  color:rgba(255,255,255,.56)!important;
+}
+
+.footer-main > .fcol:nth-child(3) > p::after{
+  max-width:350px!important;
+  font-size:.81rem!important;
+  line-height:1.58!important;
+  color:rgba(255,255,255,.50)!important;
+}
+
+.footer-main > .fcol:nth-child(4) > p{
+  font-size:.82rem!important;
+}
+
+.footer-bottom p,
+.footer-bottom-links a{
+  font-size:.75rem!important;
+  line-height:1.5!important;
+}
+
+/* ============================================================
+   SOCIAL BRAND ICONS
+   Use consistent vector silhouettes instead of padded raster files.
+   The original <img alt="..."> remains in the DOM for accessibility.
    ============================================================ */
 
 .footer-socials{
@@ -11,6 +147,7 @@
 }
 
 .footer-socials .fsoc{
+  position:relative!important;
   box-sizing:border-box!important;
   width:38px!important;
   height:38px!important;
@@ -20,45 +157,87 @@
   justify-content:center!important;
   padding:0!important;
   margin:0!important;
-  line-height:0!important;
-  vertical-align:middle!important;
   overflow:hidden!important;
-  border:1px solid rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.09)!important;
   border-radius:11px!important;
-  background:rgba(255,255,255,.025)!important;
+  background:rgba(255,255,255,.028)!important;
+  color:rgba(255,255,255,.48)!important;
+  line-height:0!important;
+  transition:color .18s ease,background .18s ease,border-color .18s ease,transform .18s ease!important;
 }
 
+/* Keep the existing alt text accessible without using the uneven PNG artwork visually. */
 .footer-socials .fsoc img{
-  display:block!important;
-  width:18px!important;
-  height:18px!important;
-  max-width:18px!important;
-  max-height:18px!important;
-  margin:0!important;
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  margin:-1px!important;
   padding:0!important;
-  object-fit:contain!important;
-  object-position:center!important;
-  transform:none!important;
-  filter:grayscale(1) brightness(2)!important;
-  opacity:.32!important;
+  overflow:hidden!important;
+  clip:rect(0 0 0 0)!important;
+  clip-path:inset(50%)!important;
+  white-space:nowrap!important;
+  border:0!important;
+  opacity:0!important;
+}
+
+.footer-socials .fsoc::before{
+  content:'';
+  display:block;
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  background:currentColor;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+}
+
+.footer-socials .fsoc[href*="instagram.com"]::before{
+  -webkit-mask-image:var(--brand-instagram);
+  mask-image:var(--brand-instagram);
+}
+.footer-socials .fsoc[href*="facebook.com"]::before{
+  -webkit-mask-image:var(--brand-facebook);
+  mask-image:var(--brand-facebook);
+}
+.footer-socials .fsoc[href*="yelp.com"]::before{
+  -webkit-mask-image:var(--brand-yelp);
+  mask-image:var(--brand-yelp);
 }
 
 .footer-socials .fsoc:hover{
   transform:translateY(-2px)!important;
-  border-color:rgba(232,69,69,.28)!important;
+  color:var(--red2)!important;
+  border-color:rgba(232,69,69,.30)!important;
   background:rgba(232,69,69,.08)!important;
 }
 
-.footer-socials .fsoc:hover img{
-  transform:none!important;
-  filter:none!important;
-  opacity:.9!important;
-}
+@media(max-width:768px){
+  .nav-links a{
+    font-size:.8rem!important;
+  }
 
-@media(max-width:600px){
+  .footer-tagline{
+    font-size:.84rem!important;
+  }
+
+  .fcol > a,
+  .fcol > p{
+    font-size:.86rem!important;
+  }
+
   .footer-socials .fsoc{
     width:40px!important;
     height:40px!important;
     flex-basis:40px!important;
+  }
+
+  .footer-socials .fsoc::before{
+    width:19px;
+    height:19px;
   }
 }
