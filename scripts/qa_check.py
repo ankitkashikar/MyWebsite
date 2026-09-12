@@ -33,6 +33,8 @@ class PageParser(HTMLParser):
         self.imgs: list[dict[str, str]] = []
         self.anchors: list[dict[str, str]] = []
         self.options: list[dict[str, str]] = []
+        self.divs: list[dict[str, str]] = []
+        self.selects: list[dict[str, str]] = []
 
     def handle_starttag(self, tag: str, attrs_list) -> None:
         attrs = {k: (v or "") for k, v in attrs_list}
@@ -47,6 +49,10 @@ class PageParser(HTMLParser):
             self.anchors.append(attrs)
         if tag == "option":
             self.options.append(attrs)
+        if tag == "div":
+            self.divs.append(attrs)
+        if tag == "select":
+            self.selects.append(attrs)
 
 
 def rel(path: Path) -> str:
@@ -197,7 +203,7 @@ if menu_name in html_texts:
         if count > 1:
             err(f"menu.html: duplicate menu row data-id {value}")
 
-    option_values = re.findall(r'<option[^>]*\bvalue="([^"]+)"', text)
+    option_values = [attrs.get("value", "") for attrs in parsers[menu_name].options if attrs.get("value")]
     combo_option_ids: list[str] = []
     for value in option_values:
         parts = value.split("|", 2)
@@ -215,8 +221,8 @@ if menu_name in html_texts:
         if count > 1:
             err(f"menu.html: duplicate combo variant id {value}")
 
-    combo_rows = len(re.findall(r'class="[^"]*\bcombo-row\b', text))
-    combo_selects = len(re.findall(r'class="[^"]*\bcombo-select\b', text))
+    combo_rows = sum(1 for attrs in parsers[menu_name].divs if "combo-row" in attrs.get("class", "").split())
+    combo_selects = sum(1 for attrs in parsers[menu_name].selects if "combo-select" in attrs.get("class", "").split())
     if combo_rows != combo_selects:
         err(f"menu.html: combo row/select count mismatch ({combo_rows} rows vs {combo_selects} selects)")
 
