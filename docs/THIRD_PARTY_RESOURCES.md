@@ -1,6 +1,6 @@
 # The Chinese Bliss — External Resources & Sources
 
-Last updated: 10 September 2026
+Last updated: 12 September 2026
 
 This file records external libraries/services/assets referenced by the website so future contributors know what is used, where it comes from and whether it is a runtime dependency or only a design reference.
 
@@ -36,6 +36,30 @@ CDN: jsDelivr — https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/
 License: ISC (as documented by the Lucide project/package).
 
 Implementation: selected individual SVGs are referenced as CSS masks. This avoids loading the complete icon font/sprite and lets icons inherit TCB colours.
+
+Lucide is used for interface meaning/actions such as search, arrows, plus/minus, phone, mail, map pin, calendar, clock, star, users, delivery/bike, payment and status icons. It is not used as a replacement for company/platform brand marks.
+
+## Simple Icons
+
+Purpose: consistent vector silhouettes for social-network brand icons in the footer.
+
+Official project: https://simpleicons.org/
+
+Package: `simple-icons`
+
+Pinned version used by this branch: `16.30.0`
+
+CDN: jsDelivr — `https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/`
+
+Current footer brand icons:
+
+- Instagram — `instagram.svg`
+- Facebook — `facebook.svg`
+- Yelp — `yelp.svg`
+
+Implementation: the SVG files are used as CSS masks in `footer-social-fix.css`. This removes inconsistent transparent padding from the older raster/Wix social images while keeping the existing link labels/alt text in the HTML for accessibility.
+
+License / trademark note: the Simple Icons project is distributed under CC0, but individual brand marks can still be subject to the relevant company's trademark and brand-usage rules. Brand guidelines should be reviewed before production use or whenever a social brand asset is changed.
 
 ## Supabase
 
@@ -97,7 +121,7 @@ Use: font discovery plus runtime delivery of the selected open web fonts.
 
 ## Brand assets vs UI icons
 
-Do not replace a company/platform logo with a generic Lucide icon. Lucide is for interface semantics; official logos remain separate brand assets and must follow the relevant brand/licensing rules.
+Do not replace a company/platform logo with a generic Lucide icon. Lucide is for interface semantics. Social-network marks use Simple Icons only where a brand mark is appropriate. The Chinese Bliss, Swiggy, Zomato and other company logos remain separate brand assets and must follow the relevant brand/licensing rules.
 
 ## Maintenance rule
 
