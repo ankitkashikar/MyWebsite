@@ -1,6 +1,6 @@
 # The Chinese Bliss — Design System
 
-Last updated: 10 September 2026
+Last updated: 12 September 2026
 
 ## Design direction
 
@@ -78,6 +78,8 @@ Current shared mappings include:
 - Authentic/trust → Lucide `badge-check`.
 - Freshness → Lucide `sparkles`.
 - Video/play → Lucide `play`.
+- Quantity increase → Lucide `plus`.
+- Quantity decrease → Lucide `minus`.
 
 Additional approved icons in the design token set include `package`, `map-pin`, `phone`, `mail`, `calendar`, `ticket-percent` and `circle-check`.
 
@@ -102,6 +104,29 @@ The existing shared CSS remains the source of truth for colours. Core tokens inc
 - `--t` — primary white text.
 - `--t2` — secondary text.
 - `--t3` — muted text.
+
+## Menu presentation
+
+The menu is part of the same dark premium visual system as the homepage. It should not look like a separate white ordering widget.
+
+Desktop rules:
+
+- Main menu canvas uses a wide maximum width of roughly 1180px.
+- Veg and Non-Veg groups use a two-column dish-card grid.
+- Each dish card uses a dark charcoal surface with subtle border and elevation.
+- Dish name uses Inter 600; supporting description uses Inter 400; price uses Inter 700 in accent red.
+- Main food categories such as Starters, Noodles and Fried Rice use Playfair Display.
+- Veg/Non-Veg labels remain small UI labels and use Inter.
+- Category shortcut pills and search remain in the sticky toolbar.
+- Quantity controls use dark surfaces with Lucide `minus` / `plus` icons.
+
+Responsive rules:
+
+- At tablet/mobile widths, dish cards return to one column.
+- Search sits above the horizontally scrollable category shortcuts.
+- Cart remains a fixed bottom action bar and checkout remains a slide-up drawer.
+
+The menu visual layer is isolated in `menu-design.css` so it can be iterated without changing menu/order business logic.
 
 ## Shape and spacing
 
