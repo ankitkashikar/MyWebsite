@@ -1,0 +1,64 @@
+/* ============================================================
+   THE CHINESE BLISS — Footer Social Alignment Fix
+   Keeps existing brand assets, centers them consistently.
+   ============================================================ */
+
+.footer-socials{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin-top:18px!important;
+}
+
+.footer-socials .fsoc{
+  box-sizing:border-box!important;
+  width:38px!important;
+  height:38px!important;
+  flex:0 0 38px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  margin:0!important;
+  line-height:0!important;
+  vertical-align:middle!important;
+  overflow:hidden!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:11px!important;
+  background:rgba(255,255,255,.025)!important;
+}
+
+.footer-socials .fsoc img{
+  display:block!important;
+  width:18px!important;
+  height:18px!important;
+  max-width:18px!important;
+  max-height:18px!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
+  filter:grayscale(1) brightness(2)!important;
+  opacity:.32!important;
+}
+
+.footer-socials .fsoc:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(232,69,69,.28)!important;
+  background:rgba(232,69,69,.08)!important;
+}
+
+.footer-socials .fsoc:hover img{
+  transform:none!important;
+  filter:none!important;
+  opacity:.9!important;
+}
+
+@media(max-width:600px){
+  .footer-socials .fsoc{
+    width:40px!important;
+    height:40px!important;
+    flex-basis:40px!important;
+  }
+}
