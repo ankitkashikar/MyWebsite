@@ -1,0 +1,344 @@
+/* ============================================================
+   THE CHINESE BLISS — Legacy Cleanup Layer
+   Visible cleanup for footer/contact icons and remaining emoji UI.
+   No business logic lives here.
+   ============================================================ */
+
+:root{
+  --icon-circle-plus:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/circle-plus.svg');
+  --icon-zap:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/zap.svg');
+}
+
+/* ============================================================
+   FINAL TYPOGRAPHY NORMALIZATION
+   ============================================================ */
+
+body,
+button,
+input,
+textarea,
+select,
+option,
+.nav-links a,
+.mobile-nav a,
+.fcol,
+.footer-bottom,
+.cta-meta,
+.load-more-btn,
+.slot-now-card,
+.slot-day-tab,
+.slot-chip{
+  font-family:var(--fb)!important;
+}
+
+h1,h2,h3,h4,h5,h6,
+.hero-h1,
+.sec-title,
+.story-title,
+.menu-category-title,
+.footer-brand-name{
+  font-family:var(--fh)!important;
+}
+
+/* ============================================================
+   FOOTER — make the cleanup clearly visible
+   ============================================================ */
+
+footer{
+  position:relative;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.07)!important;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(192,57,43,.08),transparent 28%),
+    #0b0b0b!important;
+}
+
+.footer-main{
+  grid-template-columns:minmax(220px,1.2fr) minmax(130px,.7fr) minmax(270px,1.25fr) minmax(150px,.7fr)!important;
+  align-items:start!important;
+}
+
+.footer-logo-row{
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+}
+
+.footer-logo-row img{
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 10px 30px rgba(0,0,0,.28)!important;
+}
+
+.footer-brand-name{
+  color:#fff!important;
+  font-size:1.15rem!important;
+  line-height:1.08!important;
+}
+
+.footer-brand-name span{
+  color:var(--red2)!important;
+  font-style:italic!important;
+}
+
+.footer-tagline{
+  max-width:245px!important;
+  margin-top:16px!important;
+  color:rgba(255,255,255,.46)!important;
+  font-size:.78rem!important;
+}
+
+.fcol-title{
+  position:relative;
+  margin-bottom:18px!important;
+  padding-bottom:10px!important;
+  color:rgba(255,255,255,.86)!important;
+}
+
+.fcol-title::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:26px;
+  height:1px;
+  background:var(--red2);
+  opacity:.75;
+}
+
+.fcol > a,
+.fcol > p{
+  color:rgba(255,255,255,.48)!important;
+  font-size:.78rem!important;
+  transition:color .18s ease!important;
+}
+
+.fcol > a:hover{
+  color:#fff!important;
+}
+
+/* Contact column: remove platform-dependent emoji and render Lucide icons. */
+.footer-main > .fcol:nth-child(3) > a,
+.footer-main > .fcol:nth-child(3) > p{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  min-height:24px;
+  margin-bottom:7px!important;
+  font-size:0!important;
+  line-height:1.55!important;
+}
+
+.footer-main > .fcol:nth-child(3) > a::before,
+.footer-main > .fcol:nth-child(3) > p::before{
+  content:'';
+  width:15px;
+  height:15px;
+  flex:0 0 15px;
+  margin-top:2px;
+  background:var(--red2);
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  opacity:.9;
+}
+
+.footer-main > .fcol:nth-child(3) > a[href^="tel:"]::before{
+  -webkit-mask-image:var(--icon-phone);
+  mask-image:var(--icon-phone);
+}
+.footer-main > .fcol:nth-child(3) > a[href^="mailto:"]::before{
+  -webkit-mask-image:var(--icon-mail);
+  mask-image:var(--icon-mail);
+}
+.footer-main > .fcol:nth-child(3) > p::before{
+  -webkit-mask-image:var(--icon-map-pin);
+  mask-image:var(--icon-map-pin);
+}
+
+.footer-main > .fcol:nth-child(3) > a[href^="tel:"]::after{
+  content:'+91-8956150583';
+  font-family:var(--fb);
+  font-size:.78rem;
+  color:rgba(255,255,255,.52);
+}
+.footer-main > .fcol:nth-child(3) > a[href^="mailto:"]::after{
+  content:'chinesebliss1@gmail.com';
+  font-family:var(--fb);
+  font-size:.78rem;
+  color:rgba(255,255,255,.52);
+}
+.footer-main > .fcol:nth-child(3) > p::after{
+  content:'Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057';
+  max-width:330px;
+  font-family:var(--fb);
+  font-size:.76rem;
+  color:rgba(255,255,255,.46);
+}
+
+.footer-main > .fcol:nth-child(3) > a:hover::after{
+  color:#fff;
+}
+
+.footer-main > .fcol:nth-child(4) > p:first-of-type::before{
+  content:'';
+  display:inline-block;
+  width:13px;
+  height:13px;
+  margin-right:7px;
+  vertical-align:-2px;
+  background:var(--red2);
+  -webkit-mask:var(--icon-calendar) center/contain no-repeat;
+  mask:var(--icon-calendar) center/contain no-repeat;
+}
+
+.footer-main > .fcol:nth-child(4) > p:last-of-type::before{
+  content:'';
+  display:inline-block;
+  width:13px;
+  height:13px;
+  margin-right:7px;
+  vertical-align:-2px;
+  background:var(--red2);
+  -webkit-mask:var(--icon-clock) center/contain no-repeat;
+  mask:var(--icon-clock) center/contain no-repeat;
+}
+
+.footer-socials{
+  gap:8px!important;
+  margin-top:18px!important;
+}
+
+.fsoc{
+  width:34px!important;
+  height:34px!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:10px!important;
+  background:rgba(255,255,255,.025)!important;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease!important;
+}
+
+.fsoc:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(232,69,69,.28)!important;
+  background:rgba(232,69,69,.08)!important;
+}
+
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.06)!important;
+  color:rgba(255,255,255,.32)!important;
+}
+
+.footer-bottom a{
+  color:rgba(255,255,255,.36)!important;
+}
+.footer-bottom a:hover{
+  color:#fff!important;
+}
+
+/* ============================================================
+   HOMEPAGE CTA — replace emoji metrics with Lucide
+   ============================================================ */
+
+.cta-meta span{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  font-size:0!important;
+}
+
+.cta-meta span::before{
+  content:'';
+  width:13px;
+  height:13px;
+  flex:0 0 13px;
+  background:var(--red2);
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+}
+
+.cta-meta span::after{
+  font-family:var(--fb);
+  font-size:.72rem;
+  font-weight:500;
+  color:rgba(255,255,255,.68);
+}
+
+.cta-meta span:nth-child(1)::before{
+  -webkit-mask-image:var(--icon-clock);mask-image:var(--icon-clock);
+}
+.cta-meta span:nth-child(1)::after{content:'30 Min Delivery'}
+
+.cta-meta span:nth-child(2)::before{
+  -webkit-mask-image:var(--icon-star);mask-image:var(--icon-star);
+}
+.cta-meta span:nth-child(2)::after{content:'4.7 Rated'}
+
+.cta-meta span:nth-child(3)::before{
+  -webkit-mask-image:var(--icon-flame);mask-image:var(--icon-flame);
+}
+.cta-meta span:nth-child(3)::after{content:'Made Fresh'}
+
+/* Load more: replace old inline plus-circle drawing. */
+.load-more-btn > svg{
+  display:none!important;
+}
+.load-more-btn::before{
+  content:'';
+  width:15px;
+  height:15px;
+  background:currentColor;
+  -webkit-mask:var(--icon-circle-plus) center/contain no-repeat;
+  mask:var(--icon-circle-plus) center/contain no-repeat;
+}
+
+/* Delivery slot: replace ⚡ emoji with Lucide Zap. */
+.slot-now-icon{
+  width:20px!important;
+  height:20px!important;
+  flex:0 0 20px!important;
+  font-size:0!important;
+  color:var(--red2)!important;
+}
+.slot-now-icon::before{
+  content:'';
+  display:block;
+  width:20px;
+  height:20px;
+  background:currentColor;
+  -webkit-mask:var(--icon-zap) center/contain no-repeat;
+  mask:var(--icon-zap) center/contain no-repeat;
+}
+
+/* Defensive final cleanup for emoji-backed visual containers already standardized. */
+.value-icon,
+.success-icon,
+.hero-badge.bottom-right > span:first-child{
+  font-family:var(--fb)!important;
+}
+
+@media(max-width:900px){
+  .footer-main{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+@media(max-width:600px){
+  .footer-main{
+    grid-template-columns:1fr!important;
+    padding:44px 22px 38px!important;
+  }
+
+  .footer-main > .fcol:nth-child(3) > p::after{
+    max-width:290px;
+  }
+
+  .footer-bottom{
+    gap:10px!important;
+  }
+}
