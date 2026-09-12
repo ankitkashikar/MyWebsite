@@ -1,0 +1,64 @@
+name: Temporary QA parser fix
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+    paths:
+      - '.github/workflows/qa-parser-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-qa-parser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+
+      - name: Fix combo HTML parsing in QA checker
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('scripts/qa_check.py')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  '        self.options: list[dict[str, str]] = []\n',
+                  '        self.options: list[dict[str, str]] = []\n        self.divs: list[dict[str, str]] = []\n        self.selects: list[dict[str, str]] = []\n'
+              ),
+              (
+                  '        if tag == "option":\n            self.options.append(attrs)\n',
+                  '        if tag == "option":\n            self.options.append(attrs)\n        if tag == "div":\n            self.divs.append(attrs)\n        if tag == "select":\n            self.selects.append(attrs)\n'
+              ),
+              (
+                  '    option_values = re.findall(r\'<option[^>]*\\bvalue="([^\"]+)"\', text)\n',
+                  '    option_values = [attrs.get("value", "") for attrs in parsers[menu_name].options if attrs.get("value")]\n'
+              ),
+              (
+                  '    combo_rows = len(re.findall(r\'class="[^\"]*\\bcombo-row\\b\', text))\n    combo_selects = len(re.findall(r\'class="[^\"]*\\bcombo-select\\b\', text))\n',
+                  '    combo_rows = sum(1 for attrs in parsers[menu_name].divs if "combo-row" in attrs.get("class", "").split())\n    combo_selects = sum(1 for attrs in parsers[menu_name].selects if "combo-select" in attrs.get("class", "").split())\n'
+              ),
+          ]
+
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly 1 occurrence, found {count}: {old!r}')
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
+          print('Updated scripts/qa_check.py')
+
+      - name: Commit QA checker fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/qa_check.py
+          git commit -m "Fix combo parsing in automated QA"
+          git push origin HEAD:tcb-design-system-refresh
