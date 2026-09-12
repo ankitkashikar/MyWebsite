@@ -1,0 +1,234 @@
+/* ============================================================
+   THE CHINESE BLISS — Combo Picker UI
+   Custom presentation layer for combo selectors only.
+   Loaded after combo-modern.css.
+   ============================================================ */
+
+:root{
+  --combo-chevron:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/chevron-down.svg');
+  --combo-check:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/check.svg');
+}
+
+/* Give every combo its own breathing room. The base menu card rule
+   intentionally uses margin:0, so combos need their own rhythm. */
+#cat-combos .combo-row{
+  margin:0 0 16px!important;
+}
+
+#cat-combos .combo-row:last-of-type{
+  margin-bottom:0!important;
+}
+
+#cat-combos .combo-row.combo-dropdown-open{
+  z-index:40!important;
+  border-color:rgba(232,69,69,.34)!important;
+}
+
+/* Keep the real select in the DOM because the existing order logic listens
+   to its change event. The custom picker mirrors it visually. */
+.combo-row .combo-select.combo-native-select{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  margin:-1px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  clip:rect(0 0 0 0)!important;
+  clip-path:inset(50%)!important;
+  white-space:nowrap!important;
+  border:0!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+
+.combo-picker{
+  position:relative;
+  width:100%;
+  margin:0;
+  font-family:var(--fb);
+}
+
+.combo-picker-trigger{
+  width:100%;
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:0 16px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.006)),
+    #0f0f0f;
+  color:#f4f4f4;
+  font-family:var(--fb);
+  font-size:.9rem;
+  font-weight:550;
+  line-height:1.25;
+  text-align:left;
+  cursor:pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 4px 14px rgba(0,0,0,.14);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+
+.combo-picker-trigger:hover{
+  border-color:rgba(255,255,255,.18);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012)),
+    #111;
+}
+
+.combo-picker.open .combo-picker-trigger{
+  border-color:rgba(232,69,69,.55);
+  box-shadow:
+    0 0 0 3px rgba(232,69,69,.09),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.combo-picker-value{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.combo-picker-chevron{
+  width:17px;
+  height:17px;
+  flex:0 0 17px;
+  background:rgba(255,255,255,.58);
+  -webkit-mask:var(--combo-chevron) center/contain no-repeat;
+  mask:var(--combo-chevron) center/contain no-repeat;
+  transition:transform .2s ease,background .2s ease;
+}
+
+.combo-picker.open .combo-picker-chevron{
+  transform:rotate(180deg);
+  background:var(--red2);
+}
+
+.combo-picker-menu{
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(100% + 8px);
+  z-index:80;
+  display:none;
+  max-height:286px;
+  overflow-y:auto;
+  padding:7px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:15px;
+  background:rgba(17,17,17,.985);
+  -webkit-backdrop-filter:blur(22px);
+  backdrop-filter:blur(22px);
+  box-shadow:
+    0 22px 60px rgba(0,0,0,.52),
+    0 0 0 1px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.18) transparent;
+}
+
+.combo-picker.open .combo-picker-menu{
+  display:block;
+  animation:comboPickerIn .16s ease-out;
+}
+
+@keyframes comboPickerIn{
+  from{opacity:0;transform:translateY(-5px) scale(.995)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.combo-picker-option{
+  position:relative;
+  width:100%;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 40px 10px 12px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:rgba(255,255,255,.76);
+  font-family:var(--fb);
+  font-size:.87rem;
+  font-weight:500;
+  line-height:1.35;
+  text-align:left;
+  cursor:pointer;
+  transition:background .14s ease,color .14s ease,transform .14s ease;
+}
+
+.combo-picker-option:hover,
+.combo-picker-option:focus-visible{
+  outline:none;
+  color:#fff;
+  background:rgba(255,255,255,.055);
+}
+
+.combo-picker-option.selected{
+  color:#fff;
+  background:linear-gradient(90deg,rgba(232,69,69,.15),rgba(232,69,69,.055));
+}
+
+.combo-picker-option.selected::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:9px;
+  bottom:9px;
+  width:2px;
+  border-radius:2px;
+  background:var(--red2);
+}
+
+.combo-picker-option.selected::after{
+  content:'';
+  position:absolute;
+  right:12px;
+  top:50%;
+  width:16px;
+  height:16px;
+  transform:translateY(-50%);
+  border-radius:50%;
+  background:var(--red2);
+  -webkit-mask:var(--combo-check) center/11px 11px no-repeat;
+  mask:var(--combo-check) center/11px 11px no-repeat;
+}
+
+.combo-picker-menu::-webkit-scrollbar{width:8px}
+.combo-picker-menu::-webkit-scrollbar-track{background:transparent}
+.combo-picker-menu::-webkit-scrollbar-thumb{
+  border:2px solid #111;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+}
+
+@media(max-width:768px){
+  #cat-combos .combo-row{
+    margin-bottom:12px!important;
+  }
+
+  .combo-picker-trigger{
+    min-height:48px;
+    padding:0 14px;
+    border-radius:12px;
+    font-size:.86rem;
+  }
+
+  .combo-picker-menu{
+    max-height:250px;
+    border-radius:13px;
+  }
+
+  .combo-picker-option{
+    min-height:43px;
+    font-size:.84rem;
+  }
+}
