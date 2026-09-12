@@ -1,0 +1,244 @@
+/* ============================================================
+   THE CHINESE BLISS — Combo Items Modern UI
+   Copy-paste-ready visual override for combo items only.
+   Safe to load AFTER menu-design.css.
+   No cart, pricing, filtering, Supabase, or checkout logic here.
+   ============================================================ */
+
+/* ── Combo card shell ─────────────────────────────────────── */
+.combo-row{
+  position:relative;
+  align-items:flex-start!important;
+  padding:22px 20px!important;
+  border:1px solid rgba(232,69,69,.18)!important;
+  border-radius:18px!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.014)),
+    #171717!important;
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.025)!important;
+  overflow:visible!important;
+}
+
+.combo-row:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(232,69,69,.34)!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02)),
+    #191919!important;
+  box-shadow:
+    0 16px 36px rgba(0,0,0,.27),
+    inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+
+.combo-row .menu-row-left{
+  width:100%!important;
+  min-width:0!important;
+  align-items:flex-start!important;
+}
+
+.combo-row .menu-row-info{
+  width:100%!important;
+  min-width:0!important;
+}
+
+/* ── Combo typography ─────────────────────────────────────── */
+.combo-row .menu-row-name{
+  margin-bottom:6px!important;
+  color:#f8f8f8!important;
+  font-size:1rem!important;
+  font-weight:650!important;
+  line-height:1.35!important;
+  letter-spacing:-.018em!important;
+}
+
+.combo-row .menu-row-desc{
+  max-width:780px!important;
+  margin-bottom:16px!important;
+  color:rgba(255,255,255,.56)!important;
+  font-size:.82rem!important;
+  line-height:1.55!important;
+}
+
+/* ── Selector label ───────────────────────────────────────── */
+.combo-row .combo-select-label{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  margin:0 0 9px!important;
+  color:rgba(255,255,255,.56)!important;
+  font-size:.69rem!important;
+  font-weight:700!important;
+  line-height:1!important;
+  letter-spacing:.11em!important;
+  text-transform:uppercase!important;
+}
+
+.combo-row .combo-select-label::before{
+  content:''!important;
+  width:7px!important;
+  height:7px!important;
+  flex:0 0 7px!important;
+  border-radius:50%!important;
+  background:var(--red2)!important;
+  box-shadow:0 0 0 4px rgba(232,69,69,.09)!important;
+}
+
+/* ── Premium select field ─────────────────────────────────── */
+.combo-row .combo-select{
+  width:100%!important;
+  max-width:100%!important;
+  min-height:50px!important;
+  margin:0!important;
+  padding:0 48px 0 15px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:14px!important;
+  outline:none!important;
+
+  color:rgba(255,255,255,.92)!important;
+  background-color:#101010!important;
+  background-image:
+    linear-gradient(45deg,transparent 50%,rgba(255,255,255,.65) 50%),
+    linear-gradient(135deg,rgba(255,255,255,.65) 50%,transparent 50%)!important;
+  background-position:
+    calc(100% - 21px) calc(50% - 3px),
+    calc(100% - 15px) calc(50% - 3px)!important;
+  background-size:6px 6px,6px 6px!important;
+  background-repeat:no-repeat!important;
+
+  font-family:var(--fb)!important;
+  font-size:.9rem!important;
+  font-weight:500!important;
+  line-height:1.2!important;
+
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  -moz-appearance:none!important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 3px 12px rgba(0,0,0,.12)!important;
+
+  transition:
+    border-color .18s ease,
+    background-color .18s ease,
+    box-shadow .18s ease!important;
+}
+
+.combo-row .combo-select:hover{
+  border-color:rgba(255,255,255,.18)!important;
+  background-color:#121212!important;
+}
+
+.combo-row .combo-select:focus{
+  border-color:rgba(232,69,69,.58)!important;
+  box-shadow:
+    0 0 0 3px rgba(232,69,69,.10),
+    inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+.combo-row .combo-select option{
+  color:#fff!important;
+  background:#151515!important;
+  font-family:var(--fb)!important;
+  font-size:.9rem!important;
+}
+
+/* ── Price treatment ──────────────────────────────────────── */
+.combo-row .menu-row-price{
+  margin-top:14px!important;
+  color:var(--red2)!important;
+  font-size:1rem!important;
+  font-weight:700!important;
+  line-height:1!important;
+  letter-spacing:-.01em!important;
+}
+
+/* ── Quantity control positioning ─────────────────────────── */
+.combo-row .qty-stepper{
+  align-self:center!important;
+  margin-top:2px!important;
+  margin-left:16px!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:13px!important;
+  background:#0f0f0f!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.18)!important;
+}
+
+/* ── Optional subtle accent line for combos ───────────────── */
+.combo-row::after{
+  content:''!important;
+  position:absolute!important;
+  left:20px!important;
+  right:20px!important;
+  bottom:0!important;
+  height:1px!important;
+  pointer-events:none!important;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(232,69,69,.18),
+    transparent
+  )!important;
+}
+
+/* ── Tablet/mobile ────────────────────────────────────────── */
+@media(max-width:768px){
+  .combo-row{
+    padding:18px 15px!important;
+    border-radius:16px!important;
+  }
+
+  .combo-row .menu-row-name{
+    font-size:.94rem!important;
+  }
+
+  .combo-row .menu-row-desc{
+    margin-bottom:13px!important;
+    font-size:.77rem!important;
+  }
+
+  .combo-row .combo-select-label{
+    margin-bottom:8px!important;
+    font-size:.66rem!important;
+  }
+
+  .combo-row .combo-select{
+    min-height:48px!important;
+    padding:0 44px 0 14px!important;
+    border-radius:12px!important;
+    font-size:.86rem!important;
+    background-position:
+      calc(100% - 19px) calc(50% - 3px),
+      calc(100% - 13px) calc(50% - 3px)!important;
+  }
+
+  .combo-row .menu-row-price{
+    margin-top:12px!important;
+    font-size:.95rem!important;
+  }
+
+  .combo-row .qty-stepper{
+    margin-left:8px!important;
+  }
+
+  .combo-row::after{
+    left:15px!important;
+    right:15px!important;
+  }
+}
+
+@media(max-width:520px){
+  .combo-row{
+    flex-wrap:wrap!important;
+  }
+
+  .combo-row .menu-row-left{
+    width:100%!important;
+  }
+
+  .combo-row .qty-stepper{
+    margin:14px 0 0 auto!important;
+  }
+}
