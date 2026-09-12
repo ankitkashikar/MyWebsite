@@ -1,6 +1,6 @@
 # The Chinese Bliss — Technical Stack
 
-Last updated: 10 September 2026
+Last updated: 12 September 2026
 
 ## Architecture
 
@@ -14,7 +14,11 @@ The Chinese Bliss website is a static, multi-page web application built with van
 - `style.css` — stylesheet entry point on the design-system branch.
 - `style-base.css` — snapshot of the existing shared stylesheet used as the visual/layout base during this branch experiment.
 - `design-system.css` — typography and icon-system layer for Playfair Display + Inter + Lucide.
+- `menu-design.css` — menu-specific visual layer: wide desktop canvas, dark dish cards, responsive two-column menu presentation and quantity-control styling.
+- `site-polish.css` — shared polish for Our Story, Order Online, Bulk Order, cart/checkout drawer states, footer details and remaining Lucide icon replacements.
 - `script.js` — shared client-side behaviour.
+
+The visual layers intentionally contain presentation only. Menu filtering, cart calculations, validation, checkout state, pricing data and backend calls remain in the existing HTML/JavaScript implementation.
 
 ## Main pages
 
@@ -46,6 +50,17 @@ The Chinese Bliss website is a static, multi-page web application built with van
 - Version pinned in CSS: `lucide-static@1.43.0`.
 - Rendering method: CSS masks for the shared UI icons. This lets the icon inherit the component colour without introducing an icon font or a large JavaScript bundle.
 - Existing brand logos such as Swiggy/Zomato and The Chinese Bliss logo remain brand/image assets rather than being replaced by Lucide.
+
+## Current visual-layer order
+
+`style.css` loads the visual layers in this order:
+
+1. `style-base.css`
+2. `design-system.css`
+3. `menu-design.css`
+4. `site-polish.css`
+
+The later layers are deliberately more specific and are used for branch-based visual iteration without rewriting the business logic.
 
 ## Deployment / repository workflow
 
