@@ -1,0 +1,58 @@
+name: Temporary navigation autofix
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+    paths:
+      - '.github/workflows/navigation-autofix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-navigation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+
+      - name: Fix broken navigation links
+        shell: python
+        run: |
+          from pathlib import Path
+
+          changes = {
+              'menu.html': [
+                  ('<a href="experiences.html">Experiences</a>', '<a href="our-story.html">Our Story</a>', 2),
+                  ('<a href="#our-story">Our Story</a>', '<a href="our-story.html">Our Story</a>', 1),
+                  ('<a href="experiences.html">Catering</a>', '<a href="bulk-order.html">Catering</a>', 1),
+              ],
+              'order.html': [
+                  ('<a href="experiences.html">Experiences</a>', '<a href="our-story.html">Our Story</a>', 2),
+              ],
+              'bulk-order.html': [
+                  ('<a href="experiences.html">Experiences</a>', '<a href="our-story.html">Our Story</a>', 2),
+              ],
+          }
+
+          for filename, replacements in changes.items():
+              path = Path(filename)
+              text = path.read_text(encoding='utf-8')
+              for old, new, expected in replacements:
+                  actual = text.count(old)
+                  if actual != expected:
+                      raise SystemExit(f'{filename}: expected {expected} occurrences of {old!r}, found {actual}')
+                  text = text.replace(old, new)
+              path.write_text(text, encoding='utf-8')
+              print(f'Updated {filename}')
+
+      - name: Commit navigation fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add menu.html order.html bulk-order.html
+          git commit -m "Fix broken site navigation links"
+          git push origin HEAD:tcb-design-system-refresh
