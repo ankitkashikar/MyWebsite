@@ -71,17 +71,22 @@ Current shared mappings include:
 - Search → Lucide `search`.
 - CTA forward → Lucide `arrow-right`.
 - Back → Lucide `arrow-left`.
+- Close → Lucide `x`.
 - Rating → Lucide `star`.
 - Delivery time → Lucide `clock`.
 - Customers → Lucide `users`.
 - Delivery → Lucide `bike`.
 - Authentic/trust → Lucide `badge-check`.
-- Freshness → Lucide `sparkles`.
+- Freshness → Lucide `sparkles` or `flame` depending on context.
+- Food/recipe value → Lucide `utensils`.
 - Video/play → Lucide `play`.
 - Quantity increase → Lucide `plus`.
 - Quantity decrease → Lucide `minus`.
+- UPI app action → Lucide `smartphone`.
+- QR placeholder → Lucide `qr-code`.
+- Checkout success → Lucide `circle-check`.
 
-Additional approved icons in the design token set include `package`, `map-pin`, `phone`, `mail`, `calendar`, `ticket-percent` and `circle-check`.
+Additional approved icons in the design token set include `package`, `map-pin`, `phone`, `mail`, `calendar` and `ticket-percent`.
 
 ### Icon rules
 
@@ -127,6 +132,51 @@ Responsive rules:
 - Cart remains a fixed bottom action bar and checkout remains a slide-up drawer.
 
 The menu visual layer is isolated in `menu-design.css` so it can be iterated without changing menu/order business logic.
+
+## Our Story presentation
+
+- The page hero uses the same dark/red atmosphere as Menu and Home.
+- Founder cards use large imagery, charcoal surfaces, subtle borders and Playfair names.
+- Timeline chapters alternate image/text on desktop and collapse to a single column on mobile.
+- Value statements use dark feature cards rather than emoji-only presentation.
+- Value icons use Lucide `flame`, `utensils` and `bike`.
+- Supporting story copy stays in Inter for readability.
+
+## Order Online presentation
+
+- The ordering-choice page uses a centered premium hero with three platform/direct-order cards.
+- Swiggy and Zomato retain their official brand assets and brand-colour hover accents.
+- The Chinese Bliss direct-order card uses the TCB asset rather than a generic icon.
+- Platform names use Playfair Display; descriptions/actions use Inter.
+- CTA arrows use Lucide `arrow-right`.
+- Mobile cards switch to a compact horizontal layout.
+
+## Bulk Order presentation
+
+- The bulk-order menu uses the same wide dark-card language as the direct Menu page.
+- Desktop uses two columns where space allows; mobile uses one column.
+- Dish names/descriptions/prices and quantity controls follow the same Inter/Lucide rules as Menu.
+- The fixed cart bar and slide-up checkout drawer remain the primary conversion pattern.
+
+## Cart / checkout drawer presentation
+
+The checkout drawer is part of the dark TCB visual system rather than a separate white modal.
+
+- Drawer surface: dark charcoal with subtle border and elevation.
+- Inputs/textareas: dark fields with visible red focus states.
+- Validation remains visually distinct, with red invalid and green valid states.
+- Summary, COD notes and payment panels use slightly elevated dark surfaces.
+- Delivery-slot and payment toggles use restrained dark controls with TCB red active states.
+- UPI/QR/success visuals use Lucide rather than platform-dependent emoji.
+- The primary checkout action remains TCB red.
+- Payment wording/logic is not altered by the visual layer.
+
+## Footer presentation
+
+- Footer remains near-black and visually quiet.
+- Brand name uses Playfair Display; all supporting/footer navigation uses Inter.
+- Social/platform brand assets remain official image assets.
+- Footer spacing is aligned to the wider site canvas on desktop and collapses cleanly on mobile.
 
 ## Shape and spacing
 
