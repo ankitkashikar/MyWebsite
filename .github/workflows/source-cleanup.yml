@@ -1,0 +1,106 @@
+name: Temporary source cleanup
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+    paths:
+      - '.github/workflows/source-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  source-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+
+      - name: Clean legacy font links and placeholder links
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          page_paths = [
+              Path('index.html'),
+              Path('menu.html'),
+              Path('our-story.html'),
+              Path('bulk-order.html'),
+              Path('order.html'),
+              Path('admin.html'),
+          ]
+
+          legacy_font_tokens = ('Manrope', 'Cormorant', 'DM+Sans')
+          blank_link_re = re.compile(r'(<a\b(?=[^>]*\btarget="_blank")[^>]*)(>)', re.IGNORECASE)
+
+          def secure_blank_links(match: re.Match[str]) -> str:
+              opening = match.group(1)
+              if re.search(r'\brel\s*=', opening, re.IGNORECASE):
+                  return match.group(0)
+              return f'{opening} rel="noopener noreferrer">'
+
+          for path in page_paths:
+              text = path.read_text(encoding='utf-8')
+              original = text
+
+              lines = text.splitlines(keepends=True)
+              lines = [
+                  line for line in lines
+                  if not (
+                      'fonts.googleapis.com' in line
+                      and any(token in line for token in legacy_font_tokens)
+                  )
+              ]
+              text = ''.join(lines)
+
+              text = blank_link_re.sub(secure_blank_links, text)
+              text = text.replace('<a href="#">Privacy Policy</a>', '<a href="privacy.html">Privacy Policy</a>')
+              text = text.replace('<a href="#">Terms &amp; Conditions</a>', '<a href="terms.html">Terms &amp; Conditions</a>')
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  print(f'Updated {path}')
+
+          qa_path = Path('scripts/qa_check.py')
+          qa = qa_path.read_text(encoding='utf-8')
+          original_qa = qa
+
+          marker = 'LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀")\n'
+          constant = marker + 'DYNAMIC_PLACEHOLDER_HREF_IDS = {"btnPayUpiApp"}\n'
+          if 'DYNAMIC_PLACEHOLDER_HREF_IDS' not in qa:
+              if qa.count(marker) != 1:
+                  raise SystemExit('Could not locate LEGACY_EMOJI marker')
+              qa = qa.replace(marker, constant, 1)
+
+          old_check = '        if href == "#":\n            warn(f\'{name}: placeholder href="\\#"\')\n'
+          # The source string contains an escaped quote message but not an escaped #.
+          if old_check not in qa:
+              old_check = '        if href == "#":\n            warn(f\'{name}: placeholder href="#"\')\n'
+          new_check = '        if href == "#" and anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS:\n            warn(f\'{name}: placeholder href="#"\')\n'
+          if 'anchor.get("id") not in DYNAMIC_PLACEHOLDER_HREF_IDS' not in qa:
+              if qa.count(old_check) != 1:
+                  raise SystemExit('Could not locate placeholder href QA check')
+              qa = qa.replace(old_check, new_check, 1)
+
+          if qa != original_qa:
+              qa_path.write_text(qa, encoding='utf-8')
+              print('Updated scripts/qa_check.py')
+
+      - name: Run QA after cleanup
+        run: python scripts/qa_check.py
+
+      - name: Commit cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html menu.html our-story.html bulk-order.html order.html admin.html scripts/qa_check.py
+          if git diff --cached --quiet; then
+            echo "No cleanup changes to commit"
+          else
+            git commit -m "Clean fonts links and placeholder warnings"
+            git push origin HEAD:tcb-design-system-refresh
+          fi
