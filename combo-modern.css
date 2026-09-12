@@ -1,244 +1,213 @@
 /* ============================================================
    THE CHINESE BLISS — Combo Items Modern UI
-   Copy-paste-ready visual override for combo items only.
-   Safe to load AFTER menu-design.css.
+   Compact premium treatment for combo items only.
    No cart, pricing, filtering, Supabase, or checkout logic here.
    ============================================================ */
 
+/* Match the rest of the menu: two compact cards per row on desktop. */
+#cat-combos{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:14px!important;
+}
+
+#cat-combos > .menu-category-title,
+#cat-combos > .menu-category-empty{
+  grid-column:1 / -1!important;
+}
+
+#cat-combos > .menu-category-title{
+  margin-bottom:10px!important;
+}
+
 /* ── Combo card shell ─────────────────────────────────────── */
-.combo-row{
+#cat-combos .combo-row{
   position:relative;
-  align-items:flex-start!important;
-  padding:22px 20px!important;
-  border:1px solid rgba(232,69,69,.18)!important;
-  border-radius:18px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:start!important;
+  column-gap:12px!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:16px!important;
+  border:1px solid rgba(232,69,69,.16)!important;
+  border-radius:16px!important;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.014)),
+    linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.012)),
     #171717!important;
   box-shadow:
-    0 10px 28px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.025)!important;
+    0 7px 20px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.022)!important;
   overflow:visible!important;
 }
 
-.combo-row:hover{
-  transform:translateY(-2px)!important;
-  border-color:rgba(232,69,69,.34)!important;
+#cat-combos .combo-row:hover{
+  transform:translateY(-1px)!important;
+  border-color:rgba(232,69,69,.30)!important;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02)),
+    linear-gradient(180deg,rgba(255,255,255,.038),rgba(255,255,255,.016)),
     #191919!important;
-  box-shadow:
-    0 16px 36px rgba(0,0,0,.27),
-    inset 0 1px 0 rgba(255,255,255,.035)!important;
+  box-shadow:0 11px 27px rgba(0,0,0,.23)!important;
 }
 
-.combo-row .menu-row-left{
+#cat-combos .combo-row .menu-row-left{
   width:100%!important;
   min-width:0!important;
   align-items:flex-start!important;
 }
 
-.combo-row .menu-row-info{
+#cat-combos .combo-row .menu-row-info{
   width:100%!important;
   min-width:0!important;
 }
 
-/* ── Combo typography ─────────────────────────────────────── */
-.combo-row .menu-row-name{
-  margin-bottom:6px!important;
-  color:#f8f8f8!important;
-  font-size:1rem!important;
-  font-weight:650!important;
-  line-height:1.35!important;
-  letter-spacing:-.018em!important;
+/* ── Compact typography ───────────────────────────────────── */
+#cat-combos .combo-row .menu-row-name{
+  margin-bottom:4px!important;
+  padding-right:2px!important;
+  color:#f7f7f7!important;
+  font-size:.92rem!important;
+  font-weight:600!important;
+  line-height:1.32!important;
+  letter-spacing:-.014em!important;
 }
 
-.combo-row .menu-row-desc{
-  max-width:780px!important;
-  margin-bottom:16px!important;
-  color:rgba(255,255,255,.56)!important;
-  font-size:.82rem!important;
-  line-height:1.55!important;
+#cat-combos .combo-row .menu-row-desc{
+  max-width:none!important;
+  margin-bottom:12px!important;
+  color:rgba(255,255,255,.51)!important;
+  font-size:.74rem!important;
+  line-height:1.45!important;
 }
 
 /* ── Selector label ───────────────────────────────────────── */
-.combo-row .combo-select-label{
+#cat-combos .combo-row .combo-select-label{
   display:inline-flex!important;
   align-items:center!important;
-  gap:9px!important;
-  margin:0 0 9px!important;
-  color:rgba(255,255,255,.56)!important;
-  font-size:.69rem!important;
+  gap:7px!important;
+  margin:0 0 7px!important;
+  color:rgba(255,255,255,.52)!important;
+  font-size:.62rem!important;
   font-weight:700!important;
   line-height:1!important;
-  letter-spacing:.11em!important;
+  letter-spacing:.105em!important;
   text-transform:uppercase!important;
 }
 
-.combo-row .combo-select-label::before{
+#cat-combos .combo-row .combo-select-label::before{
   content:''!important;
-  width:7px!important;
-  height:7px!important;
-  flex:0 0 7px!important;
+  width:6px!important;
+  height:6px!important;
+  flex:0 0 6px!important;
   border-radius:50%!important;
   background:var(--red2)!important;
-  box-shadow:0 0 0 4px rgba(232,69,69,.09)!important;
+  box-shadow:0 0 0 3px rgba(232,69,69,.08)!important;
 }
 
-/* ── Premium select field ─────────────────────────────────── */
-.combo-row .combo-select{
+/* Keep the native select compact as a fallback; the custom picker hides it. */
+#cat-combos .combo-row .combo-select{
   width:100%!important;
   max-width:100%!important;
-  min-height:50px!important;
+  min-height:42px!important;
   margin:0!important;
-  padding:0 48px 0 15px!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:14px!important;
+  padding:0 40px 0 13px!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:12px!important;
   outline:none!important;
-
-  color:rgba(255,255,255,.92)!important;
+  color:rgba(255,255,255,.90)!important;
   background-color:#101010!important;
-  background-image:
-    linear-gradient(45deg,transparent 50%,rgba(255,255,255,.65) 50%),
-    linear-gradient(135deg,rgba(255,255,255,.65) 50%,transparent 50%)!important;
-  background-position:
-    calc(100% - 21px) calc(50% - 3px),
-    calc(100% - 15px) calc(50% - 3px)!important;
-  background-size:6px 6px,6px 6px!important;
-  background-repeat:no-repeat!important;
-
   font-family:var(--fb)!important;
-  font-size:.9rem!important;
+  font-size:.82rem!important;
   font-weight:500!important;
-  line-height:1.2!important;
-
-  appearance:none!important;
-  -webkit-appearance:none!important;
-  -moz-appearance:none!important;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.025),
-    0 3px 12px rgba(0,0,0,.12)!important;
-
-  transition:
-    border-color .18s ease,
-    background-color .18s ease,
-    box-shadow .18s ease!important;
-}
-
-.combo-row .combo-select:hover{
-  border-color:rgba(255,255,255,.18)!important;
-  background-color:#121212!important;
-}
-
-.combo-row .combo-select:focus{
-  border-color:rgba(232,69,69,.58)!important;
-  box-shadow:
-    0 0 0 3px rgba(232,69,69,.10),
-    inset 0 1px 0 rgba(255,255,255,.025)!important;
-}
-
-.combo-row .combo-select option{
-  color:#fff!important;
-  background:#151515!important;
-  font-family:var(--fb)!important;
-  font-size:.9rem!important;
 }
 
 /* ── Price treatment ──────────────────────────────────────── */
-.combo-row .menu-row-price{
-  margin-top:14px!important;
+#cat-combos .combo-row .menu-row-price{
+  margin-top:10px!important;
   color:var(--red2)!important;
-  font-size:1rem!important;
+  font-size:.90rem!important;
   font-weight:700!important;
   line-height:1!important;
   letter-spacing:-.01em!important;
 }
 
-/* ── Quantity control positioning ─────────────────────────── */
-.combo-row .qty-stepper{
-  align-self:center!important;
-  margin-top:2px!important;
-  margin-left:16px!important;
-  border:1px solid rgba(255,255,255,.10)!important;
-  border-radius:13px!important;
+/* ── Quantity control ─────────────────────────────────────── */
+#cat-combos .combo-row .qty-stepper{
+  align-self:start!important;
+  margin:0!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:11px!important;
   background:#0f0f0f!important;
-  box-shadow:0 5px 16px rgba(0,0,0,.18)!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.15)!important;
 }
 
-/* ── Optional subtle accent line for combos ───────────────── */
-.combo-row::after{
+#cat-combos .combo-row .qty-btn,
+#cat-combos .combo-row .qty-display{
+  width:30px!important;
+  height:32px!important;
+}
+
+/* Very subtle combo accent, without making the card feel oversized. */
+#cat-combos .combo-row::after{
   content:''!important;
   position:absolute!important;
-  left:20px!important;
-  right:20px!important;
+  left:16px!important;
+  right:16px!important;
   bottom:0!important;
   height:1px!important;
   pointer-events:none!important;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(232,69,69,.18),
-    transparent
-  )!important;
+  background:linear-gradient(90deg,transparent,rgba(232,69,69,.13),transparent)!important;
 }
 
-/* ── Tablet/mobile ────────────────────────────────────────── */
+/* ── Responsive ───────────────────────────────────────────── */
+@media(max-width:900px){
+  #cat-combos{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+
+  #cat-combos > .menu-category-title{
+    margin-bottom:7px!important;
+  }
+}
+
 @media(max-width:768px){
-  .combo-row{
-    padding:18px 15px!important;
-    border-radius:16px!important;
+  #cat-combos .combo-row{
+    padding:14px!important;
+    border-radius:14px!important;
   }
 
-  .combo-row .menu-row-name{
-    font-size:.94rem!important;
+  #cat-combos .combo-row .menu-row-name{
+    font-size:.90rem!important;
   }
 
-  .combo-row .menu-row-desc{
-    margin-bottom:13px!important;
-    font-size:.77rem!important;
+  #cat-combos .combo-row .menu-row-desc{
+    margin-bottom:10px!important;
+    font-size:.72rem!important;
   }
 
-  .combo-row .combo-select-label{
-    margin-bottom:8px!important;
-    font-size:.66rem!important;
+  #cat-combos .combo-row .combo-select-label{
+    margin-bottom:6px!important;
+    font-size:.61rem!important;
   }
 
-  .combo-row .combo-select{
-    min-height:48px!important;
-    padding:0 44px 0 14px!important;
-    border-radius:12px!important;
-    font-size:.86rem!important;
-    background-position:
-      calc(100% - 19px) calc(50% - 3px),
-      calc(100% - 13px) calc(50% - 3px)!important;
+  #cat-combos .combo-row .menu-row-price{
+    margin-top:9px!important;
+    font-size:.88rem!important;
   }
 
-  .combo-row .menu-row-price{
-    margin-top:12px!important;
-    font-size:.95rem!important;
-  }
-
-  .combo-row .qty-stepper{
-    margin-left:8px!important;
-  }
-
-  .combo-row::after{
-    left:15px!important;
-    right:15px!important;
+  #cat-combos .combo-row::after{
+    left:14px!important;
+    right:14px!important;
   }
 }
 
 @media(max-width:520px){
-  .combo-row{
-    flex-wrap:wrap!important;
+  #cat-combos .combo-row{
+    grid-template-columns:1fr!important;
   }
 
-  .combo-row .menu-row-left{
-    width:100%!important;
-  }
-
-  .combo-row .qty-stepper{
-    margin:14px 0 0 auto!important;
+  #cat-combos .combo-row .qty-stepper{
+    margin:11px 0 0 auto!important;
   }
 }
