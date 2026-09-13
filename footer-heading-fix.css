@@ -1,0 +1,21 @@
+/* ============================================================
+   THE CHINESE BLISS — Footer Heading Refinement
+   Modernizes footer section labels without changing layout/content.
+   ============================================================ */
+
+footer .fcol-title{
+  font-family:var(--fb)!important;
+  font-size:.8rem!important;
+  font-weight:600!important;
+  line-height:1.3!important;
+  letter-spacing:.025em!important;
+  text-transform:none!important;
+  color:rgba(255,255,255,.86)!important;
+  margin-bottom:18px!important;
+}
+
+@media(max-width:768px){
+  footer .fcol-title{
+    font-size:.82rem!important;
+  }
+}
