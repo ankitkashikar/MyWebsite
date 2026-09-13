@@ -1,0 +1,78 @@
+name: Temporary navbar label cleanup
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+    paths:
+      - '.github/workflows/nav-label-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  nav-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+
+      - name: Standardize navigation labels and order
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          pages = [
+              Path('menu.html'),
+              Path('our-story.html'),
+              Path('bulk-order.html'),
+              Path('order.html'),
+              Path('privacy.html'),
+              Path('terms.html'),
+          ]
+
+          for path in pages:
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              original = text
+
+              # The link points to index.html, so label it Home everywhere.
+              text = text.replace('<a href="index.html">About</a>', '<a href="index.html">Home</a>')
+
+              # Normalize legacy lowercase story label.
+              text = text.replace('<a href="our-story.html">our-story</a>', '<a href="our-story.html">Our Story</a>')
+
+              # Standardize desktop nav ordering where the legacy story/contact order remains.
+              text = text.replace(
+                  '<a href="menu.html">Menu</a>\n    <a href="our-story.html" class="active">Our Story</a>\n    <a href="index.html#contact">Contact</a>',
+                  '<a href="menu.html">Menu</a>\n    <a href="index.html#contact">Contact</a>\n    <a href="our-story.html" class="active">Our Story</a>'
+              )
+
+              # Standardize mobile nav ordering on Our Story page.
+              text = text.replace(
+                  '<a href="menu.html">Menu</a>\n  <a href="our-story.html">Our Story</a>\n  <a href="index.html#contact">Contact</a>',
+                  '<a href="menu.html">Menu</a>\n  <a href="index.html#contact">Contact</a>\n  <a href="our-story.html">Our Story</a>'
+              )
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  print(f'Updated {path}')
+
+      - name: Run QA
+        run: python scripts/qa_check.py
+
+      - name: Commit navigation cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add menu.html our-story.html bulk-order.html order.html privacy.html terms.html
+          if git diff --cached --quiet; then
+            echo "No navbar cleanup changes needed"
+          else
+            git commit -m "Standardize navbar labels across pages"
+            git push origin HEAD:tcb-design-system-refresh
+          fi
