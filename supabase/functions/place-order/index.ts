@@ -66,9 +66,9 @@ Deno.serve(async (req) => {
       address,
       notes,
       items,              // [{ id: string, qty: number }]
-      payment_method,     // 'upi' | 'cod'
+      payment_method,     // 'upi' for current direct website flow; COD is disabled
       coupon_code,
-      delivery_slot,      // normal only — e.g. "ASAP (30–45 min)"
+      delivery_slot,      // normal only — e.g. "ASAP (35–50 min)"
       event_type,         // bulk only
       delivery_datetime,  // bulk only
     } = body ?? {};
@@ -92,8 +92,8 @@ Deno.serve(async (req) => {
     if (!Array.isArray(items) || items.length === 0) {
       return jsonResponse({ success: false, message: "Your cart is empty." }, 400);
     }
-    if (payment_method !== "upi" && payment_method !== "cod") {
-      return jsonResponse({ success: false, message: "Invalid payment method." }, 400);
+    if (payment_method !== "upi") {
+      return jsonResponse({ success: false, message: "Cash on Delivery is not currently available for direct website orders." }, 400);
     }
     const maxQty = type === "bulk" ? 500 : 50;
     for (const it of items) {
@@ -193,7 +193,7 @@ Deno.serve(async (req) => {
       discount,
       total,
       payment_method,
-      payment_status: "pending", // UPI is self-reported, COD is uncollected — both start pending
+      payment_status: "pending", // UPI remains pending until payment is verified
       idempotency_key,
     };
     if (type === "bulk") {

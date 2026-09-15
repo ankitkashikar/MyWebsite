@@ -240,8 +240,14 @@ if "menu.html" in html_texts:
         err("menu.html: supabase-config.js is not loaded")
     if "custPhone" not in m or "custAddress" not in m:
         err("menu.html: checkout contact/address fields are missing")
-    if "btnConfirmPayment" not in m or "btnConfirmCod" not in m:
-        err("menu.html: payment confirmation controls are missing")
+    if "btnConfirmPayment" not in m:
+        err("menu.html: UPI payment confirmation control is missing")
+
+    for page_name in ("menu.html", "bulk-order.html"):
+        page_text = html_texts.get(page_name, "")
+        for match in re.finditer(r'<button\b[^>]*data-method=["\']cod["\'][^>]*>', page_text, re.I):
+            if not re.search(r'\bhidden\b', match.group(0), re.I):
+                err(f"{page_name}: Cash on Delivery is exposed even though COD is currently disabled")
 
 print("TCB AUTOMATED QA")
 print("=" * 72)
