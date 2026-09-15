@@ -1,0 +1,50 @@
+name: TCB Responsive Interaction QA
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start local site
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/tcb-http.log 2>&1 &
+          echo $! > /tmp/tcb-http.pid
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173/index.html > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/tcb-http.log
+          exit 1
+
+      - name: Run responsive and interaction QA
+        env:
+          QA_BASE_URL: http://127.0.0.1:4173/
+        run: node scripts/responsive_qa.mjs
