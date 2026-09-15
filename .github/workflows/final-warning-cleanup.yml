@@ -1,0 +1,98 @@
+name: Temporary final QA warning cleanup
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+    paths:
+      - '.github/workflows/final-warning-cleanup.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+
+      - name: Clean legacy UI tokens and QA dynamic IDs
+        shell: python
+        run: |
+          from pathlib import Path
+
+          html_paths = [
+              Path('index.html'),
+              Path('menu.html'),
+              Path('our-story.html'),
+              Path('bulk-order.html'),
+          ]
+
+          replacements = {
+              '📞 ': '',
+              '✉️ ': '',
+              '📍 ': '',
+              '🕐 ': '',
+              '⭐ ': '',
+              '🔥 ': '',
+              '🔥': '',
+              '⚡': '',
+              '🎉': '',
+              '🚀': '',
+              '🥢': '',
+              '⏳': '',
+          }
+
+          for path in html_paths:
+              text = path.read_text(encoding='utf-8')
+              original = text
+              for old, new in replacements.items():
+                  text = text.replace(old, new)
+
+              if path.name == 'index.html':
+                  dead_float_cta = """\n  const fc = document.getElementById('floatCta');\n  function toggleFloat() { if (fc) fc.style.display = innerWidth <= 768 ? 'flex' : 'none'; }\n  toggleFloat(); window.addEventListener('resize', toggleFloat);"""
+                  if dead_float_cta not in text:
+                      raise SystemExit('Could not locate legacy floatCta block in index.html')
+                  text = text.replace(dead_float_cta, '', 1)
+
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  print(f'Updated {path}')
+
+          qa_path = Path('scripts/qa_check.py')
+          qa = qa_path.read_text(encoding='utf-8')
+          original_qa = qa
+
+          qa = qa.replace(
+              'LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀")',
+              'LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀", "🥢", "⏳")'
+          )
+
+          old_js_check = '''    js_ids = set(re.findall(r"getElementById\\(\\s*['\\\"]([^'\\\"]+)['\\\"]\\s*\\)", text))\n    for js_id in sorted(js_ids - ids):\n        warn(f"{name}: inline JS references missing id #{js_id}")'''
+          new_js_check = '''    js_ids = set(re.findall(r"getElementById\\(\\s*['\\\"]([^'\\\"]+)['\\\"]\\s*\\)", text))\n    dynamic_ids = set(re.findall(r"\\.id\\s*=\\s*['\\\"]([^'\\\"]+)['\\\"]", text))\n    dynamic_ids.update(re.findall(r"setAttribute\\(\\s*['\\\"]id['\\\"]\\s*,\\s*['\\\"]([^'\\\"]+)['\\\"]\\s*\\)", text))\n    for js_id in sorted(js_ids - ids - dynamic_ids):\n        warn(f"{name}: inline JS references missing id #{js_id}")'''
+
+          if old_js_check not in qa:
+              raise SystemExit('Could not locate inline JS ID QA block')
+          qa = qa.replace(old_js_check, new_js_check, 1)
+
+          if qa != original_qa:
+              qa_path.write_text(qa, encoding='utf-8')
+              print('Updated scripts/qa_check.py')
+
+      - name: Run QA
+        run: python scripts/qa_check.py
+
+      - name: Commit cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html menu.html our-story.html bulk-order.html scripts/qa_check.py
+          if git diff --cached --quiet; then
+            echo "No cleanup changes to commit"
+          else
+            git commit -m "Clear remaining static QA warnings"
+            git push origin HEAD:tcb-design-system-refresh
+          fi
