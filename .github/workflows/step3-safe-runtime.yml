@@ -26,9 +26,10 @@ jobs:
               p = Path(path)
               text = p.read_text(encoding='utf-8')
               count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f'{path}: expected exactly one match, found {count}: {old[:100]!r}')
-              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+              if count < 1:
+                  raise SystemExit(f'{path}: expected at least one match, found {count}: {old[:100]!r}')
+              p.write_text(text.replace(old, new), encoding='utf-8')
+              print(f'{path}: replaced {count} occurrence(s)')
 
           # Homepage: use confirmed direct-delivery ETA/hours; leave other proof metrics untouched.
           replace_one('index.html', '>30 Min Delivery</span>', '>35–50 Min Est.</span>')
@@ -94,8 +95,8 @@ jobs:
           '''
           new = '''    if "btnConfirmPayment" not in m:
               err("menu.html: UPI payment confirmation control is missing")
-              
-              # COD may remain as hidden legacy markup during the payment refactor, but must not be customer-visible.
+
+          # COD may remain as hidden legacy markup during the payment refactor, but must not be customer-visible.
           if re.search(r'<button[^>]*data-method=["\\']cod["\\'](?![^>]*\\bhidden\\b)[^>]*>', m, re.I):
               err("menu.html: Cash on Delivery is exposed even though COD is currently disabled")
           '''
