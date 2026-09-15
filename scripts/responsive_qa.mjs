@@ -153,12 +153,9 @@ async function testDesktop(browser) {
 
   await page.evaluate(() => { if (typeof showStep === 'function') showStep('stepPayment'); });
   ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: payment step could not be shown for QA');
-  await page.locator('.pay-method-btn[data-method="cod"]').click();
-  ok(await page.locator('.pay-method-btn[data-method="cod"]').evaluate(el => el.classList.contains('active')), 'menu desktop: COD toggle did not activate');
-  ok(await page.locator('#payCodWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: COD panel did not become visible');
-  ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display === 'none'), 'menu desktop: UPI panel stayed visible in COD mode');
-  await page.locator('.pay-method-btn[data-method="upi"]').click();
-  ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel did not return');
+  ok(!(await visible(page.locator('.pay-method-btn[data-method="cod"]'))), 'menu desktop: COD must not be customer-visible');
+  ok(await visible(page.locator('.pay-method-btn[data-method="upi"]')), 'menu desktop: UPI payment option should remain visible');
+  ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel is not visible');
 
   await goto(page, 'bulk-order.html');
   const bulkFirst = page.locator('.menu-row').first();
