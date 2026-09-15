@@ -1,64 +1,64 @@
 # The Chinese Bliss — Content & Business Consistency Review
 
 **Branch:** `tcb-design-system-refresh`  
-**Review date:** 15 September 2026
+**Review date:** 15 September 2026  
+**Owner decisions updated:** 15 September 2026
 
-This review covers public-facing website copy and business consistency. It intentionally does not invent missing business facts. Where the website and project context disagree, the item is marked for owner confirmation.
+This review covers public-facing website copy and business consistency. Missing business facts are intentionally not invented.
 
-## Release status
+## Current release status
 
-**Status: HOLD — content/business blockers remain before production merge.**
+**Status: HOLD — several owner-supplied content/payment items remain before production merge.**
 
-The UI and interaction QA can pass while public content is still inaccurate, placeholder, or unverified. The items below should be resolved before merging this branch to `main`.
+UI, static QA, and browser interaction QA can pass while public content is still placeholder or unverified. The remaining items below should be resolved before merging this branch to `main`.
 
-## Critical blockers
+## Confirmed business decisions
 
-### 1. Business location conflict — owner confirmation required
+### Location
 
-The project master context identifies The Chinese Bliss as a cloud kitchen in **Kharadi, Pune**. The public website footer currently shows:
+The Chinese Bliss operates from **Hinjewadi Phase 1, Pune**. The current public address is:
 
 > Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057
 
-Do not change this automatically. Confirm the correct public business address / operating location first, then update all public pages consistently.
+Do not replace this with Kharadi.
 
-### 2. Cloud-kitchen model conflicts with homepage copy
+### Business positioning
 
-The business model is cloud kitchen / delivery-first with no dine-in. The homepage currently says **“Dine In & Delivery”**. This must be changed to delivery/cloud-kitchen wording before release.
+Public-facing copy should describe The Chinese Bliss as a **delivery** food business / Indo-Chinese kitchen. Do **not** use the terms **cloud kitchen** or **dine-in** in customer-facing copy.
 
-### 3. Bulk Order page still contains placeholder products
+A safe cleanup pass has removed the homepage dine-in claim, removed visible cloud-kitchen wording from the placeholder story, removed the non-functional story video control, fixed the homepage story/footer links, and removed the hard 30-minute promise from the Order page.
 
-`bulk-order.html` currently contains five items named **“Dish Name”** with placeholder descriptions and prices. The bulk-order flow should not be treated as production-ready until the actual bulk menu and pricing are supplied.
+### Bulk Order
 
-### 4. UPI payment details are placeholders
+The owner is preparing the real bulk-order menu and will provide it later. Do not invent bulk products, prices, minimum quantities, or event/catering policies. `bulk-order.html` still contains placeholder items and is therefore not production-ready.
 
-Both `menu.html` and `bulk-order.html` currently use:
+### Swiggy / Zomato / other ordering platforms
+
+The owner will provide direct restaurant URLs when this integration is developed. Do not guess or substitute generic platform URLs as final production links.
+
+### Homepage proof claims and featured prices
+
+The owner will provide verified inputs when this section is developed. Do not invent or silently change ratings, customer/order counts, location counts, testimonials, dish review counts, or featured prices.
+
+### Our Story
+
+The owner will create/provide factual founder-story inputs. Do not publish invented anecdotes or random founder imagery. Current placeholder copy and Picsum images are temporary only.
+
+## Payment blocker
+
+Both `menu.html` and `bulk-order.html` still contain placeholder UPI details:
 
 - `UPI ID: yourbusiness@upi`
-- a placeholder QR-code box
-- a UPI deep link containing `pa=yourbusiness@upi`
+- placeholder QR content
+- UPI deep link containing `pa=yourbusiness@upi`
 
-These must be replaced with the real business UPI details before UPI can be considered production-ready. The current payment-confirmation wording is appropriately honest about manual verification and should be preserved.
+The current payment confirmation wording is intentionally honest and should remain: a customer action must **not** automatically mark payment as verified. A gateway integration should verify payment server-side (for example through a signed webhook) before changing the order to paid.
 
-### 5. Swiggy and Zomato links are generic placeholders
+The owner is evaluating low-cost merchant UPI and payment-gateway providers before a production choice is made.
 
-`order.html` currently links the Swiggy card to `https://www.swiggy.com` and the Zomato card to `https://www.zomato.com`, with comments stating that the real restaurant URLs still need to be inserted.
+## Claims still requiring owner verification
 
-Provide the direct restaurant listing URLs or hide/disable those cards until they are available.
-
-### 6. Our Story page is explicitly placeholder content
-
-`our-story.html` labels its narrative as placeholder/filler and uses random Picsum images for Ankit, Atul, and story scenes. The only confirmed founder facts in project context are:
-
-- Ankit is from Jabalpur.
-- Atul is from Nagpur.
-- They were roommates before becoming co-founders.
-- The Chinese Bliss is an Indo-Chinese cloud kitchen in Pune.
-
-Do not publish invented anecdotes or random people as founder imagery. Replace the copy with owner-approved history and use real founder/brand photography when available.
-
-## Claims requiring verification or removal
-
-The homepage currently presents numerical/social-proof claims that are not supported by the project master context:
+The homepage currently contains numerical/social-proof claims that are not yet owner-verified for production:
 
 - `4.7 Rating` / `4.7★ Average Rating`
 - `30 Min Delivery` / `30 Mins Average Delivery`
@@ -66,113 +66,65 @@ The homepage currently presents numerical/social-proof claims that are not suppo
 - `4550+ Orders Delivered`
 - `2 Locations`
 - named five-star customer testimonials
-- dish-specific rating counts such as `4.7 (230+)`, `4.8 (180+)`, and `4.6 (150+)`
+- dish-specific rating counts
 
-Before release, either provide the source/current numbers or replace these with non-numerical, verifiable brand statements. Delivery time should be framed as an estimate, consistent with the Terms & Conditions.
+Before release, provide source/current values or replace them with non-numerical statements. Delivery timing should always be framed as an estimate unless the business intentionally offers a guaranteed SLA.
 
 ## Menu and homepage consistency
 
-### Customer Favorites prices/names do not match the live menu
+### Customer Favorites
 
-Homepage cards currently show:
+Homepage featured prices currently do not match the corresponding menu items. The owner will review these later. Do not change them until requested.
 
-- Hakka Noodles — ₹199
-- Chilli Chicken — ₹249
-- Schezwan Fried Rice — ₹189
-
-The current menu contains:
-
-- Veg Hakka Noodles — ₹190
-- Chicken Chilli — ₹220
-- Veg Schezwan Fried Rice — ₹180
-
-Either update the homepage cards to the exact menu items/prices or confirm that the homepage cards represent different variants.
-
-### Menu descriptions are still placeholder copy
+### Dish descriptions
 
 Many standard menu items still show:
 
 > Add-ons & description go here
 
-Until real dish descriptions are available, removing the placeholder line is preferable to displaying unfinished copy publicly.
+Recommended production format: one short sentence per dish (roughly 8–14 words) describing the cooking style, main components, and dominant flavour/texture. Avoid unsupported marketing claims. If real ingredient/preparation information is not yet available, hide/remove the placeholder line rather than publish unfinished copy.
 
-Combo descriptions are already more specific and should remain aligned with their selectable options.
+Combo descriptions are already specific and should remain aligned with the selectable options.
 
-## Homepage content issues
+## Social content
 
-### Footer quick links
-
-The homepage footer currently contains two inconsistent links:
-
-- `our-story` points to the homepage story anchor instead of using the normal `Our Story` label.
-- `Catering` points to `our-story.html` instead of `bulk-order.html`.
-
-These are safe to correct once the content cleanup pass is applied.
-
-### Non-functional story video control
-
-The homepage story image includes a **Play video** button but no video behavior or destination. Remove the control unless a real video is supplied.
-
-### Story wording
-
-Homepage story copy says **“authentic Chinese flavors and Indian spices”** and **“premium ingredients”**. The confirmed positioning is Indo-Chinese. Prefer copy that stays within the confirmed brand positioning and avoids ingredient-quality claims unless the business wants to stand behind them.
-
-### Instagram/social section
-
-The homepage displays `@thechinesebliss`, while footer social links currently point to generic Instagram, Facebook, and Yelp homepages. Confirm the real social profile URLs. The image grid still uses external placeholder photography and should not be presented as an actual brand feed until real images are supplied.
-
-## Order page consistency
-
-The order page currently says:
-
-> Hot food at your door in 30 minutes
-
-The Terms & Conditions correctly state that delivery times are estimates and can vary. Replace the order-page sentence with non-guaranteed language unless a 30-minute SLA is actually offered.
-
-The direct-order card currently says **“No commission”**. Consider customer-facing wording such as **“Order directly from us”** instead; the commission statement is an internal/business benefit rather than a customer promise.
+The footer currently uses generic social-homepage links and the homepage image grid uses external placeholder imagery. Ask the owner for the real social profile URLs and brand images when this section is developed.
 
 ## Legal pages
 
-`privacy.html` and `terms.html` are broadly consistent with the current ordering flow, including:
+`privacy.html` and `terms.html` broadly match the current ordering flow, including manual UPI confirmation, Cash on Delivery, estimated delivery timing, conditional cancellation/refund handling, and allergy/dietary caution.
 
-- order/contact information handling,
-- manual UPI confirmation,
-- Cash on Delivery,
-- delivery timing being an estimate,
-- cancellation/refund handling being conditional,
-- allergy/dietary caution.
+Review their “Last updated” dates after final ordering/payment/delivery policies are confirmed.
 
-Review their “Last updated” dates again after the final business/content changes are made.
+## Current contact details on the site
 
-## Confirmed business details currently repeated on the site
-
-These values appear consistently in the current public footer/legal content, but should still be owner-verified before production:
+These values remain on the site and should be reconfirmed before production release:
 
 - Phone: `+91-8956150583`
 - Email: `chinesebliss1@gmail.com`
 - Hours: Mon–Sun, 4:00 PM–2:00 AM
-- Address currently shown: Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057
+- Address: Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057
 
-## Owner inputs required to complete Step 3
+## Remaining owner inputs before content-ready release
 
-1. Correct public business location/address: Kharadi or the current Hinjawadi address?
-2. Confirm phone number, email, and opening hours.
-3. Real UPI ID and QR image, or confirmation to keep UPI disabled for launch.
-4. Direct Swiggy and Zomato restaurant URLs.
-5. Actual bulk-order dishes/prices and whether “minimum 10 persons” is a real policy.
-6. Which homepage metrics/reviews are real and can be published.
-7. Real founder/story copy and founder photos, or approval to use a short facts-only story temporarily.
-8. Real Instagram/Facebook/social URLs.
+1. Confirm phone, email, opening hours, delivery area and delivery-time policy.
+2. Select the production payment approach and provide merchant onboarding details/UPI QR as applicable.
+3. Provide direct Swiggy, Zomato and any other ordering-platform restaurant URLs when integration starts.
+4. Provide actual bulk-order products/prices/policies when ready.
+5. Provide verified homepage metrics/testimonials when that section is updated.
+6. Provide factual founder-story answers and real founder/brand photos.
+7. Provide real social profile URLs and brand images.
+8. Approve or provide real menu descriptions.
 
-## Recommended cleanup order
+## Recommended remaining order
 
-1. Resolve address/contact/payment/platform-link facts.
-2. Remove or replace unsupported metrics/testimonials.
-3. Sync homepage featured dishes with menu pricing.
-4. Replace bulk-order placeholders.
-5. Replace Our Story filler and random founder imagery.
-6. Remove placeholder menu descriptions or add approved dish copy.
-7. Correct homepage footer links and non-functional story control.
-8. Re-run static QA + responsive/interaction QA.
+1. Confirm delivery/service policy.
+2. Choose and integrate payment provider.
+3. Replace Our Story placeholder content/images.
+4. Replace menu description placeholders.
+5. Add real platform/social URLs.
+6. Add bulk-order content when ready.
+7. Reconcile proof claims and homepage featured prices when owner inputs are available.
+8. Re-run static QA + responsive/interaction QA and conduct production smoke test.
 
-Only after these items are resolved should the branch be considered content-ready for production merge.
+Only after these remaining content/business items are resolved should the branch be considered content-ready for production merge.
