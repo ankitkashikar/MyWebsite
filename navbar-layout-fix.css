@@ -1,8 +1,8 @@
 /* ============================================================
    THE CHINESE BLISS — Navbar Layout Alignment
-   Keeps the desktop navigation mathematically centered even when
-   the logo and right-side action group have different widths.
-   Mobile behavior remains unchanged.
+   Keeps desktop navigation mathematically centered and moves the
+   tighter tablet range to the hamburger navigation before links
+   and order actions can collide or overflow the viewport.
    ============================================================ */
 
 @media (min-width:1050px){
@@ -26,10 +26,8 @@
   }
 }
 
-/* Keep the existing compact flex layout through the tighter
-   desktop/tablet range so the center links never collide with
-   the order buttons. */
-@media (min-width:769px) and (max-width:1049px){
+/* Compact desktop / wide tablet. */
+@media (min-width:901px) and (max-width:1049px){
   .navbar{
     display:flex!important;
     padding-left:28px!important;
@@ -45,5 +43,33 @@
   .btn-nav-order{
     padding-left:16px!important;
     padding-right:16px!important;
+  }
+}
+
+/* Tablet: switch the primary links to the hamburger menu rather than
+   compressing the center navigation until it overflows. The navbar
+   remains 72px high here, matching sticky toolbar offsets above 768px. */
+@media (min-width:769px) and (max-width:900px){
+  .navbar{
+    display:flex!important;
+    padding-left:24px!important;
+    padding-right:24px!important;
+    gap:16px!important;
+  }
+
+  .navbar .nav-links{
+    display:none!important;
+  }
+
+  .navbar .hamburger{
+    display:flex!important;
+  }
+
+  .navbar .nav-actions{
+    margin-left:auto!important;
+  }
+
+  .mobile-nav{
+    top:72px!important;
   }
 }
