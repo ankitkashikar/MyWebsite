@@ -1,0 +1,68 @@
+name: Temporary Confirmed Content Cleanup
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.event.head_commit.message != 'Apply confirmed content cleanup'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+      - name: Apply confirmed copy fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+            'index.html': [
+              ('<div><div class="tb-title">Dine In &amp; Delivery</div><div class="tb-sub">Till 2 AM</div></div>', '<div><div class="tb-title">Delivery</div><div class="tb-sub">Till 2 AM</div></div>'),
+              ('<p class="pre-label">our-story</p>', '<p class="pre-label">Our Story</p>'),
+              ('<p class="story-body">At The Chinese Bliss, we bring you the perfect fusion of authentic Chinese flavors and Indian spices. Every dish is crafted with premium ingredients and a lot of love.</p>', '<p class="story-body">At The Chinese Bliss, we bring together bold Indo-Chinese flavours in food made fresh for every order.</p>'),
+              ('    <button class="play-btn" aria-label="Play video">\n      <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>\n    </button>\n', ''),
+              ('<a href="#our-story">our-story</a>', '<a href="our-story.html">Our Story</a>'),
+              ('<a href="our-story.html">Catering</a>', '<a href="bulk-order.html">Bulk Order</a>'),
+            ],
+            'order.html': [
+              ('Hot food at your door in 30 minutes — or plan ahead with a bulk order.', 'Choose Swiggy, Zomato, or order directly from The Chinese Bliss.'),
+              ('<div class="platform-desc">Full menu · Order directly · No commission</div>', '<div class="platform-desc">Full menu · Order directly from us</div>'),
+            ],
+            'our-story.html': [
+              ('<h1>our-story</h1>', '<h1>Our Story</h1>'),
+              ('launched The Chinese Bliss — a cloud kitchen built on one simple promise:', 'launched The Chinese Bliss — built on one simple promise:'),
+            ],
+          }
+
+          changed = []
+          for filename, pairs in replacements.items():
+              path = Path(filename)
+              text = path.read_text(encoding='utf-8')
+              original = text
+              for old, new in pairs:
+                  if old not in text:
+                      raise SystemExit(f'Missing expected text in {filename}: {old[:90]}')
+                  text = text.replace(old, new, 1)
+              if text != original:
+                  path.write_text(text, encoding='utf-8')
+                  changed.append(filename)
+
+          print('Updated:', ', '.join(changed))
+          PY
+      - name: Commit fixes
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html order.html our-story.html
+          git commit -m "Apply confirmed content cleanup"
+          git push origin HEAD:tcb-design-system-refresh
