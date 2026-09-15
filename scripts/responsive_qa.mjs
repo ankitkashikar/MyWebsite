@@ -22,13 +22,33 @@ async function goto(page, path) {
 }
 
 async function assertNoHorizontalOverflow(page, label) {
-  const m = await page.evaluate(() => ({
-    innerWidth: window.innerWidth,
-    scrollWidth: document.documentElement.scrollWidth,
-    bodyScrollWidth: document.body?.scrollWidth || 0,
-  }));
+  const m = await page.evaluate(() => {
+    const innerWidth = window.innerWidth;
+    const scrollWidth = document.documentElement.scrollWidth;
+    const bodyScrollWidth = document.body?.scrollWidth || 0;
+    const offenders = [...document.querySelectorAll('body *')]
+      .map(el => {
+        const r = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        return {
+          tag: el.tagName.toLowerCase(),
+          id: el.id || '',
+          cls: typeof el.className === 'string' ? el.className.trim().replace(/\s+/g, '.') : '',
+          left: Math.round(r.left),
+          right: Math.round(r.right),
+          width: Math.round(r.width),
+          display: style.display,
+          position: style.position,
+        };
+      })
+      .filter(x => x.display !== 'none' && (x.right > innerWidth + 2 || x.left < -2))
+      .sort((a, b) => Math.max(b.right - innerWidth, -b.left) - Math.max(a.right - innerWidth, -a.left))
+      .slice(0, 8);
+    return { innerWidth, scrollWidth, bodyScrollWidth, offenders };
+  });
   const widest = Math.max(m.scrollWidth, m.bodyScrollWidth);
-  ok(widest <= m.innerWidth + 2, `${label}: horizontal overflow (${widest}px > ${m.innerWidth}px)`);
+  const details = m.offenders.map(x => `${x.tag}${x.id ? '#' + x.id : ''}${x.cls ? '.' + x.cls : ''}[${x.left}..${x.right},w=${x.width},${x.position}]`).join('; ');
+  ok(widest <= m.innerWidth + 2, `${label}: horizontal overflow (${widest}px > ${m.innerWidth}px); offenders: ${details || 'none found'}`);
 }
 
 async function assertDesktopNavCentered(page, label) {
@@ -39,6 +59,29 @@ async function assertDesktopNavCentered(page, label) {
   const width = await page.evaluate(() => innerWidth);
   const center = box.x + box.width / 2;
   ok(Math.abs(center - width / 2) <= 4, `${label}: nav is not viewport-centered (${center.toFixed(1)} vs ${(width / 2).toFixed(1)})`);
+}
+
+async function assertClickableAtCenter(page, locator, label) {
+  const data = await locator.evaluate(el => {
+    const r = el.getBoundingClientRect();
+    const x = Math.max(0, Math.min(innerWidth - 1, r.left + r.width / 2));
+    const y = Math.max(0, Math.min(innerHeight - 1, r.top + r.height / 2));
+    const hit = document.elementFromPoint(x, y);
+    const s = getComputedStyle(el);
+    return {
+      rect: { left: Math.round(r.left), top: Math.round(r.top), right: Math.round(r.right), bottom: Math.round(r.bottom), width: Math.round(r.width), height: Math.round(r.height) },
+      point: { x: Math.round(x), y: Math.round(y) },
+      position: s.position,
+      zIndex: s.zIndex,
+      pointerEvents: s.pointerEvents,
+      hit: hit ? `${hit.tagName.toLowerCase()}${hit.id ? '#' + hit.id : ''}${typeof hit.className === 'string' && hit.className ? '.' + hit.className.trim().replace(/\s+/g, '.') : ''}` : 'none',
+      containsHit: !!(hit && (el === hit || el.contains(hit))),
+      parentPosition: el.parentElement ? getComputedStyle(el.parentElement).position : '',
+      parentZ: el.parentElement ? getComputedStyle(el.parentElement).zIndex : '',
+      parentPointer: el.parentElement ? getComputedStyle(el.parentElement).pointerEvents : '',
+    };
+  });
+  ok(data.containsHit, `${label}: center is not clickable; hit=${data.hit}; rect=${JSON.stringify(data.rect)} point=${JSON.stringify(data.point)} position=${data.position} z=${data.zIndex} pointer=${data.pointerEvents} parentPosition=${data.parentPosition} parentZ=${data.parentZ} parentPointer=${data.parentPointer}`);
 }
 
 async function testDesktop(browser) {
@@ -53,7 +96,6 @@ async function testDesktop(browser) {
 
   await goto(page, 'menu.html');
 
-  // Category nav and search/filter behavior.
   const search = page.locator('#menuSearch');
   ok(await visible(search), 'menu desktop: search field not visible');
   await search.fill('Paneer Chilli');
@@ -70,7 +112,6 @@ async function testDesktop(browser) {
   await page.waitForTimeout(120);
   ok((await page.evaluate(() => location.hash)) === '#cat-combos', 'menu desktop: Combos category navigation did not update hash');
 
-  // Custom combo picker must be present, open, and stay synchronized with native select.
   const nativeSelects = page.locator('#cat-combos select.combo-select');
   const pickerTriggers = page.locator('#cat-combos .combo-picker-trigger');
   const selectCount = await nativeSelects.count();
@@ -89,7 +130,6 @@ async function testDesktop(browser) {
   ok(after !== before, 'menu desktop: custom combo selection did not update native select');
   ok((await firstTrigger.getAttribute('aria-expanded')) === 'false', 'menu desktop: combo dropdown did not close after selection');
 
-  // Quantity -> cart -> checkout drawer.
   const firstNormalRow = page.locator('.menu-row:not(.combo-row)').first();
   const qty = firstNormalRow.locator('.qty-display');
   await firstNormalRow.locator('.qty-plus').click();
@@ -103,7 +143,6 @@ async function testDesktop(browser) {
   await page.locator('#btnToAddress').click();
   ok(await page.locator('#stepAddress').evaluate(el => el.classList.contains('active')), 'menu desktop: address step not active');
 
-  // Validation: invalid phone and too-short address must be rejected.
   await page.locator('#custName').fill('QA Test');
   await page.locator('#custPhone').fill('1234567890');
   await page.locator('#custAddress').fill('Short address');
@@ -112,7 +151,6 @@ async function testDesktop(browser) {
   ok(await page.locator('#custPhoneError').evaluate(el => el.classList.contains('visible')), 'menu desktop: invalid phone not rejected');
   ok(await page.locator('#custAddressError').evaluate(el => el.classList.contains('visible')), 'menu desktop: short address not rejected');
 
-  // Payment state UI, without submitting any order.
   await page.evaluate(() => { if (typeof showStep === 'function') showStep('stepPayment'); });
   ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: payment step could not be shown for QA');
   await page.locator('.pay-method-btn[data-method="cod"]').click();
@@ -122,7 +160,6 @@ async function testDesktop(browser) {
   await page.locator('.pay-method-btn[data-method="upi"]').click();
   ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel did not return');
 
-  // Bulk order core interaction.
   await goto(page, 'bulk-order.html');
   const bulkFirst = page.locator('.menu-row').first();
   const bulkQty = bulkFirst.locator('.qty-display');
@@ -154,7 +191,6 @@ async function testMobile(browser) {
     await assertNoHorizontalOverflow(page, `mobile ${path}`);
   }
 
-  // Mobile navbar completeness and open/close behavior.
   await goto(page, 'index.html');
   ok(await visible(page.locator('#ham')), 'mobile home: hamburger not visible');
   ok(!(await visible(page.locator('.nav-links'))), 'mobile home: desktop nav should be hidden');
@@ -168,7 +204,6 @@ async function testMobile(browser) {
   ok(actionTexts.includes('Bulk Order'), 'mobile home: missing Bulk Order CTA');
   ok(actionTexts.includes('Order Online'), 'mobile home: missing Order Online CTA');
 
-  // Menu controls and combo dropdown must fit the viewport on mobile.
   await goto(page, 'menu.html');
   ok(await visible(page.locator('#menuSearch')), 'mobile menu: search field not visible');
   await page.locator('.cat-pill[href="#cat-combos"]').click();
@@ -183,12 +218,14 @@ async function testMobile(browser) {
   ok(box.x >= -1 && box.x + box.width <= 391, `mobile menu: combo dropdown exceeds viewport (${box.x}, ${box.width})`);
   await page.keyboard.press('Escape');
 
-  // Mobile quantity/cart interaction.
   const firstNormalRow = page.locator('.menu-row:not(.combo-row)').first();
   await firstNormalRow.locator('.qty-plus').click();
   ok(await firstNormalRow.locator('.qty-display').inputValue() === '1', 'mobile menu: quantity plus failed');
-  ok(await page.locator('#cartBar').evaluate(el => el.classList.contains('visible')), 'mobile menu: cart bar did not appear');
-  await page.locator('#cartBarInner').click();
+  const cartBar = page.locator('#cartBar');
+  const cartInner = page.locator('#cartBarInner');
+  ok(await cartBar.evaluate(el => el.classList.contains('visible')), 'mobile menu: cart bar did not appear');
+  await assertClickableAtCenter(page, cartInner, 'mobile menu cart bar');
+  await cartInner.click();
   ok(await page.locator('#drawer').evaluate(el => el.classList.contains('open')), 'mobile menu: drawer did not open');
   await assertNoHorizontalOverflow(page, 'mobile menu with drawer open');
 
