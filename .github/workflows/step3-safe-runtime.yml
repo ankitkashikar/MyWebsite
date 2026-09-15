@@ -1,0 +1,117 @@
+name: Temporary Step 3 Runtime Alignment
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    if: github.event.head_commit.message != 'Align direct-order runtime with confirmed policies'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+
+      - name: Apply confirmed runtime and QA changes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          def replace_one(path, old, new):
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected exactly one match, found {count}: {old[:100]!r}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # Homepage: use confirmed direct-delivery ETA/hours; leave other proof metrics untouched.
+          replace_one('index.html', '>30 Min Delivery</span>', '>35–50 Min Est.</span>')
+          replace_one('index.html', '<div><div class="badge-val">30 Min</div><div class="badge-lbl">Fast Delivery</div></div>', '<div><div class="badge-val">35–50 Min</div><div class="badge-lbl">Estimated Delivery</div></div>')
+          replace_one('index.html', '<div><div class="tb-title">Delivery</div><div class="tb-sub">Till 2 AM</div></div>', '<div><div class="tb-title">Direct Delivery</div><div class="tb-sub">4 PM – 12 AM</div></div>')
+          replace_one('index.html', '<div class="stat-num">30 Mins</div>\n    <div class="stat-lbl">Average Delivery</div>', '<div class="stat-num">35–50 Min</div>\n    <div class="stat-lbl">Estimated Delivery</div>')
+          replace_one('index.html', '<h4 class="fcol-title">Opening Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 2:00 AM</p>', '<h4 class="fcol-title">Direct Order Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 12:00 AM</p>')
+          replace_one('index.html', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy Policy</a>\n      <a href="terms.html">Terms &amp; Conditions</a>\n    </div>', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy</a>\n      <a href="delivery-policy.html">Delivery</a>\n      <a href="refund-policy.html">Cancellation &amp; Refund</a>\n      <a href="bulk-order-policy.html">Bulk Orders</a>\n      <a href="terms.html">Terms</a>\n    </div>')
+
+          # Direct menu checkout: confirmed service window/ETA, transparent service-area note, COD unavailable.
+          replace_one('menu.html', '<h4 class="fcol-title">Opening Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 2:00 AM</p>', '<h4 class="fcol-title">Direct Order Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 12:00 AM</p>')
+          replace_one('menu.html', '<a href="bulk-order.html">Catering</a>', '<a href="bulk-order.html">Bulk Order</a>')
+          replace_one('menu.html', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy Policy</a>\n      <a href="terms.html">Terms &amp; Conditions</a>\n    </div>', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy</a>\n      <a href="delivery-policy.html">Delivery</a>\n      <a href="refund-policy.html">Cancellation &amp; Refund</a>\n      <a href="bulk-order-policy.html">Bulk Orders</a>\n      <a href="terms.html">Terms</a>\n    </div>')
+          replace_one('menu.html', '<button type="button" class="pay-method-btn" data-method="cod">Cash on Delivery</button>', '<button type="button" class="pay-method-btn" data-method="cod" hidden aria-hidden="true">Cash on Delivery</button>')
+          replace_one('menu.html', '  // Respects actual operating hours: 4:00 PM – 2:00 AM.\n', '  // Respects confirmed direct-order hours: 4:00 PM – 12:00 AM.\n')
+          replace_one('menu.html', '  const CLOSE_HOUR = 2;   // 2:00 AM (next day)\n', '  const CLOSE_HOUR = 0;   // 12:00 AM (midnight)\n')
+          replace_one('menu.html', '<div class="slot-now-sub">Estimated 30–45 minutes</div>', '<div class="slot-now-sub">Estimated 35–50 minutes</div>')
+          replace_one('menu.html', "      selectedSlot = 'ASAP (30–45 min)';", "      selectedSlot = 'ASAP (35–50 min)';")
+          replace_one('menu.html', '          <span class="field-counter" id="custAddressCounter">0 / 100</span>\n        </div>\n      </div>', '          <span class="field-counter" id="custAddressCounter">0 / 100</span>\n        </div>\n        <p class="checkout-service-note">Direct delivery is currently for serviceable addresses in PIN 411057. Estimated delivery is 35–50 minutes; traffic, rain, peak demand and delivery-partner availability can increase the ETA.</p>\n      </div>')
+          replace_one('menu.html', '    .field-counter.ok{color:#2e7d32}\n', '    .field-counter.ok{color:#2e7d32}\n    .checkout-service-note{margin:7px 0 0;color:#777;font-size:.72rem;line-height:1.55}\n')
+
+          # Other public pages: label customer-facing hours as direct-order hours.
+          replace_one('our-story.html', '<h4 class="fcol-title">Opening Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 2:00 AM</p>', '<h4 class="fcol-title">Direct Order Hours</h4>\n      <p>Mon – Sun</p>\n      <p>4:00 PM – 12:00 AM</p>')
+          replace_one('our-story.html', '<a href="bulk-order.html">Catering</a>', '<a href="bulk-order.html">Bulk Order</a>')
+          replace_one('our-story.html', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy Policy</a>\n      <a href="terms.html">Terms &amp; Conditions</a>\n    </div>', '<div class="footer-bottom-links">\n      <a href="privacy.html">Privacy</a>\n      <a href="delivery-policy.html">Delivery</a>\n      <a href="refund-policy.html">Cancellation &amp; Refund</a>\n      <a href="bulk-order-policy.html">Bulk Orders</a>\n      <a href="terms.html">Terms</a>\n    </div>')
+
+          replace_one('order.html', '        Choose Swiggy, Zomato, or order directly from The Chinese Bliss.\n', '        Choose Swiggy, Zomato, or order directly from The Chinese Bliss.<br/>\n        Direct orders: PIN 411057 · estimated 35–50 min · 4 PM–12 AM.\n')
+          replace_one('order.html', '<div class="platform-desc">Full menu · Order directly from us</div>', '<div class="platform-desc">PIN 411057 · 35–50 min estimated</div>')
+
+          # COD is not currently offered for direct website orders. Keep hidden legacy markup only so
+          # the still-in-development checkout can be refactored without breaking unrelated UI.
+          replace_one('bulk-order.html', '<button type="button" class="pay-method-btn" data-method="cod">Cash on Delivery</button>', '<button type="button" class="pay-method-btn" data-method="cod" hidden aria-hidden="true">Cash on Delivery</button>')
+          replace_one('bulk-order.html', '<p>Catering for events, offices &amp; parties · Minimum order 10 persons · We deliver fresh</p>', '<p>Bulk orders for events, offices &amp; parties · Please book 1–2 days in advance</p>')
+          replace_one('bulk-order.html', '<p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom.</p>', '<p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom. Confirmed bulk orders require 50% advance payment and the remaining 50% before dispatch. <a href="bulk-order-policy.html">Read the Bulk Order Policy</a>.</p>')
+
+          # Server-side guard: crafted clients cannot submit COD while COD is disabled.
+          replace_one('supabase/functions/place-order/index.ts', "      payment_method,     // 'upi' | 'cod'\n", "      payment_method,     // 'upi' for current direct website flow; COD is disabled\n")
+          replace_one('supabase/functions/place-order/index.ts', '    if (payment_method !== "upi" && payment_method !== "cod") {\n      return jsonResponse({ success: false, message: "Invalid payment method." }, 400);\n    }', '    if (payment_method !== "upi") {\n      return jsonResponse({ success: false, message: "Cash on Delivery is not currently available for direct website orders." }, 400);\n    }')
+          replace_one('supabase/functions/place-order/index.ts', '      payment_status: "pending", // UPI is self-reported, COD is uncollected — both start pending\n', '      payment_status: "pending", // UPI remains pending until payment is verified\n')
+          replace_one('supabase/functions/place-order/index.ts', '      delivery_slot,      // normal only — e.g. "ASAP (30–45 min)"\n', '      delivery_slot,      // normal only — e.g. "ASAP (35–50 min)"\n')
+
+          # Browser QA should now enforce that COD is NOT customer-visible.
+          old = '''  await page.evaluate(() => { if (typeof showStep === 'function') showStep('stepPayment'); });
+          ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: payment step could not be shown for QA');
+          await page.locator('.pay-method-btn[data-method="cod"]').click();
+          ok(await page.locator('.pay-method-btn[data-method="cod"]').evaluate(el => el.classList.contains('active')), 'menu desktop: COD toggle did not activate');
+          ok(await page.locator('#payCodWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: COD panel did not become visible');
+          ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display === 'none'), 'menu desktop: UPI panel stayed visible in COD mode');
+          await page.locator('.pay-method-btn[data-method="upi"]').click();
+          ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel did not return');
+          '''
+          new = '''  await page.evaluate(() => { if (typeof showStep === 'function') showStep('stepPayment'); });
+          ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: payment step could not be shown for QA');
+          ok(!(await visible(page.locator('.pay-method-btn[data-method="cod"]'))), 'menu desktop: COD must not be customer-visible');
+          ok(await visible(page.locator('.pay-method-btn[data-method="upi"]')), 'menu desktop: UPI payment option should remain visible');
+          ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel is not visible');
+          '''
+          replace_one('scripts/responsive_qa.mjs', old, new)
+
+          # Static QA: require UPI control and fail if COD is exposed without the hidden attribute.
+          old = '''    if "btnConfirmPayment" not in m or "btnConfirmCod" not in m:
+              err("menu.html: payment confirmation controls are missing")
+          '''
+          new = '''    if "btnConfirmPayment" not in m:
+              err("menu.html: UPI payment confirmation control is missing")
+              
+              # COD may remain as hidden legacy markup during the payment refactor, but must not be customer-visible.
+          if re.search(r'<button[^>]*data-method=["\\']cod["\\'](?![^>]*\\bhidden\\b)[^>]*>', m, re.I):
+              err("menu.html: Cash on Delivery is exposed even though COD is currently disabled")
+          '''
+          replace_one('scripts/qa_check.py', old, new)
+
+          print('Step 3 runtime alignment applied.')
+          PY
+
+      - name: Commit aligned runtime
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html menu.html our-story.html order.html bulk-order.html scripts/qa_check.py scripts/responsive_qa.mjs supabase/functions/place-order/index.ts
+          git commit -m "Align direct-order runtime with confirmed policies"
+          git push origin HEAD:tcb-design-system-refresh
