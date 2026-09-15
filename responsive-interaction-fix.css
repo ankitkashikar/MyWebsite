@@ -1,0 +1,51 @@
+/* ============================================================
+   THE CHINESE BLISS — Responsive Interaction Fixes
+   Browser-QA fixes only. No menu, cart, pricing or order logic here.
+   ============================================================ */
+
+/* The custom combo picker keeps the native select for existing logic.
+   Higher specificity is required to beat combo-modern.css !important
+   sizing so the visually hidden select cannot create horizontal overflow. */
+#cat-combos .combo-row .combo-select.combo-native-select{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:1px!important;
+  min-width:1px!important;
+  max-width:1px!important;
+  height:1px!important;
+  min-height:1px!important;
+  max-height:1px!important;
+  margin:-1px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  clip:rect(0 0 0 0)!important;
+  clip-path:inset(50%)!important;
+  white-space:nowrap!important;
+  border:0!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+
+/* Keep the fixed cart CTA in its own interaction layer above menu cards.
+   The transparent outer gradient does not need to consume pointer events;
+   only the visible cart pill does. Checkout remains above the cart bar. */
+.cart-bar{
+  z-index:450!important;
+  isolation:isolate!important;
+  pointer-events:none!important;
+}
+
+.cart-bar-inner{
+  position:relative!important;
+  z-index:1!important;
+  pointer-events:auto!important;
+}
+
+.drawer-backdrop{
+  z-index:500!important;
+}
+
+.drawer{
+  z-index:501!important;
+}
