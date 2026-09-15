@@ -8,7 +8,7 @@ This review covers public-facing website copy and business consistency. Missing 
 
 ## Current release status
 
-**Status: HOLD — several owner-supplied content/payment items remain before production merge.**
+**Status: HOLD — several owner-supplied content/payment/integration items remain before production merge.**
 
 UI, static QA, and browser interaction QA can pass while public content is still placeholder or unverified. The remaining items below should be resolved before merging this branch to `main`.
 
@@ -16,7 +16,9 @@ UI, static QA, and browser interaction QA can pass while public content is still
 
 ### Location
 
-The Chinese Bliss operates from **Hinjewadi Phase 1, Pune**. The current public address is:
+The Chinese Bliss operates from **Hinjewadi Phase 1, Pune**. Direct website delivery is currently intended for PIN code **411057**.
+
+Current public address:
 
 > Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057
 
@@ -28,9 +30,60 @@ Public-facing copy should describe The Chinese Bliss as a **delivery** food busi
 
 A safe cleanup pass has removed the homepage dine-in claim, removed visible cloud-kitchen wording from the placeholder story, removed the non-functional story video control, fixed the homepage story/footer links, and removed the hard 30-minute promise from the Order page.
 
+### Direct delivery policy
+
+Confirmed operating inputs:
+
+- Direct-order hours: **4:00 PM–12:00 AM**.
+- Standard ETA target: **approximately 35–50 minutes from order confirmation**, presented as an estimate rather than a guarantee.
+- One item, no queue: approximately **6–7 minutes** preparation.
+- Around three items: commonly **10–12 minutes**, depending on item mix and current queue.
+- Friday–Sunday peak preparation planning: approximately **10–15 minutes**, subject to rush.
+- Current operating pattern is to book a delivery partner when the order arrives; rider arrival is commonly around **5–7 minutes**, but this is not guaranteed.
+- Direct website orders should receive kitchen priority where operationally possible.
+- Third-party delivery options under discussion include Porter, Shiprocket and Borzo. Do not hard-code one provider until selected.
+- Food subtotal **₹799 or above**: planned free direct delivery within the supported area.
+- Below ₹799: customer pays the applicable delivery charge. The website should show the charge before payment/order confirmation. Do not fabricate a live fee before the selected logistics provider/API can quote it.
+- Heavy rain, flooding, traffic, peak demand, rider shortages, building/security access and customer unresponsiveness should be disclosed as ETA variables.
+- Goodwill delay coupons may be handled case by case, but customer-facing policy must preserve applicable statutory refund/remedy rights.
+
+### Scheduled orders and notifications
+
+Scheduled ordering is supported. The selected slot should be described as a requested/estimated delivery window rather than an absolute guarantee.
+
+Recommended transactional notification priorities:
+
+1. order received;
+2. order confirmed + current ETA;
+3. payment status;
+4. scheduled-order reminder where applicable;
+5. rider assigned / dispatched with tracking link if supported;
+6. material delay update;
+7. delivered/support message.
+
+### Payment and COD
+
+Cash on Delivery is **not currently planned for direct website orders**.
+
+Both `menu.html` and `bulk-order.html` still contain placeholder UPI details in development. These must not be treated as production-ready.
+
+Recommended payment architecture:
+
+**Website → Supabase/server function → payment provider → signed webhook → payment status**
+
+The customer must never be marked paid merely because they click an “I paid” action. Manual UPI should remain **Payment Pending Confirmation** until verified.
+
 ### Bulk Order
 
-The owner is preparing the real bulk-order menu and will provide it later. Do not invent bulk products, prices, minimum quantities, or event/catering policies. `bulk-order.html` still contains placeholder items and is therefore not production-ready.
+The owner is preparing the real bulk-order menu and will provide it later. Do not invent products or prices.
+
+Confirmed bulk-order commercial policy:
+
+- request at least **1–2 days in advance**;
+- **50% advance payment** to confirm;
+- remaining **50% before dispatch**;
+- no post-delivery credit planned;
+- regular 35–50 minute ETA does not apply to bulk orders.
 
 ### Swiggy / Zomato / other ordering platforms
 
@@ -40,21 +93,22 @@ The owner will provide direct restaurant URLs when this integration is developed
 
 The owner will provide verified inputs when this section is developed. Do not invent or silently change ratings, customer/order counts, location counts, testimonials, dish review counts, or featured prices.
 
-### Our Story
+### Our Story and photography
 
-The owner will create/provide factual founder-story inputs. Do not publish invented anecdotes or random founder imagery. Current placeholder copy and Picsum images are temporary only.
+The owner will provide:
 
-## Payment blocker
+- factual founder-story inputs;
+- founder photos of Ankit and Atul;
+- kitchen/working photos;
+- details about how the idea started after development/testing.
 
-Both `menu.html` and `bulk-order.html` still contain placeholder UPI details:
+Do not publish invented anecdotes or random founder imagery. Current placeholder copy and Picsum images are temporary only.
 
-- `UPI ID: yourbusiness@upi`
-- placeholder QR content
-- UPI deep link containing `pa=yourbusiness@upi`
+### Food descriptions
 
-The current payment confirmation wording is intentionally honest and should remain: a customer action must **not** automatically mark payment as verified. A gateway integration should verify payment server-side (for example through a signed webhook) before changing the order to paid.
+The owner has real food descriptions and will provide them for the menu-content pass. Do not invent ingredients, allergens, dietary claims or preparation details.
 
-The owner is evaluating low-cost merchant UPI and payment-gateway providers before a production choice is made.
+Current placeholder text such as **“Add-ons & description go here”** should be removed/replaced before production.
 
 ## Claims still requiring owner verification
 
@@ -68,63 +122,60 @@ The homepage currently contains numerical/social-proof claims that are not yet o
 - named five-star customer testimonials
 - dish-specific rating counts
 
-Before release, provide source/current values or replace them with non-numerical statements. Delivery timing should always be framed as an estimate unless the business intentionally offers a guaranteed SLA.
+Before release, provide source/current values or replace them with non-numerical statements.
 
-## Menu and homepage consistency
+## Customer policy pages now available
 
-### Customer Favorites
+The branch contains dedicated customer policy pages:
 
-Homepage featured prices currently do not match the corresponding menu items. The owner will review these later. Do not change them until requested.
+- `terms.html`
+- `privacy.html`
+- `delivery-policy.html`
+- `refund-policy.html`
+- `bulk-order-policy.html`
 
-### Dish descriptions
+A consolidated working document is also maintained in:
 
-Many standard menu items still show:
+- `docs/TCB_TERMS_POLICY_PACK.md`
 
-> Add-ons & description go here
+These are operating/legal drafts and should receive final Indian legal/compliance review before launch.
 
-Recommended production format: one short sentence per dish (roughly 8–14 words) describing the cooking style, main components, and dominant flavour/texture. Avoid unsupported marketing claims. If real ingredient/preparation information is not yet available, hide/remove the placeholder line rather than publish unfinished copy.
+## Indian compliance items to confirm before launch
 
-Combo descriptions are already specific and should remain aligned with the selectable options.
-
-## Social content
-
-The footer currently uses generic social-homepage links and the homepage image grid uses external placeholder imagery. Ask the owner for the real social profile URLs and brand images when this section is developed.
-
-## Legal pages
-
-`privacy.html` and `terms.html` broadly match the current ordering flow, including manual UPI confirmation, Cash on Delivery, estimated delivery timing, conditional cancellation/refund handling, and allergy/dietary caution.
-
-Review their “Last updated” dates after final ordering/payment/delivery policies are confirmed.
-
-## Current contact details on the site
-
-These values remain on the site and should be reconfirmed before production release:
-
-- Phone: `+91-8956150583`
-- Email: `chinesebliss1@gmail.com`
-- Hours: Mon–Sun, 4:00 PM–2:00 AM
-- Address: Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057
+- FSSAI registration/licence number and where it must be displayed on the website and invoices/receipts.
+- FSSAI number on invoices/bills where required.
+- Applicable GST/tax/invoice requirements.
+- Grievance-contact / grievance-officer requirements applicable to TCB's direct website model.
+- Total-price disclosure including compulsory delivery fees before purchase.
+- Cancellation/refund wording under applicable consumer law.
+- Customer data/privacy obligations.
+- Payment-gateway settlement/refund/chargeback rules.
+- WhatsApp/SMS transactional-notification requirements.
+- Final delivery-provider terms and liability allocation.
 
 ## Remaining owner inputs before content-ready release
 
-1. Confirm phone, email, opening hours, delivery area and delivery-time policy.
-2. Select the production payment approach and provide merchant onboarding details/UPI QR as applicable.
-3. Provide direct Swiggy, Zomato and any other ordering-platform restaurant URLs when integration starts.
-4. Provide actual bulk-order products/prices/policies when ready.
-5. Provide verified homepage metrics/testimonials when that section is updated.
-6. Provide factual founder-story answers and real founder/brand photos.
-7. Provide real social profile URLs and brand images.
-8. Approve or provide real menu descriptions.
+1. Select production payment approach and complete merchant onboarding.
+2. Select final logistics provider/routing logic and delivery-fee integration.
+3. Provide real Our Story inputs and founder/kitchen photos.
+4. Provide real menu descriptions.
+5. Provide direct Swiggy, Zomato and any other ordering-platform restaurant URLs when integration starts.
+6. Provide actual bulk-order products/prices when ready.
+7. Provide verified homepage metrics/testimonials and featured-price decisions when that section is updated.
+8. Provide real social profile URLs and brand images.
+9. Provide FSSAI number and confirm tax/invoice business details for final compliance pass.
 
 ## Recommended remaining order
 
-1. Confirm delivery/service policy.
-2. Choose and integrate payment provider.
-3. Replace Our Story placeholder content/images.
-4. Replace menu description placeholders.
-5. Add real platform/social URLs.
-6. Add bulk-order content when ready.
-7. Reconcile proof claims and homepage featured prices when owner inputs are available.
-8. Re-run static QA + responsive/interaction QA and conduct production smoke test.
+1. Choose payment provider and integrate server-side verification.
+2. Choose delivery provider and implement pre-payment delivery-charge calculation/quote.
+3. Add customer transactional notifications.
+4. Replace Our Story placeholder content/images.
+5. Replace menu description placeholders.
+6. Add real platform/social URLs.
+7. Add bulk-order products when ready.
+8. Reconcile proof claims and homepage featured prices when owner inputs are available.
+9. Complete legal/compliance review.
+10. Re-run static QA + responsive/interaction QA + payment/delivery integration tests and conduct production smoke test.
 
 Only after these remaining content/business items are resolved should the branch be considered content-ready for production merge.
