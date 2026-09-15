@@ -2357,9 +2357,9 @@
     </div>
     <div class="fcol">
       <h4 class="fcol-title">Contact Us</h4>
-      <a href="tel:+918956150583">📞 +91-8956150583</a>
-      <a href="mailto:chinesebliss1@gmail.com">✉️ chinesebliss1@gmail.com</a>
-      <p>📍 Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+      <a href="tel:+918956150583">+91-8956150583</a>
+      <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a>
+      <p>Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
     </div>
     <div class="fcol">
       <h4 class="fcol-title">Opening Hours</h4>
@@ -2514,7 +2514,7 @@
     <!-- STEP 4: Success -->
     <div class="drawer-step" id="stepSuccess">
       <div class="success-step">
-        <div class="success-icon" id="successIcon">🎉</div>
+        <div class="success-icon" id="successIcon"></div>
         <h4 id="successTitle">Order Received</h4>
         <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery time.</p>
         <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
@@ -2749,7 +2749,7 @@
     if (isOpenNow()) {
       wrap.innerHTML = `
         <div class="slot-now-card">
-          <span class="slot-now-icon">⚡</span>
+          <span class="slot-now-icon"></span>
           <div>
             <div class="slot-now-title">Deliver as soon as possible</div>
             <div class="slot-now-sub">Estimated 30–45 minutes</div>
@@ -3110,11 +3110,11 @@
     }
 
     if (paymentMethod === 'upi') {
-      document.getElementById('successIcon').textContent = '⏳';
+      document.getElementById('successIcon').textContent = '';
       document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
       document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you shortly to confirm before we start preparing your order.`;
     } else {
-      document.getElementById('successIcon').textContent = '🎉';
+      document.getElementById('successIcon').textContent = '';
       document.getElementById('successTitle').textContent = 'Order Received';
       document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you shortly to confirm your order and delivery time.`;
     }

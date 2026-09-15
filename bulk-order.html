@@ -581,7 +581,7 @@
       <!-- STEP 4: Success -->
       <div class="drawer-step" id="stepSuccess">
         <div class="success-step">
-          <div class="success-icon" id="successIcon">🎉</div>
+          <div class="success-icon" id="successIcon"></div>
           <h4 id="successTitle">Order Request Sent</h4>
           <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
           <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
@@ -981,11 +981,11 @@
       }
 
       if (paymentMethod === 'upi') {
-        document.getElementById('successIcon').textContent = '⏳';
+        document.getElementById('successIcon').textContent = '';
         document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
         document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you within 2 hours to confirm before we start preparing your order.`;
       } else {
-        document.getElementById('successIcon').textContent = '🎉';
+        document.getElementById('successIcon').textContent = '';
         document.getElementById('successTitle').textContent = 'Order Request Sent';
         document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
       }

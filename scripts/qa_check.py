@@ -10,7 +10,7 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 EXTERNAL_SCHEMES = {"http", "https", "mailto", "tel", "javascript", "data"}
 LEGACY_FONTS = ("Manrope", "Cormorant", "DM Sans", "Instrument Serif", "Plus Jakarta Sans")
-LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀")
+LEGACY_EMOJI = ("📞", "✉️", "📍", "🕐", "⭐", "🔥", "⚡", "🎉", "🚀", "🥢", "⏳")
 DYNAMIC_PLACEHOLDER_HREF_IDS = {"btnPayUpiApp"}
 
 errors: list[str] = []
@@ -191,7 +191,9 @@ for var_name in sorted(used_vars - defined_vars):
 for name, text in html_texts.items():
     ids = set(parsers[name].ids)
     js_ids = set(re.findall(r"getElementById\(\s*['\"]([^'\"]+)['\"]\s*\)", text))
-    for js_id in sorted(js_ids - ids):
+    dynamic_ids = set(re.findall(r"\.id\s*=\s*['\"]([^'\"]+)['\"]", text))
+    dynamic_ids.update(re.findall(r"setAttribute\(\s*['\"]id['\"]\s*,\s*['\"]([^'\"]+)['\"]\s*\)", text))
+    for js_id in sorted(js_ids - ids - dynamic_ids):
         warn(f"{name}: inline JS references missing id #{js_id}")
 
 # Menu-specific structural checks.
