@@ -7,6 +7,7 @@ begin;
 -- ---------------------------------------------------------------------
 -- Normal orders
 -- ---------------------------------------------------------------------
+alter table if exists public.normal_orders add column if not exists created_at timestamptz not null default now();
 alter table if exists public.normal_orders add column if not exists order_status text;
 alter table if exists public.normal_orders add column if not exists acknowledged_at timestamptz;
 alter table if exists public.normal_orders add column if not exists accepted_at timestamptz;
@@ -42,6 +43,7 @@ alter table if exists public.normal_orders alter column order_status set not nul
 -- Bulk orders: same lifecycle fields so the console can support them
 -- later without another structural migration.
 -- ---------------------------------------------------------------------
+alter table if exists public.bulk_orders add column if not exists created_at timestamptz not null default now();
 alter table if exists public.bulk_orders add column if not exists order_status text;
 alter table if exists public.bulk_orders add column if not exists acknowledged_at timestamptz;
 alter table if exists public.bulk_orders add column if not exists accepted_at timestamptz;
