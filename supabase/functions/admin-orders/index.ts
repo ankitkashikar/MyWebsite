@@ -247,8 +247,9 @@ Deno.serve(async (req) => {
     }
 
     // -----------------------------------------------------------------
-    // Record delivery-provider details without pretending integration is
-    // already automated. This supports a manual Porter/Borzo/etc workflow.
+    // Record actual delivery-provider details/cost. delivery_fee is the
+    // customer-facing charge finalized before payment; it must never be
+    // silently changed here when Porter/Borzo/etc is booked later.
     // -----------------------------------------------------------------
     if (action === "set_delivery") {
       const type = body?.order_type;
@@ -265,12 +266,12 @@ Deno.serve(async (req) => {
           update[field] = value ? value.slice(0, 500) : null;
         }
       }
-      if (body?.delivery_fee !== undefined) {
-        const fee = Number(body.delivery_fee);
-        if (!Number.isFinite(fee) || fee < 0 || fee > 5000) {
-          return jsonResponse({ success: false, message: "Invalid delivery fee." }, 400);
+      if (body?.delivery_partner_cost !== undefined) {
+        const cost = Number(body.delivery_partner_cost);
+        if (!Number.isFinite(cost) || cost < 0 || cost > 5000) {
+          return jsonResponse({ success: false, message: "Invalid delivery partner cost." }, 400);
         }
-        update.delivery_fee = fee;
+        update.delivery_partner_cost = cost;
       }
 
       const { data: updated, error: updateError } = await admin
