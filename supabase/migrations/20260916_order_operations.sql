@@ -8,6 +8,7 @@ begin;
 -- Normal orders
 -- ---------------------------------------------------------------------
 alter table if exists public.normal_orders add column if not exists created_at timestamptz not null default now();
+alter table if exists public.normal_orders add column if not exists pincode text;
 alter table if exists public.normal_orders add column if not exists order_status text;
 alter table if exists public.normal_orders add column if not exists acknowledged_at timestamptz;
 alter table if exists public.normal_orders add column if not exists accepted_at timestamptz;
@@ -20,7 +21,12 @@ alter table if exists public.normal_orders add column if not exists dispatched_a
 alter table if exists public.normal_orders add column if not exists delivered_at timestamptz;
 alter table if exists public.normal_orders add column if not exists cancelled_at timestamptz;
 alter table if exists public.normal_orders add column if not exists cancellation_reason text;
+
+-- delivery_fee is the CUSTOMER-FACING delivery charge and must be known
+-- before final payment/confirmation. delivery_partner_cost is the actual
+-- logistics cost paid/quoted by Porter/Borzo/etc and may be recorded later.
 alter table if exists public.normal_orders add column if not exists delivery_fee numeric(10,2) not null default 0;
+alter table if exists public.normal_orders add column if not exists delivery_partner_cost numeric(10,2);
 alter table if exists public.normal_orders add column if not exists delivery_provider text;
 alter table if exists public.normal_orders add column if not exists delivery_booking_id text;
 alter table if exists public.normal_orders add column if not exists tracking_url text;
@@ -57,6 +63,7 @@ alter table if exists public.bulk_orders add column if not exists delivered_at t
 alter table if exists public.bulk_orders add column if not exists cancelled_at timestamptz;
 alter table if exists public.bulk_orders add column if not exists cancellation_reason text;
 alter table if exists public.bulk_orders add column if not exists delivery_fee numeric(10,2) not null default 0;
+alter table if exists public.bulk_orders add column if not exists delivery_partner_cost numeric(10,2);
 alter table if exists public.bulk_orders add column if not exists delivery_provider text;
 alter table if exists public.bulk_orders add column if not exists delivery_booking_id text;
 alter table if exists public.bulk_orders add column if not exists tracking_url text;
