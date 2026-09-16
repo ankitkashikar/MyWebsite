@@ -1,0 +1,58 @@
+name: Temporary Checkout QA Repair
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+
+      - name: Make scheduled checkout QA deterministic
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('scripts/responsive_qa.mjs')
+          text = path.read_text(encoding='utf-8')
+          anchor = "  await page.locator('#custPhone').fill('9876543212');\n  await page.locator('#custPincode').fill('411057');"
+          if anchor not in text:
+              raise SystemExit('Expected valid-checkout QA anchor was not found')
+
+          setup = """  // Keep this test deterministic whether TCB is currently open or closed.
+  // Use a real future scheduled slot before validating the delivery details.
+  await page.locator('#slotModeToggle .slot-mode-btn[data-mode=\"later\"]').click();
+  await page.waitForTimeout(80);
+  let slotChip = page.locator('#slotScroller .slot-chip').first();
+  if (await slotChip.count() === 0) {
+    const tomorrow = page.locator('#slotDayTabs .slot-day-tab').nth(1);
+    if (await tomorrow.count()) {
+      await tomorrow.click();
+      await page.waitForTimeout(80);
+      slotChip = page.locator('#slotScroller .slot-chip').first();
+    }
+  }
+  ok(await slotChip.count() > 0, 'menu desktop: no future delivery slot available for QA');
+  await slotChip.click();
+
+"""
+          text = text.replace(anchor, setup + anchor, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/responsive_qa.mjs
+          git commit -m "Make checkout QA time independent"
+          git push origin HEAD:tcb-design-system-refresh
