@@ -30,6 +30,7 @@ function jsonResponse(body: unknown, status = 200) {
 
 const PHONE_RE = /^[6-9][0-9]{9}$/;
 const SEQUENTIAL = ["0123456789", "9876543210"];
+const DIRECT_DELIVERY_PIN = "411057";
 
 function isValidPhone(phone: string): boolean {
   if (!PHONE_RE.test(phone)) return false;
@@ -64,6 +65,7 @@ Deno.serve(async (req) => {
       name,
       phone,
       address,
+      pincode,            // normal direct delivery — currently must be 411057
       notes,
       items,              // [{ id: string, qty: number }]
       payment_method,     // 'upi' for current direct website flow; COD is disabled
@@ -88,6 +90,9 @@ Deno.serve(async (req) => {
     }
     if (!address || !isValidAddress(String(address))) {
       return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
+    }
+    if (type === "normal" && String(pincode ?? "").trim() !== DIRECT_DELIVERY_PIN) {
+      return jsonResponse({ success: false, message: `Direct website delivery is currently available only in PIN ${DIRECT_DELIVERY_PIN}.` }, 400);
     }
     if (!Array.isArray(items) || items.length === 0) {
       return jsonResponse({ success: false, message: "Your cart is empty." }, 400);
@@ -200,6 +205,7 @@ Deno.serve(async (req) => {
       orderRow.event_type = event_type ? String(event_type).trim() : null;
       orderRow.delivery_datetime = delivery_datetime;
     } else {
+      orderRow.pincode = DIRECT_DELIVERY_PIN;
       orderRow.delivery_slot = delivery_slot;
     }
 
