@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Track Order | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="order-status.css" />
+</head>
+<body class="order-status-page">
+  <header class="navbar-wrap">
+    <nav class="navbar">
+      <a class="logo-wrap" href="index.html" aria-label="The Chinese Bliss home">
+        <img class="logo-img" src="images/chinese logo.png" alt="The Chinese Bliss" />
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="our-story.html">Our Story</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn-nav-order" href="menu.html">Order Online</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="track-shell">
+    <section class="track-head">
+      <p class="track-kicker">Direct Website Order</p>
+      <h1>Track Your Order</h1>
+      <p>Enter the order number from your confirmation and the same mobile number used at checkout. Status updates come directly from the TCB order system.</p>
+    </section>
+
+    <section class="track-card">
+      <div class="track-form-wrap">
+        <form class="track-form" id="trackForm" novalidate>
+          <div class="track-field">
+            <label for="trackOrderNumber">Order Number</label>
+            <input id="trackOrderNumber" name="order_number" type="text" maxlength="80" autocomplete="off" placeholder="e.g. TCB-1042" required />
+          </div>
+          <div class="track-field">
+            <label for="trackPhone">Mobile Number</label>
+            <input id="trackPhone" name="phone" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="10-digit mobile number" required />
+          </div>
+          <button class="track-submit" id="trackSubmit" type="submit">Track Order</button>
+        </form>
+        <p class="track-form-error" id="trackError" role="alert"></p>
+        <p class="track-help">For privacy, we only show an order when both the order number and checkout mobile number match.</p>
+      </div>
+
+      <div class="track-result" id="trackResult" aria-live="polite">
+        <div class="track-order-top">
+          <div>
+            <div class="track-order-number" id="resultOrderNumber">Order</div>
+            <div class="track-order-meta" id="resultOrderMeta"></div>
+          </div>
+          <div class="track-badges">
+            <span class="track-badge status" id="resultStatus">Received</span>
+            <span class="track-badge pending" id="resultPayment">Payment Pending</span>
+          </div>
+        </div>
+
+        <div class="track-summary-grid">
+          <div class="track-summary-box">
+            <span>Delivery Slot</span>
+            <strong id="resultSlot">—</strong>
+          </div>
+          <div class="track-summary-box">
+            <span>Estimated Delivery</span>
+            <strong id="resultEta">35–50 min after confirmation</strong>
+          </div>
+          <div class="track-summary-box">
+            <span>Order Total</span>
+            <strong id="resultTotal">₹0</strong>
+          </div>
+        </div>
+
+        <section class="track-section">
+          <h2>Order Progress</h2>
+          <div class="track-timeline" id="trackTimeline">
+            <div class="track-step" data-status="new"><div class="track-dot">1</div><div class="track-step-label">Received</div></div>
+            <div class="track-step" data-status="accepted"><div class="track-dot">2</div><div class="track-step-label">Accepted</div></div>
+            <div class="track-step" data-status="preparing"><div class="track-dot">3</div><div class="track-step-label">Preparing</div></div>
+            <div class="track-step" data-status="ready_for_pickup"><div class="track-dot">4</div><div class="track-step-label">Ready</div></div>
+            <div class="track-step" data-status="dispatched"><div class="track-dot">5</div><div class="track-step-label">Dispatched</div></div>
+            <div class="track-step" data-status="delivered"><div class="track-dot">6</div><div class="track-step-label">Delivered</div></div>
+          </div>
+          <div class="track-state-note" id="trackStateNote">We received your order. Payment and restaurant acceptance are tracked separately.</div>
+        </section>
+
+        <section class="track-section">
+          <h2>Your Items</h2>
+          <div class="track-items" id="resultItems"></div>
+          <div class="track-total-row"><span>Total</span><strong id="resultTotalBottom">₹0</strong></div>
+          <div class="track-provider" id="providerBox" hidden>
+            <div class="track-provider-copy">
+              <span>Delivery Partner</span>
+              <strong id="providerName">Assigned</strong>
+            </div>
+            <a id="trackingLink" href="menu.html" target="_blank" rel="noopener noreferrer">Open Tracking</a>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <div class="track-footer-actions">
+      <a class="track-link-btn" href="menu.html">Order More</a>
+      <a class="track-link-btn" href="delivery-policy.html">Delivery Policy</a>
+      <a class="track-link-btn" href="index.html#contact">Need Help?</a>
+    </div>
+  </main>
+
+  <script src="supabase-config.js"></script>
+  <script>
+    (() => {
+      const form = document.getElementById('trackForm');
+      const orderInput = document.getElementById('trackOrderNumber');
+      const phoneInput = document.getElementById('trackPhone');
+      const submitButton = document.getElementById('trackSubmit');
+      const errorBox = document.getElementById('trackError');
+      const resultBox = document.getElementById('trackResult');
+      const statusOrder = ['new','accepted','preparing','ready_for_pickup','dispatched','delivered'];
+      let refreshTimer = null;
+      let currentLookup = null;
+
+      const statusLabels = {
+        new: 'Order Received',
+        accepted: 'Accepted',
+        preparing: 'Preparing',
+        ready_for_pickup: 'Ready for Pickup',
+        rider_assigned: 'Rider Assigned',
+        dispatched: 'Out for Delivery',
+        delivered: 'Delivered',
+        rejected: 'Rejected',
+        cancelled: 'Cancelled'
+      };
+
+      const stateMessages = {
+        new: 'We received your order. If your payment is still pending, TCB will verify it before accepting the order.',
+        accepted: 'Your order has been accepted by TCB and is queued for preparation.',
+        preparing: 'The kitchen is preparing your order now.',
+        ready_for_pickup: 'Your order is packed and ready for rider pickup.',
+        rider_assigned: 'A delivery rider has been assigned. Your order will be dispatched shortly.',
+        dispatched: 'Your order has left TCB and is on the way.',
+        delivered: 'Your order has been marked delivered. Thank you for ordering directly from TCB.',
+        rejected: 'TCB could not accept this order. Please contact us if you need help with payment or a replacement order.',
+        cancelled: 'This order has been cancelled. Please contact us if you need help with payment or a replacement order.'
+      };
+
+      function money(value) {
+        const n = Number(value || 0);
+        return `₹${Number.isFinite(n) ? n.toLocaleString('en-IN', { maximumFractionDigits: 2 }) : '0'}`;
+      }
+
+      function dateTime(value) {
+        if (!value) return '';
+        const d = new Date(value);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      }
+
+      function etaText(order) {
+        if (order.estimated_delivery_from && order.estimated_delivery_to) {
+          const from = new Date(order.estimated_delivery_from);
+          const to = new Date(order.estimated_delivery_to);
+          if (!Number.isNaN(from.getTime()) && !Number.isNaN(to.getTime())) {
+            const opts = { hour:'2-digit', minute:'2-digit' };
+            return `${from.toLocaleTimeString('en-IN', opts)} – ${to.toLocaleTimeString('en-IN', opts)}`;
+          }
+        }
+        if (order.order_status === 'delivered') return 'Delivered';
+        return 'Approx. 35–50 min after confirmation';
+      }
+
+      function setError(message) {
+        errorBox.textContent = message || '';
+        errorBox.classList.toggle('visible', Boolean(message));
+      }
+
+      function timelineStatus(status) {
+        return status === 'rider_assigned' ? 'ready_for_pickup' : status;
+      }
+
+      function renderTimeline(order) {
+        const rawStatus = order.order_status || 'new';
+        const mappedStatus = timelineStatus(rawStatus);
+        const currentIndex = statusOrder.indexOf(mappedStatus);
+        const stopped = rawStatus === 'rejected' || rawStatus === 'cancelled';
+        document.querySelectorAll('.track-step').forEach((step, index) => {
+          step.classList.remove('complete', 'current');
+          if (stopped) {
+            if (index === 0) step.classList.add('complete');
+            return;
+          }
+          if (currentIndex >= 0 && index < currentIndex) step.classList.add('complete');
+          if (currentIndex >= 0 && index === currentIndex) step.classList.add('current');
+          if (rawStatus === 'delivered' && index === currentIndex) {
+            step.classList.remove('current');
+            step.classList.add('complete');
+          }
+        });
+
+        const note = document.getElementById('trackStateNote');
+        note.textContent = stateMessages[rawStatus] || 'Your order status has been updated.';
+        note.classList.toggle('problem', stopped);
+        if (rawStatus === 'rejected' && order.rejection_reason) note.textContent += ` Reason: ${order.rejection_reason}`;
+        if (rawStatus === 'cancelled' && order.cancellation_reason) note.textContent += ` Reason: ${order.cancellation_reason}`;
+      }
+
+      function renderOrder(order) {
+        document.getElementById('resultOrderNumber').textContent = `Order ${order.order_number}`;
+        document.getElementById('resultOrderMeta').textContent = dateTime(order.created_at) ? `Placed ${dateTime(order.created_at)}` : '';
+        document.getElementById('resultStatus').textContent = statusLabels[order.order_status] || order.order_status || 'Order Received';
+
+        const payment = document.getElementById('resultPayment');
+        const paid = order.payment_status === 'paid';
+        payment.textContent = paid ? 'Payment Confirmed' : 'Payment Pending';
+        payment.className = `track-badge ${paid ? 'paid' : 'pending'}`;
+
+        document.getElementById('resultSlot').textContent = order.delivery_slot || '—';
+        document.getElementById('resultEta').textContent = etaText(order);
+        document.getElementById('resultTotal').textContent = money(order.total);
+        document.getElementById('resultTotalBottom').textContent = money(order.total);
+
+        const items = Array.isArray(order.items) ? order.items : [];
+        document.getElementById('resultItems').innerHTML = items.length
+          ? items.map((item) => `<div class="track-item"><div class="track-item-name">${Number(item.quantity || 0)}× ${escapeHtml(item.product_name || 'Item')}</div><div class="track-item-price">${money(item.line_total)}</div></div>`).join('')
+          : '<div class="track-item"><div class="track-item-name">Order items are temporarily unavailable.</div></div>';
+
+        const providerBox = document.getElementById('providerBox');
+        const trackingLink = document.getElementById('trackingLink');
+        if (order.delivery_provider || order.tracking_url) {
+          providerBox.hidden = false;
+          document.getElementById('providerName').textContent = order.delivery_provider || 'Delivery Partner';
+          if (order.tracking_url) {
+            trackingLink.href = order.tracking_url;
+            trackingLink.hidden = false;
+          } else {
+            trackingLink.hidden = true;
+          }
+        } else {
+          providerBox.hidden = true;
+        }
+
+        renderTimeline(order);
+        resultBox.classList.add('visible');
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      }
+
+      function normalizePhone(value) {
+        return String(value || '').replace(/\D/g, '').slice(-10);
+      }
+
+      async function lookup({ silent = false } = {}) {
+        const orderNumber = orderInput.value.trim();
+        const phone = normalizePhone(phoneInput.value);
+        phoneInput.value = phone;
+
+        if (orderNumber.length < 3) {
+          if (!silent) setError('Enter your order number.');
+          return;
+        }
+        if (!/^[6-9][0-9]{9}$/.test(phone)) {
+          if (!silent) setError('Enter the same valid 10-digit mobile number used at checkout.');
+          return;
+        }
+
+        setError('');
+        if (!silent) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Checking…';
+        }
+
+        const result = await window.lookupTCBOrderStatus(orderNumber, phone);
+
+        if (!silent) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Track Order';
+        }
+
+        if (!result.success || !result.order) {
+          resultBox.classList.remove('visible');
+          if (!silent) setError(result.message || 'Order not found. Check your details and try again.');
+          return;
+        }
+
+        currentLookup = { orderNumber, phone };
+        sessionStorage.setItem('tcbLastOrderNumber', orderNumber);
+        sessionStorage.setItem('tcbLastOrderPhone', phone);
+        renderOrder(result.order);
+
+        const terminal = ['delivered','rejected','cancelled'].includes(result.order.order_status);
+        if (terminal && refreshTimer) {
+          clearInterval(refreshTimer);
+          refreshTimer = null;
+        } else if (!terminal && !refreshTimer) {
+          refreshTimer = setInterval(() => lookup({ silent:true }), 30000);
+        }
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        lookup();
+      });
+
+      phoneInput.addEventListener('input', () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+      });
+
+      const params = new URLSearchParams(location.search);
+      const queryOrder = params.get('order') || sessionStorage.getItem('tcbLastOrderNumber') || '';
+      const savedPhone = sessionStorage.getItem('tcbLastOrderPhone') || '';
+      orderInput.value = queryOrder;
+      phoneInput.value = savedPhone;
+      if (queryOrder && /^[6-9][0-9]{9}$/.test(savedPhone)) lookup();
+
+      window.addEventListener('beforeunload', () => {
+        if (refreshTimer) clearInterval(refreshTimer);
+      });
+    })();
+  </script>
+</body>
+</html>
