@@ -1,30 +1,23 @@
 // =====================================================================
 // order-status — The Chinese Bliss customer order tracking API
 //
-// Public customer lookup for NORMAL direct website orders only.
-// Authentication is possession-based: exact order number + exact customer
-// mobile number. The function returns only fields required for customer
-// tracking and never exposes the delivery address, customer name, internal
-// database ids, admin audit data, or restaurant-only notes/reasons.
-//
-// Deploy with JWT verification disabled because customers are not required
-// to create Supabase accounts. The function performs its own strict lookup.
+// Public NORMAL-order lookup using order number + customer phone.
+// It returns only customer-safe fields. Address, name, internal ids,
+// restaurant notes, rejection reasons and admin audit data stay private.
 // =====================================================================
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // tighten to the production website origin before launch
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
-
-function jsonResponse(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
+import {
+  RequestError,
+  enforceRateLimit,
+  isAllowedOrigin,
+  jsonResponse,
+  preflightResponse,
+  rateLimitKey,
+  readJsonBody,
+  requestIp,
+  validHttpUrl,
+} from "../_shared/tcb-security.ts";
 
 const PHONE_RE = /^[6-9][0-9]{9}$/;
 const ORDER_RE = /^[A-Za-z0-9_-]{3,80}$/;
@@ -37,43 +30,34 @@ function cleanPhone(value: unknown): string {
   return String(value ?? "").replace(/\D/g, "").slice(-10);
 }
 
-function customerSafeTrackingUrl(value: unknown): string | null {
-  const raw = String(value ?? "").trim();
-  if (!raw) return null;
-  try {
-    const url = new URL(raw);
-    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}
-
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-  if (req.method !== "POST") {
-    return jsonResponse({ success: false, message: "Method not allowed." }, 405);
-  }
+  if (req.method === "OPTIONS") return preflightResponse(req);
+  if (!isAllowedOrigin(req)) return jsonResponse(req, { success: false, message: "Origin not allowed." }, 403);
+  if (req.method !== "POST") return jsonResponse(req, { success: false, message: "Method not allowed." }, 405);
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) {
-    return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 500);
+    return jsonResponse(req, { success: false, message: "Order tracking is temporarily unavailable." }, 503);
   }
 
+  const admin = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
   try {
-    const body = await req.json().catch(() => ({}));
-    const orderNumber = cleanOrderNumber(body?.order_number);
-    const phone = cleanPhone(body?.phone);
+    const body = await readJsonBody(req, 4_000);
+    const orderNumber = cleanOrderNumber(body.order_number);
+    const phone = cleanPhone(body.phone);
 
     if (!ORDER_RE.test(orderNumber) || !PHONE_RE.test(phone)) {
-      return jsonResponse({ success: false, message: "Enter a valid order number and 10-digit mobile number." }, 400);
+      return jsonResponse(req, { success: false, message: "Enter a valid order number and 10-digit mobile number." }, 400);
     }
 
-    const admin = createClient(supabaseUrl, serviceRoleKey, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
+    const ipKey = await rateLimitKey("order-status-ip", requestIp(req));
+    const lookupKey = await rateLimitKey("order-status-pair", `${orderNumber}:${phone}`);
+    await enforceRateLimit(admin, "order-status-ip", ipKey, 30, 600);
+    await enforceRateLimit(admin, "order-status-pair", lookupKey, 12, 600);
 
     const { data: order, error: orderError } = await admin
       .from("normal_orders")
@@ -106,10 +90,9 @@ Deno.serve(async (req) => {
       .eq("phone", phone)
       .maybeSingle();
 
-    // Deliberately use the same response for not-found and mismatched phone.
     if (orderError || !order) {
       if (orderError) console.error("order-status lookup failed", orderError);
-      return jsonResponse({ success: false, message: "Order not found. Check the order number and mobile number and try again." }, 404);
+      return jsonResponse(req, { success: false, message: "Order not found. Check the order number and mobile number and try again." }, 404);
     }
 
     const { data: items, error: itemsError } = await admin
@@ -120,10 +103,10 @@ Deno.serve(async (req) => {
 
     if (itemsError) {
       console.error("order-status item lookup failed", itemsError);
-      return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 500);
+      return jsonResponse(req, { success: false, message: "Order tracking is temporarily unavailable." }, 500);
     }
 
-    return jsonResponse({
+    return jsonResponse(req, {
       success: true,
       order: {
         order_number: order.order_number,
@@ -139,7 +122,7 @@ Deno.serve(async (req) => {
         estimated_delivery_from: order.estimated_delivery_from,
         estimated_delivery_to: order.estimated_delivery_to,
         delivery_provider: order.delivery_provider,
-        tracking_url: customerSafeTrackingUrl(order.tracking_url),
+        tracking_url: validHttpUrl(order.tracking_url),
         accepted_at: order.accepted_at,
         preparing_at: order.preparing_at,
         ready_at: order.ready_at,
@@ -153,7 +136,8 @@ Deno.serve(async (req) => {
       server_time: new Date().toISOString(),
     });
   } catch (err) {
+    if (err instanceof RequestError) return jsonResponse(req, { success: false, message: err.message }, err.status);
     console.error("order-status unexpected error", err);
-    return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 500);
+    return jsonResponse(req, { success: false, message: "Order tracking is temporarily unavailable." }, 500);
   }
 });
