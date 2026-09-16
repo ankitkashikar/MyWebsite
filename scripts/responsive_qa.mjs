@@ -145,14 +145,21 @@ async function testDesktop(browser) {
 
   await page.locator('#custName').fill('QA Test');
   await page.locator('#custPhone').fill('1234567890');
+  await page.locator('#custPincode').fill('411058');
   await page.locator('#custAddress').fill('Short address');
   await page.locator('#btnPlaceOrder').click();
   await page.waitForTimeout(100);
   ok(await page.locator('#custPhoneError').evaluate(el => el.classList.contains('visible')), 'menu desktop: invalid phone not rejected');
+  ok(await page.locator('#custPincodeError').evaluate(el => el.classList.contains('visible')), 'menu desktop: unsupported PIN not rejected');
   ok(await page.locator('#custAddressError').evaluate(el => el.classList.contains('visible')), 'menu desktop: short address not rejected');
+  ok(await page.locator('#stepAddress').evaluate(el => el.classList.contains('active')), 'menu desktop: invalid delivery details should stay on address step');
 
-  await page.evaluate(() => { if (typeof showStep === 'function') showStep('stepPayment'); });
-  ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: payment step could not be shown for QA');
+  await page.locator('#custPhone').fill('9876543212');
+  await page.locator('#custPincode').fill('411057');
+  await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
+  await page.locator('#btnPlaceOrder').click();
+  await page.waitForTimeout(100);
+  ok(await page.locator('#stepPayment').evaluate(el => el.classList.contains('active')), 'menu desktop: valid delivery details did not advance to payment');
   ok(!(await visible(page.locator('.pay-method-btn[data-method="cod"]'))), 'menu desktop: COD must not be customer-visible');
   ok(await visible(page.locator('.pay-method-btn[data-method="upi"]')), 'menu desktop: UPI payment option should remain visible');
   ok(await page.locator('#payUpiWrap').evaluate(el => getComputedStyle(el).display !== 'none'), 'menu desktop: UPI panel is not visible');
