@@ -1,0 +1,220 @@
+name: Temporary PIN Enforcement
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.event.head_commit.message != 'Add direct delivery PIN validation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+
+      - name: Add dedicated PIN field and server validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('menu.html')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+            (
+'''      <div class="dm-field">
+        <label>Phone Number *</label>
+        <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
+        <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>      </div>
+      <div class="dm-field">
+        <label>Delivery Slot *</label>''',
+'''      <div class="dm-field">
+        <label>Phone Number *</label>
+        <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
+        <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>      </div>
+      <div class="dm-field">
+        <label>Delivery PIN Code *</label>
+        <input type="text" id="custPincode" placeholder="411057" maxlength="6" inputmode="numeric" autocomplete="postal-code" />
+        <p class="field-error" id="custPincodeError">Direct website delivery is currently available only in PIN 411057.</p>
+      </div>
+      <div class="dm-field">
+        <label>Delivery Slot *</label>'''
+            ),
+            (
+'''  const phoneInput = document.getElementById('custPhone');
+  const phoneError = document.getElementById('custPhoneError');
+  const addressInput = document.getElementById('custAddress');''',
+'''  const phoneInput = document.getElementById('custPhone');
+  const phoneError = document.getElementById('custPhoneError');
+  const pincodeInput = document.getElementById('custPincode');
+  const pincodeError = document.getElementById('custPincodeError');
+  const addressInput = document.getElementById('custAddress');'''
+            ),
+            (
+'''  function isValidAddress(value) {
+    const len = value.trim().length;
+    return len >= 25 && len <= 100;
+  }
+
+  phoneInput.addEventListener('input', () => {''',
+'''  function isValidAddress(value) {
+    const len = value.trim().length;
+    return len >= 25 && len <= 100;
+  }
+
+  function isValidPincode(value) {
+    return value.trim() === '411057';
+  }
+
+  phoneInput.addEventListener('input', () => {'''
+            ),
+            (
+'''  phoneInput.addEventListener('blur', () => {
+    phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
+  });
+
+  addressInput.addEventListener('input', () => {''',
+'''  phoneInput.addEventListener('blur', () => {
+    phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
+  });
+
+  pincodeInput.addEventListener('input', () => {
+    pincodeInput.value = pincodeInput.value.replace(/\\D/g, '').slice(0, 6);
+    const valid = isValidPincode(pincodeInput.value);
+    pincodeInput.classList.toggle('invalid', pincodeInput.value.length === 6 && !valid);
+    pincodeInput.classList.toggle('valid', valid);
+    pincodeError.classList.toggle('visible', pincodeInput.value.length === 6 && !valid);
+  });
+  pincodeInput.addEventListener('blur', () => {
+    const valid = isValidPincode(pincodeInput.value);
+    pincodeInput.classList.toggle('invalid', !valid);
+    pincodeInput.classList.toggle('valid', valid);
+    pincodeError.classList.toggle('visible', !valid);
+  });
+
+  addressInput.addEventListener('input', () => {'''
+            ),
+            (
+'''    const name = document.getElementById('custName').value.trim();
+    const phone = phoneInput.value.trim();
+    const address = addressInput.value.trim();
+    let firstInvalid = null;''',
+'''    const name = document.getElementById('custName').value.trim();
+    const phone = phoneInput.value.trim();
+    const pincode = pincodeInput.value.trim();
+    const address = addressInput.value.trim();
+    let firstInvalid = null;'''
+            ),
+            (
+'''    if (!isValidPhone(phone)) {
+      phoneInput.classList.add('invalid');
+      phoneError.classList.add('visible');
+      firstInvalid = firstInvalid || phoneInput;
+    }
+    if (!isValidAddress(address)) {''',
+'''    if (!isValidPhone(phone)) {
+      phoneInput.classList.add('invalid');
+      phoneError.classList.add('visible');
+      firstInvalid = firstInvalid || phoneInput;
+    }
+    if (!isValidPincode(pincode)) {
+      pincodeInput.classList.add('invalid');
+      pincodeError.classList.add('visible');
+      firstInvalid = firstInvalid || pincodeInput;
+    }
+    if (!isValidAddress(address)) {'''
+            ),
+            (
+'''      phone: document.getElementById('custPhone').value.trim(),
+      address: document.getElementById('custAddress').value.trim(),''',
+'''      phone: document.getElementById('custPhone').value.trim(),
+      pincode: document.getElementById('custPincode').value.trim(),
+      address: document.getElementById('custAddress').value.trim(),'''
+            ),
+          ]
+
+          for old, new in replacements:
+              if old not in text:
+                  raise SystemExit('Expected menu.html block not found:\n' + old[:180])
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+
+          path = Path('supabase/functions/place-order/index.ts')
+          text = path.read_text(encoding='utf-8')
+          replacements = [
+            (
+'''      address,
+      notes,''',
+'''      address,
+      pincode,            // normal direct delivery — currently must be 411057
+      notes,'''
+            ),
+            (
+'''    if (!address || !isValidAddress(String(address))) {
+      return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
+    }
+    if (!Array.isArray(items) || items.length === 0) {''',
+'''    if (!address || !isValidAddress(String(address))) {
+      return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
+    }
+    if (type === "normal" && String(pincode ?? "").trim() !== "411057") {
+      return jsonResponse({ success: false, message: "Direct website delivery is currently available only in PIN 411057." }, 400);
+    }
+    if (!Array.isArray(items) || items.length === 0) {'''
+            ),
+            (
+'''    if (type === "bulk") {
+      orderRow.event_type = event_type ? String(event_type).trim() : null;
+      orderRow.delivery_datetime = delivery_datetime;
+    } else {
+      orderRow.delivery_slot = delivery_slot;
+    }''',
+'''    if (type === "bulk") {
+      orderRow.event_type = event_type ? String(event_type).trim() : null;
+      orderRow.delivery_datetime = delivery_datetime;
+    } else {
+      orderRow.pincode = "411057";
+      orderRow.delivery_slot = delivery_slot;
+    }'''
+            ),
+          ]
+          for old, new in replacements:
+              if old not in text:
+                  raise SystemExit('Expected place-order block not found:\n' + old[:180])
+              text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Update migration for PIN storage
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('supabase/migrations/20260916_order_operations.sql')
+          text = path.read_text(encoding='utf-8')
+          old = "alter table if exists public.normal_orders add column if not exists created_at timestamptz not null default now();\n"
+          new = old + "alter table if exists public.normal_orders add column if not exists pincode text;\n"
+          if old not in text:
+              raise SystemExit('Migration anchor not found')
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Run static QA
+        run: python3 scripts/qa_check.py
+
+      - name: Commit updates
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add menu.html supabase/functions/place-order/index.ts supabase/migrations/20260916_order_operations.sql
+          git commit -m "Add direct delivery PIN validation"
+          git push origin HEAD:tcb-design-system-refresh
