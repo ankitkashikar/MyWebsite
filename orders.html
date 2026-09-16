@@ -33,7 +33,28 @@
         <button class="oc-primary oc-wide" id="loginButton" type="submit">Sign In</button>
         <p class="oc-login-error" id="loginError" role="alert"></p>
       </form>
-      <p class="oc-login-note">The TCB operations account must exist in Supabase Auth and its email must exactly match the server-side TCB_ADMIN_EMAIL setting.</p>
+      <section class="oc-mfa-shell" id="mfaShell" hidden aria-live="polite">
+        <div class="oc-mfa-head">
+          <h2 id="mfaTitle">Authenticator Verification</h2>
+          <p id="mfaHelp">Enter the 6-digit code from the authenticator app linked to the TCB operations account.</p>
+        </div>
+        <div class="oc-mfa-enroll" id="mfaEnrollPanel" hidden>
+          <p><strong>First-time security setup</strong></p>
+          <p>Scan this QR code with an authenticator app. Keep the setup secret private and under TCB owner control.</p>
+          <img id="mfaQr" alt="TCB authenticator setup QR code" />
+          <div class="oc-mfa-secret-wrap"><span>Manual setup secret</span><code id="mfaSecret"></code></div>
+        </div>
+        <form id="mfaForm" novalidate>
+          <div class="oc-field">
+            <label for="mfaCode">6-digit authenticator code</label>
+            <input id="mfaCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required />
+          </div>
+          <button class="oc-primary oc-wide" id="mfaButton" type="submit">Verify &amp; Open Console</button>
+          <p class="oc-login-error" id="mfaError" role="alert"></p>
+        </form>
+        <button class="oc-ghost oc-wide oc-mfa-signout" id="mfaSignOut" type="button">Sign Out</button>
+      </section>
+      <p class="oc-login-note">The TCB operations account must exist in Supabase Auth and its email must exactly match the server-side TCB_ADMIN_EMAIL setting. Authenticator-app MFA is mandatory before restaurant data can be read or changed.</p>
     </div>
   </section>
 
@@ -182,7 +203,7 @@
 
     const config = window.TCB_SUPABASE_CONFIG;
     const client = createClient(config.url, config.anonKey, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.sessionStorage, storageKey: 'tcb-order-console-auth' }
     });
 
     const ACTIVE_STATUSES = new Set(['new','accepted','preparing','ready_for_pickup','rider_assigned','dispatched']);
@@ -196,6 +217,7 @@
       loginShell: document.getElementById('loginShell'), appShell: document.getElementById('appShell'),
       loginForm: document.getElementById('loginForm'), loginButton: document.getElementById('loginButton'),
       loginEmail: document.getElementById('loginEmail'), loginPassword: document.getElementById('loginPassword'), loginError: document.getElementById('loginError'),
+      mfaShell: document.getElementById('mfaShell'), mfaTitle: document.getElementById('mfaTitle'), mfaHelp: document.getElementById('mfaHelp'), mfaEnrollPanel: document.getElementById('mfaEnrollPanel'), mfaQr: document.getElementById('mfaQr'), mfaSecret: document.getElementById('mfaSecret'), mfaForm: document.getElementById('mfaForm'), mfaCode: document.getElementById('mfaCode'), mfaButton: document.getElementById('mfaButton'), mfaError: document.getElementById('mfaError'), mfaSignOut: document.getElementById('mfaSignOut'),
       connection: document.getElementById('connectionState'), soundButton: document.getElementById('soundButton'), signOut: document.getElementById('signOutButton'),
       refreshMeta: document.getElementById('refreshMeta'), attentionBanner: document.getElementById('attentionBanner'), attentionTitle: document.getElementById('attentionTitle'), attentionText: document.getElementById('attentionText'),
       showNewButton: document.getElementById('showNewButton'), ordersList: document.getElementById('ordersList'), search: document.getElementById('orderSearch'), tabs: document.getElementById('statusTabs'),
@@ -215,6 +237,8 @@
     let dialogOrder = null;
     let dialogMode = null;
     let refreshing = false;
+    let mfaFactorId = null;
+    let mfaGateBusy = false;
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>'"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -353,7 +377,7 @@
         console.error(err);
         setConnection('error', 'Connection issue');
         if (!silent) toast(err.message || 'Could not load orders.', 'error');
-        if (err.status === 401) await client.auth.signOut();
+        if (err.status === 401 || err.status === 403) await client.auth.signOut();
       } finally {
         refreshing = false;
         els.ordersList.classList.remove('oc-loading');
@@ -646,6 +670,104 @@
       }
     });
 
+    function showPasswordLogin() {
+      els.loginForm.hidden = false;
+      els.mfaShell.hidden = true;
+      els.mfaError.classList.remove('visible');
+      els.mfaCode.value = '';
+      mfaFactorId = null;
+    }
+
+    function showMfaScreen(enrollment = false) {
+      els.loginForm.hidden = true;
+      els.mfaShell.hidden = false;
+      els.mfaEnrollPanel.hidden = !enrollment;
+      els.mfaError.classList.remove('visible');
+      els.mfaCode.value = '';
+      requestAnimationFrame(() => els.mfaCode.focus());
+    }
+
+    async function prepareMfa(session) {
+      if (!session || mfaGateBusy) return;
+      mfaGateBusy = true;
+      try {
+        const { data: aalData, error: aalError } = await client.auth.mfa.getAuthenticatorAssuranceLevel();
+        if (aalError) throw aalError;
+        if (aalData?.currentLevel === 'aal2') {
+          els.loginShell.style.display = 'none';
+          els.mfaShell.hidden = true;
+          els.loginForm.hidden = false;
+          await showApp(session);
+          return;
+        }
+
+        const { data: factorData, error: factorError } = await client.auth.mfa.listFactors();
+        if (factorError) throw factorError;
+        const verified = (factorData?.totp || []).find((factor) => factor.status === 'verified');
+        els.loginShell.style.display = '';
+        els.appShell.classList.remove('visible');
+        clearInterval(pollTimer);
+        clearInterval(alarmTimer);
+
+        if (verified) {
+          mfaFactorId = verified.id;
+          els.mfaTitle.textContent = 'Authenticator Verification';
+          els.mfaHelp.textContent = 'Enter the 6-digit code from the authenticator app linked to the TCB operations account.';
+          showMfaScreen(false);
+          return;
+        }
+
+        const { data: enrolled, error: enrollError } = await client.auth.mfa.enroll({ factorType:'totp', friendlyName:'TCB Order Console' });
+        if (enrollError) throw enrollError;
+        mfaFactorId = enrolled.id;
+        els.mfaQr.src = enrolled.totp.qr_code;
+        els.mfaSecret.textContent = enrolled.totp.secret;
+        els.mfaTitle.textContent = 'Secure the TCB Account';
+        els.mfaHelp.textContent = 'Authenticator-app MFA is required before this account can access restaurant orders.';
+        showMfaScreen(true);
+      } catch (err) {
+        console.error('MFA setup/check failed', err);
+        els.loginShell.style.display = '';
+        els.appShell.classList.remove('visible');
+        showPasswordLogin();
+        els.loginError.textContent = err.message || 'Could not verify the security status of this account.';
+        els.loginError.classList.add('visible');
+        await client.auth.signOut();
+      } finally {
+        mfaGateBusy = false;
+      }
+    }
+
+    els.mfaForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const code = els.mfaCode.value.replace(/\D/g, '');
+      els.mfaError.classList.remove('visible');
+      if (!mfaFactorId || !/^\d{6}$/.test(code)) {
+        els.mfaError.textContent = 'Enter the current 6-digit authenticator code.';
+        els.mfaError.classList.add('visible');
+        return;
+      }
+      els.mfaButton.disabled = true;
+      try {
+        const { error } = await client.auth.mfa.challengeAndVerify({ factorId:mfaFactorId, code });
+        if (error) throw error;
+        const { data } = await client.auth.getSession();
+        if (!data.session) throw new Error('Security verification completed but the session could not be refreshed.');
+        await prepareMfa(data.session);
+      } catch (err) {
+        els.mfaError.textContent = err.message || 'Authenticator verification failed.';
+        els.mfaError.classList.add('visible');
+        els.mfaCode.select();
+      } finally {
+        els.mfaButton.disabled = false;
+      }
+    });
+
+    els.mfaSignOut.addEventListener('click', async () => {
+      await client.auth.signOut();
+      showPasswordLogin();
+    });
+
     function startPolling() {
       clearInterval(pollTimer);
       pollTimer = setInterval(() => refreshOrders({ silent:true }), 5000);
@@ -657,6 +779,7 @@
         els.appShell.classList.remove('visible');
         clearInterval(pollTimer);
         clearInterval(alarmTimer);
+        showPasswordLogin();
         return;
       }
       els.loginShell.style.display = 'none';
@@ -670,11 +793,12 @@
     }
 
     client.auth.onAuthStateChange((_event, session) => {
-      setTimeout(() => showApp(session), 0);
+      setTimeout(() => session ? prepareMfa(session) : showApp(null), 0);
     });
 
     const { data: initial } = await client.auth.getSession();
-    await showApp(initial.session);
+    if (initial.session) await prepareMfa(initial.session);
+    else await showApp(null);
   </script>
 </body>
 </html>

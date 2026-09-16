@@ -70,6 +70,7 @@ for token, label in [
     ("order_admin_events", "admin action audit trail"),
     ("enforceRateLimit", "admin API rate limit"),
     ('.eq("order_status", currentStatus)', "optimistic concurrency guard"),
+    ("aal2", "mandatory MFA enforcement"),
 ]:
     if token not in admin:
         errors.append(f"admin-orders missing {label}")
@@ -116,6 +117,15 @@ for p in ROOT.rglob("*"):
     for secret_marker in ["SUPABASE_SERVICE_ROLE_KEY", "sb_secret_", "DATABASE_URL=", "TCB_RATE_LIMIT_SALT="]:
         if secret_marker in text:
             errors.append(f"{p.relative_to(ROOT)}: server secret marker exposed in frontend")
+
+orders_html = read("orders.html")
+for token, label in [
+    ("challengeAndVerify", "TOTP MFA challenge"),
+    ("getAuthenticatorAssuranceLevel", "AAL gate"),
+    ("storage: window.sessionStorage", "tab-scoped admin session storage"),
+]:
+    if token not in orders_html:
+        errors.append(f"orders.html missing {label}")
 
 # The public config may contain a publishable/legacy anon key, never a server key.
 config = read("supabase-config.js")

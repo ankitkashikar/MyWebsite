@@ -41,6 +41,14 @@ button{cursor:pointer}
 .oc-login-error{display:none;margin:12px 0 0!important;color:#ff8a7e!important;font-size:.8rem!important}
 .oc-login-error.visible{display:block}
 .oc-login-note{font-size:.72rem!important;color:rgba(255,255,255,.4)!important;margin:18px 0 0!important}
+.oc-mfa-shell[hidden],.oc-mfa-enroll[hidden]{display:none!important}
+.oc-mfa-head h2{font-family:var(--fh,Georgia,serif);font-size:1.45rem;margin:0 0 7px}
+.oc-mfa-head p,.oc-mfa-enroll p{color:var(--oc-muted);font-size:.8rem;line-height:1.55;margin:0 0 14px}
+.oc-mfa-enroll{margin:16px 0;padding:15px;border:1px solid var(--oc-border);border-radius:14px;background:#0f0f10}
+.oc-mfa-enroll img{display:block;width:min(220px,100%);aspect-ratio:1;margin:12px auto;background:#fff;border-radius:12px;padding:8px}
+.oc-mfa-secret-wrap{margin-top:12px}.oc-mfa-secret-wrap span{display:block;color:var(--oc-muted);font-size:.66rem;text-transform:uppercase;font-weight:700;letter-spacing:.04em;margin-bottom:5px}
+.oc-mfa-secret-wrap code{display:block;padding:9px 10px;border-radius:9px;background:#080809;color:#fff;font-size:.72rem;line-height:1.5;overflow-wrap:anywhere;user-select:all}
+.oc-mfa-signout{margin-top:9px}
 
 .oc-primary,.oc-secondary,.oc-danger,.oc-ghost{border:0;border-radius:11px;padding:11px 15px;font-weight:700;transition:.18s ease}
 .oc-primary{background:var(--oc-red);color:#fff}.oc-primary:hover{background:var(--oc-red2)}

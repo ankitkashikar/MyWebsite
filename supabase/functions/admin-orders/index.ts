@@ -134,6 +134,11 @@ Deno.serve(async (req) => {
     return jsonResponse(req, { success: false, message: "This is not the authorized TCB operations account." }, 403);
   }
 
+  const { data: aalData, error: aalError } = await userClient.auth.mfa.getAuthenticatorAssuranceLevel(token);
+  if (aalError || aalData?.currentLevel !== "aal2") {
+    return jsonResponse(req, { success: false, message: "Authenticator verification is required for TCB Order Console access." }, 403);
+  }
+
   const admin = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
