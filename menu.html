@@ -2430,6 +2430,11 @@
         <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
         <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>      </div>
       <div class="dm-field">
+        <label>Delivery PIN Code *</label>
+        <input type="text" id="custPincode" placeholder="411057" maxlength="6" inputmode="numeric" autocomplete="postal-code" />
+        <p class="field-error" id="custPincodeError">Direct website delivery is currently available only in PIN 411057.</p>
+      </div>
+      <div class="dm-field">
         <label>Delivery Slot *</label>
         <div class="slot-mode-toggle" id="slotModeToggle">
           <button type="button" class="slot-mode-btn active" data-mode="now">Deliver Now</button>
@@ -2944,6 +2949,8 @@
   // ── Live field validation ─────────────────────────────
   const phoneInput = document.getElementById('custPhone');
   const phoneError = document.getElementById('custPhoneError');
+  const pincodeInput = document.getElementById('custPincode');
+  const pincodeError = document.getElementById('custPincodeError');
   const addressInput = document.getElementById('custAddress');
   const addressError = document.getElementById('custAddressError');
   const addressCounter = document.getElementById('custAddressCounter');
@@ -2962,6 +2969,10 @@
     return len >= 25 && len <= 100;
   }
 
+  function isValidPincode(value) {
+    return value.trim() === '411057';
+  }
+
   phoneInput.addEventListener('input', () => {
     phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
     const valid = isValidPhone(phoneInput.value);
@@ -2971,6 +2982,20 @@
   });
   phoneInput.addEventListener('blur', () => {
     phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
+  });
+
+  pincodeInput.addEventListener('input', () => {
+    pincodeInput.value = pincodeInput.value.replace(/\D/g, '').slice(0, 6);
+    const valid = isValidPincode(pincodeInput.value);
+    pincodeInput.classList.toggle('invalid', pincodeInput.value.length === 6 && !valid);
+    pincodeInput.classList.toggle('valid', valid);
+    pincodeError.classList.toggle('visible', pincodeInput.value.length === 6 && !valid);
+  });
+  pincodeInput.addEventListener('blur', () => {
+    const valid = isValidPincode(pincodeInput.value);
+    pincodeInput.classList.toggle('invalid', !valid);
+    pincodeInput.classList.toggle('valid', valid);
+    pincodeError.classList.toggle('visible', !valid);
   });
 
   addressInput.addEventListener('input', () => {
@@ -2997,6 +3022,7 @@
   document.getElementById('btnPlaceOrder').addEventListener('click', () => {
     const name = document.getElementById('custName').value.trim();
     const phone = phoneInput.value.trim();
+    const pincode = pincodeInput.value.trim();
     const address = addressInput.value.trim();
     let firstInvalid = null;
 
@@ -3010,6 +3036,11 @@
       phoneInput.classList.add('invalid');
       phoneError.classList.add('visible');
       firstInvalid = firstInvalid || phoneInput;
+    }
+    if (!isValidPincode(pincode)) {
+      pincodeInput.classList.add('invalid');
+      pincodeError.classList.add('visible');
+      firstInvalid = firstInvalid || pincodeInput;
     }
     if (!isValidAddress(address)) {
       addressInput.classList.add('invalid');
@@ -3055,6 +3086,7 @@
       idempotency_key: currentIdempotencyKey,
       name: document.getElementById('custName').value.trim(),
       phone: document.getElementById('custPhone').value.trim(),
+      pincode: document.getElementById('custPincode').value.trim(),
       address: document.getElementById('custAddress').value.trim(),
       notes: document.getElementById('custNotes').value.trim(),
       delivery_slot: selectedSlot,
