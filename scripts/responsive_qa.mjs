@@ -154,6 +154,22 @@ async function testDesktop(browser) {
   ok(await page.locator('#custAddressError').evaluate(el => el.classList.contains('visible')), 'menu desktop: short address not rejected');
   ok(await page.locator('#stepAddress').evaluate(el => el.classList.contains('active')), 'menu desktop: invalid delivery details should stay on address step');
 
+  // Keep this test deterministic whether TCB is currently open or closed.
+  // Use a real future scheduled slot before validating the delivery details.
+  await page.locator('#slotModeToggle .slot-mode-btn[data-mode="later"]').click();
+  await page.waitForTimeout(80);
+  let slotChip = page.locator('#slotScroller .slot-chip').first();
+  if (await slotChip.count() === 0) {
+    const tomorrow = page.locator('#slotDayTabs .slot-day-tab').nth(1);
+    if (await tomorrow.count()) {
+      await tomorrow.click();
+      await page.waitForTimeout(80);
+      slotChip = page.locator('#slotScroller .slot-chip').first();
+    }
+  }
+  ok(await slotChip.count() > 0, 'menu desktop: no future delivery slot available for QA');
+  await slotChip.click();
+
   await page.locator('#custPhone').fill('9876543212');
   await page.locator('#custPincode').fill('411057');
   await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
