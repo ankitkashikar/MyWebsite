@@ -69,24 +69,24 @@ Apply:
 
 Review the migration before applying. It is intentionally idempotent for the added columns/constraints, but production schema differences must still be inspected first.
 
-### 4. Create real admin users in Supabase Auth
+### 4. Create the single TCB operations account in Supabase Auth
 
-Create Supabase Auth email/password users for only the people who should access restaurant operations (for example Ankit and Atul).
+Create exactly one Supabase Auth email/password user for the shared TCB restaurant operations account. Do not create separate personal admin accounts.
 
 Do not use the old `admin.html` sessionStorage demo login for order operations.
 
-### 5. Configure the admin email allowlist
+### 5. Configure the single TCB operations email
 
 Set the Edge Function secret:
 
 ```text
-TCB_ADMIN_EMAILS=first-admin@example.com,second-admin@example.com
+TCB_ADMIN_EMAIL=tcb-operations@example.com
 ```
 
 The `admin-orders` function checks both:
 
 1. a valid Supabase Auth JWT, and
-2. the authenticated email against this server-side allowlist.
+2. that the authenticated email exactly matches this single server-side TCB operations email.
 
 ### 6. Deploy the updated customer-order function
 
@@ -112,8 +112,8 @@ Confirm the production project URL/anon key are correct. Only the public anon ke
 
 Verify:
 
-- approved admin can sign in;
-- unapproved Supabase user receives access denied;
+- the TCB operations account can sign in;
+- any other Supabase user receives access denied;
 - signed-out user cannot load order data;
 - expired session requires sign-in again.
 
@@ -182,13 +182,13 @@ Scheduled orders are stored today, but production reminder timing should be adde
 
 - [ ] Production schema inspected.
 - [ ] Migration applied successfully.
-- [ ] Real Supabase Auth admin users created.
-- [ ] `TCB_ADMIN_EMAILS` configured.
+- [ ] Single TCB operations Supabase Auth account created.
+- [ ] `TCB_ADMIN_EMAIL` configured.
 - [ ] Updated `place-order` deployed.
 - [ ] `admin-orders` deployed with JWT verification.
 - [ ] CORS tightened for production.
 - [ ] Service-role/payment/delivery secrets confirmed server-side only.
-- [ ] Approved and unapproved login paths tested.
+- [ ] TCB account and unauthorized-user login paths tested.
 - [ ] New-order alert sound tested on intended kitchen device.
 - [ ] Full order lifecycle tested.
 - [ ] Duplicate/idempotency behavior tested.

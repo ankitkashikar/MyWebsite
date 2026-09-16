@@ -4,11 +4,11 @@
 // Auth model:
 // - Browser signs in with Supabase Auth (email/password).
 // - This function validates the user's JWT with Supabase Auth.
-// - Only emails listed in TCB_ADMIN_EMAILS may read/update orders.
+// - Exactly one shared TCB operations email in TCB_ADMIN_EMAIL may read/update orders.
 // - All database reads/writes happen server-side with the service role.
 //
 // Required secret:
-//   TCB_ADMIN_EMAILS=owner@example.com,partner@example.com
+//   TCB_ADMIN_EMAIL=orders@thechinesebliss.example
 //
 // Deploy with:
 //   supabase functions deploy admin-orders
@@ -78,11 +78,8 @@ function isOrderStatus(value: unknown): value is OrderStatus {
   return typeof value === "string" && value in ALLOWED_TRANSITIONS;
 }
 
-function adminEmailAllowlist(): string[] {
-  return (Deno.env.get("TCB_ADMIN_EMAILS") ?? "")
-    .split(",")
-    .map((v) => v.trim().toLowerCase())
-    .filter(Boolean);
+function configuredAdminEmail(): string {
+  return (Deno.env.get("TCB_ADMIN_EMAIL") ?? "").trim().toLowerCase();
 }
 
 Deno.serve(async (req) => {
@@ -101,8 +98,8 @@ Deno.serve(async (req) => {
     return jsonResponse({ success: false, message: "Server configuration is incomplete." }, 500);
   }
 
-  const allowlist = adminEmailAllowlist();
-  if (allowlist.length === 0) {
+  const adminEmail = configuredAdminEmail();
+  if (!adminEmail) {
     return jsonResponse({ success: false, message: "Admin access is not configured yet." }, 503);
   }
 
@@ -121,8 +118,8 @@ Deno.serve(async (req) => {
   if (authError || !user) {
     return jsonResponse({ success: false, message: "Your admin session is invalid or expired." }, 401);
   }
-  if (!email || !allowlist.includes(email)) {
-    return jsonResponse({ success: false, message: "This account is not authorized for restaurant operations." }, 403);
+  if (!email || email !== adminEmail) {
+    return jsonResponse({ success: false, message: "This is not the authorized TCB operations account." }, 403);
   }
 
   const admin = createClient(supabaseUrl, serviceRoleKey, {

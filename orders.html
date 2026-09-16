@@ -20,7 +20,7 @@
         </div>
       </div>
       <h1>Order Console</h1>
-      <p>Sign in with an authorized restaurant-admin account. This page is not linked from the public website.</p>
+      <p>Sign in with the shared TCB restaurant operations account. This page is not linked from the public website.</p>
       <form id="loginForm" novalidate>
         <div class="oc-field">
           <label for="loginEmail">Email</label>
@@ -33,7 +33,7 @@
         <button class="oc-primary oc-wide" id="loginButton" type="submit">Sign In</button>
         <p class="oc-login-error" id="loginError" role="alert"></p>
       </form>
-      <p class="oc-login-note">Admin users must exist in Supabase Auth and their email must also be included in the server-side TCB_ADMIN_EMAILS allowlist.</p>
+      <p class="oc-login-note">The TCB operations account must exist in Supabase Auth and its email must exactly match the server-side TCB_ADMIN_EMAIL setting.</p>
     </div>
   </section>
 
