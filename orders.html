@@ -151,8 +151,8 @@
         <input id="deliveryBookingId" type="text" maxlength="160" />
       </div>
       <div class="oc-field">
-        <label for="deliveryFee">Delivery fee</label>
-        <input id="deliveryFee" type="number" min="0" max="5000" step="1" inputmode="decimal" />
+        <label for="deliveryPartnerCost">Partner delivery cost</label>
+        <input id="deliveryPartnerCost" type="number" min="0" max="5000" step="1" inputmode="decimal" />
       </div>
       <div class="oc-field">
         <label for="riderName">Rider name</label>
@@ -202,7 +202,7 @@
       statNew: document.getElementById('statNew'), statPreparing: document.getElementById('statPreparing'), statReady: document.getElementById('statReady'), statDelivery: document.getElementById('statDelivery'), statDelivered: document.getElementById('statDelivered'),
       reasonDialog: document.getElementById('reasonDialog'), reasonTitle: document.getElementById('reasonDialogTitle'), reasonText: document.getElementById('reasonText'), reasonError: document.getElementById('reasonError'), confirmReason: document.getElementById('confirmReasonButton'),
       paymentDialog: document.getElementById('paymentDialog'), paymentReference: document.getElementById('paymentReference'), paymentError: document.getElementById('paymentError'), confirmPayment: document.getElementById('confirmPaymentButton'),
-      deliveryDialog: document.getElementById('deliveryDialog'), deliveryProvider: document.getElementById('deliveryProvider'), deliveryBookingId: document.getElementById('deliveryBookingId'), deliveryFee: document.getElementById('deliveryFee'), riderName: document.getElementById('riderName'), riderPhone: document.getElementById('riderPhone'), trackingUrl: document.getElementById('trackingUrl'), deliveryError: document.getElementById('deliveryError'), saveDelivery: document.getElementById('saveDeliveryButton'),
+      deliveryDialog: document.getElementById('deliveryDialog'), deliveryProvider: document.getElementById('deliveryProvider'), deliveryBookingId: document.getElementById('deliveryBookingId'), deliveryPartnerCost: document.getElementById('deliveryPartnerCost'), riderName: document.getElementById('riderName'), riderPhone: document.getElementById('riderPhone'), trackingUrl: document.getElementById('trackingUrl'), deliveryError: document.getElementById('deliveryError'), saveDelivery: document.getElementById('saveDeliveryButton'),
       toastWrap: document.getElementById('toastWrap')
     };
 
@@ -435,6 +435,7 @@
       const deliveryBits = [
         order.delivery_provider ? `Provider: ${escapeHtml(order.delivery_provider)}` : '',
         order.delivery_booking_id ? `Booking: ${escapeHtml(order.delivery_booking_id)}` : '',
+        order.delivery_partner_cost !== null && order.delivery_partner_cost !== undefined ? `Partner cost: ${money(order.delivery_partner_cost)}` : '',
         order.rider_name ? `Rider: ${escapeHtml(order.rider_name)}` : '',
         order.rider_phone ? `Phone: ${escapeHtml(order.rider_phone)}` : ''
       ].filter(Boolean);
@@ -519,7 +520,7 @@
       dialogOrder = order;
       els.deliveryProvider.value = order.delivery_provider || '';
       els.deliveryBookingId.value = order.delivery_booking_id || '';
-      els.deliveryFee.value = order.delivery_fee || '';
+      els.deliveryPartnerCost.value = order.delivery_partner_cost ?? '';
       els.riderName.value = order.rider_name || '';
       els.riderPhone.value = order.rider_phone || '';
       els.trackingUrl.value = order.tracking_url || '';
@@ -590,7 +591,7 @@
           action:'set_delivery', order_type:'normal', order_id:dialogOrder.id,
           delivery_provider:provider,
           delivery_booking_id:els.deliveryBookingId.value.trim(),
-          delivery_fee:els.deliveryFee.value === '' ? 0 : Number(els.deliveryFee.value),
+          delivery_partner_cost:els.deliveryPartnerCost.value === '' ? 0 : Number(els.deliveryPartnerCost.value),
           rider_name:els.riderName.value.trim(), rider_phone:els.riderPhone.value.trim(), tracking_url:els.trackingUrl.value.trim()
         });
         await adminRequest({ action:'update_status', order_type:'normal', order_id:dialogOrder.id, status:'rider_assigned' });
