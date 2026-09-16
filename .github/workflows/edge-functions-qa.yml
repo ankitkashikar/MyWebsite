@@ -1,0 +1,35 @@
+name: TCB Edge Functions QA
+
+on:
+  push:
+    branches:
+      - main
+      - tcb-order-console-security-2026-final
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deno-check:
+    name: Type-check Supabase Edge Functions
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Type-check order Edge Functions
+        run: |
+          deno check --node-modules-dir=auto \
+            supabase/functions/place-order/index.ts \
+            supabase/functions/admin-orders/index.ts \
+            supabase/functions/order-status/index.ts
