@@ -53,3 +53,8 @@ jobs:
         env:
           QA_BASE_URL: http://127.0.0.1:4173/
         run: node scripts/order_console_qa.mjs
+
+      - name: Run customer order status QA
+        env:
+          QA_BASE_URL: http://127.0.0.1:4173/
+        run: node scripts/order_status_qa.mjs
