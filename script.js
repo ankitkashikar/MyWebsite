@@ -76,6 +76,110 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  /* ── Delivery service note tooltip ─────────────────────
+     Keep the checkout line compact while retaining the ETA/delay detail.
+     Hover shows the note on desktop; focus/tap keeps it keyboard/mobile friendly. */
+  const serviceNote = document.querySelector('.checkout-service-note');
+  if (serviceNote) {
+    const tooltipId = 'checkout-delivery-info';
+    serviceNote.textContent = '';
+
+    const serviceText = document.createElement('span');
+    serviceText.textContent = 'Direct delivery is currently for serviceable addresses in PIN 411057.';
+
+    const infoWrap = document.createElement('span');
+    infoWrap.className = 'checkout-info-wrap';
+
+    const infoButton = document.createElement('button');
+    infoButton.type = 'button';
+    infoButton.className = 'checkout-info-button';
+    infoButton.setAttribute('aria-label', 'Delivery estimate information');
+    infoButton.setAttribute('aria-describedby', tooltipId);
+    infoButton.textContent = 'i';
+
+    const tooltip = document.createElement('span');
+    tooltip.className = 'checkout-info-tooltip';
+    tooltip.id = tooltipId;
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.textContent = 'Estimated delivery is 35–50 minutes. Traffic, rain, peak demand and delivery-partner availability can increase the ETA.';
+
+    infoWrap.append(infoButton, tooltip);
+    serviceNote.append(serviceText, infoWrap);
+
+    const tooltipStyles = document.createElement('style');
+    tooltipStyles.textContent = `
+      .checkout-service-note{
+        display:flex;
+        align-items:center;
+        gap:6px;
+        flex-wrap:wrap;
+      }
+      .checkout-info-wrap{
+        position:relative;
+        display:inline-flex;
+        align-items:center;
+        flex:0 0 auto;
+      }
+      .checkout-info-button{
+        width:18px;
+        height:18px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        border:1px solid rgba(119,119,119,.75);
+        border-radius:50%;
+        background:transparent;
+        color:#777;
+        font:700 11px/1 var(--fb, Arial, sans-serif);
+        cursor:help;
+        padding:0;
+        transition:border-color .15s ease,color .15s ease,background .15s ease;
+      }
+      .checkout-info-button:hover,
+      .checkout-info-button:focus-visible{
+        border-color:var(--red,#c0392b);
+        color:var(--red,#c0392b);
+        background:rgba(192,57,43,.06);
+        outline:none;
+      }
+      .checkout-info-tooltip{
+        position:absolute;
+        right:0;
+        bottom:calc(100% + 9px);
+        width:min(290px,calc(100vw - 48px));
+        padding:10px 12px;
+        border-radius:10px;
+        background:#222;
+        color:#f4f4f4;
+        box-shadow:0 8px 24px rgba(0,0,0,.24);
+        font:500 .72rem/1.5 var(--fb, Arial, sans-serif);
+        letter-spacing:0;
+        text-align:left;
+        opacity:0;
+        visibility:hidden;
+        transform:translateY(4px);
+        pointer-events:none;
+        z-index:20;
+        transition:opacity .15s ease,transform .15s ease,visibility .15s ease;
+      }
+      .checkout-info-tooltip::after{
+        content:'';
+        position:absolute;
+        right:5px;
+        top:100%;
+        border:6px solid transparent;
+        border-top-color:#222;
+      }
+      .checkout-info-wrap:hover .checkout-info-tooltip,
+      .checkout-info-wrap:focus-within .checkout-info-tooltip{
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0);
+      }
+    `;
+    document.head.appendChild(tooltipStyles);
+  }
+
   /* ── Combo picker ──────────────────────────────────────
      The real <select> stays in the DOM and remains the source of truth.
      Selecting a custom option updates it and dispatches `change`, so the
