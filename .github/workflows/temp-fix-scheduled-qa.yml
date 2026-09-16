@@ -1,0 +1,67 @@
+name: Temporary Scheduled QA Fix
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.event.head_commit.message != 'Make checkout QA time independent'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+
+      - name: Make checkout QA time independent
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/responsive_qa.mjs')
+          text = path.read_text(encoding='utf-8')
+          old = """  await page.locator('#custPhone').fill('9876543212');
+  await page.locator('#custPincode').fill('411057');
+  await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
+  await page.locator('#btnPlaceOrder').click();
+"""
+          new = """  // The site can be tested while the kitchen is closed. In that case
+  // Deliver Now is intentionally unavailable, so select a real future slot.
+  // Doing this unconditionally also verifies the scheduled-order path.
+  await page.locator('#slotModeToggle .slot-mode-btn[data-mode=\"later\"]').click();
+  await page.waitForTimeout(80);
+  let slotChip = page.locator('#slotScroller .slot-chip').first();
+  if (await slotChip.count() === 0) {
+    const tomorrow = page.locator('#slotDayTabs .slot-day-tab').nth(1);
+    if (await tomorrow.count()) {
+      await tomorrow.click();
+      await page.waitForTimeout(80);
+      slotChip = page.locator('#slotScroller .slot-chip').first();
+    }
+  }
+  ok(await slotChip.count() > 0, 'menu desktop: no future delivery slot available for QA');
+  await slotChip.click();
+
+  await page.locator('#custPhone').fill('9876543212');
+  await page.locator('#custPincode').fill('411057');
+  await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
+  await page.locator('#btnPlaceOrder').click();
+"""
+          if old not in text:
+              raise SystemExit('Expected QA block not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Commit update
+        run: |
+          if git diff --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/responsive_qa.mjs
+          git commit -m "Make checkout QA time independent"
+          git push origin HEAD:tcb-design-system-refresh
