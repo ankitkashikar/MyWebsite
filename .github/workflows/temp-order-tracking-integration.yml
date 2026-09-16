@@ -1,0 +1,73 @@
+name: Temporary Order Tracking Integration
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+          fetch-depth: 0
+
+      - name: Integrate tracking into checkout success
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('menu.html')
+          text = path.read_text(encoding='utf-8')
+
+          if 'id="successTrackLink"' in text:
+              print('Tracking link already integrated.')
+              raise SystemExit(0)
+
+          old_css = """    .btn-drawer-secondary{\n      display:inline-block;margin-top:18px;color:var(--red);font-weight:700;font-size:.82rem;\n      border:1px solid rgba(192,57,43,.3);padding:10px 22px;border-radius:var(--rp);\n    }\n"""
+          new_css = """    .success-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}\n    .btn-drawer-track{\n      display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:.82rem;\n      border:1px solid var(--red);padding:10px 22px;border-radius:var(--rp);\n    }\n    .btn-drawer-track:hover{background:var(--red2);border-color:var(--red2)}\n    .btn-drawer-secondary{\n      display:inline-block;margin-top:0;color:var(--red);font-weight:700;font-size:.82rem;\n      border:1px solid rgba(192,57,43,.3);padding:10px 22px;border-radius:var(--rp);\n    }\n"""
+          if old_css not in text:
+              raise SystemExit('Expected success CSS block not found.')
+          text = text.replace(old_css, new_css, 1)
+
+          old_html = """    <div class=\"drawer-step\" id=\"stepSuccess\">\n      <div class=\"success-step\">\n        <div class=\"success-icon\" id=\"successIcon\"></div>\n        <h4 id=\"successTitle\">Order Received</h4>\n        <p id=\"successMsg\">Thank you! Our team will call you shortly to confirm your order and delivery time.</p>\n        <a href=\"index.html\" class=\"btn-drawer-secondary\">Back to Home</a>\n      </div>\n    </div>\n"""
+          new_html = """    <div class=\"drawer-step\" id=\"stepSuccess\">\n      <div class=\"success-step\">\n        <div class=\"success-icon\" id=\"successIcon\"></div>\n        <h4 id=\"successTitle\">Order Received</h4>\n        <p id=\"successMsg\">Your order has been received. You can follow its progress from the tracking page.</p>\n        <div class=\"success-actions\">\n          <a href=\"order-status.html\" class=\"btn-drawer-track\" id=\"successTrackLink\">Track Order</a>\n          <a href=\"index.html\" class=\"btn-drawer-secondary\">Back to Home</a>\n        </div>\n      </div>\n    </div>\n"""
+          if old_html not in text:
+              raise SystemExit('Expected success HTML block not found.')
+          text = text.replace(old_html, new_html, 1)
+
+          old_msg = "document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you shortly to confirm before we start preparing your order.`;"
+          new_msg = "document.getElementById('successMsg').textContent = `Order ${result.order_number}. We received your payment claim and will verify it before accepting the order. You can track each status update here.`;"
+          if old_msg not in text:
+              raise SystemExit('Expected UPI success message not found.')
+          text = text.replace(old_msg, new_msg, 1)
+
+          marker = "    showStep('stepSuccess');"
+          tracking_js = """    const successTrackLink = document.getElementById('successTrackLink');\n    if (successTrackLink && result.order_number) {\n      const orderNumber = String(result.order_number);\n      const orderPhone = document.getElementById('custPhone').value.trim();\n      successTrackLink.href = `order-status.html?order=${encodeURIComponent(orderNumber)}`;\n      sessionStorage.setItem('tcbLastOrderNumber', orderNumber);\n      sessionStorage.setItem('tcbLastOrderPhone', orderPhone);\n    }\n\n""" + marker
+          if marker not in text:
+              raise SystemExit('Success-step marker not found.')
+          text = text.replace(marker, tracking_js, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Run static QA
+        run: python3 scripts/qa_check.py
+
+      - name: Commit integration
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add menu.html
+          git commit -m "Connect checkout success to order tracking"
+          git push origin HEAD:tcb-design-system-refresh
