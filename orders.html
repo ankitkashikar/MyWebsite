@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Order Console | The Chinese Bliss</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="orders-console.css" />
+</head>
+<body class="order-console-body">
+
+  <section class="oc-login-shell" id="loginShell">
+    <div class="oc-login-card">
+      <div class="oc-login-brand">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" />
+        <div>
+          <strong>The Chinese Bliss</strong>
+          <span>Restaurant Operations</span>
+        </div>
+      </div>
+      <h1>Order Console</h1>
+      <p>Sign in with an authorized restaurant-admin account. This page is not linked from the public website.</p>
+      <form id="loginForm" novalidate>
+        <div class="oc-field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" autocomplete="username" required />
+        </div>
+        <div class="oc-field">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" required />
+        </div>
+        <button class="oc-primary oc-wide" id="loginButton" type="submit">Sign In</button>
+        <p class="oc-login-error" id="loginError" role="alert"></p>
+      </form>
+      <p class="oc-login-note">Admin users must exist in Supabase Auth and their email must also be included in the server-side TCB_ADMIN_EMAILS allowlist.</p>
+    </div>
+  </section>
+
+  <div class="oc-app" id="appShell">
+    <header class="oc-topbar">
+      <div class="oc-brand">
+        <img src="images/chinese logo.png" alt="The Chinese Bliss" />
+        <div>
+          <strong>TCB Order Console</strong>
+          <span>Direct website orders</span>
+        </div>
+      </div>
+      <div class="oc-top-actions">
+        <span class="oc-connection" id="connectionState">Connecting</span>
+        <button class="oc-ghost oc-sound-btn" id="soundButton" type="button">Enable Sound</button>
+        <button class="oc-ghost oc-signout" id="signOutButton" type="button">Sign Out</button>
+      </div>
+    </header>
+
+    <main class="oc-main">
+      <section class="oc-head">
+        <div>
+          <h1>Kitchen Orders</h1>
+          <p>New orders refresh automatically. Payment and restaurant status are tracked separately.</p>
+        </div>
+        <div class="oc-refresh-meta" id="refreshMeta">Not refreshed yet</div>
+      </section>
+
+      <section class="oc-alert-banner" id="attentionBanner" aria-live="assertive">
+        <div>
+          <strong id="attentionTitle">New order needs attention</strong>
+          <span id="attentionText">Accept or reject the order to acknowledge it.</span>
+        </div>
+        <button class="oc-secondary" id="showNewButton" type="button">Show New Orders</button>
+      </section>
+
+      <section class="oc-stats" aria-label="Order summary">
+        <article class="oc-stat new"><div class="oc-stat-label">New</div><div class="oc-stat-value" id="statNew">0</div></article>
+        <article class="oc-stat preparing"><div class="oc-stat-label">Preparing</div><div class="oc-stat-value" id="statPreparing">0</div></article>
+        <article class="oc-stat ready"><div class="oc-stat-label">Ready</div><div class="oc-stat-value" id="statReady">0</div></article>
+        <article class="oc-stat delivery"><div class="oc-stat-label">On Delivery</div><div class="oc-stat-value" id="statDelivery">0</div></article>
+        <article class="oc-stat done"><div class="oc-stat-label">Delivered Today</div><div class="oc-stat-value" id="statDelivered">0</div></article>
+      </section>
+
+      <section class="oc-toolbar">
+        <div class="oc-tabs" id="statusTabs" role="tablist" aria-label="Order filters">
+          <button class="oc-tab active" type="button" data-filter="active">Active</button>
+          <button class="oc-tab" type="button" data-filter="new">New</button>
+          <button class="oc-tab" type="button" data-filter="preparing">Preparing</button>
+          <button class="oc-tab" type="button" data-filter="ready_for_pickup">Ready</button>
+          <button class="oc-tab" type="button" data-filter="dispatched">Dispatched</button>
+          <button class="oc-tab" type="button" data-filter="scheduled">Scheduled</button>
+          <button class="oc-tab" type="button" data-filter="delivered">Delivered</button>
+          <button class="oc-tab" type="button" data-filter="closed">Rejected / Cancelled</button>
+          <button class="oc-tab" type="button" data-filter="all">All</button>
+        </div>
+        <input class="oc-search" id="orderSearch" type="search" placeholder="Search order, phone, name" aria-label="Search orders" />
+      </section>
+
+      <section class="oc-orders" id="ordersList" aria-live="polite">
+        <div class="oc-empty">Sign in and refresh to load orders.</div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="oc-dialog" id="reasonDialog">
+    <div class="oc-dialog-head">
+      <h3 id="reasonDialogTitle">Reject Order</h3>
+      <button class="oc-dialog-close" type="button" data-close-dialog="reasonDialog" aria-label="Close">×</button>
+    </div>
+    <div class="oc-dialog-body">
+      <div class="oc-field">
+        <label for="reasonText">Reason</label>
+        <textarea id="reasonText" maxlength="500" placeholder="Record the operational reason"></textarea>
+      </div>
+      <p class="oc-dialog-error" id="reasonError">Please enter a reason.</p>
+    </div>
+    <div class="oc-dialog-actions">
+      <button class="oc-ghost" type="button" data-close-dialog="reasonDialog">Cancel</button>
+      <button class="oc-danger" id="confirmReasonButton" type="button">Confirm</button>
+    </div>
+  </dialog>
+
+  <dialog class="oc-dialog" id="paymentDialog">
+    <div class="oc-dialog-head">
+      <h3>Confirm Payment</h3>
+      <button class="oc-dialog-close" type="button" data-close-dialog="paymentDialog" aria-label="Close">×</button>
+    </div>
+    <div class="oc-dialog-body">
+      <p style="margin:0 0 14px;color:var(--oc-muted);font-size:.8rem;line-height:1.55;">Use this only after you have independently verified that the UPI payment was received.</p>
+      <div class="oc-field">
+        <label for="paymentReference">Payment reference / UTR (optional)</label>
+        <input id="paymentReference" type="text" maxlength="120" autocomplete="off" />
+      </div>
+      <p class="oc-dialog-error" id="paymentError"></p>
+    </div>
+    <div class="oc-dialog-actions">
+      <button class="oc-ghost" type="button" data-close-dialog="paymentDialog">Cancel</button>
+      <button class="oc-primary" id="confirmPaymentButton" type="button">Payment Verified</button>
+    </div>
+  </dialog>
+
+  <dialog class="oc-dialog" id="deliveryDialog">
+    <div class="oc-dialog-head">
+      <h3>Assign Delivery</h3>
+      <button class="oc-dialog-close" type="button" data-close-dialog="deliveryDialog" aria-label="Close">×</button>
+    </div>
+    <div class="oc-dialog-body">
+      <div class="oc-field">
+        <label for="deliveryProvider">Provider</label>
+        <input id="deliveryProvider" type="text" placeholder="Porter, Borzo, Shiprocket, other" maxlength="120" />
+      </div>
+      <div class="oc-field">
+        <label for="deliveryBookingId">Booking / reference ID</label>
+        <input id="deliveryBookingId" type="text" maxlength="160" />
+      </div>
+      <div class="oc-field">
+        <label for="deliveryFee">Delivery fee</label>
+        <input id="deliveryFee" type="number" min="0" max="5000" step="1" inputmode="decimal" />
+      </div>
+      <div class="oc-field">
+        <label for="riderName">Rider name</label>
+        <input id="riderName" type="text" maxlength="120" />
+      </div>
+      <div class="oc-field">
+        <label for="riderPhone">Rider phone</label>
+        <input id="riderPhone" type="tel" maxlength="20" />
+      </div>
+      <div class="oc-field">
+        <label for="trackingUrl">Tracking URL</label>
+        <input id="trackingUrl" type="url" maxlength="500" />
+      </div>
+      <p class="oc-dialog-error" id="deliveryError"></p>
+    </div>
+    <div class="oc-dialog-actions">
+      <button class="oc-ghost" type="button" data-close-dialog="deliveryDialog">Cancel</button>
+      <button class="oc-primary" id="saveDeliveryButton" type="button">Save &amp; Assign Rider</button>
+    </div>
+  </dialog>
+
+  <div class="oc-toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+  <script src="supabase-config.js"></script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const config = window.TCB_SUPABASE_CONFIG;
+    const client = createClient(config.url, config.anonKey, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+    });
+
+    const ACTIVE_STATUSES = new Set(['new','accepted','preparing','ready_for_pickup','rider_assigned','dispatched']);
+    const STATUS_LABELS = {
+      new: 'New', accepted: 'Accepted', rejected: 'Rejected', preparing: 'Preparing',
+      ready_for_pickup: 'Ready', rider_assigned: 'Rider Assigned', dispatched: 'Dispatched',
+      delivered: 'Delivered', cancelled: 'Cancelled'
+    };
+
+    const els = {
+      loginShell: document.getElementById('loginShell'), appShell: document.getElementById('appShell'),
+      loginForm: document.getElementById('loginForm'), loginButton: document.getElementById('loginButton'),
+      loginEmail: document.getElementById('loginEmail'), loginPassword: document.getElementById('loginPassword'), loginError: document.getElementById('loginError'),
+      connection: document.getElementById('connectionState'), soundButton: document.getElementById('soundButton'), signOut: document.getElementById('signOutButton'),
+      refreshMeta: document.getElementById('refreshMeta'), attentionBanner: document.getElementById('attentionBanner'), attentionTitle: document.getElementById('attentionTitle'), attentionText: document.getElementById('attentionText'),
+      showNewButton: document.getElementById('showNewButton'), ordersList: document.getElementById('ordersList'), search: document.getElementById('orderSearch'), tabs: document.getElementById('statusTabs'),
+      statNew: document.getElementById('statNew'), statPreparing: document.getElementById('statPreparing'), statReady: document.getElementById('statReady'), statDelivery: document.getElementById('statDelivery'), statDelivered: document.getElementById('statDelivered'),
+      reasonDialog: document.getElementById('reasonDialog'), reasonTitle: document.getElementById('reasonDialogTitle'), reasonText: document.getElementById('reasonText'), reasonError: document.getElementById('reasonError'), confirmReason: document.getElementById('confirmReasonButton'),
+      paymentDialog: document.getElementById('paymentDialog'), paymentReference: document.getElementById('paymentReference'), paymentError: document.getElementById('paymentError'), confirmPayment: document.getElementById('confirmPaymentButton'),
+      deliveryDialog: document.getElementById('deliveryDialog'), deliveryProvider: document.getElementById('deliveryProvider'), deliveryBookingId: document.getElementById('deliveryBookingId'), deliveryFee: document.getElementById('deliveryFee'), riderName: document.getElementById('riderName'), riderPhone: document.getElementById('riderPhone'), trackingUrl: document.getElementById('trackingUrl'), deliveryError: document.getElementById('deliveryError'), saveDelivery: document.getElementById('saveDeliveryButton'),
+      toastWrap: document.getElementById('toastWrap')
+    };
+
+    let orders = [];
+    let activeFilter = 'active';
+    let pollTimer = null;
+    let alarmTimer = null;
+    let audioContext = null;
+    let soundEnabled = localStorage.getItem('tcbOrderSound') === 'on';
+    let dialogOrder = null;
+    let dialogMode = null;
+    let refreshing = false;
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+
+    function money(value) {
+      const n = Number(value || 0);
+      return `₹${Number.isFinite(n) ? n.toFixed(n % 1 ? 2 : 0) : '0'}`;
+    }
+
+    function dateTime(value) {
+      if (!value) return '—';
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return '—';
+      return d.toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    }
+
+    function relativeTime(value) {
+      const t = new Date(value).getTime();
+      if (!t) return '';
+      const mins = Math.max(0, Math.floor((Date.now() - t) / 60000));
+      if (mins < 1) return 'just now';
+      if (mins < 60) return `${mins} min ago`;
+      const hrs = Math.floor(mins / 60);
+      return hrs < 24 ? `${hrs} hr ago` : `${Math.floor(hrs / 24)} d ago`;
+    }
+
+    function isScheduled(order) {
+      const slot = String(order.delivery_slot || '').trim().toLowerCase();
+      return slot && !slot.startsWith('asap') && !slot.includes('35–50') && !slot.includes('35-50');
+    }
+
+    function toast(message, type = 'ok') {
+      const el = document.createElement('div');
+      el.className = `oc-toast${type === 'error' ? ' error' : ''}`;
+      el.textContent = message;
+      els.toastWrap.appendChild(el);
+      setTimeout(() => el.remove(), 3800);
+    }
+
+    function setConnection(state, text) {
+      els.connection.className = `oc-connection ${state}`;
+      els.connection.textContent = text;
+    }
+
+    async function enableSound() {
+      try {
+        audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+        if (audioContext.state === 'suspended') await audioContext.resume();
+        soundEnabled = true;
+        localStorage.setItem('tcbOrderSound', 'on');
+        els.soundButton.textContent = 'Sound On';
+        beep();
+      } catch (err) {
+        toast('This browser blocked order alert sound.', 'error');
+      }
+    }
+
+    function disableSound() {
+      soundEnabled = false;
+      localStorage.setItem('tcbOrderSound', 'off');
+      els.soundButton.textContent = 'Enable Sound';
+      clearInterval(alarmTimer);
+      alarmTimer = null;
+    }
+
+    function beep() {
+      if (!soundEnabled || !audioContext) return;
+      const now = audioContext.currentTime;
+      [0, .22, .44].forEach((offset) => {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.0001, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.18, now + offset + .02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + .14);
+        oscillator.connect(gain).connect(audioContext.destination);
+        oscillator.start(now + offset);
+        oscillator.stop(now + offset + .16);
+      });
+    }
+
+    function updateAlarm() {
+      const unattended = orders.filter((o) => (o.order_status || 'new') === 'new' && !o.acknowledged_at);
+      if (unattended.length) {
+        els.attentionBanner.classList.add('visible');
+        els.attentionTitle.textContent = unattended.length === 1 ? '1 new order needs attention' : `${unattended.length} new orders need attention`;
+        els.attentionText.textContent = 'Review payment and accept or reject each order to acknowledge it.';
+        document.title = `(${unattended.length}) New Order | TCB`;
+        if (soundEnabled && audioContext && !alarmTimer) {
+          beep();
+          alarmTimer = setInterval(beep, 12000);
+        }
+      } else {
+        els.attentionBanner.classList.remove('visible');
+        document.title = 'Order Console | The Chinese Bliss';
+        if (alarmTimer) clearInterval(alarmTimer);
+        alarmTimer = null;
+      }
+    }
+
+    async function adminRequest(payload) {
+      const { data: sessionData } = await client.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      if (!token) throw new Error('Admin session expired. Please sign in again.');
+      const response = await fetch(config.adminOrdersUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'apikey': config.anonKey
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.success) {
+        const err = new Error(data?.message || 'Restaurant API request failed.');
+        err.status = response.status;
+        throw err;
+      }
+      return data;
+    }
+
+    async function refreshOrders({ silent = false } = {}) {
+      if (refreshing) return;
+      refreshing = true;
+      if (!silent) els.ordersList.classList.add('oc-loading');
+      try {
+        const data = await adminRequest({ action: 'list', order_type: 'normal', limit: 150 });
+        orders = Array.isArray(data.orders) ? data.orders : [];
+        setConnection('online', 'Online');
+        els.refreshMeta.textContent = `Updated ${new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
+        render();
+      } catch (err) {
+        console.error(err);
+        setConnection('error', 'Connection issue');
+        if (!silent) toast(err.message || 'Could not load orders.', 'error');
+        if (err.status === 401) await client.auth.signOut();
+      } finally {
+        refreshing = false;
+        els.ordersList.classList.remove('oc-loading');
+      }
+    }
+
+    function statCount(statuses) {
+      return orders.filter((o) => statuses.includes(o.order_status || 'new')).length;
+    }
+
+    function updateStats() {
+      els.statNew.textContent = statCount(['new']);
+      els.statPreparing.textContent = statCount(['accepted','preparing']);
+      els.statReady.textContent = statCount(['ready_for_pickup','rider_assigned']);
+      els.statDelivery.textContent = statCount(['dispatched']);
+      const today = new Date();
+      els.statDelivered.textContent = orders.filter((o) => {
+        if ((o.order_status || '') !== 'delivered') return false;
+        const d = new Date(o.delivered_at || o.updated_at || o.created_at);
+        return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth() && d.getDate() === today.getDate();
+      }).length;
+    }
+
+    function matchesFilter(order) {
+      const status = order.order_status || 'new';
+      if (activeFilter === 'all') return true;
+      if (activeFilter === 'active') return ACTIVE_STATUSES.has(status);
+      if (activeFilter === 'closed') return status === 'rejected' || status === 'cancelled';
+      if (activeFilter === 'scheduled') return isScheduled(order) && ACTIVE_STATUSES.has(status);
+      if (activeFilter === 'dispatched') return status === 'dispatched' || status === 'rider_assigned';
+      return status === activeFilter;
+    }
+
+    function matchesSearch(order) {
+      const q = els.search.value.trim().toLowerCase();
+      if (!q) return true;
+      return [order.order_number, order.phone, order.name, order.address]
+        .some((v) => String(v || '').toLowerCase().includes(q));
+    }
+
+    function actionButtons(order) {
+      const status = order.order_status || 'new';
+      const paid = order.payment_status === 'paid';
+      const id = escapeHtml(order.id);
+      const buttons = [];
+
+      if (status === 'new') {
+        if (!paid) buttons.push(`<button class="oc-secondary" type="button" data-action="payment" data-id="${id}">Confirm Payment</button>`);
+        buttons.push(`<button class="oc-danger" type="button" data-action="reject" data-id="${id}">Reject</button>`);
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="accepted" data-id="${id}" ${paid ? '' : 'disabled title="Confirm payment first"'}>Accept Order</button>`);
+        if (!paid) buttons.push('<div class="oc-action-hint">Payment is pending. Verify payment before accepting the order.</div>');
+      } else if (status === 'accepted') {
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="preparing" data-id="${id}">Start Preparing</button>`);
+      } else if (status === 'preparing') {
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="ready_for_pickup" data-id="${id}">Mark Ready</button>`);
+      } else if (status === 'ready_for_pickup') {
+        buttons.push(`<button class="oc-secondary" type="button" data-action="delivery" data-id="${id}">Assign Rider</button>`);
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="dispatched" data-id="${id}">Dispatch Without Rider Details</button>`);
+      } else if (status === 'rider_assigned') {
+        buttons.push(`<button class="oc-secondary" type="button" data-action="delivery" data-id="${id}">Edit Delivery</button>`);
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="dispatched" data-id="${id}">Mark Dispatched</button>`);
+      } else if (status === 'dispatched') {
+        buttons.push(`<button class="oc-primary" type="button" data-action="status" data-status="delivered" data-id="${id}">Mark Delivered</button>`);
+      }
+      return buttons.join('');
+    }
+
+    function orderCard(order) {
+      const status = order.order_status || 'new';
+      const payment = order.payment_status || 'pending';
+      const items = Array.isArray(order.items) ? order.items : [];
+      const attention = status === 'new' && !order.acknowledged_at;
+      const itemHtml = items.length ? items.map((item) => `
+        <div class="oc-item">
+          <div class="oc-item-name"><span class="oc-item-qty">${escapeHtml(item.quantity || item.qty || 0)}×</span>${escapeHtml(item.product_name || item.name || item.product_id || 'Item')}</div>
+          <div class="oc-item-price">${money(item.line_total)}</div>
+        </div>`).join('') : '<div class="oc-item"><div class="oc-item-name">No item rows returned</div></div>';
+
+      const deliveryBits = [
+        order.delivery_provider ? `Provider: ${escapeHtml(order.delivery_provider)}` : '',
+        order.delivery_booking_id ? `Booking: ${escapeHtml(order.delivery_booking_id)}` : '',
+        order.rider_name ? `Rider: ${escapeHtml(order.rider_name)}` : '',
+        order.rider_phone ? `Phone: ${escapeHtml(order.rider_phone)}` : ''
+      ].filter(Boolean);
+
+      return `<article class="oc-card${attention ? ' attention' : ''}" data-order-id="${escapeHtml(order.id)}">
+        <div class="oc-card-top">
+          <div>
+            <div class="oc-order-number">#${escapeHtml(order.order_number || order.id)}</div>
+            <div class="oc-order-meta">${dateTime(order.created_at)} · ${relativeTime(order.created_at)}${isScheduled(order) ? ' · Scheduled' : ''}</div>
+          </div>
+          <div class="oc-pills">
+            <span class="oc-pill status-${escapeHtml(status)}">${escapeHtml(STATUS_LABELS[status] || status)}</span>
+            <span class="oc-pill pay-${payment === 'paid' ? 'paid' : 'pending'}">${payment === 'paid' ? 'Paid' : 'Payment Pending'}</span>
+          </div>
+        </div>
+        <div class="oc-card-body">
+          <div class="oc-customer">
+            <div class="oc-data"><div class="oc-data-label">Customer</div><div class="oc-data-value">${escapeHtml(order.name || '—')}</div></div>
+            <div class="oc-data"><div class="oc-data-label">Phone</div><div class="oc-data-value"><a href="tel:${escapeHtml(order.phone || '')}">${escapeHtml(order.phone || '—')}</a></div></div>
+            <div class="oc-data oc-address"><div class="oc-data-label">Delivery address</div><div class="oc-data-value">${escapeHtml(order.address || '—')}</div></div>
+            <div class="oc-data"><div class="oc-data-label">Delivery slot</div><div class="oc-data-value">${escapeHtml(order.delivery_slot || '—')}</div></div>
+            <div class="oc-data"><div class="oc-data-label">Payment</div><div class="oc-data-value">${escapeHtml(order.payment_method || '—')}${order.payment_reference ? ` · ${escapeHtml(order.payment_reference)}` : ''}</div></div>
+          </div>
+          <div class="oc-items">${itemHtml}</div>
+          <div class="oc-summary">
+            <div class="oc-summary-cell"><span>Food</span><strong>${money(order.subtotal)}</strong></div>
+            <div class="oc-summary-cell"><span>Delivery</span><strong>${money(order.delivery_fee)}</strong></div>
+            <div class="oc-summary-cell oc-total"><span>Total</span><strong>${money(order.total)}</strong></div>
+          </div>
+          ${order.notes ? `<div class="oc-notes"><strong>Notes:</strong> ${escapeHtml(order.notes)}</div>` : ''}
+          ${deliveryBits.length ? `<div class="oc-delivery-info">${deliveryBits.join(' · ')}${order.tracking_url ? ` · <a href="${escapeHtml(order.tracking_url)}" target="_blank" rel="noopener noreferrer" style="color:#fff">Tracking</a>` : ''}</div>` : ''}
+        </div>
+        <div class="oc-actions">${actionButtons(order)}</div>
+      </article>`;
+    }
+
+    function render() {
+      updateStats();
+      updateAlarm();
+      const filtered = orders.filter((o) => matchesFilter(o) && matchesSearch(o));
+      els.ordersList.innerHTML = filtered.length
+        ? filtered.map(orderCard).join('')
+        : '<div class="oc-empty">No orders match this view.</div>';
+    }
+
+    function getOrder(id) {
+      return orders.find((o) => String(o.id) === String(id));
+    }
+
+    async function updateStatus(order, status, reason = '') {
+      try {
+        els.ordersList.classList.add('oc-loading');
+        await adminRequest({ action:'update_status', order_type:'normal', order_id:order.id, status, reason });
+        toast(`Order #${order.order_number || order.id} updated to ${STATUS_LABELS[status] || status}.`);
+        await refreshOrders({ silent:true });
+      } catch (err) {
+        toast(err.message || 'Could not update order.', 'error');
+      } finally {
+        els.ordersList.classList.remove('oc-loading');
+      }
+    }
+
+    function openReason(order, mode) {
+      dialogOrder = order;
+      dialogMode = mode;
+      els.reasonText.value = '';
+      els.reasonError.classList.remove('visible');
+      els.reasonTitle.textContent = mode === 'cancelled' ? 'Cancel Order' : 'Reject Order';
+      els.confirmReason.textContent = mode === 'cancelled' ? 'Confirm Cancellation' : 'Reject Order';
+      els.reasonDialog.showModal();
+    }
+
+    function openPayment(order) {
+      dialogOrder = order;
+      els.paymentReference.value = '';
+      els.paymentError.textContent = '';
+      els.paymentError.classList.remove('visible');
+      els.paymentDialog.showModal();
+    }
+
+    function openDelivery(order) {
+      dialogOrder = order;
+      els.deliveryProvider.value = order.delivery_provider || '';
+      els.deliveryBookingId.value = order.delivery_booking_id || '';
+      els.deliveryFee.value = order.delivery_fee || '';
+      els.riderName.value = order.rider_name || '';
+      els.riderPhone.value = order.rider_phone || '';
+      els.trackingUrl.value = order.tracking_url || '';
+      els.deliveryError.textContent = '';
+      els.deliveryError.classList.remove('visible');
+      els.deliveryDialog.showModal();
+    }
+
+    els.ordersList.addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button || button.disabled) return;
+      const order = getOrder(button.dataset.id);
+      if (!order) return;
+      const action = button.dataset.action;
+      if (action === 'payment') return openPayment(order);
+      if (action === 'reject') return openReason(order, 'rejected');
+      if (action === 'delivery') return openDelivery(order);
+      if (action === 'status') return updateStatus(order, button.dataset.status);
+    });
+
+    els.confirmReason.addEventListener('click', async () => {
+      const reason = els.reasonText.value.trim();
+      if (reason.length < 3) {
+        els.reasonError.classList.add('visible');
+        return;
+      }
+      const order = dialogOrder;
+      const mode = dialogMode;
+      els.confirmReason.disabled = true;
+      try {
+        els.reasonDialog.close();
+        await updateStatus(order, mode, reason);
+      } finally {
+        els.confirmReason.disabled = false;
+      }
+    });
+
+    els.confirmPayment.addEventListener('click', async () => {
+      if (!dialogOrder) return;
+      els.confirmPayment.disabled = true;
+      try {
+        await adminRequest({
+          action:'confirm_payment', order_type:'normal', order_id:dialogOrder.id,
+          payment_reference:els.paymentReference.value.trim()
+        });
+        els.paymentDialog.close();
+        toast(`Payment confirmed for #${dialogOrder.order_number || dialogOrder.id}.`);
+        await refreshOrders({ silent:true });
+      } catch (err) {
+        els.paymentError.textContent = err.message || 'Could not confirm payment.';
+        els.paymentError.classList.add('visible');
+      } finally {
+        els.confirmPayment.disabled = false;
+      }
+    });
+
+    els.saveDelivery.addEventListener('click', async () => {
+      if (!dialogOrder) return;
+      const provider = els.deliveryProvider.value.trim();
+      if (!provider) {
+        els.deliveryError.textContent = 'Enter the delivery provider before assigning a rider.';
+        els.deliveryError.classList.add('visible');
+        return;
+      }
+      els.saveDelivery.disabled = true;
+      try {
+        await adminRequest({
+          action:'set_delivery', order_type:'normal', order_id:dialogOrder.id,
+          delivery_provider:provider,
+          delivery_booking_id:els.deliveryBookingId.value.trim(),
+          delivery_fee:els.deliveryFee.value === '' ? 0 : Number(els.deliveryFee.value),
+          rider_name:els.riderName.value.trim(), rider_phone:els.riderPhone.value.trim(), tracking_url:els.trackingUrl.value.trim()
+        });
+        await adminRequest({ action:'update_status', order_type:'normal', order_id:dialogOrder.id, status:'rider_assigned' });
+        els.deliveryDialog.close();
+        toast(`Delivery assigned for #${dialogOrder.order_number || dialogOrder.id}.`);
+        await refreshOrders({ silent:true });
+      } catch (err) {
+        els.deliveryError.textContent = err.message || 'Could not save delivery details.';
+        els.deliveryError.classList.add('visible');
+      } finally {
+        els.saveDelivery.disabled = false;
+      }
+    });
+
+    document.querySelectorAll('[data-close-dialog]').forEach((button) => {
+      button.addEventListener('click', () => document.getElementById(button.dataset.closeDialog)?.close());
+    });
+
+    els.tabs.addEventListener('click', (event) => {
+      const tab = event.target.closest('.oc-tab');
+      if (!tab) return;
+      activeFilter = tab.dataset.filter;
+      els.tabs.querySelectorAll('.oc-tab').forEach((el) => el.classList.toggle('active', el === tab));
+      render();
+    });
+    els.search.addEventListener('input', render);
+    els.showNewButton.addEventListener('click', () => {
+      activeFilter = 'new';
+      els.tabs.querySelectorAll('.oc-tab').forEach((el) => el.classList.toggle('active', el.dataset.filter === 'new'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      render();
+    });
+
+    els.soundButton.addEventListener('click', () => soundEnabled ? disableSound() : enableSound());
+    els.signOut.addEventListener('click', async () => client.auth.signOut());
+
+    els.loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      els.loginError.classList.remove('visible');
+      els.loginButton.disabled = true;
+      try {
+        await enableSound();
+        const { error } = await client.auth.signInWithPassword({
+          email: els.loginEmail.value.trim(), password: els.loginPassword.value
+        });
+        if (error) throw error;
+      } catch (err) {
+        els.loginError.textContent = err.message || 'Could not sign in.';
+        els.loginError.classList.add('visible');
+      } finally {
+        els.loginButton.disabled = false;
+      }
+    });
+
+    function startPolling() {
+      clearInterval(pollTimer);
+      pollTimer = setInterval(() => refreshOrders({ silent:true }), 5000);
+    }
+
+    async function showApp(session) {
+      if (!session) {
+        els.loginShell.style.display = '';
+        els.appShell.classList.remove('visible');
+        clearInterval(pollTimer);
+        clearInterval(alarmTimer);
+        return;
+      }
+      els.loginShell.style.display = 'none';
+      els.appShell.classList.add('visible');
+      els.soundButton.textContent = soundEnabled ? 'Sound On' : 'Enable Sound';
+      if (soundEnabled) {
+        try { await enableSound(); } catch (_) {}
+      }
+      await refreshOrders();
+      startPolling();
+    }
+
+    client.auth.onAuthStateChange((_event, session) => {
+      setTimeout(() => showApp(session), 0);
+    });
+
+    const { data: initial } = await client.auth.getSession();
+    await showApp(initial.session);
+  </script>
+</body>
+</html>
