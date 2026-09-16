@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bulk Order | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* NOTE: this page previously used undefined CSS variables
        (--warm-white, --charcoal, --black, --gray, --border,
@@ -322,10 +321,10 @@
       <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
     </a>
     <nav class="nav-links">
-      <a href="index.html">About</a>
+      <a href="index.html">Home</a>
       <a href="menu.html">Menu</a>
       <a href="index.html#contact">Contact</a>
-      <a href="experiences.html">Experiences</a>
+      <a href="our-story.html">Our Story</a>
     </nav>
     <div class="nav-actions">
       <a href="order.html" class="btn-solid">Order Online</a>
@@ -337,10 +336,10 @@
 
   <!-- MOBILE NAV -->
   <nav class="mobile-nav" id="mobileNav">
-    <a href="index.html">About</a>
+    <a href="index.html">Home</a>
     <a href="menu.html">Menu</a>
     <a href="index.html#contact">Contact</a>
-    <a href="experiences.html">Experiences</a>
+    <a href="our-story.html">Our Story</a>
     <div class="nav-btns">
       <a href="order.html" class="btn-solid">Order Online</a>
     </div>
@@ -351,7 +350,7 @@
     <div class="bulk-hero-inner">
       <span class="pre-label">The Chinese Bliss</span>
       <h1>Bulk Order Form</h1>
-      <p>Catering for events, offices &amp; parties · Minimum order 10 persons · We deliver fresh</p>
+      <p>Bulk orders for events, offices &amp; parties · Please book 1–2 days in advance</p>
     </div>
   </div>
 
@@ -359,7 +358,7 @@
   <div class="bulk-page">
     <div class="bulk-menu">
       <h2>Select Your Items</h2>
-      <p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom.</p>
+      <p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom. Confirmed bulk orders require 50% advance payment and the remaining 50% before dispatch. <a href="bulk-order-policy.html">Read the Bulk Order Policy</a>.</p>
 
       <div class="menu-row" data-id="B001" data-item="Dish Name" data-price="150">
         <div class="menu-row-left">
@@ -548,7 +547,7 @@
       <div class="drawer-step" id="stepPayment">
         <div class="pay-method-toggle" id="payMethodToggle">
           <button type="button" class="pay-method-btn active" data-method="upi">Pay via UPI</button>
-          <button type="button" class="pay-method-btn" data-method="cod">Cash on Delivery</button>
+          <button type="button" class="pay-method-btn" data-method="cod" hidden aria-hidden="true">Cash on Delivery</button>
         </div>
 
         <div id="payUpiWrap">
@@ -582,7 +581,7 @@
       <!-- STEP 4: Success -->
       <div class="drawer-step" id="stepSuccess">
         <div class="success-step">
-          <div class="success-icon" id="successIcon">🎉</div>
+          <div class="success-icon" id="successIcon"></div>
           <h4 id="successTitle">Order Request Sent</h4>
           <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
           <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
@@ -982,11 +981,11 @@
       }
 
       if (paymentMethod === 'upi') {
-        document.getElementById('successIcon').textContent = '⏳';
+        document.getElementById('successIcon').textContent = '';
         document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
         document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you within 2 hours to confirm before we start preparing your order.`;
       } else {
-        document.getElementById('successIcon').textContent = '🎉';
+        document.getElementById('successIcon').textContent = '';
         document.getElementById('successTitle').textContent = 'Order Request Sent';
         document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
       }

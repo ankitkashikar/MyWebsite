@@ -1,0 +1,354 @@
+/* ============================================================
+   THE CHINESE BLISS — Design System Refresh
+   Typography: Playfair Display + Inter
+   Icons: Lucide Static 1.43.0 via jsDelivr
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&display=swap');
+
+:root{
+  /* Typography */
+  --fh:'Playfair Display',Georgia,'Times New Roman',serif;
+  --fb:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+
+  /* Lucide static icon sources — pinned for predictable rendering */
+  --icon-arrow-right:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/arrow-right.svg');
+  --icon-arrow-left:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/arrow-left.svg');
+  --icon-search:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/search.svg');
+  --icon-star:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/star.svg');
+  --icon-clock:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/clock.svg');
+  --icon-users:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/users.svg');
+  --icon-bike:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/bike.svg');
+  --icon-badge-check:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/badge-check.svg');
+  --icon-sparkles:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/sparkles.svg');
+  --icon-play:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/play.svg');
+  --icon-package:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/package.svg');
+  --icon-map-pin:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/map-pin.svg');
+  --icon-phone:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/phone.svg');
+  --icon-mail:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/mail.svg');
+  --icon-calendar:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/calendar.svg');
+  --icon-ticket:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/ticket-percent.svg');
+  --icon-check:url('https://cdn.jsdelivr.net/npm/lucide-static@1.43.0/icons/circle-check.svg');
+}
+
+/* ── Typography foundation ─────────────────────────────────── */
+html{
+  font-family:var(--fb);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+body,
+button,
+input,
+textarea,
+select,
+option{
+  font-family:var(--fb)!important;
+  font-synthesis:none;
+}
+
+body{
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* Every major title/brand moment uses Playfair Display. */
+:is(
+  h1,h2,h3,h4,h5,h6,
+  .hero-h1,
+  .sec-title,
+  .story-title,
+  .menu-hero h1,
+  .menu-category-title,
+  .bulk-hero h1,
+  .bulk-menu h2,
+  .order-title,
+  .platform-name,
+  .founder-name,
+  .login-wrap h2,
+  .cta-h2,
+  .footer-brand-name,
+  .drawer-header h3,
+  .success-step h4
+){
+  font-family:var(--fh)!important;
+  font-kerning:normal;
+  font-optical-sizing:auto;
+}
+
+/* Preserve the homepage identity shown in the approved reference. */
+.hero-h1{
+  font-weight:900!important;
+  letter-spacing:-.02em;
+}
+.hero-red{
+  font-family:var(--fh)!important;
+  font-style:italic!important;
+  font-weight:700!important;
+}
+
+.sec-title,
+.story-title,
+.menu-category-title,
+.bulk-menu h2,
+.order-title,
+.founder-name,
+.login-wrap h2{
+  font-weight:700!important;
+}
+
+.cta-h2{
+  font-weight:900!important;
+}
+
+/* Inter is the UI typeface: calm, compact and readable. */
+.nav-links a,
+.mobile-nav a,
+.btn-primary,
+.btn-outline,
+.btn-nav-bulk,
+.btn-nav-order,
+.view-all-btn,
+.pill,
+.pre-label,
+.hero-eyebrow,
+.hero-sub,
+.badge-val,
+.badge-lbl,
+.tb-title,
+.tb-sub,
+.fav-name,
+.fav-price,
+.fav-count,
+.story-body,
+.stat-lbl,
+.testi-txt,
+.tname,
+.tstars,
+.load-more-btn,
+.cta-eyebrow,
+.cta-sub,
+.cta-meta,
+.footer-tagline,
+.fcol-title,
+.fcol a,
+.fcol p,
+.footer-order-btn,
+.footer-bottom,
+.menu-search,
+.menu-search input,
+.cat-pill,
+.menu-subcategory-title,
+.menu-row-name,
+.menu-row-desc,
+.menu-row-price,
+.combo-select,
+.combo-select-label,
+.qty-btn,
+.qty-display,
+.dm-field,
+.dm-field input,
+.dm-field textarea,
+.coupon-row input,
+.cart-line-name,
+.cart-line-price,
+.cart-line-sub,
+.summary-box,
+.slot-mode-btn,
+.slot-day-tab,
+.slot-chip,
+.pay-method-btn,
+.btn-coupon-apply,
+.btn-upi-app,
+.order-back,
+.order-subtitle,
+.order-pre{
+  font-family:var(--fb)!important;
+}
+
+/* Avoid the stretched/over-spaced feeling on UI text. */
+.nav-links a,
+.mobile-nav a,
+.btn-primary,
+.btn-outline,
+.btn-nav-bulk,
+.btn-nav-order,
+.cat-pill,
+.menu-row-name,
+.fav-name,
+.platform-card,
+.order-back{
+  letter-spacing:-.01em;
+}
+
+.pre-label,
+.hero-eyebrow,
+.order-pre,
+.fcol-title,
+.menu-subcategory-title{
+  letter-spacing:.12em;
+}
+
+/* Inline SVG text on the story stamp should follow the UI font. */
+.story-stamp text{
+  font-family:var(--fb)!important;
+}
+
+/* ── Lucide icon rendering helpers ─────────────────────────── */
+.btn-primary:has(> svg) > svg,
+.order-back > svg,
+.menu-search > svg,
+.cart-bar-cta > svg,
+.drawer-back > svg,
+.play-btn > svg,
+.hero-pills .pill > svg,
+.hero-badge.top-left > svg,
+.trust-bar > .tb-item > svg{
+  display:none!important;
+}
+
+.btn-primary:has(> svg)::after,
+.order-back::before,
+.menu-search::before,
+.cart-bar-cta::after,
+.drawer-back::before,
+.play-btn::before,
+.hero-pills .pill::before,
+.hero-badge.top-left::before,
+.trust-bar > .tb-item::before{
+  content:'';
+  display:inline-block;
+  flex:0 0 auto;
+  width:1em;
+  height:1em;
+  background-color:currentColor;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+}
+
+/* CTA arrows */
+.btn-primary:has(> svg)::after,
+.cart-bar-cta::after{
+  -webkit-mask-image:var(--icon-arrow-right);
+  mask-image:var(--icon-arrow-right);
+}
+.btn-primary:has(> svg)::after{width:15px;height:15px}
+.cart-bar-cta::after{width:12px;height:12px;margin-left:3px}
+
+/* Back controls */
+.order-back::before,
+.drawer-back::before{
+  -webkit-mask-image:var(--icon-arrow-left);
+  mask-image:var(--icon-arrow-left);
+}
+.order-back::before{width:14px;height:14px}
+.drawer-back::before{width:18px;height:18px}
+
+/* Menu search */
+.menu-search::before{
+  width:16px;
+  height:16px;
+  color:var(--t3);
+  background-color:currentColor;
+  -webkit-mask-image:var(--icon-search);
+  mask-image:var(--icon-search);
+}
+
+/* Homepage trust/metric icons */
+.hero-pills .pill::before{
+  width:13px;
+  height:13px;
+  color:var(--red2);
+  background-color:currentColor;
+}
+.hero-pills .pill:nth-child(1)::before{
+  -webkit-mask-image:var(--icon-star);mask-image:var(--icon-star);
+}
+.hero-pills .pill:nth-child(2)::before{
+  -webkit-mask-image:var(--icon-clock);mask-image:var(--icon-clock);
+}
+.hero-pills .pill:nth-child(3)::before{
+  -webkit-mask-image:var(--icon-users);mask-image:var(--icon-users);
+}
+
+.hero-badge.top-left::before{
+  width:17px;
+  height:17px;
+  color:#f5a623;
+  background-color:currentColor;
+  -webkit-mask-image:var(--icon-star);
+  mask-image:var(--icon-star);
+}
+
+/* Replace the platform-dependent rocket emoji with a consistent Lucide bike. */
+.hero-badge.bottom-right > span:first-child{
+  display:inline-block!important;
+  width:20px!important;
+  height:20px!important;
+  flex:0 0 20px;
+  font-size:0!important;
+  line-height:0!important;
+  background:var(--red2)!important;
+  -webkit-mask:var(--icon-bike) center/contain no-repeat;
+  mask:var(--icon-bike) center/contain no-repeat;
+}
+
+.trust-bar > .tb-item::before{
+  width:22px;
+  height:22px;
+  color:var(--red2);
+  background-color:currentColor;
+}
+.trust-bar > .tb-item:nth-child(1)::before{
+  -webkit-mask-image:var(--icon-badge-check);mask-image:var(--icon-badge-check);
+}
+.trust-bar > .tb-item:nth-child(3)::before{
+  -webkit-mask-image:var(--icon-sparkles);mask-image:var(--icon-sparkles);
+}
+.trust-bar > .tb-item:nth-child(5)::before{
+  -webkit-mask-image:var(--icon-bike);mask-image:var(--icon-bike);
+}
+.trust-bar > .tb-item:nth-child(7)::before{
+  -webkit-mask-image:var(--icon-users);mask-image:var(--icon-users);
+}
+
+.play-btn::before{
+  width:22px;
+  height:22px;
+  color:#fff;
+  background-color:currentColor;
+  -webkit-mask-image:var(--icon-play);
+  mask-image:var(--icon-play);
+}
+
+/* Shared icon sizing/visual discipline. */
+.hero-pills .pill::before,
+.hero-badge::before,
+.trust-bar > .tb-item::before,
+.menu-search::before,
+.btn-primary::after,
+.cart-bar-cta::after,
+.order-back::before,
+.drawer-back::before,
+.play-btn::before{
+  opacity:.95;
+}
+
+/* Keep branded platform/service graphics as brand assets, not Lucide. */
+.platform-logo,
+.fsoc img{
+  font-family:initial;
+}
+
+/* Mobile typography remains visually faithful to the current layout. */
+@media(max-width:768px){
+  body{font-size:16px}
+  .hero-h1{letter-spacing:-.018em}
+  .nav-links a,.mobile-nav a,.cat-pill{letter-spacing:-.005em}
+}

@@ -30,6 +30,7 @@ function jsonResponse(body: unknown, status = 200) {
 
 const PHONE_RE = /^[6-9][0-9]{9}$/;
 const SEQUENTIAL = ["0123456789", "9876543210"];
+const DIRECT_DELIVERY_PIN = "411057";
 
 function isValidPhone(phone: string): boolean {
   if (!PHONE_RE.test(phone)) return false;
@@ -64,11 +65,12 @@ Deno.serve(async (req) => {
       name,
       phone,
       address,
+      pincode,            // normal direct delivery — currently must be 411057
       notes,
       items,              // [{ id: string, qty: number }]
-      payment_method,     // 'upi' | 'cod'
+      payment_method,     // 'upi' for current direct website flow; COD is disabled
       coupon_code,
-      delivery_slot,      // normal only — e.g. "ASAP (30–45 min)"
+      delivery_slot,      // normal only — e.g. "ASAP (35–50 min)"
       event_type,         // bulk only
       delivery_datetime,  // bulk only
     } = body ?? {};
@@ -89,11 +91,14 @@ Deno.serve(async (req) => {
     if (!address || !isValidAddress(String(address))) {
       return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
     }
+    if (type === "normal" && String(pincode ?? "").trim() !== DIRECT_DELIVERY_PIN) {
+      return jsonResponse({ success: false, message: `Direct website delivery is currently available only in PIN ${DIRECT_DELIVERY_PIN}.` }, 400);
+    }
     if (!Array.isArray(items) || items.length === 0) {
       return jsonResponse({ success: false, message: "Your cart is empty." }, 400);
     }
-    if (payment_method !== "upi" && payment_method !== "cod") {
-      return jsonResponse({ success: false, message: "Invalid payment method." }, 400);
+    if (payment_method !== "upi") {
+      return jsonResponse({ success: false, message: "Cash on Delivery is not currently available for direct website orders." }, 400);
     }
     const maxQty = type === "bulk" ? 500 : 50;
     for (const it of items) {
@@ -193,13 +198,14 @@ Deno.serve(async (req) => {
       discount,
       total,
       payment_method,
-      payment_status: "pending", // UPI is self-reported, COD is uncollected — both start pending
+      payment_status: "pending", // UPI remains pending until payment is verified
       idempotency_key,
     };
     if (type === "bulk") {
       orderRow.event_type = event_type ? String(event_type).trim() : null;
       orderRow.delivery_datetime = delivery_datetime;
     } else {
+      orderRow.pincode = DIRECT_DELIVERY_PIN;
       orderRow.delivery_slot = delivery_slot;
     }
 

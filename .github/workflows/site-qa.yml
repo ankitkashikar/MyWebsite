@@ -1,0 +1,29 @@
+name: TCB Automated QA
+
+on:
+  push:
+    branches:
+      - tcb-design-system-refresh
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    name: Static site QA
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run TCB QA checks
+        run: python scripts/qa_check.py

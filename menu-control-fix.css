@@ -1,0 +1,44 @@
+/* ============================================================
+   THE CHINESE BLISS — Menu Quantity Control Alignment Fix
+   Centers the numeric quantity display consistently in Chrome,
+   Safari and mobile browsers without changing cart logic.
+   ============================================================ */
+
+.menu-body .qty-stepper{
+  display:flex!important;
+  align-items:stretch!important;
+}
+
+.menu-body .qty-btn{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  line-height:1!important;
+}
+
+.menu-body .qty-display{
+  box-sizing:border-box!important;
+  display:block!important;
+  padding:0!important;
+  margin:0!important;
+  text-align:center!important;
+  line-height:36px!important;
+  vertical-align:middle!important;
+  font-family:var(--fb)!important;
+  font-variant-numeric:tabular-nums!important;
+  -moz-appearance:textfield;
+  appearance:textfield;
+}
+
+.menu-body .qty-display::-webkit-outer-spin-button,
+.menu-body .qty-display::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+
+@media(max-width:768px){
+  .menu-body .qty-display{
+    line-height:34px!important;
+  }
+}

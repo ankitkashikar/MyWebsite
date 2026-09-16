@@ -1,0 +1,75 @@
+/* ============================================================
+   THE CHINESE BLISS — Navbar Layout Alignment
+   Keeps desktop navigation mathematically centered and moves the
+   tighter tablet range to the hamburger navigation before links
+   and order actions can collide or overflow the viewport.
+   ============================================================ */
+
+@media (min-width:1050px){
+  .navbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;
+    align-items:center!important;
+    column-gap:24px!important;
+  }
+
+  .navbar .logo-wrap{
+    justify-self:start!important;
+  }
+
+  .navbar .nav-links{
+    justify-self:center!important;
+  }
+
+  .navbar .nav-actions{
+    justify-self:end!important;
+  }
+}
+
+/* Compact desktop / wide tablet. */
+@media (min-width:901px) and (max-width:1049px){
+  .navbar{
+    display:flex!important;
+    padding-left:28px!important;
+    padding-right:28px!important;
+    gap:16px!important;
+  }
+
+  .nav-links{
+    gap:20px!important;
+  }
+
+  .btn-nav-bulk,
+  .btn-nav-order{
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+}
+
+/* Tablet: switch the primary links to the hamburger menu rather than
+   compressing the center navigation until it overflows. The navbar
+   remains 72px high here, matching sticky toolbar offsets above 768px. */
+@media (min-width:769px) and (max-width:900px){
+  .navbar{
+    display:flex!important;
+    padding-left:24px!important;
+    padding-right:24px!important;
+    gap:16px!important;
+  }
+
+  .navbar .nav-links{
+    display:none!important;
+  }
+
+  .navbar .hamburger{
+    display:flex!important;
+  }
+
+  .navbar .nav-actions{
+    margin-left:auto!important;
+  }
+
+  .mobile-nav{
+    top:72px!important;
+  }
+}
