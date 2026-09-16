@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
      Keep the checkout line compact while retaining the ETA/delay detail.
      Hover shows the note on desktop; focus/tap keeps it keyboard/mobile friendly. */
   const serviceNote = document.querySelector('.checkout-service-note');
-  if (serviceNote) {
+  if (serviceNote && !serviceNote.querySelector('.checkout-info-wrap')) {
     const tooltipId = 'checkout-delivery-info';
     serviceNote.textContent = '';
 

@@ -363,6 +363,7 @@
     .field-counter.under{color:var(--red)}
     .field-counter.ok{color:#2e7d32}
     .checkout-service-note{margin:7px 0 0;color:#777;font-size:.72rem;line-height:1.55}
+    .checkout-service-note{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.checkout-info-wrap{position:relative;display:inline-flex;align-items:center;flex:0 0 auto}.checkout-info-button{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(119,119,119,.75);border-radius:50%;background:transparent;color:#777;font:700 11px/1 var(--fb);cursor:help;padding:0;transition:border-color .15s ease,color .15s ease,background .15s ease}.checkout-info-button:hover,.checkout-info-button:focus-visible{border-color:var(--red);color:var(--red);background:rgba(192,57,43,.06);outline:none}.checkout-info-tooltip{position:absolute;left:50%;bottom:calc(100% + 9px);width:min(290px,calc(100vw - 48px));padding:10px 12px;border-radius:10px;background:#222;color:#f4f4f4;box-shadow:0 8px 24px rgba(0,0,0,.24);font:500 .72rem/1.5 var(--fb);letter-spacing:0;text-align:left;opacity:0;visibility:hidden;transform:translate(-50%,4px);pointer-events:none;z-index:20;transition:opacity .15s ease,transform .15s ease,visibility .15s ease}.checkout-info-tooltip::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#222}.checkout-info-wrap:hover .checkout-info-tooltip,.checkout-info-wrap:focus-within .checkout-info-tooltip{opacity:1;visibility:visible;transform:translate(-50%,0)}
 
     .summary-box{
       background:#f9f7f6;border-radius:var(--rm);padding:14px 16px;margin-top:18px;
@@ -2460,7 +2461,7 @@
           <p class="field-error" id="custAddressError">Address must be between 25 and 100 characters.</p>
           <span class="field-counter" id="custAddressCounter">0 / 100</span>
         </div>
-        <p class="checkout-service-note">Direct delivery is currently for serviceable addresses in PIN 411057. Estimated delivery is 35–50 minutes; traffic, rain, peak demand and delivery-partner availability can increase the ETA.</p>
+        <p class="checkout-service-note"><span>Direct delivery is currently for serviceable addresses in PIN 411057.</span><span class="checkout-info-wrap"><button type="button" class="checkout-info-button" aria-label="Delivery estimate information" aria-describedby="checkout-delivery-info">i</button><span class="checkout-info-tooltip" id="checkout-delivery-info" role="tooltip">Estimated delivery is 35–50 minutes. Traffic, rain, peak demand and delivery-partner availability can increase the ETA.</span></span></p>
       </div>
       <div class="dm-field">
         <label>Special Instructions</label>
