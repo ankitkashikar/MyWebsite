@@ -7,10 +7,9 @@ on:
 permissions:
   contents: write
 
-# Temporary workflow used only to make deterministic edits to large source files.
 jobs:
   update:
-    if: github.event.head_commit.message != 'Add direct delivery PIN validation'
+    if: github.event.head_commit.message != 'Add checkout PIN validation'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,197 +17,39 @@ jobs:
           ref: tcb-design-system-refresh
           fetch-depth: 0
 
-      - name: Add dedicated PIN field and server validation
+      - name: Add dedicated PIN field and validation
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import base64
+
+          pairs = [
+            ('ICAgICAgPGRpdiBjbGFzcz0iZG0tZmllbGQiPgogICAgICAgIDxsYWJlbD5QaG9uZSBOdW1iZXIgKjwvbGFiZWw+CiAgICAgICAgPGlucHV0IHR5cGU9InRlbCIgaWQ9ImN1c3RQaG9uZSIgcGxhY2Vob2xkZXI9IjEwLWRpZ2l0IG1vYmlsZSBudW1iZXIiIG1heGxlbmd0aD0iMTAiIGlucHV0bW9kZT0ibnVtZXJpYyIgLz4KICAgICAgICA8cCBjbGFzcz0iZmllbGQtZXJyb3IiIGlkPSJjdXN0UGhvbmVFcnJvciI+RW50ZXIgYSB2YWxpZCAxMC1kaWdpdCBtb2JpbGUgbnVtYmVyIHN0YXJ0aW5nIHdpdGggNi05LjwvcD4gICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iZG0tZmllbGQiPgogICAgICAgIDxsYWJlbD5EZWxpdmVyeSBTbG90ICo8L2xhYmVsPg==', 'ICAgICAgPGRpdiBjbGFzcz0iZG0tZmllbGQiPgogICAgICAgIDxsYWJlbD5QaG9uZSBOdW1iZXIgKjwvbGFiZWw+CiAgICAgICAgPGlucHV0IHR5cGU9InRlbCIgaWQ9ImN1c3RQaG9uZSIgcGxhY2Vob2xkZXI9IjEwLWRpZ2l0IG1vYmlsZSBudW1iZXIiIG1heGxlbmd0aD0iMTAiIGlucHV0bW9kZT0ibnVtZXJpYyIgLz4KICAgICAgICA8cCBjbGFzcz0iZmllbGQtZXJyb3IiIGlkPSJjdXN0UGhvbmVFcnJvciI+RW50ZXIgYSB2YWxpZCAxMC1kaWdpdCBtb2JpbGUgbnVtYmVyIHN0YXJ0aW5nIHdpdGggNi05LjwvcD4gICAgICA8L2Rpdj4KICAgICAgPGRpdiBjbGFzcz0iZG0tZmllbGQiPgogICAgICAgIDxsYWJlbD5EZWxpdmVyeSBQSU4gQ29kZSAqPC9sYWJlbD4KICAgICAgICA8aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImN1c3RQaW5jb2RlIiBwbGFjZWhvbGRlcj0iNDExMDU3IiBtYXhsZW5ndGg9IjYiIGlucHV0bW9kZT0ibnVtZXJpYyIgYXV0b2NvbXBsZXRlPSJwb3N0YWwtY29kZSIgLz4KICAgICAgICA8cCBjbGFzcz0iZmllbGQtZXJyb3IiIGlkPSJjdXN0UGluY29kZUVycm9yIj5EaXJlY3Qgd2Vic2l0ZSBkZWxpdmVyeSBpcyBjdXJyZW50bHkgYXZhaWxhYmxlIG9ubHkgaW4gUElOIDQxMTA1Ny48L3A+CiAgICAgIDwvZGl2PgogICAgICA8ZGl2IGNsYXNzPSJkbS1maWVsZCI+CiAgICAgICAgPGxhYmVsPkRlbGl2ZXJ5IFNsb3QgKjwvbGFiZWw+'),
+            ('ICBjb25zdCBwaG9uZUlucHV0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RQaG9uZScpOwogIGNvbnN0IHBob25lRXJyb3IgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdFBob25lRXJyb3InKTsKICBjb25zdCBhZGRyZXNzSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdEFkZHJlc3MnKTs=', 'ICBjb25zdCBwaG9uZUlucHV0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RQaG9uZScpOwogIGNvbnN0IHBob25lRXJyb3IgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdFBob25lRXJyb3InKTsKICBjb25zdCBwaW5jb2RlSW5wdXQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdFBpbmNvZGUnKTsKICBjb25zdCBwaW5jb2RlRXJyb3IgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdFBpbmNvZGVFcnJvcicpOwogIGNvbnN0IGFkZHJlc3NJbnB1dCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0QWRkcmVzcycpOw=='),
+            ('ICBmdW5jdGlvbiBpc1ZhbGlkQWRkcmVzcyh2YWx1ZSkgewogICAgY29uc3QgbGVuID0gdmFsdWUudHJpbSgpLmxlbmd0aDsKICAgIHJldHVybiBsZW4gPj0gMjUgJiYgbGVuIDw9IDEwMDsKICB9CgogIHBob25lSW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCAoKSA9PiB7', 'ICBmdW5jdGlvbiBpc1ZhbGlkQWRkcmVzcyh2YWx1ZSkgewogICAgY29uc3QgbGVuID0gdmFsdWUudHJpbSgpLmxlbmd0aDsKICAgIHJldHVybiBsZW4gPj0gMjUgJiYgbGVuIDw9IDEwMDsKICB9CgogIGZ1bmN0aW9uIGlzVmFsaWRQaW5jb2RlKHZhbHVlKSB7CiAgICByZXR1cm4gdmFsdWUudHJpbSgpID09PSAnNDExMDU3JzsKICB9CgogIHBob25lSW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCAoKSA9PiB7'),
+            ('ICBwaG9uZUlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ2JsdXInLCAoKSA9PiB7CiAgICBwaG9uZUVycm9yLmNsYXNzTGlzdC50b2dnbGUoJ3Zpc2libGUnLCBwaG9uZUlucHV0LnZhbHVlLmxlbmd0aCA+IDAgJiYgIWlzVmFsaWRQaG9uZShwaG9uZUlucHV0LnZhbHVlKSk7CiAgfSk7CgogIGFkZHJlc3NJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdpbnB1dCcsICgpID0+IHs=', 'ICBwaG9uZUlucHV0LmFkZEV2ZW50TGlzdGVuZXIoJ2JsdXInLCAoKSA9PiB7CiAgICBwaG9uZUVycm9yLmNsYXNzTGlzdC50b2dnbGUoJ3Zpc2libGUnLCBwaG9uZUlucHV0LnZhbHVlLmxlbmd0aCA+IDAgJiYgIWlzVmFsaWRQaG9uZShwaG9uZUlucHV0LnZhbHVlKSk7CiAgfSk7CgogIHBpbmNvZGVJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdpbnB1dCcsICgpID0+IHsKICAgIHBpbmNvZGVJbnB1dC52YWx1ZSA9IHBpbmNvZGVJbnB1dC52YWx1ZS5yZXBsYWNlKC9cRC9nLCAnJykuc2xpY2UoMCwgNik7CiAgICBjb25zdCB2YWxpZCA9IGlzVmFsaWRQaW5jb2RlKHBpbmNvZGVJbnB1dC52YWx1ZSk7CiAgICBwaW5jb2RlSW5wdXQuY2xhc3NMaXN0LnRvZ2dsZSgnaW52YWxpZCcsIHBpbmNvZGVJbnB1dC52YWx1ZS5sZW5ndGggPT09IDYgJiYgIXZhbGlkKTsKICAgIHBpbmNvZGVJbnB1dC5jbGFzc0xpc3QudG9nZ2xlKCd2YWxpZCcsIHZhbGlkKTsKICAgIHBpbmNvZGVFcnJvci5jbGFzc0xpc3QudG9nZ2xlKCd2aXNpYmxlJywgcGluY29kZUlucHV0LnZhbHVlLmxlbmd0aCA9PT0gNiAmJiAhdmFsaWQpOwogIH0pOwogIHBpbmNvZGVJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdibHVyJywgKCkgPT4gewogICAgY29uc3QgdmFsaWQgPSBpc1ZhbGlkUGluY29kZShwaW5jb2RlSW5wdXQudmFsdWUpOwogICAgcGluY29kZUlucHV0LmNsYXNzTGlzdC50b2dnbGUoJ2ludmFsaWQnLCAhdmFsaWQpOwogICAgcGluY29kZUlucHV0LmNsYXNzTGlzdC50b2dnbGUoJ3ZhbGlkJywgdmFsaWQpOwogICAgcGluY29kZUVycm9yLmNsYXNzTGlzdC50b2dnbGUoJ3Zpc2libGUnLCAhdmFsaWQpOwogIH0pOwoKICBhZGRyZXNzSW5wdXQuYWRkRXZlbnRMaXN0ZW5lcignaW5wdXQnLCAoKSA9PiB7'),
+            ('ICAgIGNvbnN0IG5hbWUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdE5hbWUnKS52YWx1ZS50cmltKCk7CiAgICBjb25zdCBwaG9uZSA9IHBob25lSW5wdXQudmFsdWUudHJpbSgpOwogICAgY29uc3QgYWRkcmVzcyA9IGFkZHJlc3NJbnB1dC52YWx1ZS50cmltKCk7CiAgICBsZXQgZmlyc3RJbnZhbGlkID0gbnVsbDs=', 'ICAgIGNvbnN0IG5hbWUgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY3VzdE5hbWUnKS52YWx1ZS50cmltKCk7CiAgICBjb25zdCBwaG9uZSA9IHBob25lSW5wdXQudmFsdWUudHJpbSgpOwogICAgY29uc3QgcGluY29kZSA9IHBpbmNvZGVJbnB1dC52YWx1ZS50cmltKCk7CiAgICBjb25zdCBhZGRyZXNzID0gYWRkcmVzc0lucHV0LnZhbHVlLnRyaW0oKTsKICAgIGxldCBmaXJzdEludmFsaWQgPSBudWxsOw=='),
+            ('ICAgIGlmICghaXNWYWxpZFBob25lKHBob25lKSkgewogICAgICBwaG9uZUlucHV0LmNsYXNzTGlzdC5hZGQoJ2ludmFsaWQnKTsKICAgICAgcGhvbmVFcnJvci5jbGFzc0xpc3QuYWRkKCd2aXNpYmxlJyk7CiAgICAgIGZpcnN0SW52YWxpZCA9IGZpcnN0SW52YWxpZCB8fCBwaG9uZUlucHV0OwogICAgfQogICAgaWYgKCFpc1ZhbGlkQWRkcmVzcyhhZGRyZXNzKSkgew==', 'ICAgIGlmICghaXNWYWxpZFBob25lKHBob25lKSkgewogICAgICBwaG9uZUlucHV0LmNsYXNzTGlzdC5hZGQoJ2ludmFsaWQnKTsKICAgICAgcGhvbmVFcnJvci5jbGFzc0xpc3QuYWRkKCd2aXNpYmxlJyk7CiAgICAgIGZpcnN0SW52YWxpZCA9IGZpcnN0SW52YWxpZCB8fCBwaG9uZUlucHV0OwogICAgfQogICAgaWYgKCFpc1ZhbGlkUGluY29kZShwaW5jb2RlKSkgewogICAgICBwaW5jb2RlSW5wdXQuY2xhc3NMaXN0LmFkZCgnaW52YWxpZCcpOwogICAgICBwaW5jb2RlRXJyb3IuY2xhc3NMaXN0LmFkZCgndmlzaWJsZScpOwogICAgICBmaXJzdEludmFsaWQgPSBmaXJzdEludmFsaWQgfHwgcGluY29kZUlucHV0OwogICAgfQogICAgaWYgKCFpc1ZhbGlkQWRkcmVzcyhhZGRyZXNzKSkgew=='),
+            ('ICAgICAgcGhvbmU6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0UGhvbmUnKS52YWx1ZS50cmltKCksCiAgICAgIGFkZHJlc3M6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0QWRkcmVzcycpLnZhbHVlLnRyaW0oKSw=', 'ICAgICAgcGhvbmU6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0UGhvbmUnKS52YWx1ZS50cmltKCksCiAgICAgIHBpbmNvZGU6IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjdXN0UGluY29kZScpLnZhbHVlLnRyaW0oKSwKICAgICAgYWRkcmVzczogZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2N1c3RBZGRyZXNzJykudmFsdWUudHJpbSgpLA=='),
+          ]
+
+          def dec(value):
+              return base64.b64decode(value).decode('utf-8')
 
           path = Path('menu.html')
           text = path.read_text(encoding='utf-8')
-
-          replacements = [
-            (
-'''      <div class="dm-field">
-        <label>Phone Number *</label>
-        <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
-        <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>      </div>
-      <div class="dm-field">
-        <label>Delivery Slot *</label>''',
-'''      <div class="dm-field">
-        <label>Phone Number *</label>
-        <input type="tel" id="custPhone" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" />
-        <p class="field-error" id="custPhoneError">Enter a valid 10-digit mobile number starting with 6-9.</p>      </div>
-      <div class="dm-field">
-        <label>Delivery PIN Code *</label>
-        <input type="text" id="custPincode" placeholder="411057" maxlength="6" inputmode="numeric" autocomplete="postal-code" />
-        <p class="field-error" id="custPincodeError">Direct website delivery is currently available only in PIN 411057.</p>
-      </div>
-      <div class="dm-field">
-        <label>Delivery Slot *</label>'''
-            ),
-            (
-'''  const phoneInput = document.getElementById('custPhone');
-  const phoneError = document.getElementById('custPhoneError');
-  const addressInput = document.getElementById('custAddress');''',
-'''  const phoneInput = document.getElementById('custPhone');
-  const phoneError = document.getElementById('custPhoneError');
-  const pincodeInput = document.getElementById('custPincode');
-  const pincodeError = document.getElementById('custPincodeError');
-  const addressInput = document.getElementById('custAddress');'''
-            ),
-            (
-'''  function isValidAddress(value) {
-    const len = value.trim().length;
-    return len >= 25 && len <= 100;
-  }
-
-  phoneInput.addEventListener('input', () => {''',
-'''  function isValidAddress(value) {
-    const len = value.trim().length;
-    return len >= 25 && len <= 100;
-  }
-
-  function isValidPincode(value) {
-    return value.trim() === '411057';
-  }
-
-  phoneInput.addEventListener('input', () => {'''
-            ),
-            (
-'''  phoneInput.addEventListener('blur', () => {
-    phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
-  });
-
-  addressInput.addEventListener('input', () => {''',
-'''  phoneInput.addEventListener('blur', () => {
-    phoneError.classList.toggle('visible', phoneInput.value.length > 0 && !isValidPhone(phoneInput.value));
-  });
-
-  pincodeInput.addEventListener('input', () => {
-    pincodeInput.value = pincodeInput.value.replace(/\\D/g, '').slice(0, 6);
-    const valid = isValidPincode(pincodeInput.value);
-    pincodeInput.classList.toggle('invalid', pincodeInput.value.length === 6 && !valid);
-    pincodeInput.classList.toggle('valid', valid);
-    pincodeError.classList.toggle('visible', pincodeInput.value.length === 6 && !valid);
-  });
-  pincodeInput.addEventListener('blur', () => {
-    const valid = isValidPincode(pincodeInput.value);
-    pincodeInput.classList.toggle('invalid', !valid);
-    pincodeInput.classList.toggle('valid', valid);
-    pincodeError.classList.toggle('visible', !valid);
-  });
-
-  addressInput.addEventListener('input', () => {'''
-            ),
-            (
-'''    const name = document.getElementById('custName').value.trim();
-    const phone = phoneInput.value.trim();
-    const address = addressInput.value.trim();
-    let firstInvalid = null;''',
-'''    const name = document.getElementById('custName').value.trim();
-    const phone = phoneInput.value.trim();
-    const pincode = pincodeInput.value.trim();
-    const address = addressInput.value.trim();
-    let firstInvalid = null;'''
-            ),
-            (
-'''    if (!isValidPhone(phone)) {
-      phoneInput.classList.add('invalid');
-      phoneError.classList.add('visible');
-      firstInvalid = firstInvalid || phoneInput;
-    }
-    if (!isValidAddress(address)) {''',
-'''    if (!isValidPhone(phone)) {
-      phoneInput.classList.add('invalid');
-      phoneError.classList.add('visible');
-      firstInvalid = firstInvalid || phoneInput;
-    }
-    if (!isValidPincode(pincode)) {
-      pincodeInput.classList.add('invalid');
-      pincodeError.classList.add('visible');
-      firstInvalid = firstInvalid || pincodeInput;
-    }
-    if (!isValidAddress(address)) {'''
-            ),
-            (
-'''      phone: document.getElementById('custPhone').value.trim(),
-      address: document.getElementById('custAddress').value.trim(),''',
-'''      phone: document.getElementById('custPhone').value.trim(),
-      pincode: document.getElementById('custPincode').value.trim(),
-      address: document.getElementById('custAddress').value.trim(),'''
-            ),
-          ]
-
-          for old, new in replacements:
+          for index, (old64, new64) in enumerate(pairs):
+              old, new = dec(old64), dec(new64)
               if old not in text:
-                  raise SystemExit('Expected menu.html block not found:\n' + old[:180])
+                  raise SystemExit(f'Expected menu block {index} not found')
               text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8')
-
-          path = Path('supabase/functions/place-order/index.ts')
-          text = path.read_text(encoding='utf-8')
-          replacements = [
-            (
-'''      address,
-      notes,''',
-'''      address,
-      pincode,            // normal direct delivery — currently must be 411057
-      notes,'''
-            ),
-            (
-'''    if (!address || !isValidAddress(String(address))) {
-      return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
-    }
-    if (!Array.isArray(items) || items.length === 0) {''',
-'''    if (!address || !isValidAddress(String(address))) {
-      return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
-    }
-    if (type === "normal" && String(pincode ?? "").trim() !== "411057") {
-      return jsonResponse({ success: false, message: "Direct website delivery is currently available only in PIN 411057." }, 400);
-    }
-    if (!Array.isArray(items) || items.length === 0) {'''
-            ),
-            (
-'''    if (type === "bulk") {
-      orderRow.event_type = event_type ? String(event_type).trim() : null;
-      orderRow.delivery_datetime = delivery_datetime;
-    } else {
-      orderRow.delivery_slot = delivery_slot;
-    }''',
-'''    if (type === "bulk") {
-      orderRow.event_type = event_type ? String(event_type).trim() : null;
-      orderRow.delivery_datetime = delivery_datetime;
-    } else {
-      orderRow.pincode = "411057";
-      orderRow.delivery_slot = delivery_slot;
-    }'''
-            ),
-          ]
-          for old, new in replacements:
-              if old not in text:
-                  raise SystemExit('Expected place-order block not found:\n' + old[:180])
-              text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8')
-          PY
-
-      - name: Update migration for PIN storage
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          path = Path('supabase/migrations/20260916_order_operations.sql')
-          text = path.read_text(encoding='utf-8')
-          old = "alter table if exists public.normal_orders add column if not exists created_at timestamptz not null default now();\n"
-          new = old + "alter table if exists public.normal_orders add column if not exists pincode text;\n"
-          if old not in text:
-              raise SystemExit('Migration anchor not found')
-          text = text.replace(old, new, 1)
           path.write_text(text, encoding='utf-8')
           PY
 
       - name: Run static QA
         run: python3 scripts/qa_check.py
 
-      - name: Commit updates
+      - name: Commit checkout update
         run: |
           if git diff --quiet; then
             echo "No changes needed"
@@ -216,6 +57,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add menu.html supabase/functions/place-order/index.ts supabase/migrations/20260916_order_operations.sql
-          git commit -m "Add direct delivery PIN validation"
+          git add menu.html
+          git commit -m "Add checkout PIN validation"
           git push origin HEAD:tcb-design-system-refresh
