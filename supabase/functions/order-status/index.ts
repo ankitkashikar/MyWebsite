@@ -5,7 +5,7 @@
 // Authentication is possession-based: exact order number + exact customer
 // mobile number. The function returns only fields required for customer
 // tracking and never exposes the delivery address, customer name, internal
-// database ids, admin audit data, or restaurant-only notes.
+// database ids, admin audit data, or restaurant-only notes/reasons.
 //
 // Deploy with JWT verification disabled because customers are not required
 // to create Supabase accounts. The function performs its own strict lookup.
@@ -35,6 +35,17 @@ function cleanOrderNumber(value: unknown): string {
 
 function cleanPhone(value: unknown): string {
   return String(value ?? "").replace(/\D/g, "").slice(-10);
+}
+
+function customerSafeTrackingUrl(value: unknown): string | null {
+  const raw = String(value ?? "").trim();
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
 }
 
 Deno.serve(async (req) => {
@@ -89,9 +100,7 @@ Deno.serve(async (req) => {
         "dispatched_at",
         "delivered_at",
         "rejected_at",
-        "rejection_reason",
-        "cancelled_at",
-        "cancellation_reason"
+        "cancelled_at"
       ].join(","))
       .eq("order_number", orderNumber)
       .eq("phone", phone)
@@ -130,7 +139,7 @@ Deno.serve(async (req) => {
         estimated_delivery_from: order.estimated_delivery_from,
         estimated_delivery_to: order.estimated_delivery_to,
         delivery_provider: order.delivery_provider,
-        tracking_url: order.tracking_url,
+        tracking_url: customerSafeTrackingUrl(order.tracking_url),
         accepted_at: order.accepted_at,
         preparing_at: order.preparing_at,
         ready_at: order.ready_at,
@@ -138,9 +147,7 @@ Deno.serve(async (req) => {
         dispatched_at: order.dispatched_at,
         delivered_at: order.delivered_at,
         rejected_at: order.rejected_at,
-        rejection_reason: order.rejection_reason,
         cancelled_at: order.cancelled_at,
-        cancellation_reason: order.cancellation_reason,
         items: items ?? [],
       },
       server_time: new Date().toISOString(),
