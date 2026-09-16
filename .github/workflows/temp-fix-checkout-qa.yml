@@ -1,4 +1,4 @@
-name: Temporary Checkout QA Repair
+name: Temporary Checkout QA Repair Runner
 
 on:
   push:
