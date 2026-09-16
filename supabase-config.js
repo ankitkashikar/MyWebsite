@@ -4,18 +4,28 @@
    SUPABASE_ANON_KEY below is the PUBLIC "anon" key. It is safe
    to have this visible in the browser / GitHub repo — that's
    how Supabase's anon key is designed to be used. It cannot
-   read or write anything on its own because Row Level Security
-   is enabled with no policies (see supabase_migration.sql).
+   read or write protected restaurant data on its own because
+   access is controlled server-side / with Row Level Security.
 
    The SERVICE ROLE key is never in this file, never in this
-   repo, and never sent to the browser — it lives only inside
-   the place-order Edge Function on Supabase's servers.
+   repo, and never sent to the browser. It lives only inside
+   Supabase Edge Functions.
    ============================================================ */
 
-const SUPABASE_URL = "https://ncbyfovvetvmkrlzapku.supabase.co"; // e.g. https://abcdefgh.supabase.co
+const SUPABASE_URL = "https://ncbyfovvetvmkrlzapku.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jYnlmb3Z2ZXR2bWtybHphcGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4Nzk4NTksImV4cCI6MjEwMjQ1NTg1OX0.fBmK-SzdkJDRPmCpFNWRVZn113W27UF9OscDCe6T0bM";
 
 const PLACE_ORDER_URL = `${SUPABASE_URL}/functions/v1/place-order`;
+const ADMIN_ORDERS_URL = `${SUPABASE_URL}/functions/v1/admin-orders`;
+
+// Public browser configuration used by authenticated internal pages.
+// Only the anon key is exposed here; privileged keys remain server-side.
+window.TCB_SUPABASE_CONFIG = Object.freeze({
+  url: SUPABASE_URL,
+  anonKey: SUPABASE_ANON_KEY,
+  placeOrderUrl: PLACE_ORDER_URL,
+  adminOrdersUrl: ADMIN_ORDERS_URL,
+});
 
 /**
  * Sends an order to the place-order Edge Function.
