@@ -48,3 +48,8 @@ jobs:
         env:
           QA_BASE_URL: http://127.0.0.1:4173/
         run: node scripts/responsive_qa.mjs
+
+      - name: Run order console QA
+        env:
+          QA_BASE_URL: http://127.0.0.1:4173/
+        run: node scripts/order_console_qa.mjs
