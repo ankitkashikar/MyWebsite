@@ -1,34 +1,27 @@
 // =====================================================================
-// place-order — Supabase Edge Function
+// place-order — The Chinese Bliss website order creation API
 //
-// This is the ONLY thing allowed to write to normal_orders / bulk_orders.
-// The browser sends product IDs + quantities + customer details.
-// This function looks up REAL prices from the `products` table and
-// computes the total itself — it never trusts a price or total sent
-// by the client. That's what closes the DevTools price-tampering gap.
-//
-// Deploy with: supabase functions deploy place-order
-// (SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided automatically
-// by Supabase inside every Edge Function — you do not set them yourself,
-// and they are never exposed to the browser.)
+// SECURITY MODEL
+// - Browser never writes database tables directly.
+// - Server looks up active products/prices and calculates totals itself.
+// - Service-role credentials stay only inside the Edge Function runtime.
+// - Input size, shape, rate limits, origin and idempotency are enforced here.
 // =====================================================================
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // tighten to your real domain once live, e.g. "https://thechinesebliss.com"
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
-
-function jsonResponse(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
-  });
-}
+import {
+  cleanText,
+  jsonResponse,
+  preflightResponse,
+  rateLimit,
+  rateLimitResponse,
+  readJsonBody,
+  rejectDisallowedOrigin,
+} from "../_shared/security.ts";
 
 const PHONE_RE = /^[6-9][0-9]{9}$/;
+const IDEMPOTENCY_RE = /^[A-Za-z0-9_-]{8,100}$/;
+const PRODUCT_ID_RE = /^[A-Za-z0-9_-]{1,120}$/;
 const SEQUENTIAL = ["0123456789", "9876543210"];
 const DIRECT_DELIVERY_PIN = "411057";
 
@@ -45,86 +38,120 @@ function isValidAddress(address: string): boolean {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
+  if (req.method === "OPTIONS") return preflightResponse(req);
+
+  const originFailure = rejectDisallowedOrigin(req);
+  if (originFailure) return originFailure;
+
   if (req.method !== "POST") {
-    return jsonResponse({ success: false, message: "Method not allowed" }, 405);
+    return jsonResponse(req, { success: false, message: "Method not allowed." }, 405);
   }
 
-  const supabase = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-  );
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceRoleKey) {
+    return jsonResponse(req, { success: false, message: "Order service is temporarily unavailable." }, 503);
+  }
+
+  const admin = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 
   try {
-    const body = await req.json();
-    const {
-      type,               // 'normal' | 'bulk'
-      idempotency_key,    // uuid, generated client-side once per checkout attempt
-      name,
-      phone,
-      address,
-      pincode,            // normal direct delivery — currently must be 411057
-      notes,
-      items,              // [{ id: string, qty: number }]
-      payment_method,     // 'upi' for current direct website flow; COD is disabled
-      coupon_code,
-      delivery_slot,      // normal only — e.g. "ASAP (35–50 min)"
-      event_type,         // bulk only
-      delivery_datetime,  // bulk only
-    } = body ?? {};
+    // Coarse abuse control before parsing any customer-provided data.
+    const coarseLimit = await rateLimit(admin, req, "place-order-ip", 24, 600);
+    if (!coarseLimit.allowed) return rateLimitResponse(req, coarseLimit.resetAt);
 
-    // ---- basic shape validation --------------------------------------
+    const parsed = await readJsonBody(req, 32_768);
+    if (!parsed.ok) return parsed.response;
+    const body = parsed.value ?? {};
+
+    const type = body.type;
+    const idempotencyKey = cleanText(body.idempotency_key, 100);
+    const name = cleanText(body.name, 80);
+    const phone = String(body.phone ?? "").replace(/\D/g, "").slice(-10);
+    const address = cleanText(body.address, 100);
+    const pincode = cleanText(body.pincode, 12);
+    const notes = cleanText(body.notes, 500);
+    const couponCode = cleanText(body.coupon_code, 50);
+    const deliverySlot = cleanText(body.delivery_slot, 120);
+    const eventType = cleanText(body.event_type, 120);
+    const deliveryDatetime = cleanText(body.delivery_datetime, 80);
+    const paymentMethod = cleanText(body.payment_method, 30);
+    const rawItems = body.items;
+
     if (type !== "normal" && type !== "bulk") {
-      return jsonResponse({ success: false, message: "Invalid order type." }, 400);
+      return jsonResponse(req, { success: false, message: "Invalid order type." }, 400);
     }
-    if (!idempotency_key || typeof idempotency_key !== "string") {
-      return jsonResponse({ success: false, message: "Missing idempotency key." }, 400);
+    if (!IDEMPOTENCY_RE.test(idempotencyKey)) {
+      return jsonResponse(req, { success: false, message: "Invalid checkout request. Please refresh and try again." }, 400);
     }
-    if (!name || typeof name !== "string" || !name.trim()) {
-      return jsonResponse({ success: false, message: "Name is required." }, 400);
+    if (name.length < 2) {
+      return jsonResponse(req, { success: false, message: "Name is required." }, 400);
     }
-    if (!phone || !isValidPhone(String(phone).trim())) {
-      return jsonResponse({ success: false, message: "Enter a valid 10-digit mobile number." }, 400);
+    if (!isValidPhone(phone)) {
+      return jsonResponse(req, { success: false, message: "Enter a valid 10-digit mobile number." }, 400);
     }
-    if (!address || !isValidAddress(String(address))) {
-      return jsonResponse({ success: false, message: "Address must be between 25 and 100 characters." }, 400);
+    if (!isValidAddress(address)) {
+      return jsonResponse(req, { success: false, message: "Address must be between 25 and 100 characters." }, 400);
     }
-    if (type === "normal" && String(pincode ?? "").trim() !== DIRECT_DELIVERY_PIN) {
-      return jsonResponse({ success: false, message: `Direct website delivery is currently available only in PIN ${DIRECT_DELIVERY_PIN}.` }, 400);
+    if (type === "normal" && pincode !== DIRECT_DELIVERY_PIN) {
+      return jsonResponse(req, { success: false, message: `Direct website delivery is currently available only in PIN ${DIRECT_DELIVERY_PIN}.` }, 400);
     }
-    if (!Array.isArray(items) || items.length === 0) {
-      return jsonResponse({ success: false, message: "Your cart is empty." }, 400);
+    if (!Array.isArray(rawItems) || rawItems.length === 0 || rawItems.length > (type === "bulk" ? 200 : 60)) {
+      return jsonResponse(req, { success: false, message: "Invalid cart." }, 400);
     }
-    if (payment_method !== "upi") {
-      return jsonResponse({ success: false, message: "Cash on Delivery is not currently available for direct website orders." }, 400);
+    if (paymentMethod !== "upi") {
+      return jsonResponse(req, { success: false, message: "Cash on Delivery is not currently available for direct website orders." }, 400);
     }
-    const maxQty = type === "bulk" ? 500 : 50;
-    for (const it of items) {
-      if (!it || typeof it.id !== "string" || !Number.isInteger(it.qty) || it.qty <= 0 || it.qty > maxQty) {
-        return jsonResponse({ success: false, message: "Invalid item in cart." }, 400);
+    if (type === "normal" && !deliverySlot) {
+      return jsonResponse(req, { success: false, message: "Please select a delivery slot." }, 400);
+    }
+    if (type === "bulk") {
+      const deliveryTime = Date.parse(deliveryDatetime);
+      if (!deliveryDatetime || !Number.isFinite(deliveryTime)) {
+        return jsonResponse(req, { success: false, message: "Delivery date & time is required." }, 400);
       }
     }
-    if (type === "bulk" && !delivery_datetime) {
-      return jsonResponse({ success: false, message: "Delivery date & time is required." }, 400);
-    }
-    if (type === "normal" && (!delivery_slot || typeof delivery_slot !== "string")) {
-      return jsonResponse({ success: false, message: "Please select a delivery slot." }, 400);
+
+    // Additional subject-specific rate limit prevents order spam against one
+    // phone number even when the browser is manipulated with DevTools.
+    const phoneLimit = await rateLimit(admin, req, "place-order-phone", 8, 900, phone);
+    if (!phoneLimit.allowed) return rateLimitResponse(req, phoneLimit.resetAt);
+
+    const maxQty = type === "bulk" ? 500 : 50;
+    const quantities = new Map<string, number>();
+    for (const item of rawItems) {
+      const id = cleanText(item?.id, 120);
+      const qty = Number(item?.qty);
+      if (!PRODUCT_ID_RE.test(id) || !Number.isInteger(qty) || qty <= 0 || qty > maxQty) {
+        return jsonResponse(req, { success: false, message: "Invalid item in cart." }, 400);
+      }
+      const combined = (quantities.get(id) ?? 0) + qty;
+      if (combined > maxQty) {
+        return jsonResponse(req, { success: false, message: "Item quantity is too high." }, 400);
+      }
+      quantities.set(id, combined);
     }
 
+    const items = Array.from(quantities, ([id, qty]) => ({ id, qty }));
     const ordersTable = type === "normal" ? "normal_orders" : "bulk_orders";
     const itemsTable = type === "normal" ? "normal_order_items" : "bulk_order_items";
 
-    // ---- idempotency: if this key was already used, return that order
-    const { data: existing } = await supabase
+    // Database also has a unique partial index on idempotency_key. This early
+    // lookup gives retries a fast, customer-friendly response.
+    const { data: existing, error: existingError } = await admin
       .from(ordersTable)
       .select("order_number, total")
-      .eq("idempotency_key", idempotency_key)
+      .eq("idempotency_key", idempotencyKey)
       .maybeSingle();
 
+    if (existingError) {
+      console.error("idempotency lookup failed", existingError);
+      return jsonResponse(req, { success: false, message: "Could not place your order. Please try again." }, 500);
+    }
     if (existing) {
-      return jsonResponse({
+      return jsonResponse(req, {
         success: true,
         order_number: existing.order_number,
         total: existing.total,
@@ -132,109 +159,135 @@ Deno.serve(async (req) => {
       });
     }
 
-    // ---- look up REAL prices from the DB — never trust the client ----
-    const productIds = items.map((i: { id: string }) => i.id);
-    const { data: products, error: productErr } = await supabase
+    // Never trust browser prices/totals. Only database products are authoritative.
+    const productIds = items.map((item) => item.id);
+    const { data: products, error: productError } = await admin
       .from("products")
       .select("id, name, price, active, order_type")
       .in("id", productIds)
       .eq("order_type", type);
 
-    if (productErr) {
-      console.error("product lookup failed", productErr);
-      return jsonResponse({ success: false, message: "Something went wrong. Please try again." }, 500);
+    if (productError) {
+      console.error("product lookup failed", productError);
+      return jsonResponse(req, { success: false, message: "Something went wrong. Please try again." }, 500);
     }
 
-    const productMap = new Map((products ?? []).map((p) => [p.id, p]));
-    const lineItems: { product_id: string; product_name: string; unit_price: number; quantity: number; line_total: number }[] = [];
+    const productMap = new Map((products ?? []).map((product: any) => [String(product.id), product]));
+    const lineItems: Array<{
+      product_id: string;
+      product_name: string;
+      unit_price: number;
+      quantity: number;
+      line_total: number;
+    }> = [];
     let subtotal = 0;
 
-    for (const it of items) {
-      const product = productMap.get(it.id);
-      if (!product || !product.active) {
-        return jsonResponse({ success: false, message: "One or more items in your cart are no longer available." }, 400);
+    for (const item of items) {
+      const product: any = productMap.get(item.id);
+      const unitPrice = Number(product?.price);
+      if (!product || !product.active || !Number.isFinite(unitPrice) || unitPrice < 0) {
+        return jsonResponse(req, { success: false, message: "One or more items in your cart are no longer available." }, 400);
       }
-      const lineTotal = Number(product.price) * it.qty;
+      const lineTotal = unitPrice * item.qty;
       subtotal += lineTotal;
       lineItems.push({
-        product_id: product.id,
-        product_name: product.name,
-        unit_price: Number(product.price),
-        quantity: it.qty,
+        product_id: String(product.id),
+        product_name: cleanText(product.name, 200),
+        unit_price: unitPrice,
+        quantity: item.qty,
         line_total: lineTotal,
       });
     }
 
-    // Coupon system isn't built yet (matches the TODO already in the
-    // frontend code) — discount stays 0 for now regardless of what's sent.
+    if (!Number.isFinite(subtotal) || subtotal <= 0 || subtotal > 1_000_000) {
+      return jsonResponse(req, { success: false, message: "Order total is invalid." }, 400);
+    }
+
+    // Coupon backend and sub-₹799 delivery-fee integration are intentionally
+    // pending. Do not trust browser discount/delivery values until those
+    // server-side systems are finalized.
     const discount = 0;
     const total = subtotal - discount;
 
-    // ---- find or create the customer, by phone -----------------------
-    const cleanPhone = String(phone).trim();
-    const { data: customer, error: customerErr } = await supabase
+    const { data: customer, error: customerError } = await admin
       .from("customers")
-      .upsert(
-        { phone: cleanPhone, name: name.trim() },
-        { onConflict: "phone", ignoreDuplicates: false }
-      )
+      .upsert({ phone, name }, { onConflict: "phone", ignoreDuplicates: false })
       .select("id")
       .single();
 
-    if (customerErr || !customer) {
-      console.error("customer upsert failed", customerErr);
-      return jsonResponse({ success: false, message: "Something went wrong. Please try again." }, 500);
+    if (customerError || !customer) {
+      console.error("customer upsert failed", customerError);
+      return jsonResponse(req, { success: false, message: "Something went wrong. Please try again." }, 500);
     }
 
-    // ---- insert the order ----------------------------------------------
     const orderRow: Record<string, unknown> = {
       customer_id: customer.id,
-      name: name.trim(),
-      phone: cleanPhone,
-      address: String(address).trim(),
-      notes: notes ? String(notes).trim() : null,
+      name,
+      phone,
+      address,
+      notes: notes || null,
       subtotal,
-      coupon_code: coupon_code || null,
+      coupon_code: couponCode || null,
       discount,
       total,
-      payment_method,
-      payment_status: "pending", // UPI remains pending until payment is verified
-      idempotency_key,
+      payment_method: paymentMethod,
+      payment_status: "pending",
+      idempotency_key: idempotencyKey,
+      order_status: "new",
     };
+
     if (type === "bulk") {
-      orderRow.event_type = event_type ? String(event_type).trim() : null;
-      orderRow.delivery_datetime = delivery_datetime;
+      orderRow.event_type = eventType || null;
+      orderRow.delivery_datetime = deliveryDatetime;
     } else {
       orderRow.pincode = DIRECT_DELIVERY_PIN;
-      orderRow.delivery_slot = delivery_slot;
+      orderRow.delivery_slot = deliverySlot;
     }
 
-    const { data: order, error: orderErr } = await supabase
+    const { data: order, error: orderError } = await admin
       .from(ordersTable)
       .insert(orderRow)
       .select("id, order_number, total")
       .single();
 
-    if (orderErr || !order) {
-      console.error("order insert failed", orderErr);
-      return jsonResponse({ success: false, message: "Could not place your order. Please try again." }, 500);
+    if (orderError || !order) {
+      // A concurrent retry can hit the unique idempotency index. Return the
+      // already-created order rather than creating a duplicate.
+      if ((orderError as any)?.code === "23505") {
+        const { data: raced } = await admin
+          .from(ordersTable)
+          .select("order_number, total")
+          .eq("idempotency_key", idempotencyKey)
+          .maybeSingle();
+        if (raced) {
+          return jsonResponse(req, { success: true, order_number: raced.order_number, total: raced.total, duplicate: true });
+        }
+      }
+      console.error("order insert failed", orderError);
+      return jsonResponse(req, { success: false, message: "Could not place your order. Please try again." }, 500);
     }
 
-    // ---- insert order items ---------------------------------------------
-    const { error: itemsErr } = await supabase
+    const { error: itemsError } = await admin
       .from(itemsTable)
-      .insert(lineItems.map((li) => ({ ...li, order_id: order.id })));
+      .insert(lineItems.map((item) => ({ ...item, order_id: order.id })));
 
-    if (itemsErr) {
-      console.error("order items insert failed", itemsErr);
-      // Order header already exists — log for manual follow-up rather than
-      // leaving the customer with a failed request for a real order.
-      return jsonResponse({ success: false, message: "Could not save your order items. Please contact us with your order confirmation." }, 500);
+    if (itemsError) {
+      console.error("order items insert failed", itemsError);
+      // Fail closed and remove the incomplete order header. This prevents the
+      // kitchen from seeing an order without item rows.
+      const { error: cleanupError } = await admin.from(ordersTable).delete().eq("id", order.id);
+      if (cleanupError) console.error("critical: incomplete order cleanup failed", cleanupError);
+      return jsonResponse(req, { success: false, message: "Could not save your order. Please try again." }, 500);
     }
 
-    return jsonResponse({ success: true, order_number: order.order_number, total: order.total });
-  } catch (err) {
-    console.error("place-order unexpected error", err);
-    return jsonResponse({ success: false, message: "Something went wrong. Please try again." }, 500);
+    return jsonResponse(req, { success: true, order_number: order.order_number, total: order.total });
+  } catch (error) {
+    console.error("place-order unexpected error", error);
+    const isRateFailure = error instanceof Error && error.message === "rate_limit_unavailable";
+    return jsonResponse(
+      req,
+      { success: false, message: isRateFailure ? "Order service is temporarily unavailable. Please try again shortly." : "Something went wrong. Please try again." },
+      isRateFailure ? 503 : 500,
+    );
   }
 });
