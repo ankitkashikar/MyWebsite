@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - tcb-design-system-refresh
+      - tcb-order-console-security-2026-final
   pull_request:
     branches:
       - main
