@@ -1,0 +1,262 @@
+name: One-time order security hardening
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+    paths: ['.github/workflows/temp-order-security-hardening.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+      - name: Apply hardening
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          # ---------- shared edits helper ----------
+          def replace(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              if old not in text:
+                  raise SystemExit(f'Expected text not found in {path}: {old[:120]!r}')
+              p.write_text(text.replace(old, new, 1))
+
+          # ---------- place-order ----------
+          p = Path('supabase/functions/place-order/index.ts')
+          s = p.read_text()
+          s = s.replace('"Access-Control-Allow-Origin": "*", // tighten to your real domain once live, e.g. "https://thechinesebliss.com"', '"Access-Control-Allow-Origin": "https://ankitkashikar.github.io"')
+          s = s.replace('headers: { ...corsHeaders, "Content-Type": "application/json" },', 'headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" },')
+          s = s.replace('const DIRECT_DELIVERY_PIN = "411057";', 'const DIRECT_DELIVERY_PIN = "411057";\nconst UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;\nconst MAX_BODY_BYTES = 64 * 1024;\n\nfunction clientIp(req: Request): string {\n  return (req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown").trim().slice(0, 80);\n}\n\nasync function sha256(value: string): Promise<string> {\n  const bytes = new TextEncoder().encode(value);\n  const digest = await crypto.subtle.digest("SHA-256", bytes);\n  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");\n}\n\nasync function consumeRateLimit(admin: any, key: string, limit: number, windowSeconds: number): Promise<boolean> {\n  const { data, error } = await admin.rpc("consume_security_rate_limit", { p_key: key, p_limit: limit, p_window_seconds: windowSeconds });\n  if (error) {\n    console.error("rate limit check failed", error);\n    return false;\n  }\n  return data === true;\n}')
+          s = s.replace('  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed" }, 405);\n  }\n\n  const supabase = createClient(', '  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed" }, 405);\n  }\n  if (!(req.headers.get("content-type") || "").toLowerCase().includes("application/json")) {\n    return jsonResponse({ success: false, message: "Content-Type must be application/json." }, 415);\n  }\n  const contentLength = Number(req.headers.get("content-length") || 0);\n  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {\n    return jsonResponse({ success: false, message: "Request is too large." }, 413);\n  }\n\n  const supabase = createClient(')
+          s = s.replace('    const body = await req.json();', '    const rateKey = await sha256(`place-order:${clientIp(req)}`);\n    if (!(await consumeRateLimit(supabase, rateKey, 12, 600))) {\n      return jsonResponse({ success: false, message: "Too many order attempts. Please wait a few minutes and try again." }, 429);\n    }\n\n    const body = await req.json();')
+          s = s.replace('    if (!idempotency_key || typeof idempotency_key !== "string") {\n      return jsonResponse({ success: false, message: "Missing idempotency key." }, 400);\n    }\n    if (!name || typeof name !== "string" || !name.trim()) {\n      return jsonResponse({ success: false, message: "Name is required." }, 400);\n    }', '    if (!idempotency_key || typeof idempotency_key !== "string" || !UUID_RE.test(idempotency_key)) {\n      return jsonResponse({ success: false, message: "Invalid idempotency key." }, 400);\n    }\n    if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 80) {\n      return jsonResponse({ success: false, message: "Name must be between 2 and 80 characters." }, 400);\n    }')
+          s = s.replace('    if (!Array.isArray(items) || items.length === 0) {', '    if (!Array.isArray(items) || items.length === 0 || items.length > 60) {')
+          s = s.replace('    if (type === "bulk" && !delivery_datetime) {', '    if (notes !== undefined && notes !== null && String(notes).trim().length > 500) {\n      return jsonResponse({ success: false, message: "Special instructions are too long." }, 400);\n    }\n    if (coupon_code !== undefined && coupon_code !== null && String(coupon_code).trim().length > 40) {\n      return jsonResponse({ success: false, message: "Coupon code is too long." }, 400);\n    }\n    if (type === "bulk" && !delivery_datetime) {')
+          s = s.replace('    if (type === "normal" && (!delivery_slot || typeof delivery_slot !== "string")) {\n      return jsonResponse({ success: false, message: "Please select a delivery slot." }, 400);\n    }', '    if (type === "normal" && (!delivery_slot || typeof delivery_slot !== "string" || delivery_slot.trim().length > 120)) {\n      return jsonResponse({ success: false, message: "Please select a valid delivery slot." }, 400);\n    }')
+          s = s.replace('      notes: notes ? String(notes).trim() : null,', '      notes: notes ? String(notes).trim().slice(0, 500) : null,')
+          s = s.replace('      coupon_code: coupon_code || null,', '      coupon_code: coupon_code ? String(coupon_code).trim().slice(0, 40) : null,')
+          s = s.replace('    if (itemsErr) {\n      console.error("order items insert failed", itemsErr);\n      // Order header already exists — log for manual follow-up rather than\n      // leaving the customer with a failed request for a real order.\n      return jsonResponse({ success: false, message: "Could not save your order items. Please contact us with your order confirmation." }, 500);\n    }', '    if (itemsErr) {\n      console.error("order items insert failed", itemsErr);\n      const { error: cleanupError } = await supabase.from(ordersTable).delete().eq("id", order.id);\n      if (cleanupError) console.error("orphan order cleanup failed", cleanupError);\n      return jsonResponse({ success: false, message: "Could not save your order. Please try again." }, 500);\n    }')
+          p.write_text(s)
+
+          # ---------- order-status ----------
+          p = Path('supabase/functions/order-status/index.ts')
+          s = p.read_text()
+          s = s.replace('"Access-Control-Allow-Origin": "*", // tighten to the production website origin before launch', '"Access-Control-Allow-Origin": "https://ankitkashikar.github.io"')
+          s = s.replace('headers: { ...corsHeaders, "Content-Type": "application/json" },', 'headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" },')
+          s = s.replace('const ORDER_RE = /^[A-Za-z0-9_-]{3,80}$/;', 'const ORDER_RE = /^[A-Za-z0-9_-]{3,80}$/;\nconst MAX_BODY_BYTES = 16 * 1024;\n\nfunction clientIp(req: Request): string {\n  return (req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown").trim().slice(0, 80);\n}\n\nasync function sha256(value: string): Promise<string> {\n  const bytes = new TextEncoder().encode(value);\n  const digest = await crypto.subtle.digest("SHA-256", bytes);\n  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");\n}')
+          s = s.replace('  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed." }, 405);\n  }', '  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed." }, 405);\n  }\n  if (!(req.headers.get("content-type") || "").toLowerCase().includes("application/json")) {\n    return jsonResponse({ success: false, message: "Content-Type must be application/json." }, 415);\n  }\n  const contentLength = Number(req.headers.get("content-length") || 0);\n  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {\n    return jsonResponse({ success: false, message: "Request is too large." }, 413);\n  }')
+          s = s.replace('    const admin = createClient(supabaseUrl, serviceRoleKey, {\n      auth: { persistSession: false, autoRefreshToken: false },\n    });', '    const admin = createClient(supabaseUrl, serviceRoleKey, {\n      auth: { persistSession: false, autoRefreshToken: false },\n    });\n\n    const rateKey = await sha256(`order-status:${clientIp(req)}`);\n    const { data: allowed, error: rateError } = await admin.rpc("consume_security_rate_limit", {\n      p_key: rateKey, p_limit: 30, p_window_seconds: 600\n    });\n    if (rateError) {\n      console.error("order-status rate limit failed", rateError);\n      return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 503);\n    }\n    if (allowed !== true) {\n      return jsonResponse({ success: false, message: "Too many tracking attempts. Please wait a few minutes and try again." }, 429);\n    }')
+          p.write_text(s)
+
+          # ---------- admin-orders ----------
+          p = Path('supabase/functions/admin-orders/index.ts')
+          s = p.read_text()
+          s = s.replace('"Access-Control-Allow-Origin": "*", // tighten to the production domain before launch', '"Access-Control-Allow-Origin": "https://ankitkashikar.github.io"')
+          s = s.replace('headers: { ...corsHeaders, "Content-Type": "application/json" },', 'headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", "Referrer-Policy": "no-referrer" },')
+          s = s.replace('  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed" }, 405);\n  }', '  if (req.method !== "POST") {\n    return jsonResponse({ success: false, message: "Method not allowed" }, 405);\n  }\n  if (!(req.headers.get("content-type") || "").toLowerCase().includes("application/json")) {\n    return jsonResponse({ success: false, message: "Content-Type must be application/json." }, 415);\n  }\n  const contentLength = Number(req.headers.get("content-length") || 0);\n  if (Number.isFinite(contentLength) && contentLength > 64 * 1024) {\n    return jsonResponse({ success: false, message: "Request is too large." }, 413);\n  }')
+          s = s.replace('      if (order.payment_status === "paid") {', '      if (["rejected", "cancelled"].includes(String((order as any).order_status || ""))) {\n        return jsonResponse({ success: false, message: "Payment cannot be confirmed for a closed order." }, 409);\n      }\n      if (order.payment_status === "paid") {')
+          s = s.replace('.select("id, order_number, payment_status")', '.select("id, order_number, payment_status, order_status")')
+          s = s.replace('      const names = tableNames(type);\n      const update: Record<string, unknown> = { updated_at: new Date().toISOString() };', '      const names = tableNames(type);\n      const { data: current, error: currentError } = await admin.from(names.orders).select("id, order_status, payment_status").eq("id", orderId).single();\n      if (currentError || !current) return jsonResponse({ success: false, message: "Order not found." }, 404);\n      if (["rejected", "cancelled", "delivered"].includes(String(current.order_status || ""))) {\n        return jsonResponse({ success: false, message: "Delivery details cannot be changed for a closed order." }, 409);\n      }\n      if (current.payment_status !== "paid") {\n        return jsonResponse({ success: false, message: "Confirm payment before assigning delivery." }, 409);\n      }\n      const update: Record<string, unknown> = { updated_at: new Date().toISOString() };', 1)
+          s = s.replace('          update[field] = value ? value.slice(0, 500) : null;', '          update[field] = value ? value.slice(0, field === "tracking_url" ? 500 : 160) : null;')
+          s = s.replace('      if (body?.delivery_partner_cost !== undefined) {', '      if (update.tracking_url) {\n        try {\n          const u = new URL(String(update.tracking_url));\n          if (u.protocol !== "https:" && u.protocol !== "http:") throw new Error("bad protocol");\n          update.tracking_url = u.toString();\n        } catch {\n          return jsonResponse({ success: false, message: "Tracking URL must be a valid http/https URL." }, 400);\n        }\n      }\n      if (update.rider_phone && !/^[0-9+() -]{7,20}$/.test(String(update.rider_phone))) {\n        return jsonResponse({ success: false, message: "Invalid rider phone number." }, 400);\n      }\n      if (body?.delivery_partner_cost !== undefined) {')
+          p.write_text(s)
+
+          # ---------- order console client hardening ----------
+          p = Path('orders.html')
+          s = p.read_text()
+          s = s.replace('<meta name="robots" content="noindex,nofollow" />', '<meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />\n  <meta name="referrer" content="no-referrer" />')
+          s = s.replace("if (err.status === 401) await client.auth.signOut();", "if (err.status === 401 || err.status === 403) await client.auth.signOut();")
+          p.write_text(s)
+
+          # ---------- security migration ----------
+          Path('supabase/migrations/20260917_security_hardening.sql').write_text(r'''-- The Chinese Bliss — production security hardening
+-- Apply after the base schema/order operations migration.
+-- The browser must never be able to directly read/write sensitive tables.
+
+begin;
+
+-- Deny direct browser access to all operational/customer data. Edge Functions
+-- use the service_role and remain the only trusted application writers/readers.
+do $$
+declare
+  t text;
+begin
+  foreach t in array array[
+    'customers','products','normal_orders','normal_order_items',
+    'bulk_orders','bulk_order_items','order_status_events'
+  ] loop
+    if to_regclass('public.' || t) is not null then
+      execute format('alter table public.%I enable row level security', t);
+      execute format('alter table public.%I force row level security', t);
+      execute format('revoke all privileges on table public.%I from anon, authenticated', t);
+    end if;
+  end loop;
+end $$;
+
+-- Private rate-limit state. Raw IPs are never stored; Edge Functions send a
+-- SHA-256 key derived from endpoint + client address.
+create table if not exists public.security_rate_limits (
+  key text primary key,
+  window_started_at timestamptz not null default now(),
+  request_count integer not null default 0 check (request_count >= 0),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.security_rate_limits enable row level security;
+alter table public.security_rate_limits force row level security;
+revoke all privileges on table public.security_rate_limits from anon, authenticated;
+
+create or replace function public.consume_security_rate_limit(
+  p_key text,
+  p_limit integer,
+  p_window_seconds integer
+) returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_now timestamptz := clock_timestamp();
+  v_count integer;
+  v_started timestamptz;
+begin
+  if p_key is null or length(p_key) < 16 or p_limit < 1 or p_window_seconds < 1 then
+    return false;
+  end if;
+
+  insert into public.security_rate_limits(key, window_started_at, request_count, updated_at)
+  values (p_key, v_now, 1, v_now)
+  on conflict (key) do update set
+    window_started_at = case
+      when public.security_rate_limits.window_started_at <= v_now - make_interval(secs => p_window_seconds)
+      then v_now else public.security_rate_limits.window_started_at end,
+    request_count = case
+      when public.security_rate_limits.window_started_at <= v_now - make_interval(secs => p_window_seconds)
+      then 1 else public.security_rate_limits.request_count + 1 end,
+    updated_at = v_now
+  returning request_count, window_started_at into v_count, v_started;
+
+  return v_count <= p_limit;
+end;
+$$;
+
+revoke all on function public.consume_security_rate_limit(text, integer, integer) from public, anon, authenticated;
+grant execute on function public.consume_security_rate_limit(text, integer, integer) to service_role;
+
+-- Database-side invariants: browser/API tampering cannot create unsupported
+-- lifecycle/payment values even if an application bug is introduced later.
+do $$
+begin
+  if to_regclass('public.normal_orders') is not null and not exists (
+    select 1 from pg_constraint where conname = 'normal_orders_payment_status_check'
+  ) then
+    alter table public.normal_orders add constraint normal_orders_payment_status_check
+      check (payment_status in ('pending','paid','failed','refund_pending','refunded','partially_refunded'));
+  end if;
+  if to_regclass('public.bulk_orders') is not null and not exists (
+    select 1 from pg_constraint where conname = 'bulk_orders_payment_status_check'
+  ) then
+    alter table public.bulk_orders add constraint bulk_orders_payment_status_check
+      check (payment_status in ('pending','paid','failed','refund_pending','refunded','partially_refunded'));
+  end if;
+end $$;
+
+create index if not exists security_rate_limits_updated_idx
+  on public.security_rate_limits(updated_at);
+
+commit;
+''')
+
+          # ---------- permanent security QA ----------
+          Path('scripts/security_qa.py').write_text(r'''#!/usr/bin/env python3
+from pathlib import Path
+import re, sys
+
+ROOT = Path(__file__).resolve().parents[1]
+errors = []
+functions = [
+    ROOT/'supabase/functions/place-order/index.ts',
+    ROOT/'supabase/functions/admin-orders/index.ts',
+    ROOT/'supabase/functions/order-status/index.ts',
+]
+
+for path in functions:
+    text = path.read_text(encoding='utf-8')
+    if 'Access-Control-Allow-Origin": "*"' in text:
+        errors.append(f'{path}: wildcard CORS is not allowed')
+    if 'SUPABASE_SERVICE_ROLE_KEY' not in text:
+        errors.append(f'{path}: expected server-side service-role usage missing')
+    if 'Cache-Control' not in text or 'no-store' not in text:
+        errors.append(f'{path}: sensitive API responses must be no-store')
+
+repo_text = '\n'.join(p.read_text(encoding='utf-8', errors='ignore') for p in ROOT.rglob('*') if p.is_file() and '.git' not in p.parts)
+secret_patterns = [
+    r'sb_secret_[A-Za-z0-9_-]{16,}',
+    r'eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}',
+]
+for pat in secret_patterns:
+    if re.search(pat, repo_text):
+        errors.append('Repository appears to contain a secret/service credential pattern')
+
+admin = (ROOT/'supabase/functions/admin-orders/index.ts').read_text()
+if 'TCB_ADMIN_EMAIL' not in admin or 'email !== adminEmail' not in admin:
+    errors.append('admin-orders must enforce the single TCB admin email server-side')
+
+migration = (ROOT/'supabase/migrations/20260917_security_hardening.sql').read_text()
+for token in ['enable row level security', 'revoke all privileges', 'consume_security_rate_limit']:
+    if token not in migration.lower():
+        errors.append(f'security migration missing: {token}')
+
+orders = (ROOT/'orders.html').read_text()
+if 'noindex,nofollow,noarchive,nosnippet' not in orders:
+    errors.append('orders.html must remain excluded from indexing')
+
+if errors:
+    print('SECURITY QA FAILED')
+    for e in errors: print(' -', e)
+    sys.exit(1)
+print('SECURITY QA PASS')
+''')
+
+          Path('.github/workflows/security-qa.yml').write_text(r'''name: TCB Security QA
+
+on:
+  push:
+    branches: [main, tcb-design-system-refresh]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  security-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run security checks
+        run: python scripts/security_qa.py
+''')
+          PY
+
+      - name: Remove one-time workflow
+        run: rm -f .github/workflows/temp-order-security-hardening.yml
+      - name: Run local security QA
+        run: python scripts/security_qa.py
+      - name: Commit hardening
+        run: |
+          git config user.name "Ankit"
+          git config user.email "ankit.kashikar@gmail.com"
+          git add -A
+          git commit -m "Harden TCB order system security"
+          git push origin HEAD:tcb-design-system-refresh
