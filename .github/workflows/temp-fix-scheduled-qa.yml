@@ -1,15 +1,15 @@
-name: Temporary Scheduled QA Fix
+name: Temporary TCB Account Cleanup
 
 on:
   push:
-    branches: [tcb-design-system-refresh]
+    branches:
+      - tcb-design-system-refresh
 
 permissions:
   contents: write
 
 jobs:
   update:
-    if: github.event.head_commit.message != 'Make checkout QA time independent'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,51 +17,97 @@ jobs:
           ref: tcb-design-system-refresh
           fetch-depth: 0
 
-      - name: Make checkout QA time independent
+      - name: Apply single-account and QA fixes
         run: |
           python3 - <<'PY'
           from pathlib import Path
+
+          # 1) Make checkout QA independent of whether the kitchen is currently open.
           path = Path('scripts/responsive_qa.mjs')
           text = path.read_text(encoding='utf-8')
           old = """  await page.locator('#custPhone').fill('9876543212');
-  await page.locator('#custPincode').fill('411057');
-  await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
-  await page.locator('#btnPlaceOrder').click();
-"""
-          new = """  // The site can be tested while the kitchen is closed. In that case
-  // Deliver Now is intentionally unavailable, so select a real future slot.
-  // Doing this unconditionally also verifies the scheduled-order path.
-  await page.locator('#slotModeToggle .slot-mode-btn[data-mode=\"later\"]').click();
-  await page.waitForTimeout(80);
-  let slotChip = page.locator('#slotScroller .slot-chip').first();
-  if (await slotChip.count() === 0) {
-    const tomorrow = page.locator('#slotDayTabs .slot-day-tab').nth(1);
-    if (await tomorrow.count()) {
-      await tomorrow.click();
-      await page.waitForTimeout(80);
-      slotChip = page.locator('#slotScroller .slot-chip').first();
-    }
-  }
-  ok(await slotChip.count() > 0, 'menu desktop: no future delivery slot available for QA');
-  await slotChip.click();
+          await page.locator('#custPincode').fill('411057');
+          await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
+          await page.locator('#btnPlaceOrder').click();
+          """
+          new = """  // The site may be tested while the kitchen is closed. Select a real
+          // future slot so this path remains deterministic at any time of day.
+          await page.locator('#slotModeToggle .slot-mode-btn[data-mode=\"later\"]').click();
+          await page.waitForTimeout(80);
+          let slotChip = page.locator('#slotScroller .slot-chip').first();
+          if (await slotChip.count() === 0) {
+            const tomorrow = page.locator('#slotDayTabs .slot-day-tab').nth(1);
+            if (await tomorrow.count()) {
+              await tomorrow.click();
+              await page.waitForTimeout(80);
+              slotChip = page.locator('#slotScroller .slot-chip').first();
+            }
+          }
+          ok(await slotChip.count() > 0, 'menu desktop: no future delivery slot available for QA');
+          await slotChip.click();
 
-  await page.locator('#custPhone').fill('9876543212');
-  await page.locator('#custPincode').fill('411057');
-  await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
-  await page.locator('#btnPlaceOrder').click();
-"""
-          if old not in text:
-              raise SystemExit('Expected QA block not found')
-          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          await page.locator('#custPhone').fill('9876543212');
+          await page.locator('#custPincode').fill('411057');
+          await page.locator('#custAddress').fill('Shop 12, Maan Road, Hinjewadi Phase 1, Pune, Maharashtra');
+          await page.locator('#btnPlaceOrder').click();
+          """
+          if old in text:
+              path.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          # 2) Enforce exactly one shared TCB operations account server-side.
+          path = Path('supabase/functions/admin-orders/index.ts')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+            '// - Only emails listed in TCB_ADMIN_EMAILS may read/update orders.': '// - Exactly one shared TCB operations email in TCB_ADMIN_EMAIL may read/update orders.',
+            '//   TCB_ADMIN_EMAILS=owner@example.com,partner@example.com': '//   TCB_ADMIN_EMAIL=orders@thechinesebliss.example',
+            '''function adminEmailAllowlist(): string[] {\n  return (Deno.env.get("TCB_ADMIN_EMAILS") ?? "")\n    .split(",")\n    .map((v) => v.trim().toLowerCase())\n    .filter(Boolean);\n}''': '''function configuredAdminEmail(): string {\n  return (Deno.env.get("TCB_ADMIN_EMAIL") ?? "").trim().toLowerCase();\n}''',
+            '''  const allowlist = adminEmailAllowlist();\n  if (allowlist.length === 0) {''': '''  const adminEmail = configuredAdminEmail();\n  if (!adminEmail) {''',
+            '''  if (!email || !allowlist.includes(email)) {\n    return jsonResponse({ success: false, message: "This account is not authorized for restaurant operations." }, 403);\n  }''': '''  if (!email || email !== adminEmail) {\n    return jsonResponse({ success: false, message: "This is not the authorized TCB operations account." }, 403);\n  }''',
+          }
+          for a, b in replacements.items():
+              text = text.replace(a, b)
+          path.write_text(text, encoding='utf-8')
+
+          # 3) Update the console copy to the single shared TCB account model.
+          path = Path('orders.html')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace(
+              'Sign in with an authorized restaurant-admin account. This page is not linked from the public website.',
+              'Sign in with the shared TCB restaurant operations account. This page is not linked from the public website.'
+          )
+          text = text.replace(
+              'Admin users must exist in Supabase Auth and their email must also be included in the server-side TCB_ADMIN_EMAILS allowlist.',
+              'The TCB operations account must exist in Supabase Auth and its email must exactly match the server-side TCB_ADMIN_EMAIL setting.'
+          )
+          path.write_text(text, encoding='utf-8')
+
+          # 4) Keep deployment documentation aligned with the same single-account model.
+          path = Path('docs/ORDER_CONSOLE_DEPLOYMENT.md')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace(
+              '### 4. Create real admin users in Supabase Auth\n\nCreate Supabase Auth email/password users for only the people who should access restaurant operations (for example Ankit and Atul).',
+              '### 4. Create the single TCB operations account in Supabase Auth\n\nCreate exactly one Supabase Auth email/password user for the shared TCB restaurant operations account. Do not create separate personal admin accounts.'
+          )
+          text = text.replace(
+              '### 5. Configure the admin email allowlist\n\nSet the Edge Function secret:\n\n```text\nTCB_ADMIN_EMAILS=first-admin@example.com,second-admin@example.com\n```\n\nThe `admin-orders` function checks both:\n\n1. a valid Supabase Auth JWT, and\n2. the authenticated email against this server-side allowlist.',
+              '### 5. Configure the single TCB operations email\n\nSet the Edge Function secret:\n\n```text\nTCB_ADMIN_EMAIL=tcb-operations@example.com\n```\n\nThe `admin-orders` function checks both:\n\n1. a valid Supabase Auth JWT, and\n2. that the authenticated email exactly matches this single server-side TCB operations email.'
+          )
+          text = text.replace('approved admin can sign in;', 'the TCB operations account can sign in;')
+          text = text.replace('unapproved Supabase user receives access denied;', 'any other Supabase user receives access denied;')
+          text = text.replace('- [ ] Real Supabase Auth admin users created.', '- [ ] Single TCB operations Supabase Auth account created.')
+          text = text.replace('- [ ] `TCB_ADMIN_EMAILS` configured.', '- [ ] `TCB_ADMIN_EMAIL` configured.')
+          text = text.replace('- [ ] Approved and unapproved login paths tested.', '- [ ] TCB account and unauthorized-user login paths tested.')
+          path.write_text(text, encoding='utf-8')
           PY
 
-      - name: Commit update
+      - name: Commit fixes
         run: |
           if git diff --quiet; then
+            echo "No changes required"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/responsive_qa.mjs
-          git commit -m "Make checkout QA time independent"
+          git add scripts/responsive_qa.mjs supabase/functions/admin-orders/index.ts orders.html docs/ORDER_CONSOLE_DEPLOYMENT.md
+          git commit -m "Use single TCB operations account"
           git push origin HEAD:tcb-design-system-refresh
