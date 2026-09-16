@@ -482,8 +482,14 @@
     .success-icon{font-size:2.6rem;margin-bottom:12px}
     .success-step h4{font-family:var(--fh);font-size:1.35rem;font-weight:700;color:#161616;margin-bottom:8px}
     .success-step p{font-size:.83rem;color:#888;line-height:1.6}
+    .success-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn-drawer-track{
+      display:inline-block;background:var(--red);color:#fff;font-weight:700;font-size:.82rem;
+      border:1px solid var(--red);padding:10px 22px;border-radius:var(--rp);
+    }
+    .btn-drawer-track:hover{background:var(--red2);border-color:var(--red2)}
     .btn-drawer-secondary{
-      display:inline-block;margin-top:18px;color:var(--red);font-weight:700;font-size:.82rem;
+      display:inline-block;margin-top:0;color:var(--red);font-weight:700;font-size:.82rem;
       border:1px solid rgba(192,57,43,.3);padding:10px 22px;border-radius:var(--rp);
     }
 
@@ -2526,8 +2532,11 @@
       <div class="success-step">
         <div class="success-icon" id="successIcon"></div>
         <h4 id="successTitle">Order Received</h4>
-        <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery time.</p>
-        <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
+        <p id="successMsg">Your order has been received. You can follow its progress from the tracking page.</p>
+        <div class="success-actions">
+          <a href="order-status.html" class="btn-drawer-track" id="successTrackLink">Track Order</a>
+          <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
+        </div>
       </div>
     </div>
 
@@ -3149,11 +3158,20 @@
     if (paymentMethod === 'upi') {
       document.getElementById('successIcon').textContent = '';
       document.getElementById('successTitle').textContent = 'Order Received — Payment Pending Confirmation';
-      document.getElementById('successMsg').textContent = `Order ${result.order_number}. We've noted that you completed payment. Our team will verify it and call you shortly to confirm before we start preparing your order.`;
+      document.getElementById('successMsg').textContent = `Order ${result.order_number}. We received your payment claim and will verify it before accepting the order. You can track each status update here.`;
     } else {
       document.getElementById('successIcon').textContent = '';
       document.getElementById('successTitle').textContent = 'Order Received';
       document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you shortly to confirm your order and delivery time.`;
+    }
+
+    const successTrackLink = document.getElementById('successTrackLink');
+    if (successTrackLink && result.order_number) {
+      const orderNumber = String(result.order_number);
+      const orderPhone = document.getElementById('custPhone').value.trim();
+      successTrackLink.href = `order-status.html?order=${encodeURIComponent(orderNumber)}`;
+      sessionStorage.setItem('tcbLastOrderNumber', orderNumber);
+      sessionStorage.setItem('tcbLastOrderPhone', orderPhone);
     }
 
     showStep('stepSuccess');
