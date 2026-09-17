@@ -2,11 +2,11 @@
 // admin-orders — The Chinese Bliss restaurant operations API
 //
 // Security model:
-// - Platform JWT verification must remain enabled when deployed.
+// - Deploy with platform JWT verification enabled.
 // - Browser signs in with Supabase Auth and sends the user JWT.
-// - Handler re-validates the JWT and allows only TCB_ADMIN_EMAIL.
+// - Handler re-validates that JWT and allows only TCB_ADMIN_EMAIL.
 // - Database reads/writes use service_role only after authorization succeeds.
-// - Responses are explicit, non-cacheable, origin-locked and rate-limited.
+// - Responses are origin-locked, non-cacheable, size-limited and rate-limited.
 // =====================================================================
 
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -69,17 +69,56 @@ const STATUS_TIMESTAMP: Partial<Record<OrderStatus, string>> = {
   cancelled: "cancelled_at",
 };
 
-const ORDER_SELECT = [
-  "id", "order_number", "customer_id", "name", "phone", "address", "pincode", "notes",
-  "subtotal", "coupon_code", "discount", "delivery_fee", "total", "payment_method", "payment_status",
-  "delivery_slot", "event_type", "delivery_datetime", "created_at", "order_status", "acknowledged_at",
-  "accepted_at", "rejected_at", "rejection_reason", "preparing_at", "ready_at", "rider_assigned_at",
-  "dispatched_at", "delivered_at", "cancelled_at", "cancellation_reason", "delivery_partner_cost",
-  "delivery_provider", "delivery_booking_id", "tracking_url", "rider_name", "rider_phone",
-  "estimated_delivery_from", "estimated_delivery_to", "payment_reference", "paid_at", "updated_at",
-].join(",");
+const COMMON_ORDER_FIELDS = [
+  "id",
+  "order_number",
+  "name",
+  "phone",
+  "address",
+  "notes",
+  "subtotal",
+  "coupon_code",
+  "discount",
+  "delivery_fee",
+  "total",
+  "payment_method",
+  "payment_status",
+  "created_at",
+  "updated_at",
+  "order_status",
+  "acknowledged_at",
+  "accepted_at",
+  "rejected_at",
+  "rejection_reason",
+  "preparing_at",
+  "ready_at",
+  "rider_assigned_at",
+  "dispatched_at",
+  "delivered_at",
+  "cancelled_at",
+  "cancellation_reason",
+  "delivery_partner_cost",
+  "delivery_provider",
+  "delivery_booking_id",
+  "tracking_url",
+  "rider_name",
+  "rider_phone",
+  "estimated_delivery_from",
+  "estimated_delivery_to",
+  "payment_reference",
+  "paid_at",
+];
 
-const ITEM_SELECT = "id,order_id,product_id,product_name,unit_price,quantity,line_total";
+const NORMAL_ONLY_FIELDS = ["pincode", "delivery_slot"];
+const BULK_ONLY_FIELDS = ["event_type", "delivery_datetime"];
+const ITEM_SELECT = "order_id,product_id,product_name,unit_price,quantity,line_total";
+
+function orderSelect(type: OrderType): string {
+  return [
+    ...COMMON_ORDER_FIELDS,
+    ...(type === "normal" ? NORMAL_ONLY_FIELDS : BULK_ONLY_FIELDS),
+  ].join(",");
+}
 
 function tableNames(type: OrderType) {
   return type === "normal"
@@ -99,6 +138,10 @@ function configuredAdminEmail(): string {
   return (Deno.env.get("TCB_ADMIN_EMAIL") ?? "").trim().toLowerCase();
 }
 
+function cleanOrderId(value: unknown): string {
+  return String(value ?? "").trim().slice(0, 100);
+}
+
 function clientIp(req: Request): string {
   return (
     req.headers.get("cf-connecting-ip") ||
@@ -108,8 +151,11 @@ function clientIp(req: Request): string {
 }
 
 async function sha256(value: string): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
-  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 async function consumeRateLimit(
@@ -130,17 +176,32 @@ async function consumeRateLimit(
   return data === true;
 }
 
-function cleanOrderId(value: unknown): string {
-  return String(value ?? "").trim().slice(0, 100);
+function cleanText(value: unknown, maxLength: number): string | null {
+  const text = String(value ?? "").trim();
+  return text ? text.slice(0, maxLength) : null;
+}
+
+function customerSafeItems(items: Record<string, unknown>[]) {
+  return items.map((item) => ({
+    product_id: item.product_id ?? null,
+    product_name: item.product_name ?? null,
+    unit_price: item.unit_price ?? null,
+    quantity: item.quantity ?? null,
+    line_total: item.line_total ?? null,
+  }));
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return jsonResponse({ success: false, message: "Method not allowed." }, 405);
-
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+  if (req.method !== "POST") {
+    return jsonResponse({ success: false, message: "Method not allowed." }, 405);
+  }
   if (!(req.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
     return jsonResponse({ success: false, message: "Content-Type must be application/json." }, 415);
   }
+
   const contentLength = Number(req.headers.get("content-length") || 0);
   if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
     return jsonResponse({ success: false, message: "Request is too large." }, 413);
@@ -154,12 +215,18 @@ Deno.serve(async (req) => {
   }
 
   const adminEmail = configuredAdminEmail();
-  if (!adminEmail) return jsonResponse({ success: false, message: "Admin access is not configured yet." }, 503);
+  if (!adminEmail) {
+    return jsonResponse({ success: false, message: "Admin access is not configured yet." }, 503);
+  }
 
   const authHeader = req.headers.get("Authorization") ?? "";
-  if (!authHeader.startsWith("Bearer ")) return jsonResponse({ success: false, message: "Sign in required." }, 401);
+  if (!authHeader.startsWith("Bearer ")) {
+    return jsonResponse({ success: false, message: "Sign in required." }, 401);
+  }
   const token = authHeader.slice(7).trim();
-  if (!token) return jsonResponse({ success: false, message: "Sign in required." }, 401);
+  if (!token) {
+    return jsonResponse({ success: false, message: "Sign in required." }, 401);
+  }
 
   const userClient = createClient(supabaseUrl, anonKey, {
     auth: { persistSession: false, autoRefreshToken: false },
@@ -167,7 +234,9 @@ Deno.serve(async (req) => {
   const { data: authData, error: authError } = await userClient.auth.getUser(token);
   const user = authData?.user;
   const email = user?.email?.trim().toLowerCase() ?? "";
-  if (authError || !user) return jsonResponse({ success: false, message: "Your admin session is invalid or expired." }, 401);
+  if (authError || !user) {
+    return jsonResponse({ success: false, message: "Your admin session is invalid or expired." }, 401);
+  }
   if (!email || email !== adminEmail) {
     return jsonResponse({ success: false, message: "This is not the authorized TCB operations account." }, 403);
   }
@@ -182,31 +251,40 @@ Deno.serve(async (req) => {
       return jsonResponse({ success: false, message: "Too many requests. Please wait and try again." }, 429);
     }
 
-    const body = await req.json();
-    const action = body?.action;
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return jsonResponse({ success: false, message: "Invalid JSON request." }, 400);
+    }
+    const action = body.action;
 
     if (action === "list") {
-      const requestedType = body?.order_type;
+      const requestedType = body.order_type;
       const types: OrderType[] = requestedType === "all"
         ? ["normal", "bulk"]
-        : isOrderType(requestedType) ? [requestedType] : ["normal"];
-      const limit = Math.min(Math.max(Number(body?.limit) || 100, 1), 200);
+        : isOrderType(requestedType)
+          ? [requestedType]
+          : ["normal"];
+      const limit = Math.min(Math.max(Number(body.limit) || 100, 1), 200);
       const result: Record<string, unknown>[] = [];
 
       for (const type of types) {
         const names = tableNames(type);
         const { data: orders, error: ordersError } = await admin
           .from(names.orders)
-          .select(ORDER_SELECT)
+          .select(orderSelect(type))
           .order("created_at", { ascending: false })
           .limit(limit);
+
         if (ordersError) {
           console.error(`admin list ${type} orders failed`, ordersError);
           return jsonResponse({ success: false, message: "Could not load orders." }, 500);
         }
 
-        const orderIds = (orders ?? []).map((o: Record<string, unknown>) => o.id).filter(Boolean);
+        const orderIds = (orders ?? [])
+          .map((order: Record<string, unknown>) => order.id)
+          .filter(Boolean);
         let items: Record<string, unknown>[] = [];
+
         if (orderIds.length > 0) {
           const { data: itemRows, error: itemsError } = await admin
             .from(names.items)
@@ -228,18 +306,34 @@ Deno.serve(async (req) => {
         }
 
         for (const order of orders ?? []) {
-          result.push({ ...order, order_type: type, items: byOrder.get(String(order.id)) ?? [] });
+          const orderItems = byOrder.get(String(order.id)) ?? [];
+          result.push({
+            ...order,
+            order_type: type,
+            items: customerSafeItems(orderItems),
+          });
         }
       }
 
-      result.sort((a: any, b: any) => (Date.parse(b.created_at ?? "") || 0) - (Date.parse(a.created_at ?? "") || 0));
-      return jsonResponse({ success: true, orders: result.slice(0, limit), server_time: new Date().toISOString() });
+      result.sort((a: any, b: any) => {
+        const aTime = Date.parse(a.created_at ?? "") || 0;
+        const bTime = Date.parse(b.created_at ?? "") || 0;
+        return bTime - aTime;
+      });
+
+      return jsonResponse({
+        success: true,
+        orders: result.slice(0, limit),
+        server_time: new Date().toISOString(),
+      });
     }
 
     if (action === "confirm_payment") {
-      const type = body?.order_type;
-      const orderId = cleanOrderId(body?.order_id);
-      if (!isOrderType(type) || !orderId) return jsonResponse({ success: false, message: "Invalid order." }, 400);
+      const type = body.order_type;
+      const orderId = cleanOrderId(body.order_id);
+      if (!isOrderType(type) || !orderId) {
+        return jsonResponse({ success: false, message: "Invalid order." }, 400);
+      }
 
       const names = tableNames(type);
       const { data: order, error: fetchError } = await admin
@@ -247,56 +341,86 @@ Deno.serve(async (req) => {
         .select("id,order_number,payment_status")
         .eq("id", orderId)
         .single();
-      if (fetchError || !order) return jsonResponse({ success: false, message: "Order not found." }, 404);
-      if (order.payment_status === "paid") return jsonResponse({ success: true, order, duplicate: true });
+
+      if (fetchError || !order) {
+        return jsonResponse({ success: false, message: "Order not found." }, 404);
+      }
+      if (order.payment_status === "paid") {
+        return jsonResponse({ success: true, order, duplicate: true });
+      }
       if (order.payment_status !== "pending") {
-        return jsonResponse({ success: false, message: "This payment cannot be confirmed from its current state." }, 409);
+        return jsonResponse({
+          success: false,
+          message: "This payment cannot be confirmed from its current state.",
+        }, 409);
       }
 
+      const now = new Date().toISOString();
       const update: Record<string, unknown> = {
         payment_status: "paid",
-        paid_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        paid_at: now,
+        updated_at: now,
       };
-      if (body?.payment_reference) update.payment_reference = String(body.payment_reference).trim().slice(0, 120);
+      const paymentReference = cleanText(body.payment_reference, 120);
+      if (paymentReference) update.payment_reference = paymentReference;
 
       const { data: updated, error: updateError } = await admin
         .from(names.orders)
         .update(update)
         .eq("id", orderId)
         .eq("payment_status", "pending")
-        .select(ORDER_SELECT)
-        .single();
-      if (updateError || !updated) {
+        .select(orderSelect(type))
+        .maybeSingle();
+
+      if (updateError) {
         console.error("confirm payment failed", updateError);
         return jsonResponse({ success: false, message: "Could not confirm payment." }, 500);
+      }
+      if (!updated) {
+        return jsonResponse({ success: false, message: "Order changed. Refresh and try again." }, 409);
       }
       return jsonResponse({ success: true, order: updated });
     }
 
     if (action === "set_delivery") {
-      const type = body?.order_type;
-      const orderId = cleanOrderId(body?.order_id);
-      if (!isOrderType(type) || !orderId) return jsonResponse({ success: false, message: "Invalid order." }, 400);
+      const type = body.order_type;
+      const orderId = cleanOrderId(body.order_id);
+      if (!isOrderType(type) || !orderId) {
+        return jsonResponse({ success: false, message: "Invalid order." }, 400);
+      }
 
       const names = tableNames(type);
       const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
-      const fields = ["delivery_provider", "delivery_booking_id", "tracking_url", "rider_name", "rider_phone"];
-      for (const field of fields) {
-        if (body?.[field] !== undefined) {
-          const value = String(body[field] ?? "").trim();
-          update[field] = value ? value.slice(0, 500) : null;
+      const textFields: Array<[string, number]> = [
+        ["delivery_provider", 120],
+        ["delivery_booking_id", 160],
+        ["rider_name", 120],
+        ["rider_phone", 20],
+      ];
+      for (const [field, maxLength] of textFields) {
+        if (body[field] !== undefined) {
+          update[field] = cleanText(body[field], maxLength);
         }
       }
-      if (body?.tracking_url) {
-        try {
-          const url = new URL(String(body.tracking_url).trim());
-          if (url.protocol !== "https:") return jsonResponse({ success: false, message: "Tracking URL must use HTTPS." }, 400);
-        } catch {
-          return jsonResponse({ success: false, message: "Invalid tracking URL." }, 400);
+
+      if (body.tracking_url !== undefined) {
+        const trackingUrl = cleanText(body.tracking_url, 500);
+        if (!trackingUrl) {
+          update.tracking_url = null;
+        } else {
+          try {
+            const url = new URL(trackingUrl);
+            if (url.protocol !== "https:") {
+              return jsonResponse({ success: false, message: "Tracking URL must use HTTPS." }, 400);
+            }
+            update.tracking_url = url.toString();
+          } catch {
+            return jsonResponse({ success: false, message: "Invalid tracking URL." }, 400);
+          }
         }
       }
-      if (body?.delivery_partner_cost !== undefined) {
+
+      if (body.delivery_partner_cost !== undefined) {
         const cost = Number(body.delivery_partner_cost);
         if (!Number.isFinite(cost) || cost < 0 || cost > 5000) {
           return jsonResponse({ success: false, message: "Invalid delivery partner cost." }, 400);
@@ -308,20 +432,25 @@ Deno.serve(async (req) => {
         .from(names.orders)
         .update(update)
         .eq("id", orderId)
-        .select(ORDER_SELECT)
-        .single();
-      if (updateError || !updated) {
+        .select(orderSelect(type))
+        .maybeSingle();
+
+      if (updateError) {
         console.error("set delivery failed", updateError);
         return jsonResponse({ success: false, message: "Could not save delivery details." }, 500);
+      }
+      if (!updated) {
+        return jsonResponse({ success: false, message: "Order not found." }, 404);
       }
       return jsonResponse({ success: true, order: updated });
     }
 
     if (action === "update_status") {
-      const type = body?.order_type;
-      const orderId = cleanOrderId(body?.order_id);
-      const nextStatus = body?.status;
-      const reason = body?.reason ? String(body.reason).trim().slice(0, 500) : "";
+      const type = body.order_type;
+      const orderId = cleanOrderId(body.order_id);
+      const nextStatus = body.status;
+      const reason = cleanText(body.reason, 500) ?? "";
+
       if (!isOrderType(type) || !orderId || !isOrderStatus(nextStatus)) {
         return jsonResponse({ success: false, message: "Invalid status update." }, 400);
       }
@@ -332,23 +461,39 @@ Deno.serve(async (req) => {
       const names = tableNames(type);
       const { data: current, error: currentError } = await admin
         .from(names.orders)
-        .select(ORDER_SELECT)
+        .select(orderSelect(type))
         .eq("id", orderId)
         .single();
-      if (currentError || !current) return jsonResponse({ success: false, message: "Order not found." }, 404);
+
+      if (currentError || !current) {
+        return jsonResponse({ success: false, message: "Order not found." }, 404);
+      }
 
       const currentStatus = (current.order_status || "new") as OrderStatus;
-      if (!isOrderStatus(currentStatus)) return jsonResponse({ success: false, message: "Order has an unsupported legacy status." }, 409);
-      if (currentStatus === nextStatus) return jsonResponse({ success: true, order: current, duplicate: true });
+      if (!isOrderStatus(currentStatus)) {
+        return jsonResponse({ success: false, message: "Order has an unsupported legacy status." }, 409);
+      }
+      if (currentStatus === nextStatus) {
+        return jsonResponse({ success: true, order: current, duplicate: true });
+      }
       if (!ALLOWED_TRANSITIONS[currentStatus].includes(nextStatus)) {
-        return jsonResponse({ success: false, message: `Cannot move an order from ${currentStatus} to ${nextStatus}.` }, 409);
+        return jsonResponse({
+          success: false,
+          message: `Cannot move an order from ${currentStatus} to ${nextStatus}.`,
+        }, 409);
       }
       if (nextStatus === "accepted" && current.payment_status !== "paid") {
-        return jsonResponse({ success: false, message: "Confirm payment before accepting this direct website order." }, 409);
+        return jsonResponse({
+          success: false,
+          message: "Confirm payment before accepting this direct website order.",
+        }, 409);
       }
 
       const now = new Date().toISOString();
-      const update: Record<string, unknown> = { order_status: nextStatus, updated_at: now };
+      const update: Record<string, unknown> = {
+        order_status: nextStatus,
+        updated_at: now,
+      };
       if (!current.acknowledged_at) update.acknowledged_at = now;
       const timestampField = STATUS_TIMESTAMP[nextStatus];
       if (timestampField) update[timestampField] = now;
@@ -360,11 +505,15 @@ Deno.serve(async (req) => {
         .update(update)
         .eq("id", orderId)
         .eq("order_status", currentStatus)
-        .select(ORDER_SELECT)
-        .single();
-      if (updateError || !updated) {
+        .select(orderSelect(type))
+        .maybeSingle();
+
+      if (updateError) {
         console.error("status update failed", updateError);
-        return jsonResponse({ success: false, message: "Could not update order status." }, 409);
+        return jsonResponse({ success: false, message: "Could not update order status." }, 500);
+      }
+      if (!updated) {
+        return jsonResponse({ success: false, message: "Order changed. Refresh and try again." }, 409);
       }
 
       const { error: eventError } = await admin.from("order_status_events").insert({
@@ -376,7 +525,10 @@ Deno.serve(async (req) => {
         reason: reason || null,
         changed_by: email,
       });
-      if (eventError) console.error("status event audit insert failed", eventError);
+      if (eventError) {
+        console.error("status event audit insert failed", eventError);
+      }
+
       return jsonResponse({ success: true, order: updated });
     }
 
