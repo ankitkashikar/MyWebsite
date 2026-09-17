@@ -6,6 +6,10 @@ on:
       - tcb-security-step1b-supabase-preflight
     paths:
       - 'supabase/diagnostics/20260917_step1b_preflight.sql'
+      - 'supabase/migrations/20260917_security_hardening.sql'
+      - 'supabase/functions/place-order/index.ts'
+      - 'supabase-config.js'
+      - 'scripts/security_step1a_qa.py'
       - 'scripts/security_step1b_qa.py'
       - '.github/workflows/security-step1b-qa.yml'
   workflow_dispatch:
