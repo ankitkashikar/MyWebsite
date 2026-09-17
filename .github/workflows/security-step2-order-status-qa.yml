@@ -1,0 +1,22 @@
+name: Step 2 Order Status Security QA
+
+on:
+  push:
+    branches:
+      - tcb-security-step2-edge-functions
+    paths:
+      - 'supabase/functions/order-status/index.ts'
+      - 'scripts/security_step2_order_status_qa.py'
+      - '.github/workflows/security-step2-order-status-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  order-status-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run order-status security regression
+        run: python scripts/security_step2_order_status_qa.py
