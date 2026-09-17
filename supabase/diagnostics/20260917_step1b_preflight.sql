@@ -6,8 +6,10 @@
 --   supabase/migrations/20260916_order_operations.sql
 --   supabase/migrations/20260917_security_hardening.sql
 --
--- The goal is to prove the real production schema, RLS/grants, lifecycle
--- fields, payment values and idempotency guarantees instead of assuming them.
+-- This script intentionally uses catalog/information-schema reads only so it
+-- still runs if an expected table/column is absent. Exact production row-value
+-- checks (payment/order statuses and duplicate idempotency keys) are performed
+-- only after this metadata pass proves those columns exist.
 
 -- 1) Database identity / server context.
 select
@@ -126,58 +128,7 @@ where schemaname = 'public'
   and tablename in ('normal_orders','bulk_orders')
 order by tablename, indexname;
 
--- 9) Existing payment values. Any value outside the proposed allow-list blocks
--- the payment-status CHECK constraint until it is intentionally reconciled.
-select 'normal_orders' as table_name, payment_status, count(*) as row_count
-from public.normal_orders
-where to_regclass('public.normal_orders') is not null
-group by payment_status
-union all
-select 'bulk_orders' as table_name, payment_status, count(*) as row_count
-from public.bulk_orders
-where to_regclass('public.bulk_orders') is not null
-group by payment_status
-order by table_name, payment_status;
-
--- 10) Existing order lifecycle values. These must be understood before the
--- order-operations migration normalizes unknown values to `new`.
-select 'normal_orders' as table_name, order_status, count(*) as row_count
-from public.normal_orders
-where to_regclass('public.normal_orders') is not null
-  and exists (
-    select 1 from information_schema.columns
-    where table_schema='public' and table_name='normal_orders' and column_name='order_status'
-  )
-group by order_status
-union all
-select 'bulk_orders' as table_name, order_status, count(*) as row_count
-from public.bulk_orders
-where to_regclass('public.bulk_orders') is not null
-  and exists (
-    select 1 from information_schema.columns
-    where table_schema='public' and table_name='bulk_orders' and column_name='order_status'
-  )
-group by order_status
-order by table_name, order_status;
-
--- 11) Idempotency duplicates. Any duplicate non-null key must be resolved
--- before adding/confirming a unique database guarantee.
-select 'normal_orders' as table_name, idempotency_key, count(*) as duplicate_count
-from public.normal_orders
-where idempotency_key is not null
-  and to_regclass('public.normal_orders') is not null
-group by idempotency_key
-having count(*) > 1
-union all
-select 'bulk_orders' as table_name, idempotency_key, count(*) as duplicate_count
-from public.bulk_orders
-where idempotency_key is not null
-  and to_regclass('public.bulk_orders') is not null
-group by idempotency_key
-having count(*) > 1
-order by table_name, duplicate_count desc;
-
--- 12) Preflight blocker summary for columns required by the hardened order API.
+-- 9) Preflight blocker summary for columns required by the hardened order API.
 with required(table_name, column_name) as (
   values
     ('customers','id'), ('customers','phone'), ('customers','name'),
@@ -212,23 +163,39 @@ left join actual a using (table_name, column_name)
 where a.column_name is null
 order by r.table_name, r.column_name;
 
--- 13) Proposed payment CHECK compatibility. Any returned row is a blocker.
-select 'normal_orders' as table_name, payment_status, count(*) as row_count,
-       'UNSUPPORTED_PAYMENT_STATUS' as blocker
-from public.normal_orders
-where payment_status is distinct from null
-  and payment_status not in ('pending','paid','failed','refund_pending','refunded','partially_refunded')
-group by payment_status
-union all
-select 'bulk_orders' as table_name, payment_status, count(*) as row_count,
-       'UNSUPPORTED_PAYMENT_STATUS' as blocker
-from public.bulk_orders
-where payment_status is distinct from null
-  and payment_status not in ('pending','paid','failed','refund_pending','refunded','partially_refunded')
-group by payment_status
-order by table_name, payment_status;
+-- 10) Columns that gate the two staged migrations. This does not read order
+-- rows; after these columns are proven present, run exact value checks live.
+select
+  table_name,
+  column_name,
+  data_type,
+  is_nullable,
+  column_default
+from information_schema.columns
+where table_schema = 'public'
+  and table_name in ('normal_orders','bulk_orders')
+  and column_name in (
+    'payment_status','order_status','idempotency_key','delivery_fee',
+    'created_at','updated_at'
+  )
+order by table_name, column_name;
 
--- 14) Rate-limit RPC state/privileges if a prior attempt already created it.
+-- 11) Planner statistics can reveal obvious unexpected status values without
+-- touching customer rows. They are advisory only, not sufficient to approve
+-- a CHECK constraint; exact live value queries are still required afterward.
+select
+  tablename,
+  attname as column_name,
+  null_frac,
+  n_distinct,
+  most_common_vals
+from pg_stats
+where schemaname = 'public'
+  and tablename in ('normal_orders','bulk_orders')
+  and attname in ('payment_status','order_status')
+order by tablename, attname;
+
+-- 12) Rate-limit RPC state/privileges if a prior attempt already created it.
 select
   n.nspname as schema_name,
   p.proname as function_name,
