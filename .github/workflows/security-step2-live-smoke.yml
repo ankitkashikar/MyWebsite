@@ -1,0 +1,23 @@
+name: Step 2 Live Endpoint Smoke
+
+on:
+  push:
+    branches:
+      - tcb-security-step2-edge-functions
+    paths:
+      - 'scripts/security_step2_live_smoke.py'
+      - '.github/workflows/security-step2-live-smoke.yml'
+      - 'supabase-config.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe deployed Step 2 endpoints
+        run: python scripts/security_step2_live_smoke.py
