@@ -1,0 +1,30 @@
+name: Step 1A Security QA
+
+on:
+  push:
+    branches:
+      - tcb-security-step1a-public-order
+    paths:
+      - 'supabase/functions/place-order/index.ts'
+      - 'supabase-config.js'
+      - 'supabase/migrations/20260917_security_hardening.sql'
+      - 'scripts/security_step1a_qa.py'
+      - '.github/workflows/security-step1a-qa.yml'
+  pull_request:
+    paths:
+      - 'supabase/functions/place-order/index.ts'
+      - 'supabase-config.js'
+      - 'supabase/migrations/20260917_security_hardening.sql'
+      - 'scripts/security_step1a_qa.py'
+      - '.github/workflows/security-step1a-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  security-step1a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Step 1A security checks
+        run: python scripts/security_step1a_qa.py
