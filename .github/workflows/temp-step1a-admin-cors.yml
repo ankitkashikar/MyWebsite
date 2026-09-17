@@ -1,0 +1,36 @@
+name: Step 1A admin orders CORS
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+    paths: ['.github/workflows/temp-step1a-admin-cors.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+      - name: Restrict admin-orders CORS to production origin
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('supabase/functions/admin-orders/index.ts')
+          text = path.read_text()
+          old = '  "Access-Control-Allow-Origin": "*", // tighten to the production domain before launch'
+          new = '  "Access-Control-Allow-Origin": "https://ankitkashikar.github.io"'
+          if old not in text:
+              raise SystemExit('Expected wildcard CORS line was not found; aborting without other changes.')
+          path.write_text(text.replace(old, new, 1))
+          PY
+          rm .github/workflows/temp-step1a-admin-cors.yml
+          git config user.name "Ankit"
+          git config user.email "ankit.kashikar@gmail.com"
+          git add supabase/functions/admin-orders/index.ts .github/workflows/temp-step1a-admin-cors.yml
+          git commit -m "Restrict admin orders CORS to production origin"
+          git push origin tcb-design-system-refresh
