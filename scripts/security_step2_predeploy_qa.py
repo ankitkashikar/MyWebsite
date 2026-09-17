@@ -52,7 +52,7 @@ require(console, "'apikey': config.anonKey", "order console does not send the pu
 # Customer tracking caller remains compatible with the public custom-auth function.
 require(browser, "fetch(ORDER_STATUS_URL", "browser does not call order-status")
 require(browser, "body: JSON.stringify({ order_number: orderNumber, phone })", "order-status browser payload changed unexpectedly")
-require(browser, "'apikey': SUPABASE_ANON_KEY", "order-status request must include the project API key")
+require(browser, '"apikey": SUPABASE_ANON_KEY', "order-status request must include the project API key")
 
 # Pin Edge Function auth behavior explicitly. Admin requires a user JWT;
 # customer status lookup uses its own possession-based auth + throttling.
