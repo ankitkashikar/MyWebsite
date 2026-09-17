@@ -1,0 +1,36 @@
+name: Step 1A CORS syntax fix
+
+on:
+  push:
+    branches: [tcb-design-system-refresh]
+    paths: ['.github/workflows/temp-step1a-cors-comma.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tcb-design-system-refresh
+      - name: Restore CORS object comma
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('supabase/functions/admin-orders/index.ts')
+          text = path.read_text()
+          old = '  "Access-Control-Allow-Origin": "https://ankitkashikar.github.io"\n  "Access-Control-Allow-Headers"'
+          new = '  "Access-Control-Allow-Origin": "https://ankitkashikar.github.io",\n  "Access-Control-Allow-Headers"'
+          if old not in text:
+              raise SystemExit('Expected CORS syntax pattern not found.')
+          path.write_text(text.replace(old, new, 1))
+          PY
+          rm .github/workflows/temp-step1a-cors-comma.yml
+          git config user.name "Ankit"
+          git config user.email "ankit.kashikar@gmail.com"
+          git add supabase/functions/admin-orders/index.ts .github/workflows/temp-step1a-cors-comma.yml
+          git commit -m "Fix admin orders CORS syntax"
+          git push origin tcb-design-system-refresh
