@@ -30,7 +30,7 @@ config = config_path.read_text(encoding="utf-8")
 migration = migration_path.read_text(encoding="utf-8")
 
 # Public order endpoint must not use wildcard browser access.
-if 'Access-Control-Allow-Origin": "*"' in place:
+if 'Access-Control-Allow-Origin\": \"*\"' in place:
     ERRORS.append("place-order still uses wildcard CORS")
 require(place, 'const PRODUCTION_ORIGIN = "https://ankitkashikar.github.io";', "place-order production origin is not locked")
 require(place, '"Cache-Control": "no-store"', "place-order responses must be non-cacheable")
@@ -72,11 +72,17 @@ for token, message in [
     ("create table if not exists public.security_rate_limits", "rate-limit table migration is missing"),
     ("enable row level security", "rate-limit/operational RLS hardening is missing"),
     ("consume_security_rate_limit", "rate-limit RPC migration is missing"),
-    ("security definer", "rate-limit RPC privilege model is missing"),
-    ("set search_path = ''", "SECURITY DEFINER function must use a locked search_path"),
+    ("security invoker", "rate-limit RPC must run with caller/service-role privileges"),
+    ("set search_path = ''", "rate-limit RPC must use a locked search_path"),
     ("revoke all on function public.consume_security_rate_limit", "rate-limit RPC must revoke public execution"),
     ("grant execute on function public.consume_security_rate_limit", "rate-limit RPC must grant only intended server execution"),
+    ("grant select, insert, update on table public.security_rate_limits to service_role", "service_role table privileges for rate limiting are missing"),
     ("to service_role", "rate-limit RPC must be executable by service_role"),
+    ("drop constraint if exists normal_orders_payment_status_check", "normal payment-status constraint must replace the live legacy constraint"),
+    ("drop constraint if exists bulk_orders_payment_status_check", "bulk payment-status constraint must replace the live legacy constraint"),
+    ("generate_normal_order_number() set search_path", "normal order helper search_path hardening is missing"),
+    ("generate_bulk_order_number() set search_path", "bulk order helper search_path hardening is missing"),
+    ("touch_updated_at() set search_path", "updated_at helper search_path hardening is missing"),
 ]:
     if token not in lower_migration:
         ERRORS.append(message)
