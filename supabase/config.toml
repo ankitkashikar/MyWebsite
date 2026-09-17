@@ -1,0 +1,13 @@
+# The Chinese Bliss — Supabase Edge Function security configuration
+# Keep function JWT behavior explicit and reproducible across deployments.
+
+[functions.place-order]
+verify_jwt = true
+
+[functions.admin-orders]
+verify_jwt = true
+
+[functions.order-status]
+# Customer tracking is public-by-design and uses strict possession-based
+# lookup (order number + phone) plus server-side rate limiting.
+verify_jwt = false
