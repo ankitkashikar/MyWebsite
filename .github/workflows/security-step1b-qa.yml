@@ -1,0 +1,24 @@
+name: Step 1B Supabase Preflight QA
+
+on:
+  push:
+    branches:
+      - tcb-security-step1b-supabase-preflight
+    paths:
+      - 'supabase/diagnostics/20260917_step1b_preflight.sql'
+      - 'scripts/security_step1b_qa.py'
+      - '.github/workflows/security-step1b-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Step 1A security regression
+        run: python scripts/security_step1a_qa.py
+      - name: Verify Step 1B preflight is read-only and complete
+        run: python scripts/security_step1b_qa.py
