@@ -1,0 +1,22 @@
+name: Step 2 Admin Orders Security QA
+
+on:
+  push:
+    branches:
+      - tcb-security-step2-edge-functions
+    paths:
+      - 'supabase/functions/admin-orders/index.ts'
+      - 'scripts/security_step2_admin_orders_qa.py'
+      - '.github/workflows/security-step2-admin-orders-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  admin-orders-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run admin-orders security regression
+        run: python scripts/security_step2_admin_orders_qa.py
