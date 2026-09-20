@@ -21,3 +21,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Probe deployed Step 2 endpoints
         run: python scripts/security_step2_live_smoke.py
+
+# Manual post-merge live verification trigger.
