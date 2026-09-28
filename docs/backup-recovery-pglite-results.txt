@@ -1,0 +1,18 @@
+BACKUP baseline SHA256 30657e11fd6e68d821cec4bb43c736f2aff05ed6d56f092695dbf974b3094fb8
+PASS baseline backup written to disk
+PASS baseline restore into a fresh database matches rows, schema, grants, sequences and ledger
+BACKUP partial SHA256 c322d7268e1a6567440199b324754f26e0fbd1a4a9e6e0ed490a19babacc0191
+PASS partial-upgrade backup restores committed migrations, coupons and retry responses
+PASS failed delivery migration rolls back schema and its ledger entry
+PASS resume applies only the three remaining migrations
+PASS original customer, order, item and audit values survive the upgrade
+BACKUP upgraded SHA256 8957d3086d8204f8383a71257c29e0ce0f229659d34daf7d90d5ab399f09526f
+PASS completed upgrade backup restores to a fresh database
+PASS saved order retry still returns the same response
+PASS missing normal/bulk delivery settings remain blocked after restore
+PASS restored audit permissions prohibit service-role updates and deletes
+PASS restored coupon validation rejects combined codes
+PASS original backup can recover pre-upgrade state after completed changes
+
+12 pglite backup/restore and upgrade-recovery checks passed. Synthetic website data only. Production untouched.
+Artifacts: /workspace/scratch/8ab24e88798f/MyWebsite/.recovery-qa/9a4c444f-4468-41fa-8582-bba9c322e914

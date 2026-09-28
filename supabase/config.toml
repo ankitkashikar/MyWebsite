@@ -11,3 +11,6 @@ verify_jwt = true
 # Customer tracking is public-by-design and uses strict possession-based
 # lookup (order number + phone) plus server-side rate limiting.
 verify_jwt = false
+
+[functions.validate-coupon]
+verify_jwt = true

@@ -21,7 +21,7 @@ const corsHeaders = {
   "Vary": "Origin",
 };
 
-function jsonResponse(body: unknown, status = 200) {
+function baseResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -170,7 +170,7 @@ async function consumeRateLimit(
     p_window_seconds: windowSeconds,
   });
   if (error) {
-    console.error("admin-orders rate limit check failed", error);
+    /* Failure is logged by the response helper without customer or error payloads. */
     return false;
   }
   return data === true;
@@ -192,6 +192,22 @@ function customerSafeItems(items: Record<string, unknown>[]) {
 }
 
 Deno.serve(async (req) => {
+  // Generated per request; never accept a caller-supplied support reference.
+  const reference = crypto.randomUUID();
+  const started = Date.now();
+  function jsonResponse(body: unknown, status = 200) {
+    if (status >= 400) {
+      console.warn(JSON.stringify({event: "api_failure", endpoint: "admin-orders", reference,
+        status, duration_ms: Date.now() - started}));
+      if (body && typeof body === "object") {
+        const result = body as Record<string, unknown>;
+        body = {...result, reference,
+          message: String(result.message || "Request could not be completed.") + " Reference: " + reference};
+      }
+    }
+    return baseResponse(body, status);
+  }
+
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -251,11 +267,106 @@ Deno.serve(async (req) => {
       return jsonResponse({ success: false, message: "Too many requests. Please wait and try again." }, 429);
     }
 
-    const body = await req.json().catch(() => null);
+    const reader = req.body?.getReader();
+    const chunks: Uint8Array[] = [];
+    let size = 0;
+    if (reader) while (true) {
+      const part = await reader.read();
+      if (part.done) break;
+      size += part.value.byteLength;
+      if (size > MAX_BODY_BYTES) { await reader.cancel(); return jsonResponse({success:false,message:"Request is too large."},413); }
+      chunks.push(part.value);
+    }
+    const bytes = new Uint8Array(size);let offset=0;
+    for (const chunk of chunks) { bytes.set(chunk,offset);offset+=chunk.length; }
+    let body;
+    try { body=JSON.parse(new TextDecoder().decode(bytes)); } catch { body=null; }
     if (!body || typeof body !== "object" || Array.isArray(body)) {
       return jsonResponse({ success: false, message: "Invalid JSON request." }, 400);
     }
     const action = body.action;
+
+    if (action === "customers_list" || action === "customer_detail") {
+      const uuid = (v: unknown) => typeof v === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v);
+      if (action === "customers_list") {
+        if ((body.search != null && (typeof body.search !== "string" || body.search.length > 100)) ||
+            (body.after_id != null && !uuid(body.after_id))) {
+          return jsonResponse({success:false,message:"Invalid customer search or page."},400);
+        }
+        const {data,error}=await admin.rpc("admin_customers_list",{p_search:(body.search??"").trim(),p_after:body.after_id??null});
+        if(error)return jsonResponse({success:false,message:"Could not load customers."},500);
+        return jsonResponse({success:true,...data});
+      }
+      const page = body.offset ?? 0;
+      if (!uuid(body.customer_id) || !Number.isInteger(page) || page<0 || page>1000000) {
+        return jsonResponse({success:false,message:"Invalid customer or page."},400);
+      }
+      const {data,error}=await admin.rpc("admin_customer_detail",{p_customer:body.customer_id,p_offset:page});
+      if(error)return jsonResponse({success:false,message:"Could not load customer history."},500);
+      if(!data)return jsonResponse({success:false,message:"Customer not found."},404);
+      return jsonResponse({success:true,...data});
+    }
+
+    if (action === "coupon_list") {
+      if (body.after_code != null && (typeof body.after_code !== "string" || !/^[A-Z0-9][A-Z0-9_-]{0,39}$/.test(body.after_code))) {
+        return jsonResponse({success:false,message:"Invalid page cursor."},400);
+      }
+      let query=admin.from("coupons").select("code,active,kind,value,min_subtotal_paise,order_type,max_discount_paise,usage_limit,per_phone_limit,starts_at,ends_at,product_ids,categories,version").is("deleted_at",null).order("code").limit(101);
+      if(body.after_code) query=query.gt("code",body.after_code);
+      const {data,error}=await query;
+      return error ? jsonResponse({success:false,message:"Could not load coupons."},500)
+        : jsonResponse({success:true,coupons:(data??[]).slice(0,100),next_code:data?.length===101?data[99].code:null});
+    }
+    if (action === "coupon_history") {
+      const {data,error}=await admin.from("coupon_admin_events").select("id,code,action,actor,before_coupon,after_coupon,created_at").order("id",{ascending:false}).limit(50);
+      return error ? jsonResponse({success:false,message:"Could not load coupon history."},500) : jsonResponse({success:true,events:data});
+    }
+    if (["coupon_save","coupon_toggle","coupon_delete"].includes(action)) {
+      const code=body.code;
+      const changes=body.changes;
+      if(typeof code!=="string" || !/^[A-Z0-9][A-Z0-9_-]{0,39}$/.test(code) || !Number.isSafeInteger(body.version) || body.version<0) {
+        return jsonResponse({success:false,message:"Invalid coupon code or version."},400);
+      }
+      if(action!=="coupon_delete") {
+        if(!changes || typeof changes!=="object" || Array.isArray(changes) || typeof changes.active!=="boolean") return jsonResponse({success:false,message:"Invalid coupon settings."},400);
+        const fields=action==="coupon_toggle"?["active"]:["active","kind","value","min_subtotal_paise","order_type","max_discount_paise","usage_limit","per_phone_limit"];
+        if(Object.keys(changes).some(k=>!fields.includes(k))) return jsonResponse({success:false,message:"Unsupported coupon field."},400);
+        if(action==="coupon_save") {
+          const integer=(v:unknown,min:number,max:number)=>Number.isSafeInteger(v)&&Number(v)>=min&&Number(v)<=max;
+          if(!["flat","percent"].includes(changes.kind) || !integer(changes.value,1,changes.kind==="percent"?10000:9999999999) ||
+            !integer(changes.min_subtotal_paise,0,9999999999) || (changes.order_type!==null&&!isOrderType(changes.order_type)) ||
+            (changes.max_discount_paise!==null&&!integer(changes.max_discount_paise,1,9999999999)) ||
+            [changes.usage_limit,changes.per_phone_limit].some(v=>v!==null&&!integer(v,1,2147483647))) {
+            return jsonResponse({success:false,message:"Enter valid coupon amounts and limits."},400);
+          }
+        }
+      }
+      const {data,error}=await admin.rpc("manage_coupon",{p_code:code,p_action:action.slice(7),p_version:body.version,p_changes:action==="coupon_delete"?{}:changes,p_actor:user.id});
+      return error ? jsonResponse({success:false,message:error.code==="P0002"?"Coupon changed. Reload before editing.":"Could not save coupon. Deleted codes cannot be reused."},error.code==="P0002"?409:400)
+        : jsonResponse({success:true,coupon:data});
+    }
+
+    if (action === "delivery_list") {
+      const {data, error} = await admin.from("delivery_rules").select("order_type,fee_paise,free_above_paise,enabled,deleted,version,updated_at");
+      return error ? jsonResponse({success:false,message:"Could not load delivery settings."},500)
+        : jsonResponse({success:true,rules:data});
+    }
+    if (action === "delivery_save" || action === "delivery_delete") {
+      const money = (v: unknown) => Number.isSafeInteger(v) && Number(v)>=0 && Number(v)<=9999999999;
+      if (!isOrderType(body.order_type) || !Number.isSafeInteger(body.version) || body.version<0 ||
+          (action === "delivery_save" && (!money(body.fee_paise) ||
+          (body.free_above_paise !== null && !money(body.free_above_paise)) || typeof body.enabled !== "boolean"))) {
+        return jsonResponse({success:false,message:"Enter valid delivery settings."},400);
+      }
+      const {data,error} = await admin.rpc("manage_delivery_rule",{
+        p_type:body.order_type,p_action:action === "delivery_delete" ? "delete" : "save",p_version:body.version,
+        p_fee:action === "delivery_save" ? body.fee_paise : null,
+        p_free:action === "delivery_save" ? body.free_above_paise : null,
+        p_enabled:action === "delivery_save" ? body.enabled : false,p_actor:user.id,
+      });
+      return error ? jsonResponse({success:false,message:error.code === "P0002" ? "Settings changed. Reload before saving." : "Could not save delivery settings."},error.code === "P0002" ? 409 : 400)
+        : jsonResponse({success:true,rule:data});
+    }
 
     if (action === "list") {
       const requestedType = body.order_type;
@@ -269,14 +380,13 @@ Deno.serve(async (req) => {
 
       for (const type of types) {
         const names = tableNames(type);
-        const { data: orders, error: ordersError } = await admin
-          .from(names.orders)
-          .select(orderSelect(type))
-          .order("created_at", { ascending: false })
-          .limit(limit);
+        let orderQuery = admin.from(names.orders).select(orderSelect(type));
+        if (body.needs_attention === true) orderQuery = orderQuery.eq("order_status","new").is("acknowledged_at",null);
+        const { data: orders, error: ordersError } = await orderQuery
+          .order("created_at", { ascending: body.needs_attention === true }).limit(limit);
 
         if (ordersError) {
-          console.error(`admin list ${type} orders failed`, ordersError);
+          /* Failure is logged by the response helper without customer or error payloads. */
           return jsonResponse({ success: false, message: "Could not load orders." }, 500);
         }
 
@@ -291,7 +401,7 @@ Deno.serve(async (req) => {
             .select(ITEM_SELECT)
             .in("order_id", orderIds);
           if (itemsError) {
-            console.error(`admin list ${type} items failed`, itemsError);
+            /* Failure is logged by the response helper without customer or error payloads. */
             return jsonResponse({ success: false, message: "Could not load order items." }, 500);
           }
           items = (itemRows ?? []) as Record<string, unknown>[];
@@ -318,11 +428,24 @@ Deno.serve(async (req) => {
       result.sort((a: any, b: any) => {
         const aTime = Date.parse(a.created_at ?? "") || 0;
         const bTime = Date.parse(b.created_at ?? "") || 0;
-        return bTime - aTime;
+        return body.needs_attention === true ? aTime - bTime : bTime - aTime;
       });
 
+      let attention = null;
+      if (body.include_attention === true) {
+        const groups = [];
+        for (const type of ["normal","bulk"] as OrderType[]) {
+          const {data,count,error}=await admin.from(tableNames(type).orders)
+            .select("created_at",{count:"exact"}).eq("order_status","new").is("acknowledged_at",null)
+            .order("created_at",{ascending:true}).limit(1);
+          if(error)return jsonResponse({success:false,message:"Could not check kitchen alerts."},500);
+          groups.push({order_type:type,count:count??0,oldest_at:data?.[0]?.created_at??null});
+        }
+        attention = {groups};
+      }
       return jsonResponse({
         success: true,
+        attention,
         orders: result.slice(0, limit),
         server_time: new Date().toISOString(),
       });
@@ -373,7 +496,7 @@ Deno.serve(async (req) => {
         .maybeSingle();
 
       if (updateError) {
-        console.error("confirm payment failed", updateError);
+        /* Failure is logged by the response helper without customer or error payloads. */
         return jsonResponse({ success: false, message: "Could not confirm payment." }, 500);
       }
       if (!updated) {
@@ -436,7 +559,7 @@ Deno.serve(async (req) => {
         .maybeSingle();
 
       if (updateError) {
-        console.error("set delivery failed", updateError);
+        /* Failure is logged by the response helper without customer or error payloads. */
         return jsonResponse({ success: false, message: "Could not save delivery details." }, 500);
       }
       if (!updated) {
@@ -509,7 +632,7 @@ Deno.serve(async (req) => {
         .maybeSingle();
 
       if (updateError) {
-        console.error("status update failed", updateError);
+        /* Failure is logged by the response helper without customer or error payloads. */
         return jsonResponse({ success: false, message: "Could not update order status." }, 500);
       }
       if (!updated) {
@@ -526,7 +649,7 @@ Deno.serve(async (req) => {
         changed_by: email,
       });
       if (eventError) {
-        console.error("status event audit insert failed", eventError);
+        /* Failure is logged by the response helper without customer or error payloads. */
       }
 
       return jsonResponse({ success: true, order: updated });
@@ -534,7 +657,7 @@ Deno.serve(async (req) => {
 
     return jsonResponse({ success: false, message: "Unsupported action." }, 400);
   } catch (err) {
-    console.error("admin-orders unexpected error", err);
+    /* Failure is logged by the response helper without customer or error payloads. */
     return jsonResponse({ success: false, message: "Something went wrong. Please try again." }, 500);
   }
 });

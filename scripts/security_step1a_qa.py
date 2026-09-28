@@ -14,7 +14,7 @@ def require(text: str, token: str, message: str) -> None:
 
 place_path = ROOT / "supabase/functions/place-order/index.ts"
 config_path = ROOT / "supabase-config.js"
-migration_path = ROOT / "supabase/migrations/20260917_security_hardening.sql"
+migration_path = ROOT / "supabase/migrations/20260917085433_security_hardening.sql"
 
 for path in (place_path, config_path, migration_path):
     if not path.exists():
@@ -52,8 +52,9 @@ require(place, '.from("products")', "place-order must load product data server-s
 require(place, '.select("id, name, price, active, order_type")', "place-order server pricing lookup changed unexpectedly")
 require(place, 'payment_status: "pending"', "customer self-report must not mark payment as paid")
 
-# A failed item insert must not leave a successful-looking order header behind.
-require(place, '.delete().eq("id", order.id)', "place-order orphan-order cleanup is missing")
+# One transaction prevents a failed item insert leaving an order header behind.
+require(place, 'admin.rpc("create_order_atomic"', "place-order atomic transaction is missing")
+require(place, 'admin.rpc("lookup_order_request"', "place-order bound retry lookup is missing")
 
 # Service-role material must only be read from the Edge Function environment.
 require(place, 'Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")', "place-order service-role key must come from the server environment")

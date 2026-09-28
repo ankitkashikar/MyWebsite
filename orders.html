@@ -62,6 +62,7 @@
         <div class="oc-refresh-meta" id="refreshMeta">Not refreshed yet</div>
       </section>
 
+      <p id="kitchenAlertStatus" role="status">Keep this console open. Enable sound after signing in; alerts cannot run when the browser is closed or the device is asleep.</p>
       <section class="oc-alert-banner" id="attentionBanner" aria-live="assertive">
         <div>
           <strong id="attentionTitle">New order needs attention</strong>
@@ -178,6 +179,7 @@
 
   <script src="supabase-config.js"></script>
   <script type="module">
+    import {kitchenAttention} from "./kitchen-alerts.js";
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
     const config = window.TCB_SUPABASE_CONFIG;
@@ -211,7 +213,9 @@
     let pollTimer = null;
     let alarmTimer = null;
     let audioContext = null;
-    let soundEnabled = localStorage.getItem('tcbOrderSound') === 'on';
+    let soundEnabled = false;
+    let attentionSummary=null, alertFresh=false, appEpoch=0, signedIn=false;
+    const alertStatus=document.getElementById('kitchenAlertStatus');
     let dialogOrder = null;
     let dialogMode = null;
     let refreshing = false;
@@ -243,6 +247,7 @@
     }
 
     function isScheduled(order) {
+      if (order.order_type === 'bulk') return Boolean(order.delivery_datetime);
       const slot = String(order.delivery_slot || '').trim().toLowerCase();
       return slot && !slot.startsWith('asap') && !slot.includes('35–50') && !slot.includes('35-50');
     }
@@ -264,11 +269,14 @@
       try {
         audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
         if (audioContext.state === 'suspended') await audioContext.resume();
+        if(audioContext.state !== 'running')throw new Error('Audio not running');
         soundEnabled = true;
         localStorage.setItem('tcbOrderSound', 'on');
         els.soundButton.textContent = 'Sound On';
         beep();
+        updateAlarm();
       } catch (err) {
+        soundEnabled=false;els.soundButton.textContent='Enable Sound';
         toast('This browser blocked order alert sound.', 'error');
       }
     }
@@ -282,7 +290,8 @@
     }
 
     function beep() {
-      if (!soundEnabled || !audioContext) return;
+      if (!soundEnabled || !audioContext || !signedIn || !alertFresh) return;
+      if(audioContext.state!=='running'){disableSound();alertStatus.textContent='Sound paused by browser. Click Enable Sound again.';return;}
       const now = audioContext.currentTime;
       [0, .22, .44].forEach((offset) => {
         const oscillator = audioContext.createOscillator();
@@ -299,28 +308,27 @@
     }
 
     function updateAlarm() {
-      const unattended = orders.filter((o) => (o.order_status || 'new') === 'new' && !o.acknowledged_at);
-      if (unattended.length) {
-        els.attentionBanner.classList.add('visible');
-        els.attentionTitle.textContent = unattended.length === 1 ? '1 new order needs attention' : `${unattended.length} new orders need attention`;
-        els.attentionText.textContent = 'Review payment and accept or reject each order to acknowledge it.';
-        document.title = `(${unattended.length}) New Order | TCB`;
-        if (soundEnabled && audioContext && !alarmTimer) {
-          beep();
-          alarmTimer = setInterval(beep, 12000);
-        }
-      } else {
-        els.attentionBanner.classList.remove('visible');
-        document.title = 'Order Console | The Chinese Bliss';
-        if (alarmTimer) clearInterval(alarmTimer);
-        alarmTimer = null;
+      if(!signedIn)return;
+      if(!alertFresh||!attentionSummary){
+        clearInterval(alarmTimer);alarmTimer=null;
+        alertStatus.textContent='Alert check unavailable. Reconnect and refresh; new orders may be waiting.';
+        document.title='Connection issue | TCB';return;
       }
+      const a=kitchenAttention(attentionSummary);
+      els.attentionBanner.classList.toggle('visible',a.total>0);
+      if(a.total){
+        els.attentionTitle.textContent=`${a.total} orders need attention${a.overdue?' — waiting 5+ minutes':''}`;
+        els.attentionText.textContent=`${a.normal} normal · ${a.bulk} bulk · oldest ${a.minutes} min ago. Review payment, then accept or reject. Waiting time is since order placement.`;
+        document.title=`(${a.total}) Orders waiting | TCB`;
+        if(soundEnabled&&audioContext&&!alarmTimer){beep();alarmTimer=setInterval(beep,12000);}
+      }else {clearInterval(alarmTimer);alarmTimer=null;document.title='Order Console | The Chinese Bliss';}
+      alertStatus.textContent=`${soundEnabled?'Sound enabled':'Sound off — click Enable Sound'}. Checks every 5 seconds while connected. Keep this console open; sleeping devices and closed browsers cannot alert.`;
     }
 
     async function adminRequest(payload) {
       const { data: sessionData } = await client.auth.getSession();
       const token = sessionData?.session?.access_token;
-      if (!token) throw new Error('Admin session expired. Please sign in again.');
+      if (!token) {const error=new Error('Admin session expired. Please sign in again.');error.status=401;throw error;}
       const response = await fetch(config.adminOrdersUrl, {
         method: 'POST',
         headers: {
@@ -328,7 +336,8 @@
           'Authorization': `Bearer ${token}`,
           'apikey': config.anonKey
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(15000)
       });
       const data = await response.json().catch(() => null);
       if (!response.ok || !data?.success) {
@@ -340,22 +349,27 @@
     }
 
     async function refreshOrders({ silent = false } = {}) {
-      if (refreshing) return;
+      if (refreshing || !signedIn) return;
+      const epoch=appEpoch;
       refreshing = true;
       if (!silent) els.ordersList.classList.add('oc-loading');
       try {
-        const data = await adminRequest({ action: 'list', order_type: 'normal', limit: 150 });
+        const data = await adminRequest({ action: 'list', order_type: 'all', limit: 150, include_attention:true, needs_attention:activeFilter==='new' });
+        if(epoch!==appEpoch||!signedIn)return;
+        kitchenAttention(data.attention);attentionSummary=data.attention;alertFresh=true;
         orders = Array.isArray(data.orders) ? data.orders : [];
         setConnection('online', 'Online');
         els.refreshMeta.textContent = `Updated ${new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
         render();
       } catch (err) {
+        if(epoch!==appEpoch||!signedIn)return;
+        alertFresh=false;updateAlarm();
         console.error(err);
         setConnection('error', 'Connection issue');
         if (!silent) toast(err.message || 'Could not load orders.', 'error');
-        if (err.status === 401) await client.auth.signOut();
+        if (err.status === 401 || err.status === 403) {await showApp(null);await client.auth.signOut();}
       } finally {
-        refreshing = false;
+        if(epoch===appEpoch)refreshing = false;
         els.ordersList.classList.remove('oc-loading');
       }
     }
@@ -397,7 +411,7 @@
     function actionButtons(order) {
       const status = order.order_status || 'new';
       const paid = order.payment_status === 'paid';
-      const id = escapeHtml(order.id);
+      const id = escapeHtml(`${order.order_type}:${order.id}`);
       const buttons = [];
 
       if (status === 'new') {
@@ -440,11 +454,11 @@
         order.rider_phone ? `Phone: ${escapeHtml(order.rider_phone)}` : ''
       ].filter(Boolean);
 
-      return `<article class="oc-card${attention ? ' attention' : ''}" data-order-id="${escapeHtml(order.id)}">
+      return `<article class="oc-card${attention ? ' attention' : ''}" data-order-id="${escapeHtml(order.id)}" data-order-type="${escapeHtml(order.order_type)}">
         <div class="oc-card-top">
           <div>
             <div class="oc-order-number">#${escapeHtml(order.order_number || order.id)}</div>
-            <div class="oc-order-meta">${dateTime(order.created_at)} · ${relativeTime(order.created_at)}${isScheduled(order) ? ' · Scheduled' : ''}</div>
+            <div class="oc-order-meta">${order.order_type === 'bulk' ? 'Bulk' : 'Normal'} · ${dateTime(order.created_at)} · ${relativeTime(order.created_at)}${isScheduled(order) ? ' · Scheduled' : ''}</div>
           </div>
           <div class="oc-pills">
             <span class="oc-pill status-${escapeHtml(status)}">${escapeHtml(STATUS_LABELS[status] || status)}</span>
@@ -456,9 +470,10 @@
             <div class="oc-data"><div class="oc-data-label">Customer</div><div class="oc-data-value">${escapeHtml(order.name || '—')}</div></div>
             <div class="oc-data"><div class="oc-data-label">Phone</div><div class="oc-data-value"><a href="tel:${escapeHtml(order.phone || '')}">${escapeHtml(order.phone || '—')}</a></div></div>
             <div class="oc-data oc-address"><div class="oc-data-label">Delivery address</div><div class="oc-data-value">${escapeHtml(order.address || '—')}</div></div>
-            <div class="oc-data"><div class="oc-data-label">Delivery slot</div><div class="oc-data-value">${escapeHtml(order.delivery_slot || '—')}</div></div>
+            <div class="oc-data"><div class="oc-data-label">Delivery slot</div><div class="oc-data-value">${order.order_type === 'bulk' ? dateTime(order.delivery_datetime) : escapeHtml(order.delivery_slot || '—')}</div></div>
             <div class="oc-data"><div class="oc-data-label">Payment</div><div class="oc-data-value">${escapeHtml(order.payment_method || '—')}${order.payment_reference ? ` · ${escapeHtml(order.payment_reference)}` : ''}</div></div>
           </div>
+          ${order.order_type === 'bulk' && order.event_type ? `<div class="oc-notes"><strong>Event:</strong> ${escapeHtml(order.event_type)}</div>` : ''}
           <div class="oc-items">${itemHtml}</div>
           <div class="oc-summary">
             <div class="oc-summary-cell"><span>Food</span><strong>${money(order.subtotal)}</strong></div>
@@ -482,13 +497,13 @@
     }
 
     function getOrder(id) {
-      return orders.find((o) => String(o.id) === String(id));
+      return orders.find((o) => `${o.order_type}:${o.id}` === String(id));
     }
 
     async function updateStatus(order, status, reason = '') {
       try {
         els.ordersList.classList.add('oc-loading');
-        await adminRequest({ action:'update_status', order_type:'normal', order_id:order.id, status, reason });
+        await adminRequest({ action:'update_status', order_type:order.order_type, order_id:order.id, status, reason });
         toast(`Order #${order.order_number || order.id} updated to ${STATUS_LABELS[status] || status}.`);
         await refreshOrders({ silent:true });
       } catch (err) {
@@ -563,7 +578,7 @@
       els.confirmPayment.disabled = true;
       try {
         await adminRequest({
-          action:'confirm_payment', order_type:'normal', order_id:dialogOrder.id,
+          action:'confirm_payment', order_type:dialogOrder.order_type, order_id:dialogOrder.id,
           payment_reference:els.paymentReference.value.trim()
         });
         els.paymentDialog.close();
@@ -588,13 +603,13 @@
       els.saveDelivery.disabled = true;
       try {
         await adminRequest({
-          action:'set_delivery', order_type:'normal', order_id:dialogOrder.id,
+          action:'set_delivery', order_type:dialogOrder.order_type, order_id:dialogOrder.id,
           delivery_provider:provider,
           delivery_booking_id:els.deliveryBookingId.value.trim(),
           delivery_partner_cost:els.deliveryPartnerCost.value === '' ? 0 : Number(els.deliveryPartnerCost.value),
           rider_name:els.riderName.value.trim(), rider_phone:els.riderPhone.value.trim(), tracking_url:els.trackingUrl.value.trim()
         });
-        await adminRequest({ action:'update_status', order_type:'normal', order_id:dialogOrder.id, status:'rider_assigned' });
+        await adminRequest({ action:'update_status', order_type:dialogOrder.order_type, order_id:dialogOrder.id, status:'rider_assigned' });
         els.deliveryDialog.close();
         toast(`Delivery assigned for #${dialogOrder.order_number || dialogOrder.id}.`);
         await refreshOrders({ silent:true });
@@ -614,26 +629,28 @@
       const tab = event.target.closest('.oc-tab');
       if (!tab) return;
       activeFilter = tab.dataset.filter;
+      refreshOrders({silent:true});
       els.tabs.querySelectorAll('.oc-tab').forEach((el) => el.classList.toggle('active', el === tab));
       render();
     });
     els.search.addEventListener('input', render);
     els.showNewButton.addEventListener('click', () => {
       activeFilter = 'new';
+      els.search.value='';
+      refreshOrders({silent:true});
       els.tabs.querySelectorAll('.oc-tab').forEach((el) => el.classList.toggle('active', el.dataset.filter === 'new'));
       window.scrollTo({ top: 0, behavior: 'smooth' });
       render();
     });
 
-    els.soundButton.addEventListener('click', () => soundEnabled ? disableSound() : enableSound());
-    els.signOut.addEventListener('click', async () => client.auth.signOut());
+    els.soundButton.addEventListener('click', async () => {if(soundEnabled)disableSound();else await enableSound();updateAlarm();});
+    els.signOut.addEventListener('click', async () => {await showApp(null);await client.auth.signOut();});
 
     els.loginForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       els.loginError.classList.remove('visible');
       els.loginButton.disabled = true;
       try {
-        await enableSound();
         const { error } = await client.auth.signInWithPassword({
           email: els.loginEmail.value.trim(), password: els.loginPassword.value
         });
@@ -653,12 +670,16 @@
 
     async function showApp(session) {
       if (!session) {
+        signedIn=false;appEpoch++;refreshing=false;orders=[];attentionSummary=null;alertFresh=false;
+        disableSound();els.ordersList.replaceChildren();els.attentionBanner.classList.remove('visible');
+        document.title='Order Console | The Chinese Bliss';
         els.loginShell.style.display = '';
         els.appShell.classList.remove('visible');
         clearInterval(pollTimer);
         clearInterval(alarmTimer);
         return;
       }
+      signedIn=true;const epoch=appEpoch;
       els.loginShell.style.display = 'none';
       els.appShell.classList.add('visible');
       els.soundButton.textContent = soundEnabled ? 'Sound On' : 'Enable Sound';
@@ -666,8 +687,12 @@
         try { await enableSound(); } catch (_) {}
       }
       await refreshOrders();
-      startPolling();
+      if(signedIn&&epoch===appEpoch)startPolling();
     }
+
+    window.addEventListener('offline',()=>{if(signedIn){alertFresh=false;updateAlarm();setConnection('error','Offline');}});
+    window.addEventListener('online',()=>refreshOrders({silent:true}));
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshOrders({silent:true});});
 
     client.auth.onAuthStateChange((_event, session) => {
       setTimeout(() => showApp(session), 0);

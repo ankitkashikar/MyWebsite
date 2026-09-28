@@ -1,0 +1,25 @@
+PASS normal/bulk counts and excluded-status counts are accurate
+PASS favourites sum quantities and exclude cancelled/rejected items
+PASS hour buckets use placed time in IST including UTC date rollover
+PASS recorded addresses and historical contact/item data are available
+PASS stable order pagination handles equal timestamps without duplicates
+PASS empty customers return empty summaries and unknown customers return null
+PASS search is case-insensitive and treats SQL wildcard/injection characters literally
+PASS customer cursor pages do not repeat rows
+PASS SQL rejects invalid search/page parameters
+PASS anonymous/authenticated cannot call any customer RPC
+PASS service role reads through forced RLS
+PASS API denies missing/anonymous/non-admin before service access
+(node:49) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS API validates IDs, search and paging before customer queries
+PASS authorized API returns customer profile with no-store and unknown ID 404
+14 customer database/API checks passed. Synthetic data; no production access.
+PASS customer names render as text without executable markup
+PASS profile shows contact, items, IST hours and safely rendered addresses
+PASS search sends trimmed input and restarts customer pagination
+PASS sign-out reset clears customer contacts and order history
+PASS late list response cannot restore data after sign-out
+PASS late profile response cannot restore data after sign-out
+PASS API failures show a message without retaining list data
+7 customer DOM checks passed. Simulated API; real browser acceptance pending.

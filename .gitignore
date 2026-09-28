@@ -9,3 +9,13 @@ supabase/.temp/
 # OS / editor noise
 .DS_Store
 Thumbs.db
+
+# Disposable local checkout QA
+.local-supabase-qa/
+node_modules/
+
+# Ephemeral offline migration rehearsal dependencies
+.migration-rehearsal/
+
+# Synthetic recovery backups and reports
+.recovery-qa/

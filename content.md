@@ -489,7 +489,7 @@ A future `customer_addresses` table may support saved/default addresses, but ord
 
 Repository migration:
 
-`supabase/migrations/20260916_order_operations.sql`
+`supabase/migrations/20260917085405_order_operations.sql`
 
 It adds/standardizes lifecycle, payment, delivery and audit fields plus status-event history.
 
@@ -509,7 +509,7 @@ Required production backend work includes:
 
 - inspect the website Supabase schema
 - confirm backup/recovery
-- apply `supabase/migrations/20260916_order_operations.sql`
+- apply `supabase/migrations/20260917085405_order_operations.sql`
 - create the single shared TCB Supabase Auth account
 - set `TCB_ADMIN_EMAIL`
 - deploy `supabase/functions/place-order/index.ts`
@@ -831,7 +831,7 @@ Recommended sequence:
 
 1. Verify access to the website Supabase project `ncbyfovvetvmkrlzapku`.
 2. Inspect its live schema and confirm backups.
-3. Apply `supabase/migrations/20260916_order_operations.sql`.
+3. Apply `supabase/migrations/20260917085405_order_operations.sql`.
 4. Create exactly one shared TCB operations Supabase Auth account.
 5. Configure `TCB_ADMIN_EMAIL`.
 6. Deploy `place-order`.
@@ -915,3 +915,13 @@ When the owner says “do the best you can,” make safe improvements only where
 ## 27. One-sentence handoff
 
 **TCB now has a fully QA-tested website release on `main` with direct-order checkout, a single-account restaurant Order Console UI, customer order tracking and operational policies; the next critical task is to deploy and smoke-test the corresponding Edge Functions/migration on the website’s own Supabase project (`ncbyfovvetvmkrlzapku`) without touching the separate TCB_Dashboard project, then finish payment/delivery-provider integrations and replace remaining owner-supplied content placeholders.**
+
+## Confirmed platform links — 28 September 2026
+
+Owner confirmed these URLs; supersedes earlier pending-link notes:
+- Swiggy: https://www.swiggy.com/city/pune/chinese-bliss-mulshi-hinjewadi-phase-1-rest1067333
+- Zomato: https://www.zomato.com/pune/the-chinese-bliss-hinjawadi
+- Instagram: https://www.instagram.com/thechinesebliss/
+- Facebook: https://www.facebook.com/profile.php?id=61592222770168
+
+Restaurant cards on order.html link directly; Instagram/Facebook are in the index/menu/our-story footers. New-tab links use noopener/noreferrer and accessible labels. Owner confirmation establishes chosen destinations; logged-in app behavior and ordering availability are not verified by this source edit. No ratings, images or platform prices were imported.

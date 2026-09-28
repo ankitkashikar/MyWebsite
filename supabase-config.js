@@ -48,17 +48,17 @@ async function submitOrder(payload) {
         "apikey": SUPABASE_ANON_KEY,
       },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000),
     });
 
     const data = await res.json().catch(() => null);
 
     if (!res.ok || !data || !data.success) {
-      return { success: false, message: (data && data.message) || "Could not place your order. Please try again." };
+      return { success: false, httpStatus: res.status, message: tcbFailureMessage(data, res.status, "Order could not be confirmed. Keep this checkout open and retry with the same details.") };
     }
     return data;
   } catch (err) {
-    console.error("submitOrder network error", err);
-    return { success: false, message: "Network error — please check your connection and try again." };
+    return { success: false, message: payload.action === "quote" ? "Delivery charges could not be checked. Check your connection and retry." : "We could not confirm whether your order was received. Keep this checkout open and retry without changing its details. Do not make another payment." };
   }
 }
 
@@ -76,16 +76,16 @@ async function lookupTCBOrderStatus(orderNumber, phone) {
         "apikey": SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({ order_number: orderNumber, phone }),
+      signal: AbortSignal.timeout(15000),
     });
 
     const data = await res.json().catch(() => null);
     if (!res.ok || !data || !data.success) {
-      return { success: false, message: (data && data.message) || "Could not load your order status. Please try again." };
+      return { success: false, httpStatus: res.status, message: tcbFailureMessage(data, res.status, "Order status is temporarily unavailable. Please try again later.") };
     }
     return data;
   } catch (err) {
-    console.error("lookupTCBOrderStatus network error", err);
-    return { success: false, message: "Network error — please check your connection and try again." };
+    return { success: false, message: "Order status could not be refreshed. Check your connection and try again." };
   }
 }
 
@@ -108,4 +108,33 @@ function newIdempotencyKey() {
 
   const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0"));
   return `${hex.slice(0, 4).join("")}-${hex.slice(4, 6).join("")}-${hex.slice(6, 8).join("")}-${hex.slice(8, 10).join("")}-${hex.slice(10, 16).join("")}`;
+}
+
+/** Informational coupon quote; final orders always revalidate server-side. */
+async function validateTCBCoupon(payload) {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/validate-coupon`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json", "Authorization": `Bearer ${SUPABASE_ANON_KEY}`, "apikey": SUPABASE_ANON_KEY},
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000),
+    });
+    const result = await response.json();
+    if (!response.ok || !result || result.valid !== true) {
+      return {valid: false, message: tcbFailureMessage(result, response.status, "Coupon service is temporarily unavailable. Please try again later.")};
+    }
+    return result;
+  } catch {
+    return {valid: false, message: "Coupon could not be checked. Please try again."};
+  }
+}
+window.validateTCBCoupon = validateTCBCoupon;
+
+// Do not display raw proxy/server failure text. Only carry a validated support ID.
+function tcbFailureMessage(data, status, fallback) {
+  const reference = typeof data?.reference === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.reference)
+    ? ' Reference: ' + data.reference : '';
+  if (status === 429) return 'Too many attempts. Please wait 10 minutes before trying again.' + reference;
+  if (status >= 500 || status === 401 || status === 403) return fallback + reference;
+  return typeof data?.message === 'string' ? data.message : fallback + reference;
 }

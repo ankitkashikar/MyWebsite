@@ -1,3 +1,10 @@
+> **Historical guide — superseded for current release preparation.** Read
+> [production-configuration-readiness.md](production-configuration-readiness.md)
+> first. Do not repeat historical migrations/account creation. Delivery/coupon
+> management now exists; customer email/SMS/WhatsApp and full delivery tracking
+> are excluded from current scope. Current account/deployment state needs
+> confirmation; older statements below are historical, not current instructions.
+
 # The Chinese Bliss — Order Console Deployment Guide
 
 **Branch:** `tcb-design-system-refresh`  
@@ -11,7 +18,7 @@ This guide documents the deployment order for the internal TCB restaurant order 
 - `orders-console.css` — tablet/mobile/desktop console styling.
 - `supabase/functions/admin-orders/index.ts` — secure restaurant operations API.
 - `supabase/functions/place-order/index.ts` — server-side customer order creation and price validation.
-- `supabase/migrations/20260916_order_operations.sql` — lifecycle/audit/delivery schema additions.
+- `supabase/migrations/20260917085405_order_operations.sql` — lifecycle/audit/delivery schema additions.
 - `scripts/order_console_qa.mjs` — browser smoke test for the internal console.
 - `scripts/responsive_qa.mjs` — public checkout/responsive tests, including PIN 411057 validation.
 
@@ -65,7 +72,7 @@ Pay special attention to primary-key types, current payment fields, current orde
 
 Apply:
 
-`supabase/migrations/20260916_order_operations.sql`
+`supabase/migrations/20260917085405_order_operations.sql`
 
 Review the migration before applying. It is intentionally idempotent for the added columns/constraints, but production schema differences must still be inspected first.
 

@@ -54,56 +54,74 @@ def post(path: str, body: dict):
     return status, headers, payload, None
 
 
-# Public customer lookup: use a future-year fake order number so it cannot
-# collide with a real current order. This is read-only apart from limiter state.
-fake_order = f"CBD-2099-{random.randint(900000, 999999):06d}"
-status, headers, payload, err = post(
-    "/order-status",
-    {"order_number": fake_order, "phone": "9876543211"},
-)
-if err:
-    errors.append(f"order-status {err}")
-else:
-    if status != 404:
-        errors.append(f"order-status expected 404 for unknown order, got {status}")
-    if not isinstance(payload, dict) or payload.get("success") is not False:
-        errors.append("order-status did not return the expected safe failure payload")
-    if not isinstance(payload, dict) or "Order not found" not in str(payload.get("message", "")):
-        errors.append("order-status did not use the generic not-found response")
-    if headers.get("Access-Control-Allow-Origin") != origin:
-        errors.append("order-status live CORS origin is not locked to production")
-    if headers.get("Cache-Control") != "no-store":
-        errors.append("order-status live response is not no-store")
+def safe_failure(payload, message):
+    """Require the exact safe shape; never print an unexpected response body."""
+    if not isinstance(payload, dict) or set(payload) != {"success", "message", "reference"}:
+        return False
+    reference = payload["reference"]
+    return (payload["success"] is False and isinstance(reference, str)
+            and re.fullmatch(r"[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}", reference, re.I) is not None
+            and payload["message"] == message + " Reference: " + reference)
 
-# Admin endpoint: the public anon JWT should pass the platform JWT gate but
-# must fail handler-level user validation. Because the handler checks
-# TCB_ADMIN_EMAIL before user validation, receiving the custom 401 below also
-# proves the secret is configured and non-empty at runtime.
-status, headers, payload, err = post(
-    "/admin-orders",
-    {"action": "list", "order_type": "normal", "limit": 1},
-)
-if err:
-    errors.append(f"admin-orders {err}")
-else:
-    if status != 401:
-        errors.append(f"admin-orders expected 401 for anon JWT, got {status}")
-    message = payload.get("message", "") if isinstance(payload, dict) else ""
-    if message == "Admin access is not configured yet.":
-        errors.append("TCB_ADMIN_EMAIL is missing at runtime")
-    elif message != "Your admin session is invalid or expired.":
-        errors.append(f"admin-orders returned an unexpected auth response: {message or '<non-json>'}")
-    if headers.get("Access-Control-Allow-Origin") != origin:
-        errors.append("admin-orders live CORS origin is not locked to production")
-    if headers.get("Cache-Control") != "no-store":
-        errors.append("admin-orders live response is not no-store")
 
-if errors:
-    print("TCB STEP 2 LIVE SMOKE FAILED")
-    for error in errors:
-        print(f" - {error}")
-    sys.exit(1)
+def run():
+    errors.clear()
+    # Public customer lookup: use a future-year fake order number so it cannot
+    # collide with a real current order. This is read-only apart from limiter state.
+    fake_order = f"CBD-2099-{random.randint(900000, 999999):06d}"
+    status, headers, payload, err = post(
+        "/order-status",
+        {"order_number": fake_order, "phone": "9876543211"},
+    )
+    if err:
+        errors.append(f"order-status {err}")
+    else:
+        if status != 404:
+            errors.append(f"order-status expected 404 for unknown order, got {status}")
+        if not isinstance(payload, dict) or payload.get("success") is not False:
+            errors.append("order-status did not return the expected safe failure payload")
+        if not safe_failure(payload, "Order not found. Check the order number and mobile number and try again."):
+            errors.append("order-status did not use the generic not-found response")
+        if headers.get("Access-Control-Allow-Origin") != origin:
+            errors.append("order-status live CORS origin is not locked to production")
+        if headers.get("Cache-Control") != "no-store":
+            errors.append("order-status live response is not no-store")
 
-print("TCB STEP 2 LIVE SMOKE PASS")
-print(" - order-status: public lookup reachable; unknown credentials return generic 404")
-print(" - admin-orders: anon JWT rejected by handler; TCB_ADMIN_EMAIL is loaded")
+    # Admin endpoint: the public anon JWT should pass the platform JWT gate but
+    # must fail handler-level user validation. Because the handler checks
+    # TCB_ADMIN_EMAIL before user validation, receiving the custom 401 below also
+    # proves the secret is configured and non-empty at runtime.
+    status, headers, payload, err = post(
+        "/admin-orders",
+        {"action": "list", "order_type": "normal", "limit": 1},
+    )
+    if err:
+        errors.append(f"admin-orders {err}")
+    else:
+        if status != 401:
+            errors.append(f"admin-orders expected 401 for anon JWT, got {status}")
+        if not safe_failure(payload, "Your admin session is invalid or expired."):
+            errors.append("admin-orders did not return the expected safe auth response and support reference")
+        if headers.get("Access-Control-Allow-Origin") != origin:
+            errors.append("admin-orders live CORS origin is not locked to production")
+        if headers.get("Cache-Control") != "no-store":
+            errors.append("admin-orders live response is not no-store")
+
+    if errors:
+        print("TCB STEP 2 LIVE SMOKE FAILED")
+        for error in errors:
+            print(f" - {error}")
+        return 1
+
+    print("TCB STEP 2 LIVE SMOKE PASS")
+    print(" - order-status: public lookup reachable; unknown credentials return generic 404")
+    print(" - admin-orders: anon JWT rejected by handler; TCB_ADMIN_EMAIL is loaded")
+
+    return 0
+
+
+if __name__ == "__main__":
+    if sys.argv[1:] != ["--confirm-live"]:
+        print("Not run: live probes consume production rate-limit state. Use --confirm-live only with release authorization.")
+        sys.exit(2)
+    sys.exit(run())

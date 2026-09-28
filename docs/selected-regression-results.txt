@@ -1,0 +1,145 @@
+PASS backend_scheduling_qa.mjs
+PASS 18 normal schedule cases through actual handler; invalid slots make no product/order writes.
+PASS expired saved retry returns original order; changed retry returns 409. No live API used.
+PASS generated browser slots match backend dated-slot contract.
+PASS bulk_scheduling_qa.mjs
+PASS 18 bulk schedule cases, year/leap-day boundaries, saved retry and changed retry through actual handler.
+PASS browser/server agreement and India midnight minimum; host timezone America/Toronto
+PASS delivery_timezone_qa.mjs
+PASS device timezone UTC: opening, rounding, midnight and year rollover
+PASS device timezone Asia/Kolkata: opening, rounding, midnight and year rollover
+PASS device timezone America/Los_Angeles: opening, rounding, midnight and year rollover
+PASS device timezone Asia/Kathmandu: opening, rounding, midnight and year rollover
+PASS device timezone Pacific/Auckland: opening, rounding, midnight and year rollover
+35 fixed-clock scheduling cases passed; backend scheduling acceptance excluded.
+PASS customer_progress_qa.mjs
+PASS four-step timeline, no provider link, map or ETA
+PASS internal statuses map to simple customer progress and safe exceptional messages
+PASS IST timestamp and item escaping survive simplification
+PASS two-minute polling stays below eight checks in each ten-minute window
+PASS repeated submit clicks cannot accelerate polling
+PASS dispatch/rejection/cancellation stop automatic checks
+PASS silent failure pauses polling and marks displayed data stale
+PASS 429 pauses polling and blocks immediate manual retries
+PASS editing lookup details discards an in-flight old response
+PASS hidden tabs pause network polling and resume on the next visible interval
+PASS slow status request blocks overlapping manual and scheduled requests
+PASS normal and bulk public responses omit delivery/rider details
+PASS server rate-limit protection remains fail-closed
+13 customer progress API/DOM checks passed. Simulated clock/API; real local acceptance pending.
+PASS kitchen_alerts_qa.mjs
+PASS both channels count and five-minute escalation use elapsed time
+PASS invalid/missing alert responses cannot imply no waiting orders
+PASS alert counts require verified admin identity
+PASS old unattended orders count beyond the recent-list limit
+PASS attention view returns waiting orders instead of newer completed orders
+PASS failed count query reports failure, never zero pending orders
+PASS visual alerts work without sound permission
+PASS sound is explicit and polling does not restart alarm each refresh
+PASS connection failure stops repeating sound and warns staff
+PASS late refresh cannot restore orders, title or timers after sign-out
+10 kitchen alert API/DOM checks passed. Mock API/audio; live acceptance pending.
+PASS customers_dom_qa.mjs
+PASS customer names render as text without executable markup
+PASS profile shows contact, items, IST hours and safely rendered addresses
+PASS search sends trimmed input and restarts customer pagination
+PASS sign-out reset clears customer contacts and order history
+PASS late list response cannot restore data after sign-out
+PASS late profile response cannot restore data after sign-out
+PASS API failures show a message without retaining list data
+7 customer DOM checks passed. Simulated API; real browser acceptance pending.
+PASS admin_startup_qa.mjs
+PASS session initialization completes before interactive sign-in
+PASS settings failure is reported separately from authentication
+2 admin startup DOM checks passed. Mock Auth/API; laptop acceptance pending.
+PASS error_monitoring_qa.mjs
+PASS place-order: isolated support references and allowlisted logs
+PASS order-status: isolated support references and allowlisted logs
+PASS admin-orders: isolated support references and allowlisted logs
+PASS validate-coupon: isolated support references and allowlisted logs
+PASS checkout timeout preserves request key and explains uncertain order outcome
+PASS server errors hide raw proxy details and retain valid support reference
+PASS rate limit uses clear wait message; malformed proxy response remains safe
+7 error-monitoring checks passed. Mock API/runtime; local Supabase acceptance pending.
+PASS coupon_admin_qa.mjs
+PASS create and atomic audit record
+PASS percentage quote uses catalogue prices
+PASS edit flat discount, minimum, cap and order scope
+PASS stale edits and invalid input leave audit/state unchanged
+PASS disable rejects redemption; enable restores it
+PASS editing preserves existing date/product/category restrictions
+PASS minimum order and maximum percentage validation
+PASS usage limits count real saved orders
+PASS delete blocks reuse while historical totals and retry remain intact
+PASS deleted flag cannot be bypassed by reactivating row
+PASS anon and authenticated cannot manage coupons or read audit
+PASS API denies missing, anonymous and non-admin identity
+PASS API uses verified actor and rejects forged fields, invalid amounts and stale saves
+13 coupon administration database/API checks passed; no live services used.
+PASS delivery_settings_qa.mjs
+PASS missing settings block quote and order without writes
+PASS admin rule create records audit atomically
+PASS threshold: below charged; exact and above free
+PASS stale edits and invalid fees rejected without audit
+PASS normal server quote, forged fee protection, stored total and retry
+PASS bulk server quote, forged fee protection, stored total and retry
+PASS coupon threshold uses subtotal after discounts
+PASS rule changed after quote rejects new order; existing retry survives
+PASS disabled and deleted rules block, history retained
+PASS delete and recreate preserve version sequence
+PASS anon and authenticated cannot read/write rules or invoke management
+PASS management handler denies missing, anon and non-admin tokens before service access
+PASS authorized save ignores forged audit actor and stale write returns conflict
+13 delivery database/API checks passed against exported schema. No live services used.
+PASS customers_qa.mjs
+PASS normal/bulk counts and excluded-status counts are accurate
+PASS favourites sum quantities and exclude cancelled/rejected items
+PASS hour buckets use placed time in IST including UTC date rollover
+PASS recorded addresses and historical contact/item data are available
+PASS stable order pagination handles equal timestamps without duplicates
+PASS empty customers return empty summaries and unknown customers return null
+PASS search is case-insensitive and treats SQL wildcard/injection characters literally
+PASS customer cursor pages do not repeat rows
+PASS SQL rejects invalid search/page parameters
+PASS anonymous/authenticated cannot call any customer RPC
+PASS service role reads through forced RLS
+PASS API denies missing/anonymous/non-admin before service access
+PASS API validates IDs, search and paging before customer queries
+PASS authorized API returns customer profile with no-store and unknown ID 404
+14 customer database/API checks passed. Synthetic data; no production access.
+PASS migration_upgrade_qa.mjs
+BASELINE SHA256 d414c42f7ffcf433a3a2e188b094178e58509a1df4a1de95db5ccbe9dc96bea0
+MIGRATION 20260920000100_coupon_validation.sql SHA256 34fb5ae601dbfe6367bd9de318047c481e8e8d0c7a3aed091911baf2053030ef
+PASS 20260920000100_coupon_validation.sql: injected failure rolls back DDL
+PASS 20260920000100_coupon_validation.sql: applies successfully
+PASS 20260920000100_coupon_validation.sql: preserves every legacy field, item and audit event
+MIGRATION 20260920000200_atomic_orders.sql SHA256 a206f6b3cc3db07d5c6f2b2408f79ce22f24d68f5cdc3aba355f41876f4328be
+PASS 20260920000200_atomic_orders.sql: injected failure rolls back DDL
+PASS 20260920000200_atomic_orders.sql: applies successfully
+PASS 20260920000200_atomic_orders.sql: preserves every legacy field, item and audit event
+MIGRATION 20260923000100_delivery_settings.sql SHA256 f0dbe97fdf28e2963e68cddd8f1f2c65748eb86efc293e47af5eb5496eb149ff
+PASS 20260923000100_delivery_settings.sql: injected failure rolls back DDL
+PASS 20260923000100_delivery_settings.sql: applies successfully
+PASS 20260923000100_delivery_settings.sql: preserves every legacy field, item and audit event
+MIGRATION 20260923000200_coupon_admin.sql SHA256 9878ba23c5987876741968a4b02664f2f675da9f59b8544802dee33a0f01f871
+PASS 20260923000200_coupon_admin.sql: injected failure rolls back DDL
+PASS 20260923000200_coupon_admin.sql: applies successfully
+PASS 20260923000200_coupon_admin.sql: preserves every legacy field, item and audit event
+MIGRATION 20260924000100_audit_grants.sql SHA256 01b50b7a062e413f825b8a21b0d72708ed3d51e8fbf556a1a298088ee1282d84
+PASS 20260924000100_audit_grants.sql: injected failure rolls back DDL
+PASS 20260924000100_audit_grants.sql: applies successfully
+PASS 20260924000100_audit_grants.sql: preserves every legacy field, item and audit event
+MIGRATION 20260925000100_admin_customers.sql SHA256 a4e46b3e0a775d11df983bd5d62cea7aeac105e53c2d9943871baf28fdd64e56
+PASS 20260925000100_admin_customers.sql: injected failure rolls back DDL
+PASS 20260925000100_admin_customers.sql: applies successfully
+PASS 20260925000100_admin_customers.sql: preserves every legacy field, item and audit event
+PASS existing coupon restrictions retained; admin version initialized
+PASS saved request survives and retry returns original response
+PASS normal and bulk missing delivery settings fail closed
+PASS anon: all new tables and RPCs denied
+PASS authenticated: all new tables and RPCs denied
+PASS service role can execute RPCs; audit history cannot be updated/deleted
+PASS service role inserts and reads audit records after privilege correction
+
+25 migration upgrade checks passed. In-memory PGlite; synthetic data only. No production access, Supabase migration ledger, PostgREST or concurrent-client verification.
+12/12 selected offline suites passed. Synthetic data/mocked runtime only; no production or real payment verification.

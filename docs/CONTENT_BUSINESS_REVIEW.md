@@ -6,6 +6,14 @@
 
 This review covers public-facing website copy and business consistency. Missing business facts are intentionally not invented.
 
+## Current continuation — 24 September 2026
+See `docs/public-content-review-20260924.md` for the latest public-content audit.
+Unverified proof claims, founder content and generic outbound links were cleaned up
+on a development branch. Bulk catalogue and regular menu confirmation remain open.
+Earlier decisions below are historical where superseded: bulk notice is now exactly
+24 hours, delivery fees are admin-managed, and payment integration stays LAST.
+Coupon and delivery administration passed local acceptance (78 checks, exit 0).
+
 ## Current release status
 
 **Status: HOLD — several owner-supplied content/payment/integration items remain before production merge.**
@@ -179,3 +187,15 @@ These are operating/legal drafts and should receive final Indian legal/complianc
 10. Re-run static QA + responsive/interaction QA + payment/delivery integration tests and conduct production smoke test.
 
 Only after these remaining content/business items are resolved should the branch be considered content-ready for production merge.
+
+## Owner confirmation — 28 September 2026
+
+Address: Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057.
+Phone: +91 8956150583. Email: chinesebliss1@gmail.com.
+Monday–Sunday, direct-order hours 4 PM–midnight, Asia/Kolkata.
+Normal website orders remain PIN 411057 only. Bulk must NOT be restricted to that PIN; this does not promise unlimited geographic coverage and remains subject to kitchen acceptance.
+
+P5 public search found these candidates:
+- https://www.zomato.com/pune/the-chinese-bliss-hinjawadi — listing address and phone match owner-confirmed details.
+- https://www.swiggy.com/city/pune/chinese-bliss-mulshi-hinjewadi-phase-1-rest1067333 — indexed listing address matches; direct retrieval encounters bot verification.
+Instagram/Facebook ownership not established. Per content.md section 19, ask owner for direct restaurant/profile links before wiring destinations. Public ratings/menu/prices are not imported.

@@ -29,7 +29,7 @@
   <main class="track-shell">
     <section class="track-head">
       <p class="track-kicker">Direct Website Order</p>
-      <h1>Track Your Order</h1>
+      <h1>Your Order Status</h1>
       <p>Enter the order number from your confirmation and the same mobile number used at checkout. Status updates come directly from the TCB order system.</p>
     </section>
 
@@ -38,7 +38,7 @@
         <form class="track-form" id="trackForm" novalidate>
           <div class="track-field">
             <label for="trackOrderNumber">Order Number</label>
-            <input id="trackOrderNumber" name="order_number" type="text" maxlength="80" autocomplete="off" placeholder="e.g. TCB-1042" required />
+            <input id="trackOrderNumber" name="order_number" type="text" maxlength="80" autocomplete="off" placeholder="e.g. CBD-2026-000001 or BLK-2026-000001" required />
           </div>
           <div class="track-field">
             <label for="trackPhone">Mobile Number</label>
@@ -46,6 +46,7 @@
           </div>
           <button class="track-submit" id="trackSubmit" type="submit">Track Order</button>
         </form>
+        <p id="refreshNote" role="status" aria-live="polite">Kitchen status only. No live delivery tracking.</p>
         <p class="track-form-error" id="trackError" role="alert"></p>
         <p class="track-help">For privacy, we only show an order when both the order number and checkout mobile number match.</p>
       </div>
@@ -68,10 +69,6 @@
             <strong id="resultSlot">—</strong>
           </div>
           <div class="track-summary-box">
-            <span>Estimated Delivery</span>
-            <strong id="resultEta">35–50 min after confirmation</strong>
-          </div>
-          <div class="track-summary-box">
             <span>Order Total</span>
             <strong id="resultTotal">₹0</strong>
           </div>
@@ -80,12 +77,10 @@
         <section class="track-section">
           <h2>Order Progress</h2>
           <div class="track-timeline" id="trackTimeline">
-            <div class="track-step" data-status="new"><div class="track-dot">1</div><div class="track-step-label">Received</div></div>
-            <div class="track-step" data-status="accepted"><div class="track-dot">2</div><div class="track-step-label">Accepted</div></div>
-            <div class="track-step" data-status="preparing"><div class="track-dot">3</div><div class="track-step-label">Preparing</div></div>
-            <div class="track-step" data-status="ready_for_pickup"><div class="track-dot">4</div><div class="track-step-label">Ready</div></div>
-            <div class="track-step" data-status="dispatched"><div class="track-dot">5</div><div class="track-step-label">Dispatched</div></div>
-            <div class="track-step" data-status="delivered"><div class="track-dot">6</div><div class="track-step-label">Delivered</div></div>
+            <div class="track-step" data-status="accepted"><div class="track-dot">1</div><div class="track-step-label">Accepted</div></div>
+            <div class="track-step" data-status="preparing"><div class="track-dot">2</div><div class="track-step-label">Preparing</div></div>
+            <div class="track-step" data-status="ready_for_pickup"><div class="track-dot">3</div><div class="track-step-label">Food is Ready</div></div>
+            <div class="track-step" data-status="dispatched"><div class="track-dot">4</div><div class="track-step-label">Dispatched</div></div>
           </div>
           <div class="track-state-note" id="trackStateNote">We received your order. Payment and restaurant acceptance are tracked separately.</div>
         </section>
@@ -94,13 +89,7 @@
           <h2>Your Items</h2>
           <div class="track-items" id="resultItems"></div>
           <div class="track-total-row"><span>Total</span><strong id="resultTotalBottom">₹0</strong></div>
-          <div class="track-provider" id="providerBox" hidden>
-            <div class="track-provider-copy">
-              <span>Delivery Partner</span>
-              <strong id="providerName">Assigned</strong>
-            </div>
-            <a id="trackingLink" href="menu.html" target="_blank" rel="noopener noreferrer">Open Tracking</a>
-          </div>
+
         </section>
       </div>
     </section>
@@ -121,18 +110,21 @@
       const submitButton = document.getElementById('trackSubmit');
       const errorBox = document.getElementById('trackError');
       const resultBox = document.getElementById('trackResult');
-      const statusOrder = ['new','accepted','preparing','ready_for_pickup','dispatched','delivered'];
+      const statusOrder = ['accepted','preparing','ready_for_pickup','dispatched'];
       let refreshTimer = null;
-      let currentLookup = null;
+      const REFRESH_MS=120000;
+      let busy=false, generation=0, autoActive=false;
+      const nextAllowed=new Map();
+      const refreshNote=document.getElementById('refreshNote');
 
       const statusLabels = {
-        new: 'Order Received',
+        new: 'Awaiting Acceptance',
         accepted: 'Accepted',
         preparing: 'Preparing',
-        ready_for_pickup: 'Ready for Pickup',
-        rider_assigned: 'Rider Assigned',
-        dispatched: 'Out for Delivery',
-        delivered: 'Delivered',
+        ready_for_pickup: 'Food is Ready',
+        rider_assigned: 'Food is Ready',
+        dispatched: 'Dispatched',
+        delivered: 'Dispatched',
         rejected: 'Rejected',
         cancelled: 'Cancelled'
       };
@@ -141,10 +133,10 @@
         new: 'We received your order. If your payment is still pending, TCB will verify it before accepting the order.',
         accepted: 'Your order has been accepted by TCB and is queued for preparation.',
         preparing: 'The kitchen is preparing your order now.',
-        ready_for_pickup: 'Your order is packed and ready for rider pickup.',
-        rider_assigned: 'A delivery rider has been assigned. Your order will be dispatched shortly.',
+        ready_for_pickup: 'Your food is ready for dispatch.',
+        rider_assigned: 'Your food is ready for dispatch.',
         dispatched: 'Your order has left TCB and is on the way.',
-        delivered: 'Your order has been marked delivered. Thank you for ordering directly from TCB.',
+        delivered: 'Your order has been dispatched. This page shows kitchen progress only.',
         rejected: 'TCB could not accept this order. Please contact us if you need help with payment or a replacement order.',
         cancelled: 'This order has been cancelled. Please contact us if you need help with payment or a replacement order.'
       };
@@ -158,20 +150,7 @@
         if (!value) return '';
         const d = new Date(value);
         if (Number.isNaN(d.getTime())) return '';
-        return d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-      }
-
-      function etaText(order) {
-        if (order.estimated_delivery_from && order.estimated_delivery_to) {
-          const from = new Date(order.estimated_delivery_from);
-          const to = new Date(order.estimated_delivery_to);
-          if (!Number.isNaN(from.getTime()) && !Number.isNaN(to.getTime())) {
-            const opts = { hour:'2-digit', minute:'2-digit' };
-            return `${from.toLocaleTimeString('en-IN', opts)} – ${to.toLocaleTimeString('en-IN', opts)}`;
-          }
-        }
-        if (order.order_status === 'delivered') return 'Delivered';
-        return 'Approx. 35–50 min after confirmation';
+        return d.toLocaleString('en-IN', { timeZone:'Asia/Kolkata', day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
       }
 
       function setError(message) {
@@ -180,7 +159,7 @@
       }
 
       function timelineStatus(status) {
-        return status === 'rider_assigned' ? 'ready_for_pickup' : status;
+        return status === 'rider_assigned' ? 'ready_for_pickup' : status === 'delivered' ? 'dispatched' : status;
       }
 
       function renderTimeline(order) {
@@ -191,7 +170,6 @@
         document.querySelectorAll('.track-step').forEach((step, index) => {
           step.classList.remove('complete', 'current');
           if (stopped) {
-            if (index === 0) step.classList.add('complete');
             return;
           }
           if (currentIndex >= 0 && index < currentIndex) step.classList.add('complete');
@@ -219,8 +197,7 @@
         payment.textContent = paid ? 'Payment Confirmed' : 'Payment Pending';
         payment.className = `track-badge ${paid ? 'paid' : 'pending'}`;
 
-        document.getElementById('resultSlot').textContent = order.delivery_slot || '—';
-        document.getElementById('resultEta').textContent = etaText(order);
+        document.getElementById('resultSlot').textContent = order.order_type === 'bulk' && order.delivery_datetime ? new Date(order.delivery_datetime).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : (order.delivery_slot || '—');
         document.getElementById('resultTotal').textContent = money(order.total);
         document.getElementById('resultTotalBottom').textContent = money(order.total);
 
@@ -228,21 +205,6 @@
         document.getElementById('resultItems').innerHTML = items.length
           ? items.map((item) => `<div class="track-item"><div class="track-item-name">${Number(item.quantity || 0)}× ${escapeHtml(item.product_name || 'Item')}</div><div class="track-item-price">${money(item.line_total)}</div></div>`).join('')
           : '<div class="track-item"><div class="track-item-name">Order items are temporarily unavailable.</div></div>';
-
-        const providerBox = document.getElementById('providerBox');
-        const trackingLink = document.getElementById('trackingLink');
-        if (order.delivery_provider || order.tracking_url) {
-          providerBox.hidden = false;
-          document.getElementById('providerName').textContent = order.delivery_provider || 'Delivery Partner';
-          if (order.tracking_url) {
-            trackingLink.href = order.tracking_url;
-            trackingLink.hidden = false;
-          } else {
-            trackingLink.hidden = true;
-          }
-        } else {
-          providerBox.hidden = true;
-        }
 
         renderTimeline(order);
         resultBox.classList.add('visible');
@@ -256,62 +218,48 @@
         return String(value || '').replace(/\D/g, '').slice(-10);
       }
 
-      async function lookup({ silent = false } = {}) {
-        const orderNumber = orderInput.value.trim();
-        const phone = normalizePhone(phoneInput.value);
-        phoneInput.value = phone;
-
-        if (orderNumber.length < 3) {
-          if (!silent) setError('Enter your order number.');
-          return;
-        }
-        if (!/^[6-9][0-9]{9}$/.test(phone)) {
-          if (!silent) setError('Enter the same valid 10-digit mobile number used at checkout.');
-          return;
-        }
-
-        setError('');
-        if (!silent) {
-          submitButton.disabled = true;
-          submitButton.textContent = 'Checking…';
-        }
-
-        const result = await window.lookupTCBOrderStatus(orderNumber, phone);
-
-        if (!silent) {
-          submitButton.disabled = false;
-          submitButton.textContent = 'Track Order';
-        }
-
-        if (!result.success || !result.order) {
-          resultBox.classList.remove('visible');
-          if (!silent) setError(result.message || 'Order not found. Check your details and try again.');
-          return;
-        }
-
-        currentLookup = { orderNumber, phone };
-        sessionStorage.setItem('tcbLastOrderNumber', orderNumber);
-        sessionStorage.setItem('tcbLastOrderPhone', phone);
-        renderOrder(result.order);
-
-        const terminal = ['delivered','rejected','cancelled'].includes(result.order.order_status);
-        if (terminal && refreshTimer) {
-          clearInterval(refreshTimer);
-          refreshTimer = null;
-        } else if (!terminal && !refreshTimer) {
-          refreshTimer = setInterval(() => lookup({ silent:true }), 30000);
-        }
+      function stopRefresh(){clearTimeout(refreshTimer);refreshTimer=null;}
+      function schedule(){
+        stopRefresh();
+        refreshTimer=setTimeout(()=>{if(document.hidden)schedule();else lookup({silent:true});},REFRESH_MS);
       }
-
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        lookup();
-      });
-
-      phoneInput.addEventListener('input', () => {
-        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
-      });
-
+      function changed(){generation++;autoActive=false;stopRefresh();resultBox.classList.remove('visible');refreshNote.textContent='';setError('');}
+      async function lookup({silent=false}={}) {
+        if(busy)return;
+        stopRefresh();
+        const orderNumber=orderInput.value.trim().toUpperCase(),phone=normalizePhone(phoneInput.value);
+        phoneInput.value=phone;
+        if(orderNumber.length<3||!/^[6-9][0-9]{9}$/.test(phone)){
+          if(!silent)setError('Enter your order number and the same valid 10-digit mobile number used at checkout.');return;
+        }
+        const remaining=(nextAllowed.get(orderNumber)||0)-Date.now();
+        if(remaining>0){refreshNote.textContent=`Please wait ${Math.ceil(remaining/1000)} seconds before checking this order again.`;if(autoActive&&resultBox.classList.contains('visible'))schedule();return;}
+        const epoch=generation;busy=true;submitButton.disabled=true;submitButton.textContent='Checking…';setError('');
+        nextAllowed.set(orderNumber,Date.now()+REFRESH_MS);
+        if(nextAllowed.size>50)nextAllowed.delete(nextAllowed.keys().next().value);
+        try {
+          const result=await window.lookupTCBOrderStatus(orderNumber,phone);
+          if(epoch!==generation)return;
+          if(!result.success||!result.order){
+            autoActive=false;
+            if(result.httpStatus===429)nextAllowed.set(orderNumber,Date.now()+600000);
+            if(!silent)resultBox.classList.remove('visible');
+            setError(result.message||'Could not update your order status.');
+            refreshNote.textContent='Automatic updates paused. Any displayed status is from the last successful check.';
+            return;
+          }
+          sessionStorage.setItem('tcbLastOrderNumber',orderNumber);sessionStorage.setItem('tcbLastOrderPhone',phone);
+          renderOrder(result.order);
+          const terminal=['dispatched','delivered','rejected','cancelled'].includes(result.order.order_status);
+          refreshNote.textContent=`Last checked ${new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})} IST. `+(terminal?'Automatic updates stopped.':'Checks automatically every 2 minutes while this page is visible.');
+          autoActive=!terminal;if(autoActive)schedule();
+        }catch{
+          if(epoch===generation){autoActive=false;setError('Could not refresh. Please check your connection and try again.');refreshNote.textContent='Automatic updates paused; displayed information may be out of date.';}
+        }finally{busy=false;submitButton.disabled=false;submitButton.textContent='Track Order';}
+      }
+      form.addEventListener('submit',event=>{event.preventDefault();lookup();});
+      orderInput.addEventListener('input',changed);
+      phoneInput.addEventListener('input',()=>{phoneInput.value=phoneInput.value.replace(/\D/g,'').slice(0,10);changed();});
       const params = new URLSearchParams(location.search);
       const queryOrder = params.get('order') || sessionStorage.getItem('tcbLastOrderNumber') || '';
       const savedPhone = sessionStorage.getItem('tcbLastOrderPhone') || '';
@@ -320,7 +268,7 @@
       if (queryOrder && /^[6-9][0-9]{9}$/.test(savedPhone)) lookup();
 
       window.addEventListener('beforeunload', () => {
-        if (refreshTimer) clearInterval(refreshTimer);
+        stopRefresh();generation++;
       });
     })();
   </script>

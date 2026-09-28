@@ -3,8 +3,8 @@
 --
 -- READ-ONLY DIAGNOSTIC. This file must not mutate schema or data.
 -- Run it against the website Supabase project BEFORE applying either:
---   supabase/migrations/20260916_order_operations.sql
---   supabase/migrations/20260917_security_hardening.sql
+--   supabase/migrations/20260917085405_order_operations.sql
+--   supabase/migrations/20260917085433_security_hardening.sql
 --
 -- This script intentionally uses catalog/information-schema reads only so it
 -- still runs if an expected table/column is absent. Exact production row-value

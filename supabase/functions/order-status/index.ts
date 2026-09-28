@@ -2,7 +2,7 @@
 // order-status — The Chinese Bliss customer order tracking API
 //
 // Security model:
-// - Public customer lookup for NORMAL direct website orders only.
+// - Public customer lookup for normal and bulk direct website orders.
 // - Customers do not need a Supabase account; deploy with verify_jwt=false.
 // - Possession check requires exact TCB order number + exact customer phone.
 // - Service-role credentials remain server-side only.
@@ -15,7 +15,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const PRODUCTION_ORIGIN = "https://ankitkashikar.github.io";
 const MAX_BODY_BYTES = 8 * 1024;
 const PHONE_RE = /^[6-9][0-9]{9}$/;
-const ORDER_RE = /^CBD-[0-9]{4}-[0-9]{6}$/;
+const ORDER_RE = /^(CBD|BLK)-[0-9]{4}-[0-9]{6}$/;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": PRODUCTION_ORIGIN,
@@ -24,7 +24,7 @@ const corsHeaders = {
   "Vary": "Origin",
 };
 
-function jsonResponse(body: unknown, status = 200) {
+function baseResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -73,24 +73,29 @@ async function consumeRateLimit(
     p_window_seconds: windowSeconds,
   });
   if (error) {
-    console.error("order-status rate limit check failed", error);
+    /* Failure is logged by the response helper without customer or error payloads. */
     return false;
   }
   return data === true;
 }
 
-function customerSafeTrackingUrl(value: unknown): string | null {
-  const raw = String(value ?? "").trim();
-  if (!raw) return null;
-  try {
-    const url = new URL(raw);
-    return url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
-}
-
 Deno.serve(async (req) => {
+  // Generated per request; never accept a caller-supplied support reference.
+  const reference = crypto.randomUUID();
+  const started = Date.now();
+  function jsonResponse(body: unknown, status = 200) {
+    if (status >= 400) {
+      console.warn(JSON.stringify({event: "api_failure", endpoint: "order-status", reference,
+        status, duration_ms: Date.now() - started}));
+      if (body && typeof body === "object") {
+        const result = body as Record<string, unknown>;
+        body = {...result, reference,
+          message: String(result.message || "Request could not be completed.") + " Reference: " + reference};
+      }
+    }
+    return baseResponse(body, status);
+  }
+
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -149,8 +154,9 @@ Deno.serve(async (req) => {
       }, 429);
     }
 
+    const isBulk = orderNumber.startsWith("BLK-");
     const { data: order, error: orderError } = await admin
-      .from("normal_orders")
+      .from(isBulk ? "bulk_orders" : "normal_orders")
       .select([
         "id",
         "order_number",
@@ -162,15 +168,10 @@ Deno.serve(async (req) => {
         "discount",
         "delivery_fee",
         "total",
-        "delivery_slot",
-        "estimated_delivery_from",
-        "estimated_delivery_to",
-        "delivery_provider",
-        "tracking_url",
+        ...(isBulk ? ["delivery_datetime"] : ["delivery_slot"]),
         "accepted_at",
         "preparing_at",
         "ready_at",
-        "rider_assigned_at",
         "dispatched_at",
         "delivered_at",
         "rejected_at",
@@ -182,7 +183,7 @@ Deno.serve(async (req) => {
 
     // Deliberately use the same response for an unknown order and wrong phone.
     if (orderError || !order) {
-      if (orderError) console.error("order-status lookup failed", orderError);
+      /* Failure is logged by the response helper without customer or error payloads. */
       return jsonResponse({
         success: false,
         message: "Order not found. Check the order number and mobile number and try again.",
@@ -190,19 +191,20 @@ Deno.serve(async (req) => {
     }
 
     const { data: items, error: itemsError } = await admin
-      .from("normal_order_items")
+      .from(isBulk ? "bulk_order_items" : "normal_order_items")
       .select("product_name,quantity,unit_price,line_total")
       .eq("order_id", order.id)
       .order("id", { ascending: true });
 
     if (itemsError) {
-      console.error("order-status item lookup failed", itemsError);
+      /* Failure is logged by the response helper without customer or error payloads. */
       return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 500);
     }
 
     return jsonResponse({
       success: true,
       order: {
+        order_type: isBulk ? "bulk" : "normal",
         order_number: order.order_number,
         created_at: order.created_at,
         order_status: order.order_status || "new",
@@ -212,15 +214,11 @@ Deno.serve(async (req) => {
         discount: order.discount,
         delivery_fee: order.delivery_fee,
         total: order.total,
-        delivery_slot: order.delivery_slot,
-        estimated_delivery_from: order.estimated_delivery_from,
-        estimated_delivery_to: order.estimated_delivery_to,
-        delivery_provider: order.delivery_provider,
-        tracking_url: customerSafeTrackingUrl(order.tracking_url),
+        delivery_slot: isBulk ? null : order.delivery_slot,
+        delivery_datetime: isBulk ? order.delivery_datetime : null,
         accepted_at: order.accepted_at,
         preparing_at: order.preparing_at,
         ready_at: order.ready_at,
-        rider_assigned_at: order.rider_assigned_at,
         dispatched_at: order.dispatched_at,
         delivered_at: order.delivered_at,
         rejected_at: order.rejected_at,
@@ -230,7 +228,7 @@ Deno.serve(async (req) => {
       server_time: new Date().toISOString(),
     });
   } catch (err) {
-    console.error("order-status unexpected error", err);
+    /* Failure is logged by the response helper without customer or error payloads. */
     return jsonResponse({ success: false, message: "Order tracking is temporarily unavailable." }, 500);
   }
 });

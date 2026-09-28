@@ -1,0 +1,27 @@
+name: Public Site HTTP Smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - scripts/public_site_smoke.py
+      - scripts/public_site_smoke_test.py
+      - .github/workflows/public-site-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  public-site-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify smoke-check failure detection offline
+        run: python scripts/public_site_smoke_test.py
+      - name: Check currently deployed public pages and assets
+        if: github.event_name == 'workflow_dispatch'
+        run: python scripts/public_site_smoke.py

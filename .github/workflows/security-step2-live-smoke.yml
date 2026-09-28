@@ -1,23 +1,28 @@
-name: Step 2 Live Endpoint Smoke
+name: Authorized Live Endpoint Smoke
 
 on:
-  push:
-    branches:
-      - tcb-security-step2-edge-functions
-    paths:
-      - 'scripts/security_step2_live_smoke.py'
-      - '.github/workflows/security-step2-live-smoke.yml'
-      - 'supabase-config.js'
   workflow_dispatch:
+    inputs:
+      confirm_live:
+        description: 'Release authorization obtained; probes change production rate-limit state'
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   live-smoke:
+    if: ${{ inputs.confirm_live == true }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Probe deployed Step 2 endpoints
-        run: python scripts/security_step2_live_smoke.py
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probe deployed endpoints after authorization
+        run: python scripts/security_step2_live_smoke.py --confirm-live

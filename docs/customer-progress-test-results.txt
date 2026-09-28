@@ -1,0 +1,14 @@
+PASS four-step timeline, no provider link, map or ETA
+PASS internal statuses map to simple customer progress and safe exceptional messages
+PASS IST timestamp and item escaping survive simplification
+PASS two-minute polling stays below eight checks in each ten-minute window
+PASS repeated submit clicks cannot accelerate polling
+PASS dispatch/rejection/cancellation stop automatic checks
+PASS silent failure pauses polling and marks displayed data stale
+PASS 429 pauses polling and blocks immediate manual retries
+PASS editing lookup details discards an in-flight old response
+(node:7) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS normal and bulk public responses omit delivery/rider details
+PASS server rate-limit protection remains fail-closed
+11 customer progress API/DOM checks passed. Simulated clock/API; real local acceptance pending.

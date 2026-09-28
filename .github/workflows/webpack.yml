@@ -1,20 +1,35 @@
-name: Deploy Static Website
+name: Selected Offline Regression
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
+  push:
+    branches: [main, tcb-migration-upgrade-review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  deploy:
+  selected-offline:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 15
     steps:
-      # Step 1: Checkout your repository
       - uses: actions/checkout@v4
-
-      # Step 2: Deploy static files
-      # Replace this with your hosting/deploy command if needed
-      - name: Deploy static files
-        run: echo "Static site deployment (replace with your deploy command)"
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated offline test dependencies
+        run: npm install --prefix .migration-rehearsal --no-save --ignore-scripts --no-audit --no-fund @electric-sql/pglite@0.5.8 linkedom@0.18.12
+      - name: Selected offline suites
+        run: node scripts/selected_regression_qa.mjs
+      - name: Source configuration and offline smoke-contract checks
+        run: |
+          python scripts/security_step2_predeploy_qa.py
+          python scripts/security_step2_live_smoke_test.py
+# This workflow does not publish Pages, call production APIs or approve release.

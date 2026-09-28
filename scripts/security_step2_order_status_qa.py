@@ -30,7 +30,7 @@ require('includes("application/json")', "content-type validation is missing")
 require("MAX_BODY_BYTES", "request body limit is missing")
 
 # Customer credentials and enumeration resistance.
-require('const ORDER_RE = /^CBD-[0-9]{4}-[0-9]{6}$/;', "TCB order-number validation changed unexpectedly")
+require('const ORDER_RE = /^(CBD|BLK)-[0-9]{4}-[0-9]{6}$/;', "TCB order-number validation changed unexpectedly")
 require('const PHONE_RE = /^[6-9][0-9]{9}$/;', "phone validation changed unexpectedly")
 require("consume_security_rate_limit", "rate limiting is missing")
 require("ipRateKey", "per-IP rate limiting is missing")
@@ -43,7 +43,7 @@ require('`order-status:order:${ip}:${orderNumber}`', "per-order limiter must bin
 require('Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")', "service-role key must come from the function environment")
 if re.search(r"SUPABASE_SERVICE_ROLE_KEY\s*=\s*['\"][^'\"]+['\"]", text):
     ERRORS.append("service-role key appears hard-coded")
-require('.from("normal_orders")', "customer lookup must remain limited to normal direct orders")
+require('.from(isBulk ? "bulk_orders" : "normal_orders")', "lookup must use prefix-selected order table")
 require('.eq("order_number", orderNumber)', "lookup must require the exact order number")
 require('.eq("phone", phone)', "lookup must require the exact customer phone")
 
@@ -64,10 +64,10 @@ for forbidden in [
     if forbidden in text:
         ERRORS.append(f"customer response exposes forbidden field: {forbidden.split(':')[0]}")
 
-# Tracking URLs shown to customers must be encrypted in transit.
-require('return url.protocol === "https:" ? url.toString() : null;', "tracking URLs must be HTTPS-only")
-if 'url.protocol === "https:" || url.protocol === "http:"' in text:
-    ERRORS.append("plain HTTP tracking URLs are still allowed")
+# Status-only customer contract: delivery tracking stays internal.
+for field in ['tracking_url', 'delivery_provider', 'rider_name', 'rider_phone', 'estimated_delivery_from', 'estimated_delivery_to']:
+    if f'{field}:' in text:
+        ERRORS.append(f"customer response exposes delivery detail: {field}")
 
 # Unknown order and wrong phone deliberately share one response.
 require("Order not found. Check the order number and mobile number and try again.", "generic not-found response is missing")

@@ -350,7 +350,7 @@
     <div class="bulk-hero-inner">
       <span class="pre-label">The Chinese Bliss</span>
       <h1>Bulk Order Form</h1>
-      <p>Bulk orders for events, offices &amp; parties · Please book 1–2 days in advance</p>
+      <p>Bulk orders for events, offices &amp; parties · Please book at least 24 hours in advance</p>
     </div>
   </div>
 
@@ -358,14 +358,14 @@
   <div class="bulk-page">
     <div class="bulk-menu">
       <h2>Select Your Items</h2>
+      <p class="bulk-menu-sub"><strong>Bulk menu preview:</strong> The entries below are sample items, not a confirmed menu. Please contact the kitchen to confirm available dishes, quantities and prices before ordering.</p>
       <p class="bulk-menu-sub">Add quantities next to each dish — your cart appears at the bottom. Confirmed bulk orders require 50% advance payment and the remaining 50% before dispatch. <a href="bulk-order-policy.html">Read the Bulk Order Policy</a>.</p>
 
       <div class="menu-row" data-id="B001" data-item="Dish Name" data-price="150">
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
-            <div class="menu-row-name">Dish Name</div>
-            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-name">Sample item — menu pending</div>
             <div class="menu-row-badges"><span class="badge badge-veg">Vegetarian</span></div>
             <div class="menu-row-price">₹150.00 per person</div>
           </div>
@@ -381,8 +381,7 @@
         <div class="menu-row-left">
           <span class="diet-dot nonveg"></span>
           <div class="menu-row-info">
-            <div class="menu-row-name">Dish Name</div>
-            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-name">Sample item — menu pending</div>
             <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
             <div class="menu-row-price">₹180.00 per person</div>
           </div>
@@ -398,8 +397,7 @@
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
-            <div class="menu-row-name">Dish Name</div>
-            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-name">Sample item — menu pending</div>
             <div class="menu-row-badges"><span class="badge badge-hot">Hot</span></div>
             <div class="menu-row-price">₹190.00 per person</div>
           </div>
@@ -415,8 +413,7 @@
         <div class="menu-row-left">
           <span class="diet-dot nonveg"></span>
           <div class="menu-row-info">
-            <div class="menu-row-name">Dish Name</div>
-            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-name">Sample item — menu pending</div>
             <div class="menu-row-badges"></div>
             <div class="menu-row-price">₹200.00 per person</div>
           </div>
@@ -432,8 +429,7 @@
         <div class="menu-row-left">
           <span class="diet-dot"></span>
           <div class="menu-row-info">
-            <div class="menu-row-name">Dish Name</div>
-            <div class="menu-row-desc">Add-ons &amp; description go here</div>
+            <div class="menu-row-name">Sample item — menu pending</div>
             <div class="menu-row-badges"><span class="badge badge-bestseller">Bestseller</span></div>
             <div class="menu-row-price">₹280.00 per person</div>
           </div>
@@ -502,8 +498,9 @@
           <input type="text" id="custEvent" placeholder="e.g. Corporate lunch, Birthday party" />
         </div>
         <div class="dm-field">
-          <label>Delivery Date &amp; Time *</label>
+          <label>Delivery Date &amp; Time (India time) *</label>
           <input type="datetime-local" id="custDate" />
+          <p>Minimum 24 hours notice. All times are India time (Asia/Kolkata).</p>
         </div>
         <div class="dm-field">
           <label>Delivery Address *</label>
@@ -540,7 +537,8 @@
           <div class="summary-box-total"><span>Total</span><span id="summaryBoxTotal">₹0</span></div>
         </div>
 
-        <button class="btn-drawer-primary" id="btnPlaceOrder">Place Order</button>
+        <p>Delivery charges are calculated securely on the next step. You can review the total before payment.</p>
+      <button class="btn-drawer-primary" id="btnPlaceOrder">Review Total</button>
       </div>
 
       <!-- STEP 3: Payment -->
@@ -565,6 +563,7 @@
           </a>
           <div class="pay-upi">UPI ID: yourbusiness@upi</div>
           <p class="pay-note">Scan the QR or tap "Pay via UPI App" to pay directly, then tap below.<br/>This doesn't verify the payment automatically — it just tells us you say you've paid. Our team will confirm it manually before preparing your order.</p>
+          <p id="deliveryQuoteSummary" role="status"></p>
           <button class="btn-drawer-primary" id="btnConfirmPayment">I've Completed Payment</button>
         </div>
 
@@ -611,6 +610,7 @@
 
     // One idempotency key per checkout attempt.
     let currentIdempotencyKey = newIdempotencyKey();
+    let lastOrderRequest = null;
     function cartTotal(items) { return items.reduce((sum, i) => sum + i.price * i.qty, 0); }
     function cartCount(items) { return items.reduce((sum, i) => sum + i.qty, 0); }
 
@@ -629,6 +629,7 @@
     // ── Fixed cart bar ──────────────────────────────────────
     const cartBar = document.getElementById('cartBar');
     function refreshCartBar() {
+      invalidateCouponQuote();
       const items = getCartItems();
       const count = cartCount(items);
       const total = cartTotal(items);
@@ -694,33 +695,37 @@
     });
 
     // ── Coupons ──────────────────────────────────────────────
-    // ⚠️ SECURITY: this now calls a backend endpoint to validate
-    // the coupon and calculate the discount, instead of checking
-    // a local list. That's what makes it safe from DevTools
-    // tampering — the discount amount comes from the server's
-    // response, not from anything computed in this file.
-    //
-    // TODO (Ankit): implement POST /api/coupons/validate
-    //   Request body:  { code: string, orderTotal: number }
-    //   Success reply: { valid: true, discount: number, label: string }
-    //   Failure reply: { valid: false, message: string }
-    // Until that route exists, applying a coupon will show a
-    // "not connected yet" message below — this is expected.
+    // Quotes are informational and may be edited in the browser.
+    // The order API and database independently enforce the real discount.
     let appliedCoupon = null; // { code, discount, label }
+
+    function couponCartKey() {
+      return JSON.stringify({items: getCartItems().map(i => ({id: i.id, qty: i.qty})),
+        phone: document.getElementById('custPhone').value.trim()});
+    }
+    function invalidateCouponQuote() {
+      if (!appliedCoupon || appliedCoupon.cartKey === couponCartKey()) return;
+      appliedCoupon = null;
+      document.getElementById('couponRow').style.display = 'flex';
+      document.getElementById('couponAppliedTag').classList.remove('visible');
+      const message = document.getElementById('couponMsg');
+      message.textContent = 'Your details changed. Apply the coupon again.';
+      message.className = 'coupon-msg error';
+      renderSummaryBox();
+    }
+    document.getElementById('custPhone').addEventListener('input', invalidateCouponQuote);
+
 
     function calcDiscount(total) {
       if (!appliedCoupon) return 0;
       return Math.min(appliedCoupon.discount, total);
     }
 
-    async function validateCouponOnServer(code, orderTotal) {
-      const res = await fetch('/api/coupons/validate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, orderTotal })
+    async function validateCouponOnServer(code) {
+      return validateTCBCoupon({
+        code, type: 'bulk', phone: document.getElementById('custPhone').value.trim(),
+        items: getCartItems().map(i => ({id: i.id, qty: i.qty}))
       });
-      if (!res.ok) throw new Error('request-failed');
-      return res.json(); // { valid, discount, label } or { valid:false, message }
     }
 
     document.getElementById('btnApplyCoupon').addEventListener('click', async () => {
@@ -739,7 +744,13 @@
       applyBtn.textContent = 'Checking...';
 
       try {
-        const result = await validateCouponOnServer(code, total);
+        const cartKey = couponCartKey();
+      const result = await validateCouponOnServer(code);
+      if (cartKey !== couponCartKey()) {
+        msgEl.textContent = 'Your details changed. Apply the coupon again.';
+        msgEl.classList.add('error');
+        return;
+      }
 
         if (!result.valid) {
           msgEl.textContent = result.message || 'Invalid coupon code.';
@@ -747,7 +758,7 @@
           return;
         }
 
-        appliedCoupon = { code, discount: result.discount, label: result.label };
+        appliedCoupon = { code, discount: result.discount, label: result.label, cartKey };
         msgEl.textContent = '';
         msgEl.classList.remove('error', 'success');
 
@@ -758,8 +769,8 @@
 
         renderSummaryBox();
       } catch (e) {
-        // Backend route doesn't exist yet — expected until Ankit builds it
-        msgEl.textContent = 'Coupon system isn\'t connected yet — check back soon.';
+        // A failed quote must never apply a local discount.
+        msgEl.textContent = "Coupon could not be checked. Please try again.";
         msgEl.classList.add('error');
       } finally {
         applyBtn.disabled = false;
@@ -857,12 +868,35 @@
       }
     });
 
+// Offset-less browser values are India wall time, never server/device local time.
+function bulkDeliveryInstant(value) {
+  if (typeof value !== "string") return null;
+  const m = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(Z|\+05:30)?$/.exec(value);
+  if (!m || +m[2] > 23 || +m[3] > 59 || +(m[4] || 0) > 59) return null;
+  const wall = `${m[1]}T${m[2]}:${m[3]}:${m[4] || "00"}.${m[5] || "000"}`;
+  const check = new Date(wall + "Z");
+  if (!Number.isFinite(check.getTime()) || check.toISOString().slice(0, 10) !== m[1]) return null;
+  return check.getTime() - (m[6] === "Z" ? 0 : 330 * 60000);
+}
+function validBulkSchedule(value, now = new Date()) {
+  const instant = bulkDeliveryInstant(value);
+  return instant !== null && instant - now.getTime() >= 24 * 60 * 60 * 1000;
+}
+
+function refreshBulkDateMinimum() {
+  const earliest = Math.ceil((Date.now() + 86400000) / 60000) * 60000;
+  document.getElementById('custDate').min = new Date(earliest + 330 * 60000).toISOString().slice(0, 16);
+}
+refreshBulkDateMinimum();
+document.getElementById('custDate').addEventListener('focus', refreshBulkDateMinimum);
+
     function finalTotal() {
       const subtotal = cartTotal(getCartItems());
       return subtotal - calcDiscount(subtotal);
     }
 
-    document.getElementById('btnPlaceOrder').addEventListener('click', () => {
+    let deliveryQuote = null;
+  document.getElementById('btnPlaceOrder').addEventListener('click', async () => {
       const name = document.getElementById('custName').value.trim();
       const phone = phoneInput.value.trim();
       const date = document.getElementById('custDate').value;
@@ -886,9 +920,26 @@
       }
       if (firstInvalid) { firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
 
-      if (!date)    { alert('Please select a delivery date and time.'); return; }
+      if (!date || !validBulkSchedule(date)) {
+        refreshBulkDateMinimum();
+        alert('Bulk orders require at least 24 hours notice. Choose a later delivery time (India time).'); return;
+      }
 
-      const total = finalTotal();
+      const button = document.getElementById('btnPlaceOrder');
+    if (button.disabled) return;
+    button.disabled = true;
+    const request = buildOrderPayload('upi');
+    let quote;
+    try { quote = await submitOrder({...request, action:'quote'}); }
+    finally { button.disabled = false; }
+    if (JSON.stringify(request) !== JSON.stringify(buildOrderPayload('upi'))) {
+      alert('Your order changed. Please review checkout again.'); return;
+    }
+    if (!quote.success) { deliveryQuote = null; alert(quote.message); return; }
+    deliveryQuote = quote;
+    const total = quote.total;
+    document.getElementById('deliveryQuoteSummary').textContent =
+      `Food ₹${quote.subtotal.toFixed(2)} − Discount ₹${quote.discount.toFixed(2)} + Delivery ₹${quote.delivery_fee.toFixed(2)} = Total ₹${quote.total.toFixed(2)}`;
       document.getElementById('payAmount').textContent = '₹' + total.toLocaleString('en-IN');
       document.getElementById('payAmountCod').textContent = '₹' + total.toLocaleString('en-IN');
 
@@ -916,19 +967,31 @@
     // display only and are ignored by the server.
     function buildOrderPayload(paymentMethod) {
       const items = getCartItems();
-      return {
+      const payload = {
         type: 'bulk',
         idempotency_key: currentIdempotencyKey,
         name: document.getElementById('custName').value.trim(),
         phone: document.getElementById('custPhone').value.trim(),
         event_type: document.getElementById('custEvent').value.trim(),
-        delivery_datetime: document.getElementById('custDate').value,
+        delivery_datetime: document.getElementById('custDate').value + ':00+05:30',
         address: document.getElementById('custAddress').value.trim(),
         notes: document.getElementById('custNotes').value.trim(),
         items: items.map(i => ({ id: i.id, qty: i.qty })),
         payment_method: paymentMethod,
         coupon_code: appliedCoupon ? appliedCoupon.code : null
       };
+      const {idempotency_key: ignoredKey, ...request} = payload;
+      const fingerprint = JSON.stringify(request);
+      if (lastOrderRequest !== null && lastOrderRequest !== fingerprint) {
+        currentIdempotencyKey = newIdempotencyKey();
+      }
+      lastOrderRequest = fingerprint;
+      payload.idempotency_key = currentIdempotencyKey;
+      if (deliveryQuote) {
+        payload.delivery_version = deliveryQuote.delivery_version;
+        payload.expected_total_paise = deliveryQuote.total_paise;
+      }
+      return payload;
     }
 
     function resetOrderState() {

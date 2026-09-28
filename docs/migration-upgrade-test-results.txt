@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+up to date in 179ms
+BASELINE SHA256 d414c42f7ffcf433a3a2e188b094178e58509a1df4a1de95db5ccbe9dc96bea0
+MIGRATION 20260920000100_coupon_validation.sql SHA256 34fb5ae601dbfe6367bd9de318047c481e8e8d0c7a3aed091911baf2053030ef
+PASS 20260920000100_coupon_validation.sql: injected failure rolls back DDL
+PASS 20260920000100_coupon_validation.sql: applies successfully
+PASS 20260920000100_coupon_validation.sql: preserves every legacy field, item and audit event
+MIGRATION 20260920000200_atomic_orders.sql SHA256 a206f6b3cc3db07d5c6f2b2408f79ce22f24d68f5cdc3aba355f41876f4328be
+PASS 20260920000200_atomic_orders.sql: injected failure rolls back DDL
+PASS 20260920000200_atomic_orders.sql: applies successfully
+PASS 20260920000200_atomic_orders.sql: preserves every legacy field, item and audit event
+MIGRATION 20260923000100_delivery_settings.sql SHA256 f0dbe97fdf28e2963e68cddd8f1f2c65748eb86efc293e47af5eb5496eb149ff
+PASS 20260923000100_delivery_settings.sql: injected failure rolls back DDL
+PASS 20260923000100_delivery_settings.sql: applies successfully
+PASS 20260923000100_delivery_settings.sql: preserves every legacy field, item and audit event
+MIGRATION 20260923000200_coupon_admin.sql SHA256 9878ba23c5987876741968a4b02664f2f675da9f59b8544802dee33a0f01f871
+PASS 20260923000200_coupon_admin.sql: injected failure rolls back DDL
+PASS 20260923000200_coupon_admin.sql: applies successfully
+PASS 20260923000200_coupon_admin.sql: preserves every legacy field, item and audit event
+MIGRATION 20260924000100_audit_grants.sql SHA256 01b50b7a062e413f825b8a21b0d72708ed3d51e8fbf556a1a298088ee1282d84
+PASS 20260924000100_audit_grants.sql: injected failure rolls back DDL
+PASS 20260924000100_audit_grants.sql: applies successfully
+PASS 20260924000100_audit_grants.sql: preserves every legacy field, item and audit event
+PASS existing coupon restrictions retained; admin version initialized
+PASS saved request survives and retry returns original response
+PASS normal and bulk missing delivery settings fail closed
+PASS anon: all new tables and RPCs denied
+PASS authenticated: all new tables and RPCs denied
+PASS service role can execute RPCs; audit history cannot be updated/deleted
+PASS service role inserts and reads audit records after privilege correction
+
+22 migration upgrade checks passed. In-memory PGlite; synthetic data only. No production access, Supabase migration ledger, PostgREST or concurrent-client verification.

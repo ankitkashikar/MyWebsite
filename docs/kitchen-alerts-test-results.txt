@@ -1,0 +1,13 @@
+PASS both channels count and five-minute escalation use elapsed time
+PASS invalid/missing alert responses cannot imply no waiting orders
+PASS alert counts require verified admin identity
+(node:7) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS old unattended orders count beyond the recent-list limit
+PASS attention view returns waiting orders instead of newer completed orders
+PASS failed count query reports failure, never zero pending orders
+PASS visual alerts work without sound permission
+PASS sound is explicit and polling does not restart alarm each refresh
+PASS connection failure stops repeating sound and warns staff
+PASS late refresh cannot restore orders, title or timers after sign-out
+10 kitchen alert API/DOM checks passed. Mock API/audio; live acceptance pending.
