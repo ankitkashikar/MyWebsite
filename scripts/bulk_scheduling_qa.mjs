@@ -4,7 +4,7 @@ import {stripTypeScriptTypes} from 'node:module';
 import vm from 'node:vm';
 let instant='2026-09-23T12:30:00Z', saved=null, lookupError=null, writes=0, handler;
 class Clock extends Date {constructor(...args){super(...(args.length?args:[instant]));} static now(){return new Date(instant).getTime();}}
-const client={async rpc(name){if(name==='consume_security_rate_limit')return {data:true};if(name==='lookup_order_request')return {data:saved,error:lookupError};throw Error(name);},from(){writes++;throw Error('Reached pricing');}};
+const client={async rpc(name){if(name==='validate_menu_cart')return {data:true};if(name==='consume_security_rate_limit')return {data:true};if(name==='lookup_order_request')return {data:saved,error:lookupError};throw Error(name);},from(){writes++;throw Error('Reached pricing');}};
 const source=stripTypeScriptTypes(readFileSync('supabase/functions/place-order/index.ts','utf8').replace(/^import .*createClient.*;$/m,''));
 const ctx=vm.createContext({Date:Clock,createClient:()=>client,Deno:{env:{get:()=> 'offline'},serve:h=>handler=h},Request,Response,TextEncoder,crypto,console:{error(){},warn(){}}});
 vm.runInContext(source,ctx);

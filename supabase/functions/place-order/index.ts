@@ -319,6 +319,15 @@ Deno.serve(async (req) => {
         "Bulk orders require at least 24 hours notice. Choose a later delivery date and time in India time."}, 400);
     }
 
+    const { error: menuError } = await admin.rpc("validate_menu_cart", {
+      p_type: type, p_items: canonicalItems,
+    });
+    if (menuError) {
+      return jsonResponse({success:false, message:menuError.code === "P0001"
+        ? "Your menu selections are unavailable. Check the selected dish, variant and add-ons."
+        : "Could not validate the menu. Please try again."}, menuError.code === "P0001" ? 400 : 503);
+    }
+
     // Server-trusted product lookup and pricing.
     const productIds = [...new Set(normalizedItems.map((item) => item.id))];
     const { data: products, error: productErr } = await admin

@@ -312,13 +312,17 @@
       .drawer { max-height: 92vh; border-radius: 18px 18px 0 0; }
     }
   </style>
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+  <link rel="stylesheet" href="brand-logo.css?v=1" />
+  <link rel="stylesheet" href="public-spacing.css?v=1" />
 </head>
 <body>
 
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
     <a href="index.html" class="logo-wrap">
-      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img">
+      <img src="images/chinese logo.png" alt="The Chinese Bliss" class="logo-img site-brand-logo">
     </a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
@@ -500,7 +504,7 @@
         <div class="dm-field">
           <label>Delivery Date &amp; Time (India time) *</label>
           <input type="datetime-local" id="custDate" />
-          <p>Minimum 24 hours notice. All times are India time (Asia/Kolkata).</p>
+          <p>Minimum 24 hours notice. All times are IST.</p>
         </div>
         <div class="dm-field">
           <label>Delivery Address *</label>
@@ -583,6 +587,7 @@
           <div class="success-icon" id="successIcon"></div>
           <h4 id="successTitle">Order Request Sent</h4>
           <p id="successMsg">Thank you! Our team will call you shortly to confirm your order and delivery details.</p>
+          <a href="order-status.html" class="btn-drawer-secondary" id="successTrackLink">Track Order</a>
           <a href="index.html" class="btn-drawer-secondary">Back to Home</a>
         </div>
       </div>
@@ -1051,6 +1056,14 @@ document.getElementById('custDate').addEventListener('focus', refreshBulkDateMin
         document.getElementById('successIcon').textContent = '';
         document.getElementById('successTitle').textContent = 'Order Request Sent';
         document.getElementById('successMsg').textContent = `Order ${result.order_number}. Please keep ₹${Number(result.total).toLocaleString('en-IN')} ready in cash. Our team will call you within 2 hours to confirm your order and finalise details.`;
+      }
+
+      const trackLink = document.getElementById('successTrackLink');
+      if (result.order_number) {
+        const orderNumber = String(result.order_number);
+        trackLink.href = `order-status.html?order=${encodeURIComponent(orderNumber)}`;
+        sessionStorage.setItem('tcbLastOrderNumber', orderNumber);
+        sessionStorage.setItem('tcbLastOrderPhone', document.getElementById('custPhone').value.trim());
       }
 
       showStep('stepSuccess');

@@ -8,7 +8,7 @@ const pglite=resolve(root,'.migration-rehearsal/node_modules/@electric-sql/pglit
 if(!existsSync(pglite)||!existsSync(resolve(root,'.migration-rehearsal/node_modules/linkedom/esm/index.js'))){
  console.error('Missing offline test dependencies. Run: npm install --prefix .migration-rehearsal --no-save --ignore-scripts --no-audit --no-fund @electric-sql/pglite@0.5.8 linkedom@0.18.12');process.exit(1);
 }
-const suites=['backend_scheduling_qa.mjs','bulk_scheduling_qa.mjs','delivery_timezone_qa.mjs','customer_progress_qa.mjs','kitchen_alerts_qa.mjs','customers_dom_qa.mjs','admin_startup_qa.mjs','error_monitoring_qa.mjs','coupon_admin_qa.mjs','delivery_settings_qa.mjs','customers_qa.mjs','migration_upgrade_qa.mjs'];
+const suites=['menu_options_qa.mjs','backend_scheduling_qa.mjs','bulk_scheduling_qa.mjs','delivery_timezone_qa.mjs','customer_progress_qa.mjs','kitchen_alerts_qa.mjs','customers_dom_qa.mjs','admin_startup_qa.mjs','error_monitoring_qa.mjs','coupon_admin_qa.mjs','delivery_settings_qa.mjs','customers_qa.mjs','migration_upgrade_qa.mjs'];
 let failed=0;
 for(const suite of suites){
  const r=spawnSync(process.execPath,[resolve(root,'scripts',suite)],{cwd:root,env:{...process.env,PGLITE_MODULE:pglite},encoding:'utf8',timeout:120000,maxBuffer:4*1024*1024});

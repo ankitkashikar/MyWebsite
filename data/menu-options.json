@@ -1,0 +1,7168 @@
+{
+  "items": [
+    {
+      "key": "VS-1",
+      "title": "Paneer Chilli",
+      "options": [
+        {
+          "id": "VS-1-O1",
+          "name": "Paneer Chilli — Dry",
+          "label": "Dry",
+          "price": 180
+        },
+        {
+          "id": "VS-1-O2",
+          "name": "Paneer Chilli — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 180
+        },
+        {
+          "id": "VS-1-O3",
+          "name": "Paneer Chilli — Gravy",
+          "label": "Gravy",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-1-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Paneer Chilli"
+        },
+        {
+          "id": "VS-1-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Paneer Chilli"
+        },
+        {
+          "id": "VS-1-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Paneer Chilli"
+        }
+      ],
+      "source_row": 13
+    },
+    {
+      "key": "VS-2",
+      "title": "Paneer Garlic",
+      "options": [
+        {
+          "id": "VS-2",
+          "name": "Paneer Garlic",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-2-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Paneer Garlic"
+        },
+        {
+          "id": "VS-2-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Paneer Garlic"
+        },
+        {
+          "id": "VS-2-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Paneer Garlic"
+        }
+      ],
+      "source_row": 12
+    },
+    {
+      "key": "VS-3",
+      "title": "Veg Manchurian",
+      "options": [
+        {
+          "id": "VS-3-O1",
+          "name": "Veg Manchurian — Dry",
+          "label": "Dry",
+          "price": 180
+        },
+        {
+          "id": "VS-3-O2",
+          "name": "Veg Manchurian — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 180
+        },
+        {
+          "id": "VS-3-O3",
+          "name": "Veg Manchurian — Gravy",
+          "label": "Gravy",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-3-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Manchurian"
+        },
+        {
+          "id": "VS-3-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Manchurian"
+        },
+        {
+          "id": "VS-3-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Manchurian"
+        }
+      ],
+      "source_row": 9
+    },
+    {
+      "key": "VS-4",
+      "title": "Paneer 65",
+      "options": [
+        {
+          "id": "VS-4-O1",
+          "name": "Paneer 65 — Dry",
+          "label": "Dry",
+          "price": 180
+        },
+        {
+          "id": "VS-4-O2",
+          "name": "Paneer 65 — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-4-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Paneer 65"
+        },
+        {
+          "id": "VS-4-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Paneer 65"
+        },
+        {
+          "id": "VS-4-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Paneer 65"
+        }
+      ],
+      "source_row": 11
+    },
+    {
+      "key": "VS-5",
+      "title": "Paneer Schezwan",
+      "options": [
+        {
+          "id": "VS-5-O1",
+          "name": "Paneer Schezwan — Dry",
+          "label": "Dry",
+          "price": 180
+        },
+        {
+          "id": "VS-5-O2",
+          "name": "Paneer Schezwan — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-5-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Paneer Schezwan"
+        },
+        {
+          "id": "VS-5-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Paneer Schezwan"
+        },
+        {
+          "id": "VS-5-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Paneer Schezwan"
+        }
+      ],
+      "source_row": 14
+    },
+    {
+      "key": "VS-6",
+      "title": "Soyabean Chilli",
+      "options": [
+        {
+          "id": "VS-6-O1",
+          "name": "Soyabean Chilli — Dry",
+          "label": "Dry",
+          "price": 180
+        },
+        {
+          "id": "VS-6-O2",
+          "name": "Soyabean Chilli — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 180
+        },
+        {
+          "id": "VS-6-O3",
+          "name": "Soyabean Chilli — Gravy",
+          "label": "Gravy",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-6-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Soyabean Chilli"
+        },
+        {
+          "id": "VS-6-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Soyabean Chilli"
+        },
+        {
+          "id": "VS-6-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Soyabean Chilli"
+        }
+      ],
+      "source_row": 15
+    },
+    {
+      "key": "VS-7",
+      "title": "Veg 65",
+      "options": [
+        {
+          "id": "VS-7",
+          "name": "Veg 65",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-7-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg 65"
+        },
+        {
+          "id": "VS-7-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg 65"
+        },
+        {
+          "id": "VS-7-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg 65"
+        }
+      ],
+      "source_row": 8
+    },
+    {
+      "key": "VS-8",
+      "title": "Veg Corn Crispy",
+      "options": [
+        {
+          "id": "VS-8",
+          "name": "Veg Corn Crispy",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-8-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Corn Crispy"
+        },
+        {
+          "id": "VS-8-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Corn Crispy"
+        },
+        {
+          "id": "VS-8-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Corn Crispy"
+        }
+      ],
+      "source_row": 16
+    },
+    {
+      "key": "VS-9",
+      "title": "Veg Crispy",
+      "options": [
+        {
+          "id": "VS-9",
+          "name": "Veg Crispy",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-9-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Crispy"
+        },
+        {
+          "id": "VS-9-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Crispy"
+        },
+        {
+          "id": "VS-9-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Crispy"
+        }
+      ],
+      "source_row": 10
+    },
+    {
+      "key": "VS-10",
+      "title": "Veg Chinese Bhel",
+      "options": [
+        {
+          "id": "VS-10",
+          "name": "Veg Chinese Bhel",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VS-10-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Chinese Bhel"
+        },
+        {
+          "id": "VS-10-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Chinese Bhel"
+        },
+        {
+          "id": "VS-10-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Chinese Bhel"
+        }
+      ],
+      "source_row": 17
+    },
+    {
+      "key": "NS-1",
+      "title": "Chicken Chilli",
+      "options": [
+        {
+          "id": "NS-1-O1",
+          "name": "Chicken Chilli — Dry",
+          "label": "Dry",
+          "price": 220
+        },
+        {
+          "id": "NS-1-O2",
+          "name": "Chicken Chilli — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 220
+        },
+        {
+          "id": "NS-1-O3",
+          "name": "Chicken Chilli — Gravy",
+          "label": "Gravy",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-1-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chilli"
+        },
+        {
+          "id": "NS-1-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chilli"
+        },
+        {
+          "id": "NS-1-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chilli"
+        }
+      ],
+      "source_row": 18
+    },
+    {
+      "key": "NS-2",
+      "title": "Chicken Chinese Bhel",
+      "options": [
+        {
+          "id": "NS-2",
+          "name": "Chicken Chinese Bhel",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-2-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chinese Bhel"
+        },
+        {
+          "id": "NS-2-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chinese Bhel"
+        },
+        {
+          "id": "NS-2-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chinese Bhel"
+        }
+      ],
+      "source_row": 24
+    },
+    {
+      "key": "NS-3",
+      "title": "Chicken Crispy",
+      "options": [
+        {
+          "id": "NS-3",
+          "name": "Chicken Crispy",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-3-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Crispy"
+        },
+        {
+          "id": "NS-3-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Crispy"
+        },
+        {
+          "id": "NS-3-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Crispy"
+        }
+      ],
+      "source_row": 22
+    },
+    {
+      "key": "NS-4",
+      "title": "Chicken Garlic Dry",
+      "options": [
+        {
+          "id": "NS-4",
+          "name": "Chicken Garlic Dry",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-4-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Garlic Dry"
+        },
+        {
+          "id": "NS-4-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Garlic Dry"
+        },
+        {
+          "id": "NS-4-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Garlic Dry"
+        }
+      ],
+      "source_row": 19
+    },
+    {
+      "key": "NS-5",
+      "title": "Chicken Lollipop",
+      "options": [
+        {
+          "id": "NS-5-O1",
+          "name": "Chicken Lollipop — Oil Roast Only",
+          "label": "Oil Roast Only",
+          "price": 220
+        },
+        {
+          "id": "NS-5-O2",
+          "name": "Chicken Lollipop — Tossed In Sauces",
+          "label": "Tossed In Sauces",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-5-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Lollipop"
+        },
+        {
+          "id": "NS-5-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Lollipop"
+        },
+        {
+          "id": "NS-5-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Lollipop"
+        }
+      ],
+      "source_row": 20
+    },
+    {
+      "key": "NS-6",
+      "title": "Chicken Lollipop Masala",
+      "options": [
+        {
+          "id": "NS-6-O1",
+          "name": "Chicken Lollipop Masala — Oil Roast Only",
+          "label": "Oil Roast Only",
+          "price": 220
+        },
+        {
+          "id": "NS-6-O2",
+          "name": "Chicken Lollipop Masala — Tossed In Sauces",
+          "label": "Tossed In Sauces",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-6-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Lollipop Masala"
+        },
+        {
+          "id": "NS-6-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Lollipop Masala"
+        },
+        {
+          "id": "NS-6-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Lollipop Masala"
+        }
+      ],
+      "source_row": 25
+    },
+    {
+      "key": "NS-7",
+      "title": "Chicken Schezwan",
+      "options": [
+        {
+          "id": "NS-7-O1",
+          "name": "Chicken Schezwan — Dry",
+          "label": "Dry",
+          "price": 220
+        },
+        {
+          "id": "NS-7-O2",
+          "name": "Chicken Schezwan — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-7-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Schezwan"
+        },
+        {
+          "id": "NS-7-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Schezwan"
+        },
+        {
+          "id": "NS-7-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Schezwan"
+        }
+      ],
+      "source_row": 21
+    },
+    {
+      "key": "NS-8",
+      "title": "Chicken 65",
+      "options": [
+        {
+          "id": "NS-8-O1",
+          "name": "Chicken 65 — Dry",
+          "label": "Dry",
+          "price": 220
+        },
+        {
+          "id": "NS-8-O2",
+          "name": "Chicken 65 — Semi Gravy",
+          "label": "Semi Gravy",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NS-8-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken 65"
+        },
+        {
+          "id": "NS-8-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken 65"
+        },
+        {
+          "id": "NS-8-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken 65"
+        }
+      ],
+      "source_row": 23
+    },
+    {
+      "key": "VN-1",
+      "title": "Veg Chilli Garlic Noodles",
+      "options": [
+        {
+          "id": "VN-1",
+          "name": "Veg Chilli Garlic Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-1-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Chilli Garlic Noodles"
+        },
+        {
+          "id": "VN-1-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Chilli Garlic Noodles"
+        },
+        {
+          "id": "VN-1-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Chilli Garlic Noodles"
+        }
+      ],
+      "source_row": 29
+    },
+    {
+      "key": "VN-2",
+      "title": "Veg Cocktail Noodles",
+      "options": [
+        {
+          "id": "VN-2",
+          "name": "Veg Cocktail Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-2-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Cocktail Noodles"
+        },
+        {
+          "id": "VN-2-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Cocktail Noodles"
+        },
+        {
+          "id": "VN-2-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Cocktail Noodles"
+        }
+      ],
+      "source_row": 32
+    },
+    {
+      "key": "VN-3",
+      "title": "Veg Hakka Noodles",
+      "options": [
+        {
+          "id": "VN-3",
+          "name": "Veg Hakka Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-3-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Hakka Noodles"
+        },
+        {
+          "id": "VN-3-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Hakka Noodles"
+        },
+        {
+          "id": "VN-3-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Hakka Noodles"
+        }
+      ],
+      "source_row": 27
+    },
+    {
+      "key": "VN-4",
+      "title": "Veg Hong Kong Noodles",
+      "options": [
+        {
+          "id": "VN-4",
+          "name": "Veg Hong Kong Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-4-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Hong Kong Noodles"
+        },
+        {
+          "id": "VN-4-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Hong Kong Noodles"
+        },
+        {
+          "id": "VN-4-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Hong Kong Noodles"
+        }
+      ],
+      "source_row": 35
+    },
+    {
+      "key": "VN-6",
+      "title": "Veg Schezwan Noodles",
+      "options": [
+        {
+          "id": "VN-6",
+          "name": "Veg Schezwan Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-6-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Schezwan Noodles"
+        },
+        {
+          "id": "VN-6-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Schezwan Noodles"
+        },
+        {
+          "id": "VN-6-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Schezwan Noodles"
+        }
+      ],
+      "source_row": 28
+    },
+    {
+      "key": "VN-7",
+      "title": "Veg Singapore Noodles",
+      "options": [
+        {
+          "id": "VN-7",
+          "name": "Veg Singapore Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-7-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Singapore Noodles"
+        },
+        {
+          "id": "VN-7-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Singapore Noodles"
+        },
+        {
+          "id": "VN-7-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Singapore Noodles"
+        }
+      ],
+      "source_row": 34
+    },
+    {
+      "key": "VN-8",
+      "title": "Veg Triple Schezwan Fried Noodles",
+      "options": [
+        {
+          "id": "VN-8",
+          "name": "Veg Triple Schezwan Fried Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-8-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Triple Schezwan Fried Noodles"
+        },
+        {
+          "id": "VN-8-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Triple Schezwan Fried Noodles"
+        },
+        {
+          "id": "VN-8-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Triple Schezwan Fried Noodles"
+        }
+      ],
+      "source_row": 33
+    },
+    {
+      "key": "VN-9",
+      "title": "Veg Manchurian Noodles",
+      "options": [
+        {
+          "id": "VN-9",
+          "name": "Veg Manchurian Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-9-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Manchurian Noodles"
+        },
+        {
+          "id": "VN-9-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Manchurian Noodles"
+        },
+        {
+          "id": "VN-9-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Manchurian Noodles"
+        }
+      ],
+      "source_row": 30
+    },
+    {
+      "key": "VN-10",
+      "title": "Veg Paneer Noodles",
+      "options": [
+        {
+          "id": "VN-10",
+          "name": "Veg Paneer Noodles",
+          "label": "Standard",
+          "price": 190
+        }
+      ],
+      "addons": [
+        {
+          "id": "VN-10-A1",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Paneer Noodles"
+        },
+        {
+          "id": "VN-10-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Paneer Noodles"
+        },
+        {
+          "id": "VN-10-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Paneer Noodles"
+        }
+      ],
+      "source_row": 31
+    },
+    {
+      "key": "NN-1",
+      "title": "Chicken Burnt Garlic Noodles",
+      "options": [
+        {
+          "id": "NN-1",
+          "name": "Chicken Burnt Garlic Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-1-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Burnt Garlic Noodles"
+        },
+        {
+          "id": "NN-1-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Burnt Garlic Noodles"
+        },
+        {
+          "id": "NN-1-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Burnt Garlic Noodles"
+        },
+        {
+          "id": "NN-1-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Burnt Garlic Noodles"
+        }
+      ],
+      "source_row": 41
+    },
+    {
+      "key": "NN-2",
+      "title": "Chicken Chilli Garlic Noodles",
+      "options": [
+        {
+          "id": "NN-2",
+          "name": "Chicken Chilli Garlic Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-2-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Garlic Noodles"
+        },
+        {
+          "id": "NN-2-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chilli Garlic Noodles"
+        },
+        {
+          "id": "NN-2-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chilli Garlic Noodles"
+        },
+        {
+          "id": "NN-2-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chilli Garlic Noodles"
+        }
+      ],
+      "source_row": 46
+    },
+    {
+      "key": "NN-3",
+      "title": "Chicken Chilli Noodles",
+      "options": [
+        {
+          "id": "NN-3",
+          "name": "Chicken Chilli Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-3-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Noodles"
+        },
+        {
+          "id": "NN-3-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chilli Noodles"
+        },
+        {
+          "id": "NN-3-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chilli Noodles"
+        },
+        {
+          "id": "NN-3-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chilli Noodles"
+        }
+      ],
+      "source_row": 40
+    },
+    {
+      "key": "NN-4",
+      "title": "Chicken Drumstick Noodles",
+      "options": [
+        {
+          "id": "NN-4",
+          "name": "Chicken Drumstick Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-4-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Drumstick Noodles"
+        },
+        {
+          "id": "NN-4-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Drumstick Noodles"
+        },
+        {
+          "id": "NN-4-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Drumstick Noodles"
+        },
+        {
+          "id": "NN-4-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Drumstick Noodles"
+        }
+      ],
+      "source_row": 42
+    },
+    {
+      "key": "NN-5",
+      "title": "Chicken Garlic And Onion Noodles",
+      "options": [
+        {
+          "id": "NN-5",
+          "name": "Chicken Garlic And Onion Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-5-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Garlic And Onion Noodles"
+        },
+        {
+          "id": "NN-5-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Garlic And Onion Noodles"
+        },
+        {
+          "id": "NN-5-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Garlic And Onion Noodles"
+        },
+        {
+          "id": "NN-5-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Garlic And Onion Noodles"
+        }
+      ],
+      "source_row": 45
+    },
+    {
+      "key": "NN-6",
+      "title": "Chicken Hakka Noodles",
+      "options": [
+        {
+          "id": "NN-6",
+          "name": "Chicken Hakka Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-6-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Hakka Noodles"
+        },
+        {
+          "id": "NN-6-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Hakka Noodles"
+        },
+        {
+          "id": "NN-6-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Hakka Noodles"
+        },
+        {
+          "id": "NN-6-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Hakka Noodles"
+        }
+      ],
+      "source_row": 37
+    },
+    {
+      "key": "NN-7",
+      "title": "Chicken Hong Kong Noodles",
+      "options": [
+        {
+          "id": "NN-7",
+          "name": "Chicken Hong Kong Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-7-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Hong Kong Noodles"
+        },
+        {
+          "id": "NN-7-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Hong Kong Noodles"
+        },
+        {
+          "id": "NN-7-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Hong Kong Noodles"
+        },
+        {
+          "id": "NN-7-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Hong Kong Noodles"
+        }
+      ],
+      "source_row": 43
+    },
+    {
+      "key": "NN-8",
+      "title": "Chicken Schezwan Noodles",
+      "options": [
+        {
+          "id": "NN-8",
+          "name": "Chicken Schezwan Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-8-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Schezwan Noodles"
+        },
+        {
+          "id": "NN-8-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Schezwan Noodles"
+        },
+        {
+          "id": "NN-8-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Schezwan Noodles"
+        },
+        {
+          "id": "NN-8-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Schezwan Noodles"
+        }
+      ],
+      "source_row": 38
+    },
+    {
+      "key": "NN-9",
+      "title": "Chicken Singapore Noodles",
+      "options": [
+        {
+          "id": "NN-9",
+          "name": "Chicken Singapore Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-9-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Singapore Noodles"
+        },
+        {
+          "id": "NN-9-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Singapore Noodles"
+        },
+        {
+          "id": "NN-9-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Singapore Noodles"
+        },
+        {
+          "id": "NN-9-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Singapore Noodles"
+        }
+      ],
+      "source_row": 44
+    },
+    {
+      "key": "NN-10",
+      "title": "Chicken Triple Schezwan Noodles",
+      "options": [
+        {
+          "id": "NN-10",
+          "name": "Chicken Triple Schezwan Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-10-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Triple Schezwan Noodles"
+        },
+        {
+          "id": "NN-10-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Triple Schezwan Noodles"
+        },
+        {
+          "id": "NN-10-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Triple Schezwan Noodles"
+        },
+        {
+          "id": "NN-10-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Triple Schezwan Noodles"
+        }
+      ],
+      "source_row": 39
+    },
+    {
+      "key": "NN-11",
+      "title": "Egg Hakka Noodles",
+      "options": [
+        {
+          "id": "NN-11",
+          "name": "Egg Hakka Noodles",
+          "label": "Standard",
+          "price": 230
+        }
+      ],
+      "addons": [
+        {
+          "id": "NN-11-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Egg Hakka Noodles"
+        },
+        {
+          "id": "NN-11-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Egg Hakka Noodles"
+        },
+        {
+          "id": "NN-11-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Egg Hakka Noodles"
+        },
+        {
+          "id": "NN-11-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Egg Hakka Noodles"
+        }
+      ],
+      "source_row": 36
+    },
+    {
+      "key": "VR-1",
+      "title": "Veg Fried Rice",
+      "options": [
+        {
+          "id": "VR-1",
+          "name": "Veg Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-1-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Fried Rice"
+        },
+        {
+          "id": "VR-1-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Fried Rice"
+        },
+        {
+          "id": "VR-1-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Fried Rice"
+        },
+        {
+          "id": "VR-1-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Fried Rice"
+        }
+      ],
+      "source_row": 47
+    },
+    {
+      "key": "VR-2",
+      "title": "Veg Fried Garlic Rice",
+      "options": [
+        {
+          "id": "VR-2",
+          "name": "Veg Fried Garlic Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-2-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Fried Garlic Rice"
+        },
+        {
+          "id": "VR-2-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Fried Garlic Rice"
+        },
+        {
+          "id": "VR-2-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Fried Garlic Rice"
+        },
+        {
+          "id": "VR-2-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Fried Garlic Rice"
+        }
+      ],
+      "source_row": 52
+    },
+    {
+      "key": "VR-3",
+      "title": "Paneer Schezwan Fried Rice",
+      "options": [
+        {
+          "id": "VR-3",
+          "name": "Paneer Schezwan Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-3-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Paneer Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-3-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Paneer Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-3-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Paneer Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-3-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Paneer Schezwan Fried Rice"
+        }
+      ],
+      "source_row": 50
+    },
+    {
+      "key": "VR-4",
+      "title": "Veg Cocktail Fried Rice",
+      "options": [
+        {
+          "id": "VR-4",
+          "name": "Veg Cocktail Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-4-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Cocktail Fried Rice"
+        },
+        {
+          "id": "VR-4-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Cocktail Fried Rice"
+        },
+        {
+          "id": "VR-4-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Cocktail Fried Rice"
+        },
+        {
+          "id": "VR-4-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Cocktail Fried Rice"
+        }
+      ],
+      "source_row": 55
+    },
+    {
+      "key": "VR-5",
+      "title": "Veg Hong Kong Fried Rice",
+      "options": [
+        {
+          "id": "VR-5",
+          "name": "Veg Hong Kong Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-5-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Hong Kong Fried Rice"
+        },
+        {
+          "id": "VR-5-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Hong Kong Fried Rice"
+        },
+        {
+          "id": "VR-5-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Hong Kong Fried Rice"
+        },
+        {
+          "id": "VR-5-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Hong Kong Fried Rice"
+        }
+      ],
+      "source_row": 54
+    },
+    {
+      "key": "VR-6",
+      "title": "Veg Manchurian Fried Rice",
+      "options": [
+        {
+          "id": "VR-6",
+          "name": "Veg Manchurian Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-6-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Manchurian Fried Rice"
+        },
+        {
+          "id": "VR-6-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Manchurian Fried Rice"
+        },
+        {
+          "id": "VR-6-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Manchurian Fried Rice"
+        },
+        {
+          "id": "VR-6-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Manchurian Fried Rice"
+        }
+      ],
+      "source_row": 51
+    },
+    {
+      "key": "VR-7",
+      "title": "Veg Paneer Fried Rice",
+      "options": [
+        {
+          "id": "VR-7",
+          "name": "Veg Paneer Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-7-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Paneer Fried Rice"
+        },
+        {
+          "id": "VR-7-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Paneer Fried Rice"
+        },
+        {
+          "id": "VR-7-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Paneer Fried Rice"
+        },
+        {
+          "id": "VR-7-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Paneer Fried Rice"
+        }
+      ],
+      "source_row": 49
+    },
+    {
+      "key": "VR-9",
+      "title": "Veg Schezwan Fried Rice",
+      "options": [
+        {
+          "id": "VR-9",
+          "name": "Veg Schezwan Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-9-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-9-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-9-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-9-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Schezwan Fried Rice"
+        }
+      ],
+      "source_row": 48
+    },
+    {
+      "key": "VR-10",
+      "title": "Veg Singapore Fried Rice",
+      "options": [
+        {
+          "id": "VR-10",
+          "name": "Veg Singapore Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-10-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Singapore Fried Rice"
+        },
+        {
+          "id": "VR-10-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Singapore Fried Rice"
+        },
+        {
+          "id": "VR-10-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Singapore Fried Rice"
+        },
+        {
+          "id": "VR-10-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Singapore Fried Rice"
+        }
+      ],
+      "source_row": 53
+    },
+    {
+      "key": "VR-11",
+      "title": "Veg Triple Schezwan Fried Rice",
+      "options": [
+        {
+          "id": "VR-11",
+          "name": "Veg Triple Schezwan Fried Rice",
+          "label": "Standard",
+          "price": 180
+        }
+      ],
+      "addons": [
+        {
+          "id": "VR-11-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Veg Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-11-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-11-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "VR-11-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Triple Schezwan Fried Rice"
+        }
+      ],
+      "source_row": 56
+    },
+    {
+      "key": "NR-1",
+      "title": "Chicken Chilli Fried Rice",
+      "options": [
+        {
+          "id": "NR-1",
+          "name": "Chicken Chilli Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-1-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Fried Rice"
+        },
+        {
+          "id": "NR-1-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chilli Fried Rice"
+        },
+        {
+          "id": "NR-1-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chilli Fried Rice"
+        },
+        {
+          "id": "NR-1-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chilli Fried Rice"
+        }
+      ],
+      "source_row": 67
+    },
+    {
+      "key": "NR-2",
+      "title": "Chicken Fried Rice",
+      "options": [
+        {
+          "id": "NR-2",
+          "name": "Chicken Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-2-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Fried Rice"
+        },
+        {
+          "id": "NR-2-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Fried Rice"
+        },
+        {
+          "id": "NR-2-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Fried Rice"
+        },
+        {
+          "id": "NR-2-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Fried Rice"
+        }
+      ],
+      "source_row": 58
+    },
+    {
+      "key": "NR-3",
+      "title": "Chicken Garlic And Onion Fried Rice",
+      "options": [
+        {
+          "id": "NR-3",
+          "name": "Chicken Garlic And Onion Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-3-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Garlic And Onion Fried Rice"
+        },
+        {
+          "id": "NR-3-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Garlic And Onion Fried Rice"
+        },
+        {
+          "id": "NR-3-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Garlic And Onion Fried Rice"
+        },
+        {
+          "id": "NR-3-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Garlic And Onion Fried Rice"
+        }
+      ],
+      "source_row": 64
+    },
+    {
+      "key": "NR-4",
+      "title": "Chicken Burnt Garlic Fried Rice",
+      "options": [
+        {
+          "id": "NR-4",
+          "name": "Chicken Burnt Garlic Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-4-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Burnt Garlic Fried Rice"
+        },
+        {
+          "id": "NR-4-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Burnt Garlic Fried Rice"
+        },
+        {
+          "id": "NR-4-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Burnt Garlic Fried Rice"
+        },
+        {
+          "id": "NR-4-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Burnt Garlic Fried Rice"
+        }
+      ],
+      "source_row": 66
+    },
+    {
+      "key": "NR-5",
+      "title": "Chicken Chopper Fried Rice",
+      "options": [
+        {
+          "id": "NR-5",
+          "name": "Chicken Chopper Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-5-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Chopper Fried Rice"
+        },
+        {
+          "id": "NR-5-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Chopper Fried Rice"
+        },
+        {
+          "id": "NR-5-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Chopper Fried Rice"
+        },
+        {
+          "id": "NR-5-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Chopper Fried Rice"
+        }
+      ],
+      "source_row": 63
+    },
+    {
+      "key": "NR-6",
+      "title": "Chicken Drumstick Fried Rice",
+      "options": [
+        {
+          "id": "NR-6",
+          "name": "Chicken Drumstick Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-6-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Drumstick Fried Rice"
+        },
+        {
+          "id": "NR-6-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Drumstick Fried Rice"
+        },
+        {
+          "id": "NR-6-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Drumstick Fried Rice"
+        },
+        {
+          "id": "NR-6-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Drumstick Fried Rice"
+        }
+      ],
+      "source_row": 62
+    },
+    {
+      "key": "NR-7",
+      "title": "Chicken Hong Kong Fried Rice",
+      "options": [
+        {
+          "id": "NR-7",
+          "name": "Chicken Hong Kong Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-7-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Hong Kong Fried Rice"
+        },
+        {
+          "id": "NR-7-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Hong Kong Fried Rice"
+        },
+        {
+          "id": "NR-7-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Hong Kong Fried Rice"
+        },
+        {
+          "id": "NR-7-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Hong Kong Fried Rice"
+        }
+      ],
+      "source_row": 65
+    },
+    {
+      "key": "NR-8",
+      "title": "Chicken Schezwan Fried Rice",
+      "options": [
+        {
+          "id": "NR-8",
+          "name": "Chicken Schezwan Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-8-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-8-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-8-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-8-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Schezwan Fried Rice"
+        }
+      ],
+      "source_row": 59
+    },
+    {
+      "key": "NR-9",
+      "title": "Chicken Singapore Fried Rice",
+      "options": [
+        {
+          "id": "NR-9",
+          "name": "Chicken Singapore Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-9-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Singapore Fried Rice"
+        },
+        {
+          "id": "NR-9-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Singapore Fried Rice"
+        },
+        {
+          "id": "NR-9-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Singapore Fried Rice"
+        },
+        {
+          "id": "NR-9-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Singapore Fried Rice"
+        }
+      ],
+      "source_row": 61
+    },
+    {
+      "key": "NR-10",
+      "title": "Chicken Triple Schezwan Fried Rice",
+      "options": [
+        {
+          "id": "NR-10",
+          "name": "Chicken Triple Schezwan Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-10-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Chicken Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-10-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-10-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Triple Schezwan Fried Rice"
+        },
+        {
+          "id": "NR-10-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Triple Schezwan Fried Rice"
+        }
+      ],
+      "source_row": 60
+    },
+    {
+      "key": "NR-11",
+      "title": "Egg Fried Rice",
+      "options": [
+        {
+          "id": "NR-11",
+          "name": "Egg Fried Rice",
+          "label": "Standard",
+          "price": 220
+        }
+      ],
+      "addons": [
+        {
+          "id": "NR-11-A1",
+          "label": "Chefs Special Hot Garlic Gravy",
+          "price": 49,
+          "name": "Chefs Special Hot Garlic Gravy — for Egg Fried Rice"
+        },
+        {
+          "id": "NR-11-A2",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Egg Fried Rice"
+        },
+        {
+          "id": "NR-11-A3",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Egg Fried Rice"
+        },
+        {
+          "id": "NR-11-A4",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Egg Fried Rice"
+        }
+      ],
+      "source_row": 57
+    },
+    {
+      "key": "VSP-1",
+      "title": "Hot and Sour Soup",
+      "options": [
+        {
+          "id": "VSP-1",
+          "name": "Hot and Sour Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 68
+    },
+    {
+      "key": "VSP-2",
+      "title": "Tomato Soup",
+      "options": [
+        {
+          "id": "VSP-2",
+          "name": "Tomato Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 69
+    },
+    {
+      "key": "VSP-3",
+      "title": "Veg Clear Soup",
+      "options": [
+        {
+          "id": "VSP-3",
+          "name": "Veg Clear Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 70
+    },
+    {
+      "key": "VSP-4",
+      "title": "Veg Lemon Coriander Soup",
+      "options": [
+        {
+          "id": "VSP-4",
+          "name": "Veg Lemon Coriander Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 73
+    },
+    {
+      "key": "VSP-5",
+      "title": "Veg Manchow Soup",
+      "options": [
+        {
+          "id": "VSP-5",
+          "name": "Veg Manchow Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 71
+    },
+    {
+      "key": "VSP-6",
+      "title": "Veg Noodle Soup",
+      "options": [
+        {
+          "id": "VSP-6",
+          "name": "Veg Noodle Soup",
+          "label": "Standard",
+          "price": 120
+        }
+      ],
+      "addons": [],
+      "source_row": 72
+    },
+    {
+      "key": "NSP-1",
+      "title": "Chicken Clear Soup",
+      "options": [
+        {
+          "id": "NSP-1",
+          "name": "Chicken Clear Soup",
+          "label": "Standard",
+          "price": 150
+        }
+      ],
+      "addons": [
+        {
+          "id": "NSP-1-A1",
+          "label": "Extra Chicken",
+          "price": 49,
+          "name": "Extra Chicken — for Chicken Clear Soup"
+        },
+        {
+          "id": "NSP-1-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Clear Soup"
+        },
+        {
+          "id": "NSP-1-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Clear Soup"
+        }
+      ],
+      "source_row": 75
+    },
+    {
+      "key": "NSP-2",
+      "title": "Chicken Hot And Sour Soup",
+      "options": [
+        {
+          "id": "NSP-2",
+          "name": "Chicken Hot And Sour Soup",
+          "label": "Standard",
+          "price": 150
+        }
+      ],
+      "addons": [
+        {
+          "id": "NSP-2-A1",
+          "label": "Extra Chicken",
+          "price": 49,
+          "name": "Extra Chicken — for Chicken Hot And Sour Soup"
+        },
+        {
+          "id": "NSP-2-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Hot And Sour Soup"
+        },
+        {
+          "id": "NSP-2-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Hot And Sour Soup"
+        }
+      ],
+      "source_row": 74
+    },
+    {
+      "key": "NSP-3",
+      "title": "Chicken Lemon Coriander Soup",
+      "options": [
+        {
+          "id": "NSP-3",
+          "name": "Chicken Lemon Coriander Soup",
+          "label": "Standard",
+          "price": 150
+        }
+      ],
+      "addons": [
+        {
+          "id": "NSP-3-A1",
+          "label": "Extra Chicken",
+          "price": 49,
+          "name": "Extra Chicken — for Chicken Lemon Coriander Soup"
+        },
+        {
+          "id": "NSP-3-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Lemon Coriander Soup"
+        },
+        {
+          "id": "NSP-3-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Lemon Coriander Soup"
+        }
+      ],
+      "source_row": 77
+    },
+    {
+      "key": "NSP-4",
+      "title": "Chicken Manchow Soup",
+      "options": [
+        {
+          "id": "NSP-4",
+          "name": "Chicken Manchow Soup",
+          "label": "Standard",
+          "price": 150
+        }
+      ],
+      "addons": [
+        {
+          "id": "NSP-4-A1",
+          "label": "Extra Chicken",
+          "price": 49,
+          "name": "Extra Chicken — for Chicken Manchow Soup"
+        },
+        {
+          "id": "NSP-4-A2",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Manchow Soup"
+        },
+        {
+          "id": "NSP-4-A3",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Manchow Soup"
+        }
+      ],
+      "source_row": 76
+    },
+    {
+      "key": "CMB1-1",
+      "title": "Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "options": [
+        {
+          "id": "CMB1-1-O1",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Gravy)",
+          "label": "Paneer Chilli Half (Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB1-1-O2",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB1-1-O3",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 260
+        },
+        {
+          "id": "CMB1-1-O4",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Gravy)",
+          "label": "Veg Manchurian Half (Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB1-1-O5",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB1-1-O6",
+          "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 260
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB1-1-A1",
+          "label": "Extra 3 Pieces Veg Manchurian In Noodles",
+          "price": 49,
+          "name": "Extra 3 Pieces Veg Manchurian In Noodles — for Veg Hakka Noodles Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB1-1-A2",
+          "label": "Extra Paneer in Noodles",
+          "price": 59,
+          "name": "Extra Paneer in Noodles — for Veg Hakka Noodles Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB1-1-A3",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Hakka Noodles Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB1-1-A4",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Hakka Noodles Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB1-1-A5",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Hakka Noodles Half With Choice Of Veg Starter"
+        }
+      ],
+      "source_row": 2
+    },
+    {
+      "key": "CMB2-1",
+      "title": "Chicken Hakka Noodles Half Choice Of Starter",
+      "options": [
+        {
+          "id": "CMB2-1-O1",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+          "label": "Chicken Chilli Half (Semi Gravy)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O2",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Chilli Half (Dry)",
+          "label": "Chicken Chilli Half (Dry)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O3",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+          "label": "Chicken Garlic Half (Semi Gravy)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O4",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Garlic Half (Dry)",
+          "label": "Chicken Garlic Half (Dry)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O5",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O6",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O7",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 280
+        },
+        {
+          "id": "CMB2-1-O8",
+          "name": "Chicken Hakka Noodles Half Choice Of Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 280
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB2-1-A1",
+          "label": "Extra 1 Egg in Noodles",
+          "price": 19,
+          "name": "Extra 1 Egg in Noodles — for Chicken Hakka Noodles Half Choice Of Starter"
+        },
+        {
+          "id": "CMB2-1-A2",
+          "label": "Extra Paneer in Noodles",
+          "price": 59,
+          "name": "Extra Paneer in Noodles — for Chicken Hakka Noodles Half Choice Of Starter"
+        },
+        {
+          "id": "CMB2-1-A3",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Hakka Noodles Half Choice Of Starter"
+        },
+        {
+          "id": "CMB2-1-A4",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Hakka Noodles Half Choice Of Starter"
+        },
+        {
+          "id": "CMB2-1-A5",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Hakka Noodles Half Choice Of Starter"
+        }
+      ],
+      "source_row": 4
+    },
+    {
+      "key": "CMB3-1",
+      "title": "Egg Hakka Noodles With Choice Of Starter",
+      "options": [
+        {
+          "id": "CMB3-1-O1",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+          "label": "Chicken Chilli Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O2",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Chilli Half (Dry)",
+          "label": "Chicken Chilli Half (Dry)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O3",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+          "label": "Chicken Garlic Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O4",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Garlic Half (Dry)",
+          "label": "Chicken Garlic Half (Dry)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O5",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O6",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O7",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 260
+        },
+        {
+          "id": "CMB3-1-O8",
+          "name": "Egg Hakka Noodles With Choice Of Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 260
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB3-1-A1",
+          "label": "Extra Chicken",
+          "price": 59,
+          "name": "Extra Chicken — for Egg Hakka Noodles With Choice Of Starter"
+        },
+        {
+          "id": "CMB3-1-A2",
+          "label": "Extra 1 Egg in Noodles",
+          "price": 19,
+          "name": "Extra 1 Egg in Noodles — for Egg Hakka Noodles With Choice Of Starter"
+        },
+        {
+          "id": "CMB3-1-A3",
+          "label": "Extra Paneer in Noodles",
+          "price": 59,
+          "name": "Extra Paneer in Noodles — for Egg Hakka Noodles With Choice Of Starter"
+        },
+        {
+          "id": "CMB3-1-A4",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Egg Hakka Noodles With Choice Of Starter"
+        },
+        {
+          "id": "CMB3-1-A5",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Egg Hakka Noodles With Choice Of Starter"
+        },
+        {
+          "id": "CMB3-1-A6",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Egg Hakka Noodles With Choice Of Starter"
+        }
+      ],
+      "source_row": 7
+    },
+    {
+      "key": "CMB4-1",
+      "title": "Veg Fried Rice Half With Choice Of Veg Starter",
+      "options": [
+        {
+          "id": "CMB4-1-O1",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Gravy)",
+          "label": "Paneer Chilli Half (Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB4-1-O2",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB4-1-O3",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 250
+        },
+        {
+          "id": "CMB4-1-O4",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Gravy)",
+          "label": "Veg Manchurian Half (Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB4-1-O5",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB4-1-O6",
+          "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 250
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB4-1-A1",
+          "label": "Extra 3 Pieces Veg Manchurian In Rice",
+          "price": 49,
+          "name": "Extra 3 Pieces Veg Manchurian In Rice — for Veg Fried Rice Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB4-1-A2",
+          "label": "Extra Paneer in Fried Rice",
+          "price": 59,
+          "name": "Extra Paneer in Fried Rice — for Veg Fried Rice Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB4-1-A3",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Veg Fried Rice Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB4-1-A4",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Veg Fried Rice Half With Choice Of Veg Starter"
+        },
+        {
+          "id": "CMB4-1-A5",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Veg Fried Rice Half With Choice Of Veg Starter"
+        }
+      ],
+      "source_row": 3
+    },
+    {
+      "key": "CMB5-1",
+      "title": "Chicken Fried Rice Half With Choice Of Starter",
+      "options": [
+        {
+          "id": "CMB5-1-O1",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+          "label": "Chicken Chilli Half (Semi Gravy)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O2",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Chilli Half (Dry)",
+          "label": "Chicken Chilli Half (Dry)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O3",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+          "label": "Chicken Garlic Half (Semi Gravy)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O4",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Garlic Half (Dry)",
+          "label": "Chicken Garlic Half (Dry)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O5",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O6",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O7",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 270
+        },
+        {
+          "id": "CMB5-1-O8",
+          "name": "Chicken Fried Rice Half With Choice Of Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 270
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB5-1-A1",
+          "label": "Extra 1 Egg in Rice",
+          "price": 19,
+          "name": "Extra 1 Egg in Rice — for Chicken Fried Rice Half With Choice Of Starter"
+        },
+        {
+          "id": "CMB5-1-A2",
+          "label": "Extra Paneer in Fried Rice",
+          "price": 59,
+          "name": "Extra Paneer in Fried Rice — for Chicken Fried Rice Half With Choice Of Starter"
+        },
+        {
+          "id": "CMB5-1-A3",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Chicken Fried Rice Half With Choice Of Starter"
+        },
+        {
+          "id": "CMB5-1-A4",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Chicken Fried Rice Half With Choice Of Starter"
+        },
+        {
+          "id": "CMB5-1-A5",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Chicken Fried Rice Half With Choice Of Starter"
+        }
+      ],
+      "source_row": 5
+    },
+    {
+      "key": "CMB6-1",
+      "title": "Egg Fried Rice Half with Choice of Starter",
+      "options": [
+        {
+          "id": "CMB6-1-O1",
+          "name": "Egg Fried Rice Half with Choice of Starter — Chicken Chilli Half (Semi Gravy)",
+          "label": "Chicken Chilli Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O2",
+          "name": "Egg Fried Rice Half with Choice of Starter — Chicken Chilli Half (Dry)",
+          "label": "Chicken Chilli Half (Dry)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O3",
+          "name": "Egg Fried Rice Half with Choice of Starter — Chicken Garlic Half (Semi Gravy)",
+          "label": "Chicken Garlic Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O4",
+          "name": "Egg Fried Rice Half with Choice of Starter — Chicken Garlic Half (Dry)",
+          "label": "Chicken Garlic Half (Dry)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O5",
+          "name": "Egg Fried Rice Half with Choice of Starter — Paneer Chilli Half (Semi Gravy)",
+          "label": "Paneer Chilli Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O6",
+          "name": "Egg Fried Rice Half with Choice of Starter — Paneer Chilli Half (Dry)",
+          "label": "Paneer Chilli Half (Dry)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O7",
+          "name": "Egg Fried Rice Half with Choice of Starter — Veg Manchurian Half (Semi Gravy)",
+          "label": "Veg Manchurian Half (Semi Gravy)",
+          "price": 250
+        },
+        {
+          "id": "CMB6-1-O8",
+          "name": "Egg Fried Rice Half with Choice of Starter — Veg Manchurian Half (Dry)",
+          "label": "Veg Manchurian Half (Dry)",
+          "price": 250
+        }
+      ],
+      "addons": [
+        {
+          "id": "CMB6-1-A1",
+          "label": "Extra Chicken",
+          "price": 59,
+          "name": "Extra Chicken — for Egg Fried Rice Half with Choice of Starter"
+        },
+        {
+          "id": "CMB6-1-A2",
+          "label": "Extra 1 Egg in Fried Rice",
+          "price": 19,
+          "name": "Extra 1 Egg in Fried Rice — for Egg Fried Rice Half with Choice of Starter"
+        },
+        {
+          "id": "CMB6-1-A3",
+          "label": "Extra Paneer in Fried Rice",
+          "price": 59,
+          "name": "Extra Paneer in Fried Rice — for Egg Fried Rice Half with Choice of Starter"
+        },
+        {
+          "id": "CMB6-1-A4",
+          "label": "Extra Schezwan Chutney",
+          "price": 19,
+          "name": "Extra Schezwan Chutney — for Egg Fried Rice Half with Choice of Starter"
+        },
+        {
+          "id": "CMB6-1-A5",
+          "label": "Thums Up 250 ml",
+          "price": 39,
+          "name": "Thums Up 250 ml — for Egg Fried Rice Half with Choice of Starter"
+        },
+        {
+          "id": "CMB6-1-A6",
+          "label": "Sprite 250 ml",
+          "price": 39,
+          "name": "Sprite 250 ml — for Egg Fried Rice Half with Choice of Starter"
+        }
+      ],
+      "source_row": 6
+    }
+  ],
+  "products": [
+    {
+      "id": "VS-1-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Paneer Chilli",
+      "base": "VS-1",
+      "parents": [
+        "VS-1-O1",
+        "VS-1-O2",
+        "VS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-1-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Paneer Chilli",
+      "base": "VS-1",
+      "parents": [
+        "VS-1-O1",
+        "VS-1-O2",
+        "VS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-1-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Paneer Chilli",
+      "base": "VS-1",
+      "parents": [
+        "VS-1-O1",
+        "VS-1-O2",
+        "VS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-1-O1",
+      "name": "Paneer Chilli — Dry",
+      "label": "Dry",
+      "price": 180,
+      "base": "VS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-1-O2",
+      "name": "Paneer Chilli — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 180,
+      "base": "VS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-1-O3",
+      "name": "Paneer Chilli — Gravy",
+      "label": "Gravy",
+      "price": 180,
+      "base": "VS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-2-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Paneer Garlic",
+      "base": "VS-2",
+      "parents": [
+        "VS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-2-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Paneer Garlic",
+      "base": "VS-2",
+      "parents": [
+        "VS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-2-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Paneer Garlic",
+      "base": "VS-2",
+      "parents": [
+        "VS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-2",
+      "name": "Paneer Garlic",
+      "label": "Standard",
+      "price": 180,
+      "base": "VS-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-3-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Manchurian",
+      "base": "VS-3",
+      "parents": [
+        "VS-3-O1",
+        "VS-3-O2",
+        "VS-3-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-3-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Manchurian",
+      "base": "VS-3",
+      "parents": [
+        "VS-3-O1",
+        "VS-3-O2",
+        "VS-3-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-3-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Manchurian",
+      "base": "VS-3",
+      "parents": [
+        "VS-3-O1",
+        "VS-3-O2",
+        "VS-3-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-3-O1",
+      "name": "Veg Manchurian — Dry",
+      "label": "Dry",
+      "price": 180,
+      "base": "VS-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-3-O2",
+      "name": "Veg Manchurian — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 180,
+      "base": "VS-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-3-O3",
+      "name": "Veg Manchurian — Gravy",
+      "label": "Gravy",
+      "price": 180,
+      "base": "VS-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-4-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Paneer 65",
+      "base": "VS-4",
+      "parents": [
+        "VS-4-O1",
+        "VS-4-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-4-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Paneer 65",
+      "base": "VS-4",
+      "parents": [
+        "VS-4-O1",
+        "VS-4-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-4-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Paneer 65",
+      "base": "VS-4",
+      "parents": [
+        "VS-4-O1",
+        "VS-4-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-4-O1",
+      "name": "Paneer 65 — Dry",
+      "label": "Dry",
+      "price": 180,
+      "base": "VS-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-4-O2",
+      "name": "Paneer 65 — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 180,
+      "base": "VS-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-5-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Paneer Schezwan",
+      "base": "VS-5",
+      "parents": [
+        "VS-5-O1",
+        "VS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-5-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Paneer Schezwan",
+      "base": "VS-5",
+      "parents": [
+        "VS-5-O1",
+        "VS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-5-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Paneer Schezwan",
+      "base": "VS-5",
+      "parents": [
+        "VS-5-O1",
+        "VS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-5-O1",
+      "name": "Paneer Schezwan — Dry",
+      "label": "Dry",
+      "price": 180,
+      "base": "VS-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-5-O2",
+      "name": "Paneer Schezwan — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 180,
+      "base": "VS-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-6-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Soyabean Chilli",
+      "base": "VS-6",
+      "parents": [
+        "VS-6-O1",
+        "VS-6-O2",
+        "VS-6-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-6-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Soyabean Chilli",
+      "base": "VS-6",
+      "parents": [
+        "VS-6-O1",
+        "VS-6-O2",
+        "VS-6-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-6-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Soyabean Chilli",
+      "base": "VS-6",
+      "parents": [
+        "VS-6-O1",
+        "VS-6-O2",
+        "VS-6-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-6-O1",
+      "name": "Soyabean Chilli — Dry",
+      "label": "Dry",
+      "price": 180,
+      "base": "VS-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-6-O2",
+      "name": "Soyabean Chilli — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 180,
+      "base": "VS-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-6-O3",
+      "name": "Soyabean Chilli — Gravy",
+      "label": "Gravy",
+      "price": 180,
+      "base": "VS-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-7-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg 65",
+      "base": "VS-7",
+      "parents": [
+        "VS-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-7-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg 65",
+      "base": "VS-7",
+      "parents": [
+        "VS-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-7-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg 65",
+      "base": "VS-7",
+      "parents": [
+        "VS-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-7",
+      "name": "Veg 65",
+      "label": "Standard",
+      "price": 180,
+      "base": "VS-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-8-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Corn Crispy",
+      "base": "VS-8",
+      "parents": [
+        "VS-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-8-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Corn Crispy",
+      "base": "VS-8",
+      "parents": [
+        "VS-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-8-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Corn Crispy",
+      "base": "VS-8",
+      "parents": [
+        "VS-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-8",
+      "name": "Veg Corn Crispy",
+      "label": "Standard",
+      "price": 180,
+      "base": "VS-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-9-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Crispy",
+      "base": "VS-9",
+      "parents": [
+        "VS-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-9-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Crispy",
+      "base": "VS-9",
+      "parents": [
+        "VS-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-9-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Crispy",
+      "base": "VS-9",
+      "parents": [
+        "VS-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-9",
+      "name": "Veg Crispy",
+      "label": "Standard",
+      "price": 180,
+      "base": "VS-9",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VS-10-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Chinese Bhel",
+      "base": "VS-10",
+      "parents": [
+        "VS-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-10-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Chinese Bhel",
+      "base": "VS-10",
+      "parents": [
+        "VS-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-10-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Chinese Bhel",
+      "base": "VS-10",
+      "parents": [
+        "VS-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VS-10",
+      "name": "Veg Chinese Bhel",
+      "label": "Standard",
+      "price": 180,
+      "base": "VS-10",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-1-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chilli",
+      "base": "NS-1",
+      "parents": [
+        "NS-1-O1",
+        "NS-1-O2",
+        "NS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-1-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chilli",
+      "base": "NS-1",
+      "parents": [
+        "NS-1-O1",
+        "NS-1-O2",
+        "NS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-1-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chilli",
+      "base": "NS-1",
+      "parents": [
+        "NS-1-O1",
+        "NS-1-O2",
+        "NS-1-O3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-1-O1",
+      "name": "Chicken Chilli — Dry",
+      "label": "Dry",
+      "price": 220,
+      "base": "NS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-1-O2",
+      "name": "Chicken Chilli — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 220,
+      "base": "NS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-1-O3",
+      "name": "Chicken Chilli — Gravy",
+      "label": "Gravy",
+      "price": 220,
+      "base": "NS-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-2-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chinese Bhel",
+      "base": "NS-2",
+      "parents": [
+        "NS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-2-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chinese Bhel",
+      "base": "NS-2",
+      "parents": [
+        "NS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-2-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chinese Bhel",
+      "base": "NS-2",
+      "parents": [
+        "NS-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-2",
+      "name": "Chicken Chinese Bhel",
+      "label": "Standard",
+      "price": 220,
+      "base": "NS-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-3-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Crispy",
+      "base": "NS-3",
+      "parents": [
+        "NS-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-3-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Crispy",
+      "base": "NS-3",
+      "parents": [
+        "NS-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-3-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Crispy",
+      "base": "NS-3",
+      "parents": [
+        "NS-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-3",
+      "name": "Chicken Crispy",
+      "label": "Standard",
+      "price": 220,
+      "base": "NS-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-4-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Garlic Dry",
+      "base": "NS-4",
+      "parents": [
+        "NS-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-4-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Garlic Dry",
+      "base": "NS-4",
+      "parents": [
+        "NS-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-4-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Garlic Dry",
+      "base": "NS-4",
+      "parents": [
+        "NS-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-4",
+      "name": "Chicken Garlic Dry",
+      "label": "Standard",
+      "price": 220,
+      "base": "NS-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-5-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Lollipop",
+      "base": "NS-5",
+      "parents": [
+        "NS-5-O1",
+        "NS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-5-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Lollipop",
+      "base": "NS-5",
+      "parents": [
+        "NS-5-O1",
+        "NS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-5-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Lollipop",
+      "base": "NS-5",
+      "parents": [
+        "NS-5-O1",
+        "NS-5-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-5-O1",
+      "name": "Chicken Lollipop — Oil Roast Only",
+      "label": "Oil Roast Only",
+      "price": 220,
+      "base": "NS-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-5-O2",
+      "name": "Chicken Lollipop — Tossed In Sauces",
+      "label": "Tossed In Sauces",
+      "price": 220,
+      "base": "NS-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-6-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Lollipop Masala",
+      "base": "NS-6",
+      "parents": [
+        "NS-6-O1",
+        "NS-6-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-6-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Lollipop Masala",
+      "base": "NS-6",
+      "parents": [
+        "NS-6-O1",
+        "NS-6-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-6-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Lollipop Masala",
+      "base": "NS-6",
+      "parents": [
+        "NS-6-O1",
+        "NS-6-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-6-O1",
+      "name": "Chicken Lollipop Masala — Oil Roast Only",
+      "label": "Oil Roast Only",
+      "price": 220,
+      "base": "NS-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-6-O2",
+      "name": "Chicken Lollipop Masala — Tossed In Sauces",
+      "label": "Tossed In Sauces",
+      "price": 220,
+      "base": "NS-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-7-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Schezwan",
+      "base": "NS-7",
+      "parents": [
+        "NS-7-O1",
+        "NS-7-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-7-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Schezwan",
+      "base": "NS-7",
+      "parents": [
+        "NS-7-O1",
+        "NS-7-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-7-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Schezwan",
+      "base": "NS-7",
+      "parents": [
+        "NS-7-O1",
+        "NS-7-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-7-O1",
+      "name": "Chicken Schezwan — Dry",
+      "label": "Dry",
+      "price": 220,
+      "base": "NS-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-7-O2",
+      "name": "Chicken Schezwan — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 220,
+      "base": "NS-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-8-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken 65",
+      "base": "NS-8",
+      "parents": [
+        "NS-8-O1",
+        "NS-8-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-8-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken 65",
+      "base": "NS-8",
+      "parents": [
+        "NS-8-O1",
+        "NS-8-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-8-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken 65",
+      "base": "NS-8",
+      "parents": [
+        "NS-8-O1",
+        "NS-8-O2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NS-8-O1",
+      "name": "Chicken 65 — Dry",
+      "label": "Dry",
+      "price": 220,
+      "base": "NS-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NS-8-O2",
+      "name": "Chicken 65 — Semi Gravy",
+      "label": "Semi Gravy",
+      "price": 220,
+      "base": "NS-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-1-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Chilli Garlic Noodles",
+      "base": "VN-1",
+      "parents": [
+        "VN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-1-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Chilli Garlic Noodles",
+      "base": "VN-1",
+      "parents": [
+        "VN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-1-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Chilli Garlic Noodles",
+      "base": "VN-1",
+      "parents": [
+        "VN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-1",
+      "name": "Veg Chilli Garlic Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-2-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Cocktail Noodles",
+      "base": "VN-2",
+      "parents": [
+        "VN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-2-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Cocktail Noodles",
+      "base": "VN-2",
+      "parents": [
+        "VN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-2-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Cocktail Noodles",
+      "base": "VN-2",
+      "parents": [
+        "VN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-2",
+      "name": "Veg Cocktail Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-3-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Hakka Noodles",
+      "base": "VN-3",
+      "parents": [
+        "VN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-3-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Hakka Noodles",
+      "base": "VN-3",
+      "parents": [
+        "VN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-3-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Hakka Noodles",
+      "base": "VN-3",
+      "parents": [
+        "VN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-3",
+      "name": "Veg Hakka Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-4-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Hong Kong Noodles",
+      "base": "VN-4",
+      "parents": [
+        "VN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-4-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Hong Kong Noodles",
+      "base": "VN-4",
+      "parents": [
+        "VN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-4-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Hong Kong Noodles",
+      "base": "VN-4",
+      "parents": [
+        "VN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-4",
+      "name": "Veg Hong Kong Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-6-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Schezwan Noodles",
+      "base": "VN-6",
+      "parents": [
+        "VN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-6-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Schezwan Noodles",
+      "base": "VN-6",
+      "parents": [
+        "VN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-6-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Schezwan Noodles",
+      "base": "VN-6",
+      "parents": [
+        "VN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-6",
+      "name": "Veg Schezwan Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-7-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Singapore Noodles",
+      "base": "VN-7",
+      "parents": [
+        "VN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-7-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Singapore Noodles",
+      "base": "VN-7",
+      "parents": [
+        "VN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-7-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Singapore Noodles",
+      "base": "VN-7",
+      "parents": [
+        "VN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-7",
+      "name": "Veg Singapore Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-8-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Triple Schezwan Fried Noodles",
+      "base": "VN-8",
+      "parents": [
+        "VN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-8-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Triple Schezwan Fried Noodles",
+      "base": "VN-8",
+      "parents": [
+        "VN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-8-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Triple Schezwan Fried Noodles",
+      "base": "VN-8",
+      "parents": [
+        "VN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-8",
+      "name": "Veg Triple Schezwan Fried Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-9-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Manchurian Noodles",
+      "base": "VN-9",
+      "parents": [
+        "VN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-9-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Manchurian Noodles",
+      "base": "VN-9",
+      "parents": [
+        "VN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-9-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Manchurian Noodles",
+      "base": "VN-9",
+      "parents": [
+        "VN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-9",
+      "name": "Veg Manchurian Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-9",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VN-10-A1",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Paneer Noodles",
+      "base": "VN-10",
+      "parents": [
+        "VN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-10-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Paneer Noodles",
+      "base": "VN-10",
+      "parents": [
+        "VN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-10-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Paneer Noodles",
+      "base": "VN-10",
+      "parents": [
+        "VN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VN-10",
+      "name": "Veg Paneer Noodles",
+      "label": "Standard",
+      "price": 190,
+      "base": "VN-10",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-1-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Burnt Garlic Noodles",
+      "base": "NN-1",
+      "parents": [
+        "NN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-1-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Burnt Garlic Noodles",
+      "base": "NN-1",
+      "parents": [
+        "NN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-1-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Burnt Garlic Noodles",
+      "base": "NN-1",
+      "parents": [
+        "NN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-1-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Burnt Garlic Noodles",
+      "base": "NN-1",
+      "parents": [
+        "NN-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-1",
+      "name": "Chicken Burnt Garlic Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-2-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Garlic Noodles",
+      "base": "NN-2",
+      "parents": [
+        "NN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-2-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chilli Garlic Noodles",
+      "base": "NN-2",
+      "parents": [
+        "NN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-2-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chilli Garlic Noodles",
+      "base": "NN-2",
+      "parents": [
+        "NN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-2-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chilli Garlic Noodles",
+      "base": "NN-2",
+      "parents": [
+        "NN-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-2",
+      "name": "Chicken Chilli Garlic Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-3-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Noodles",
+      "base": "NN-3",
+      "parents": [
+        "NN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-3-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chilli Noodles",
+      "base": "NN-3",
+      "parents": [
+        "NN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-3-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chilli Noodles",
+      "base": "NN-3",
+      "parents": [
+        "NN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-3-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chilli Noodles",
+      "base": "NN-3",
+      "parents": [
+        "NN-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-3",
+      "name": "Chicken Chilli Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-4-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Drumstick Noodles",
+      "base": "NN-4",
+      "parents": [
+        "NN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-4-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Drumstick Noodles",
+      "base": "NN-4",
+      "parents": [
+        "NN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-4-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Drumstick Noodles",
+      "base": "NN-4",
+      "parents": [
+        "NN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-4-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Drumstick Noodles",
+      "base": "NN-4",
+      "parents": [
+        "NN-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-4",
+      "name": "Chicken Drumstick Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-5-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Garlic And Onion Noodles",
+      "base": "NN-5",
+      "parents": [
+        "NN-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-5-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Garlic And Onion Noodles",
+      "base": "NN-5",
+      "parents": [
+        "NN-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-5-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Garlic And Onion Noodles",
+      "base": "NN-5",
+      "parents": [
+        "NN-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-5-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Garlic And Onion Noodles",
+      "base": "NN-5",
+      "parents": [
+        "NN-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-5",
+      "name": "Chicken Garlic And Onion Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-6-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Hakka Noodles",
+      "base": "NN-6",
+      "parents": [
+        "NN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-6-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Hakka Noodles",
+      "base": "NN-6",
+      "parents": [
+        "NN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-6-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Hakka Noodles",
+      "base": "NN-6",
+      "parents": [
+        "NN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-6-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Hakka Noodles",
+      "base": "NN-6",
+      "parents": [
+        "NN-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-6",
+      "name": "Chicken Hakka Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-7-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Hong Kong Noodles",
+      "base": "NN-7",
+      "parents": [
+        "NN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-7-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Hong Kong Noodles",
+      "base": "NN-7",
+      "parents": [
+        "NN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-7-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Hong Kong Noodles",
+      "base": "NN-7",
+      "parents": [
+        "NN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-7-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Hong Kong Noodles",
+      "base": "NN-7",
+      "parents": [
+        "NN-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-7",
+      "name": "Chicken Hong Kong Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-8-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Schezwan Noodles",
+      "base": "NN-8",
+      "parents": [
+        "NN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-8-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Schezwan Noodles",
+      "base": "NN-8",
+      "parents": [
+        "NN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-8-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Schezwan Noodles",
+      "base": "NN-8",
+      "parents": [
+        "NN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-8-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Schezwan Noodles",
+      "base": "NN-8",
+      "parents": [
+        "NN-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-8",
+      "name": "Chicken Schezwan Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-9-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Singapore Noodles",
+      "base": "NN-9",
+      "parents": [
+        "NN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-9-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Singapore Noodles",
+      "base": "NN-9",
+      "parents": [
+        "NN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-9-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Singapore Noodles",
+      "base": "NN-9",
+      "parents": [
+        "NN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-9-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Singapore Noodles",
+      "base": "NN-9",
+      "parents": [
+        "NN-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-9",
+      "name": "Chicken Singapore Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-9",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-10-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Triple Schezwan Noodles",
+      "base": "NN-10",
+      "parents": [
+        "NN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-10-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Triple Schezwan Noodles",
+      "base": "NN-10",
+      "parents": [
+        "NN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-10-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Triple Schezwan Noodles",
+      "base": "NN-10",
+      "parents": [
+        "NN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-10-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Triple Schezwan Noodles",
+      "base": "NN-10",
+      "parents": [
+        "NN-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-10",
+      "name": "Chicken Triple Schezwan Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-10",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NN-11-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Egg Hakka Noodles",
+      "base": "NN-11",
+      "parents": [
+        "NN-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-11-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Egg Hakka Noodles",
+      "base": "NN-11",
+      "parents": [
+        "NN-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-11-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Egg Hakka Noodles",
+      "base": "NN-11",
+      "parents": [
+        "NN-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-11-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Egg Hakka Noodles",
+      "base": "NN-11",
+      "parents": [
+        "NN-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NN-11",
+      "name": "Egg Hakka Noodles",
+      "label": "Standard",
+      "price": 230,
+      "base": "NN-11",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-1-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Fried Rice",
+      "base": "VR-1",
+      "parents": [
+        "VR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-1-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Fried Rice",
+      "base": "VR-1",
+      "parents": [
+        "VR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-1-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Fried Rice",
+      "base": "VR-1",
+      "parents": [
+        "VR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-1-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Fried Rice",
+      "base": "VR-1",
+      "parents": [
+        "VR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-1",
+      "name": "Veg Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-2-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Fried Garlic Rice",
+      "base": "VR-2",
+      "parents": [
+        "VR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-2-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Fried Garlic Rice",
+      "base": "VR-2",
+      "parents": [
+        "VR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-2-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Fried Garlic Rice",
+      "base": "VR-2",
+      "parents": [
+        "VR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-2-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Fried Garlic Rice",
+      "base": "VR-2",
+      "parents": [
+        "VR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-2",
+      "name": "Veg Fried Garlic Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-3-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Paneer Schezwan Fried Rice",
+      "base": "VR-3",
+      "parents": [
+        "VR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-3-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Paneer Schezwan Fried Rice",
+      "base": "VR-3",
+      "parents": [
+        "VR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-3-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Paneer Schezwan Fried Rice",
+      "base": "VR-3",
+      "parents": [
+        "VR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-3-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Paneer Schezwan Fried Rice",
+      "base": "VR-3",
+      "parents": [
+        "VR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-3",
+      "name": "Paneer Schezwan Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-4-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Cocktail Fried Rice",
+      "base": "VR-4",
+      "parents": [
+        "VR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-4-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Cocktail Fried Rice",
+      "base": "VR-4",
+      "parents": [
+        "VR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-4-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Cocktail Fried Rice",
+      "base": "VR-4",
+      "parents": [
+        "VR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-4-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Cocktail Fried Rice",
+      "base": "VR-4",
+      "parents": [
+        "VR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-4",
+      "name": "Veg Cocktail Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-5-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Hong Kong Fried Rice",
+      "base": "VR-5",
+      "parents": [
+        "VR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-5-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Hong Kong Fried Rice",
+      "base": "VR-5",
+      "parents": [
+        "VR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-5-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Hong Kong Fried Rice",
+      "base": "VR-5",
+      "parents": [
+        "VR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-5-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Hong Kong Fried Rice",
+      "base": "VR-5",
+      "parents": [
+        "VR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-5",
+      "name": "Veg Hong Kong Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-6-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Manchurian Fried Rice",
+      "base": "VR-6",
+      "parents": [
+        "VR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-6-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Manchurian Fried Rice",
+      "base": "VR-6",
+      "parents": [
+        "VR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-6-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Manchurian Fried Rice",
+      "base": "VR-6",
+      "parents": [
+        "VR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-6-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Manchurian Fried Rice",
+      "base": "VR-6",
+      "parents": [
+        "VR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-6",
+      "name": "Veg Manchurian Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-7-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Paneer Fried Rice",
+      "base": "VR-7",
+      "parents": [
+        "VR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-7-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Paneer Fried Rice",
+      "base": "VR-7",
+      "parents": [
+        "VR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-7-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Paneer Fried Rice",
+      "base": "VR-7",
+      "parents": [
+        "VR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-7-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Paneer Fried Rice",
+      "base": "VR-7",
+      "parents": [
+        "VR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-7",
+      "name": "Veg Paneer Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-9-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Schezwan Fried Rice",
+      "base": "VR-9",
+      "parents": [
+        "VR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-9-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Schezwan Fried Rice",
+      "base": "VR-9",
+      "parents": [
+        "VR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-9-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Schezwan Fried Rice",
+      "base": "VR-9",
+      "parents": [
+        "VR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-9-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Schezwan Fried Rice",
+      "base": "VR-9",
+      "parents": [
+        "VR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-9",
+      "name": "Veg Schezwan Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-9",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-10-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Singapore Fried Rice",
+      "base": "VR-10",
+      "parents": [
+        "VR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-10-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Singapore Fried Rice",
+      "base": "VR-10",
+      "parents": [
+        "VR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-10-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Singapore Fried Rice",
+      "base": "VR-10",
+      "parents": [
+        "VR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-10-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Singapore Fried Rice",
+      "base": "VR-10",
+      "parents": [
+        "VR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-10",
+      "name": "Veg Singapore Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-10",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VR-11-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Veg Triple Schezwan Fried Rice",
+      "base": "VR-11",
+      "parents": [
+        "VR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-11-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Triple Schezwan Fried Rice",
+      "base": "VR-11",
+      "parents": [
+        "VR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-11-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Triple Schezwan Fried Rice",
+      "base": "VR-11",
+      "parents": [
+        "VR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-11-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Triple Schezwan Fried Rice",
+      "base": "VR-11",
+      "parents": [
+        "VR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "VR-11",
+      "name": "Veg Triple Schezwan Fried Rice",
+      "label": "Standard",
+      "price": 180,
+      "base": "VR-11",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-1-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Chilli Fried Rice",
+      "base": "NR-1",
+      "parents": [
+        "NR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-1-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chilli Fried Rice",
+      "base": "NR-1",
+      "parents": [
+        "NR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-1-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chilli Fried Rice",
+      "base": "NR-1",
+      "parents": [
+        "NR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-1-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chilli Fried Rice",
+      "base": "NR-1",
+      "parents": [
+        "NR-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-1",
+      "name": "Chicken Chilli Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-2-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Fried Rice",
+      "base": "NR-2",
+      "parents": [
+        "NR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-2-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Fried Rice",
+      "base": "NR-2",
+      "parents": [
+        "NR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-2-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Fried Rice",
+      "base": "NR-2",
+      "parents": [
+        "NR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-2-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Fried Rice",
+      "base": "NR-2",
+      "parents": [
+        "NR-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-2",
+      "name": "Chicken Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-3-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Garlic And Onion Fried Rice",
+      "base": "NR-3",
+      "parents": [
+        "NR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-3-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Garlic And Onion Fried Rice",
+      "base": "NR-3",
+      "parents": [
+        "NR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-3-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Garlic And Onion Fried Rice",
+      "base": "NR-3",
+      "parents": [
+        "NR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-3-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Garlic And Onion Fried Rice",
+      "base": "NR-3",
+      "parents": [
+        "NR-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-3",
+      "name": "Chicken Garlic And Onion Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-4-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Burnt Garlic Fried Rice",
+      "base": "NR-4",
+      "parents": [
+        "NR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-4-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Burnt Garlic Fried Rice",
+      "base": "NR-4",
+      "parents": [
+        "NR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-4-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Burnt Garlic Fried Rice",
+      "base": "NR-4",
+      "parents": [
+        "NR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-4-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Burnt Garlic Fried Rice",
+      "base": "NR-4",
+      "parents": [
+        "NR-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-4",
+      "name": "Chicken Burnt Garlic Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-5-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Chopper Fried Rice",
+      "base": "NR-5",
+      "parents": [
+        "NR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-5-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Chopper Fried Rice",
+      "base": "NR-5",
+      "parents": [
+        "NR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-5-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Chopper Fried Rice",
+      "base": "NR-5",
+      "parents": [
+        "NR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-5-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Chopper Fried Rice",
+      "base": "NR-5",
+      "parents": [
+        "NR-5"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-5",
+      "name": "Chicken Chopper Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-6-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Drumstick Fried Rice",
+      "base": "NR-6",
+      "parents": [
+        "NR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-6-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Drumstick Fried Rice",
+      "base": "NR-6",
+      "parents": [
+        "NR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-6-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Drumstick Fried Rice",
+      "base": "NR-6",
+      "parents": [
+        "NR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-6-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Drumstick Fried Rice",
+      "base": "NR-6",
+      "parents": [
+        "NR-6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-6",
+      "name": "Chicken Drumstick Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-7-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Hong Kong Fried Rice",
+      "base": "NR-7",
+      "parents": [
+        "NR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-7-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Hong Kong Fried Rice",
+      "base": "NR-7",
+      "parents": [
+        "NR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-7-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Hong Kong Fried Rice",
+      "base": "NR-7",
+      "parents": [
+        "NR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-7-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Hong Kong Fried Rice",
+      "base": "NR-7",
+      "parents": [
+        "NR-7"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-7",
+      "name": "Chicken Hong Kong Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-7",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-8-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Schezwan Fried Rice",
+      "base": "NR-8",
+      "parents": [
+        "NR-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-8-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Schezwan Fried Rice",
+      "base": "NR-8",
+      "parents": [
+        "NR-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-8-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Schezwan Fried Rice",
+      "base": "NR-8",
+      "parents": [
+        "NR-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-8-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Schezwan Fried Rice",
+      "base": "NR-8",
+      "parents": [
+        "NR-8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-8",
+      "name": "Chicken Schezwan Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-8",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-9-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Singapore Fried Rice",
+      "base": "NR-9",
+      "parents": [
+        "NR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-9-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Singapore Fried Rice",
+      "base": "NR-9",
+      "parents": [
+        "NR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-9-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Singapore Fried Rice",
+      "base": "NR-9",
+      "parents": [
+        "NR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-9-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Singapore Fried Rice",
+      "base": "NR-9",
+      "parents": [
+        "NR-9"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-9",
+      "name": "Chicken Singapore Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-9",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-10-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Chicken Triple Schezwan Fried Rice",
+      "base": "NR-10",
+      "parents": [
+        "NR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-10-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Triple Schezwan Fried Rice",
+      "base": "NR-10",
+      "parents": [
+        "NR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-10-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Triple Schezwan Fried Rice",
+      "base": "NR-10",
+      "parents": [
+        "NR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-10-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Triple Schezwan Fried Rice",
+      "base": "NR-10",
+      "parents": [
+        "NR-10"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-10",
+      "name": "Chicken Triple Schezwan Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-10",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NR-11-A1",
+      "label": "Chefs Special Hot Garlic Gravy",
+      "price": 49,
+      "name": "Chefs Special Hot Garlic Gravy — for Egg Fried Rice",
+      "base": "NR-11",
+      "parents": [
+        "NR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-11-A2",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Egg Fried Rice",
+      "base": "NR-11",
+      "parents": [
+        "NR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-11-A3",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Egg Fried Rice",
+      "base": "NR-11",
+      "parents": [
+        "NR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-11-A4",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Egg Fried Rice",
+      "base": "NR-11",
+      "parents": [
+        "NR-11"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NR-11",
+      "name": "Egg Fried Rice",
+      "label": "Standard",
+      "price": 220,
+      "base": "NR-11",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-1",
+      "name": "Hot and Sour Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-2",
+      "name": "Tomato Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-3",
+      "name": "Veg Clear Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-4",
+      "name": "Veg Lemon Coriander Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-5",
+      "name": "Veg Manchow Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-5",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "VSP-6",
+      "name": "Veg Noodle Soup",
+      "label": "Standard",
+      "price": 120,
+      "base": "VSP-6",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NSP-1-A1",
+      "label": "Extra Chicken",
+      "price": 49,
+      "name": "Extra Chicken — for Chicken Clear Soup",
+      "base": "NSP-1",
+      "parents": [
+        "NSP-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-1-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Clear Soup",
+      "base": "NSP-1",
+      "parents": [
+        "NSP-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-1-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Clear Soup",
+      "base": "NSP-1",
+      "parents": [
+        "NSP-1"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-1",
+      "name": "Chicken Clear Soup",
+      "label": "Standard",
+      "price": 150,
+      "base": "NSP-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NSP-2-A1",
+      "label": "Extra Chicken",
+      "price": 49,
+      "name": "Extra Chicken — for Chicken Hot And Sour Soup",
+      "base": "NSP-2",
+      "parents": [
+        "NSP-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-2-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Hot And Sour Soup",
+      "base": "NSP-2",
+      "parents": [
+        "NSP-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-2-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Hot And Sour Soup",
+      "base": "NSP-2",
+      "parents": [
+        "NSP-2"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-2",
+      "name": "Chicken Hot And Sour Soup",
+      "label": "Standard",
+      "price": 150,
+      "base": "NSP-2",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NSP-3-A1",
+      "label": "Extra Chicken",
+      "price": 49,
+      "name": "Extra Chicken — for Chicken Lemon Coriander Soup",
+      "base": "NSP-3",
+      "parents": [
+        "NSP-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-3-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Lemon Coriander Soup",
+      "base": "NSP-3",
+      "parents": [
+        "NSP-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-3-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Lemon Coriander Soup",
+      "base": "NSP-3",
+      "parents": [
+        "NSP-3"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-3",
+      "name": "Chicken Lemon Coriander Soup",
+      "label": "Standard",
+      "price": 150,
+      "base": "NSP-3",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "NSP-4-A1",
+      "label": "Extra Chicken",
+      "price": 49,
+      "name": "Extra Chicken — for Chicken Manchow Soup",
+      "base": "NSP-4",
+      "parents": [
+        "NSP-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-4-A2",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Manchow Soup",
+      "base": "NSP-4",
+      "parents": [
+        "NSP-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-4-A3",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Manchow Soup",
+      "base": "NSP-4",
+      "parents": [
+        "NSP-4"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "NSP-4",
+      "name": "Chicken Manchow Soup",
+      "label": "Standard",
+      "price": 150,
+      "base": "NSP-4",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-A1",
+      "label": "Extra 3 Pieces Veg Manchurian In Noodles",
+      "price": 49,
+      "name": "Extra 3 Pieces Veg Manchurian In Noodles — for Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "base": "CMB1-1",
+      "parents": [
+        "CMB1-1-O1",
+        "CMB1-1-O2",
+        "CMB1-1-O3",
+        "CMB1-1-O4",
+        "CMB1-1-O5",
+        "CMB1-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB1-1-A2",
+      "label": "Extra Paneer in Noodles",
+      "price": 59,
+      "name": "Extra Paneer in Noodles — for Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "base": "CMB1-1",
+      "parents": [
+        "CMB1-1-O1",
+        "CMB1-1-O2",
+        "CMB1-1-O3",
+        "CMB1-1-O4",
+        "CMB1-1-O5",
+        "CMB1-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB1-1-A3",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "base": "CMB1-1",
+      "parents": [
+        "CMB1-1-O1",
+        "CMB1-1-O2",
+        "CMB1-1-O3",
+        "CMB1-1-O4",
+        "CMB1-1-O5",
+        "CMB1-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB1-1-A4",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "base": "CMB1-1",
+      "parents": [
+        "CMB1-1-O1",
+        "CMB1-1-O2",
+        "CMB1-1-O3",
+        "CMB1-1-O4",
+        "CMB1-1-O5",
+        "CMB1-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB1-1-A5",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Hakka Noodles Half With Choice Of Veg Starter",
+      "base": "CMB1-1",
+      "parents": [
+        "CMB1-1-O1",
+        "CMB1-1-O2",
+        "CMB1-1-O3",
+        "CMB1-1-O4",
+        "CMB1-1-O5",
+        "CMB1-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB1-1-O1",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Gravy)",
+      "label": "Paneer Chilli Half (Gravy)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-O2",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-O3",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-O4",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Gravy)",
+      "label": "Veg Manchurian Half (Gravy)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-O5",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB1-1-O6",
+      "name": "Veg Hakka Noodles Half With Choice Of Veg Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 260,
+      "base": "CMB1-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-A1",
+      "label": "Extra 1 Egg in Noodles",
+      "price": 19,
+      "name": "Extra 1 Egg in Noodles — for Chicken Hakka Noodles Half Choice Of Starter",
+      "base": "CMB2-1",
+      "parents": [
+        "CMB2-1-O1",
+        "CMB2-1-O2",
+        "CMB2-1-O3",
+        "CMB2-1-O4",
+        "CMB2-1-O5",
+        "CMB2-1-O6",
+        "CMB2-1-O7",
+        "CMB2-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB2-1-A2",
+      "label": "Extra Paneer in Noodles",
+      "price": 59,
+      "name": "Extra Paneer in Noodles — for Chicken Hakka Noodles Half Choice Of Starter",
+      "base": "CMB2-1",
+      "parents": [
+        "CMB2-1-O1",
+        "CMB2-1-O2",
+        "CMB2-1-O3",
+        "CMB2-1-O4",
+        "CMB2-1-O5",
+        "CMB2-1-O6",
+        "CMB2-1-O7",
+        "CMB2-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB2-1-A3",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Hakka Noodles Half Choice Of Starter",
+      "base": "CMB2-1",
+      "parents": [
+        "CMB2-1-O1",
+        "CMB2-1-O2",
+        "CMB2-1-O3",
+        "CMB2-1-O4",
+        "CMB2-1-O5",
+        "CMB2-1-O6",
+        "CMB2-1-O7",
+        "CMB2-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB2-1-A4",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Hakka Noodles Half Choice Of Starter",
+      "base": "CMB2-1",
+      "parents": [
+        "CMB2-1-O1",
+        "CMB2-1-O2",
+        "CMB2-1-O3",
+        "CMB2-1-O4",
+        "CMB2-1-O5",
+        "CMB2-1-O6",
+        "CMB2-1-O7",
+        "CMB2-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB2-1-A5",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Hakka Noodles Half Choice Of Starter",
+      "base": "CMB2-1",
+      "parents": [
+        "CMB2-1-O1",
+        "CMB2-1-O2",
+        "CMB2-1-O3",
+        "CMB2-1-O4",
+        "CMB2-1-O5",
+        "CMB2-1-O6",
+        "CMB2-1-O7",
+        "CMB2-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB2-1-O1",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+      "label": "Chicken Chilli Half (Semi Gravy)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O2",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Chilli Half (Dry)",
+      "label": "Chicken Chilli Half (Dry)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O3",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+      "label": "Chicken Garlic Half (Semi Gravy)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O4",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Chicken Garlic Half (Dry)",
+      "label": "Chicken Garlic Half (Dry)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O5",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O6",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O7",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB2-1-O8",
+      "name": "Chicken Hakka Noodles Half Choice Of Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 280,
+      "base": "CMB2-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-A1",
+      "label": "Extra Chicken",
+      "price": 59,
+      "name": "Extra Chicken — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-A2",
+      "label": "Extra 1 Egg in Noodles",
+      "price": 19,
+      "name": "Extra 1 Egg in Noodles — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-A3",
+      "label": "Extra Paneer in Noodles",
+      "price": 59,
+      "name": "Extra Paneer in Noodles — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-A4",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-A5",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-A6",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Egg Hakka Noodles With Choice Of Starter",
+      "base": "CMB3-1",
+      "parents": [
+        "CMB3-1-O1",
+        "CMB3-1-O2",
+        "CMB3-1-O3",
+        "CMB3-1-O4",
+        "CMB3-1-O5",
+        "CMB3-1-O6",
+        "CMB3-1-O7",
+        "CMB3-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB3-1-O1",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+      "label": "Chicken Chilli Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O2",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Chilli Half (Dry)",
+      "label": "Chicken Chilli Half (Dry)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O3",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+      "label": "Chicken Garlic Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O4",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Chicken Garlic Half (Dry)",
+      "label": "Chicken Garlic Half (Dry)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O5",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O6",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O7",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB3-1-O8",
+      "name": "Egg Hakka Noodles With Choice Of Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 260,
+      "base": "CMB3-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-A1",
+      "label": "Extra 3 Pieces Veg Manchurian In Rice",
+      "price": 49,
+      "name": "Extra 3 Pieces Veg Manchurian In Rice — for Veg Fried Rice Half With Choice Of Veg Starter",
+      "base": "CMB4-1",
+      "parents": [
+        "CMB4-1-O1",
+        "CMB4-1-O2",
+        "CMB4-1-O3",
+        "CMB4-1-O4",
+        "CMB4-1-O5",
+        "CMB4-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB4-1-A2",
+      "label": "Extra Paneer in Fried Rice",
+      "price": 59,
+      "name": "Extra Paneer in Fried Rice — for Veg Fried Rice Half With Choice Of Veg Starter",
+      "base": "CMB4-1",
+      "parents": [
+        "CMB4-1-O1",
+        "CMB4-1-O2",
+        "CMB4-1-O3",
+        "CMB4-1-O4",
+        "CMB4-1-O5",
+        "CMB4-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB4-1-A3",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Veg Fried Rice Half With Choice Of Veg Starter",
+      "base": "CMB4-1",
+      "parents": [
+        "CMB4-1-O1",
+        "CMB4-1-O2",
+        "CMB4-1-O3",
+        "CMB4-1-O4",
+        "CMB4-1-O5",
+        "CMB4-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB4-1-A4",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Veg Fried Rice Half With Choice Of Veg Starter",
+      "base": "CMB4-1",
+      "parents": [
+        "CMB4-1-O1",
+        "CMB4-1-O2",
+        "CMB4-1-O3",
+        "CMB4-1-O4",
+        "CMB4-1-O5",
+        "CMB4-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB4-1-A5",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Veg Fried Rice Half With Choice Of Veg Starter",
+      "base": "CMB4-1",
+      "parents": [
+        "CMB4-1-O1",
+        "CMB4-1-O2",
+        "CMB4-1-O3",
+        "CMB4-1-O4",
+        "CMB4-1-O5",
+        "CMB4-1-O6"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB4-1-O1",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Gravy)",
+      "label": "Paneer Chilli Half (Gravy)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-O2",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-O3",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-O4",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Gravy)",
+      "label": "Veg Manchurian Half (Gravy)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-O5",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB4-1-O6",
+      "name": "Veg Fried Rice Half With Choice Of Veg Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 250,
+      "base": "CMB4-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-A1",
+      "label": "Extra 1 Egg in Rice",
+      "price": 19,
+      "name": "Extra 1 Egg in Rice — for Chicken Fried Rice Half With Choice Of Starter",
+      "base": "CMB5-1",
+      "parents": [
+        "CMB5-1-O1",
+        "CMB5-1-O2",
+        "CMB5-1-O3",
+        "CMB5-1-O4",
+        "CMB5-1-O5",
+        "CMB5-1-O6",
+        "CMB5-1-O7",
+        "CMB5-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB5-1-A2",
+      "label": "Extra Paneer in Fried Rice",
+      "price": 59,
+      "name": "Extra Paneer in Fried Rice — for Chicken Fried Rice Half With Choice Of Starter",
+      "base": "CMB5-1",
+      "parents": [
+        "CMB5-1-O1",
+        "CMB5-1-O2",
+        "CMB5-1-O3",
+        "CMB5-1-O4",
+        "CMB5-1-O5",
+        "CMB5-1-O6",
+        "CMB5-1-O7",
+        "CMB5-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB5-1-A3",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Chicken Fried Rice Half With Choice Of Starter",
+      "base": "CMB5-1",
+      "parents": [
+        "CMB5-1-O1",
+        "CMB5-1-O2",
+        "CMB5-1-O3",
+        "CMB5-1-O4",
+        "CMB5-1-O5",
+        "CMB5-1-O6",
+        "CMB5-1-O7",
+        "CMB5-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB5-1-A4",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Chicken Fried Rice Half With Choice Of Starter",
+      "base": "CMB5-1",
+      "parents": [
+        "CMB5-1-O1",
+        "CMB5-1-O2",
+        "CMB5-1-O3",
+        "CMB5-1-O4",
+        "CMB5-1-O5",
+        "CMB5-1-O6",
+        "CMB5-1-O7",
+        "CMB5-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB5-1-A5",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Chicken Fried Rice Half With Choice Of Starter",
+      "base": "CMB5-1",
+      "parents": [
+        "CMB5-1-O1",
+        "CMB5-1-O2",
+        "CMB5-1-O3",
+        "CMB5-1-O4",
+        "CMB5-1-O5",
+        "CMB5-1-O6",
+        "CMB5-1-O7",
+        "CMB5-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB5-1-O1",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Chilli Half (Semi Gravy)",
+      "label": "Chicken Chilli Half (Semi Gravy)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O2",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Chilli Half (Dry)",
+      "label": "Chicken Chilli Half (Dry)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O3",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Garlic Half (Semi Gravy)",
+      "label": "Chicken Garlic Half (Semi Gravy)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O4",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Chicken Garlic Half (Dry)",
+      "label": "Chicken Garlic Half (Dry)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O5",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O6",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O7",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB5-1-O8",
+      "name": "Chicken Fried Rice Half With Choice Of Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 270,
+      "base": "CMB5-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-A1",
+      "label": "Extra Chicken",
+      "price": 59,
+      "name": "Extra Chicken — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-A2",
+      "label": "Extra 1 Egg in Fried Rice",
+      "price": 19,
+      "name": "Extra 1 Egg in Fried Rice — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-A3",
+      "label": "Extra Paneer in Fried Rice",
+      "price": 59,
+      "name": "Extra Paneer in Fried Rice — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-A4",
+      "label": "Extra Schezwan Chutney",
+      "price": 19,
+      "name": "Extra Schezwan Chutney — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-A5",
+      "label": "Thums Up 250 ml",
+      "price": 39,
+      "name": "Thums Up 250 ml — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-A6",
+      "label": "Sprite 250 ml",
+      "price": 39,
+      "name": "Sprite 250 ml — for Egg Fried Rice Half with Choice of Starter",
+      "base": "CMB6-1",
+      "parents": [
+        "CMB6-1-O1",
+        "CMB6-1-O2",
+        "CMB6-1-O3",
+        "CMB6-1-O4",
+        "CMB6-1-O5",
+        "CMB6-1-O6",
+        "CMB6-1-O7",
+        "CMB6-1-O8"
+      ],
+      "kind": "addon"
+    },
+    {
+      "id": "CMB6-1-O1",
+      "name": "Egg Fried Rice Half with Choice of Starter — Chicken Chilli Half (Semi Gravy)",
+      "label": "Chicken Chilli Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O2",
+      "name": "Egg Fried Rice Half with Choice of Starter — Chicken Chilli Half (Dry)",
+      "label": "Chicken Chilli Half (Dry)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O3",
+      "name": "Egg Fried Rice Half with Choice of Starter — Chicken Garlic Half (Semi Gravy)",
+      "label": "Chicken Garlic Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O4",
+      "name": "Egg Fried Rice Half with Choice of Starter — Chicken Garlic Half (Dry)",
+      "label": "Chicken Garlic Half (Dry)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O5",
+      "name": "Egg Fried Rice Half with Choice of Starter — Paneer Chilli Half (Semi Gravy)",
+      "label": "Paneer Chilli Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O6",
+      "name": "Egg Fried Rice Half with Choice of Starter — Paneer Chilli Half (Dry)",
+      "label": "Paneer Chilli Half (Dry)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O7",
+      "name": "Egg Fried Rice Half with Choice of Starter — Veg Manchurian Half (Semi Gravy)",
+      "label": "Veg Manchurian Half (Semi Gravy)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    },
+    {
+      "id": "CMB6-1-O8",
+      "name": "Egg Fried Rice Half with Choice of Starter — Veg Manchurian Half (Dry)",
+      "label": "Veg Manchurian Half (Dry)",
+      "price": 250,
+      "base": "CMB6-1",
+      "parents": [],
+      "kind": "dish"
+    }
+  ],
+  "retired_ids": [
+    "CMB1-1",
+    "CMB1-2",
+    "CMB1-3",
+    "CMB1-4",
+    "CMB1-5",
+    "CMB1-6",
+    "CMB2-1",
+    "CMB2-2",
+    "CMB2-3",
+    "CMB2-4",
+    "CMB3-1",
+    "CMB3-2",
+    "CMB3-3",
+    "CMB3-4",
+    "CMB4-1",
+    "CMB4-2",
+    "CMB4-3",
+    "CMB4-4",
+    "CMB4-5",
+    "CMB5-1",
+    "CMB5-2",
+    "CMB5-3",
+    "CMB5-4",
+    "CMB6-1",
+    "CMB6-2",
+    "CMB6-3",
+    "CMB6-4",
+    "NS-1",
+    "NS-5",
+    "NS-6",
+    "NS-7",
+    "NS-8",
+    "VN-5",
+    "VR-8",
+    "VS-1",
+    "VS-3",
+    "VS-4",
+    "VS-5",
+    "VS-6"
+  ]
+}

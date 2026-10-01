@@ -241,3 +241,13 @@
     height:19px;
   }
 }
+
+/* Local inline social icons: no external icon download needed. */
+footer .footer-brand-socials{display:flex;align-items:center;gap:10px;margin-top:18px;}
+footer.legal-footer .footer-brand-socials{margin-top:0;}
+footer .footer-brand-socials .footer-brand-social{display:inline-flex!important;align-items:center;justify-content:center;width:44px;height:44px;flex:0 0 44px;margin:0;padding:0;border:1px solid #ffffff24;border-radius:12px;background:#ffffff06;color:#e9e2dc;line-height:1;text-decoration:none;transition:color .2s,background .2s,border-color .2s;}
+footer .footer-brand-social svg{display:block;width:22px;height:22px;flex:none;}
+footer .footer-brand-social:hover{color:#f4a15e;background:#f4a15e12;border-color:#f4a15e70;}
+footer .footer-brand-social:focus-visible{outline:2px solid #f4a15e;outline-offset:4px;}
+.footer-main > .fcol:nth-child(3) > p:not(.footer-address){display:block!important;}
+@media(prefers-reduced-motion:reduce){footer .footer-brand-socials .footer-brand-social{transition:none;}}

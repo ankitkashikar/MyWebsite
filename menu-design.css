@@ -542,3 +542,66 @@ body{
     width:29px!important;
   }
 }
+
+/* Inline dish customisation; never opens a separate page or dialog. */
+.menu-row:has(.inline-addons){flex-wrap:wrap;}
+.inline-addons{flex:0 0 100%;min-width:0;box-sizing:border-box;margin:12px 0 0;padding:12px;border:1px solid var(--b2);border-radius:10px;}
+.inline-addons[hidden]{display:none!important;}
+.inline-addons legend{padding:0 6px;color:var(--t);font-size:.85rem;font-weight:700;}
+.inline-addons p{font-size:.76rem;color:var(--t2);margin:0 0 8px;line-height:1.5;}
+.inline-addons label{display:flex;align-items:center;gap:10px;min-height:44px;color:var(--t);font-size:.8rem;cursor:pointer;}
+.inline-addons input{width:18px;height:18px;flex:none;accent-color:var(--red2);}
+.menu-variant{max-width:100%;padding:9px;margin:4px 0 10px;background:var(--card);color:var(--t);border:1px solid var(--b2);border-radius:8px;}
+.inline-addons input:focus-visible,.menu-variant:focus-visible{outline:2px solid var(--red2);outline-offset:3px;}
+
+/* Display supplied photos in full, without cropping or modifying the originals. */
+.menu-dish-photo{margin:12px 0;width:100%;max-width:280px;}
+.menu-dish-photo img{display:block;width:100%;height:auto;object-fit:contain;border-radius:10px;}
+.menu-dish-photo figcaption{margin-top:6px;font-size:.72rem;line-height:1.4;opacity:.75;}
+.menu-dish-photo[hidden]{display:none!important;}
+
+/* Consistent photo cards; preserve category and dietary grouping. */
+.menu-subcategory > .menu-row{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;min-width:0;}
+.menu-photo-group-end{grid-column:1;}
+.menu-row > .menu-dish-photo{width:100%;max-width:none;margin:0;flex:none;}
+.menu-row > .menu-dish-photo img{width:100%;height:220px;object-fit:contain;background:var(--menu-surface-2);}
+.menu-row > .menu-row-left{width:100%;flex:1 1 auto!important;}
+.menu-row-info{width:100%;}
+.menu-card-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-top:auto;}
+.menu-card-footer .menu-row-price{margin:0!important;}
+.menu-card-footer .qty-stepper{margin:0!important;flex:none;}
+.menu-row > .inline-addons{flex:0 0 auto;margin-top:0;width:100%;}
+@media(max-width:600px){.menu-row > .menu-dish-photo img{height:190px;}}
+.menu-row > .menu-dish-photo{display:grid;grid-template-rows:220px 2.8em;}
+.menu-row > .menu-dish-photo figcaption{margin:6px 0 0;}
+@media(max-width:600px){.menu-row > .menu-dish-photo{grid-template-rows:190px 2.8em;}}
+.menu-category > .menu-row{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;min-width:0;}
+
+/* Compact menu cards: dish information beside a contained, static photo. */
+.menu-subcategory > .menu-row,.menu-category > .menu-row{
+ display:grid!important;grid-template-columns:minmax(0,1fr) 140px;
+ align-content:start!important;align-items:start!important;gap:12px 16px!important;
+ padding:16px!important;min-height:0!important;border-radius:14px!important;
+}
+.menu-row > .menu-row-left{grid-column:1;grid-row:1;min-width:0;}
+.menu-row > .menu-dish-photo{grid-column:2;grid-row:1;display:block;width:140px;margin:0;}
+.menu-row > .menu-dish-photo img{width:140px;height:130px;object-fit:contain;border-radius:9px;}
+.menu-row > .menu-dish-photo figcaption{font-size:.63rem;line-height:1.35;margin:5px 0 0;opacity:.65;}
+.menu-row:not(:has(.menu-dish-photo)) > .menu-row-left{grid-column:1 / -1;}
+.menu-row > .menu-card-footer{grid-column:1 / -1;grid-row:2;align-self:end;padding-top:10px;border-top:1px solid var(--menu-border);}
+.menu-row > .inline-addons{grid-column:1 / -1;grid-row:3;min-width:0;}
+.menu-row .menu-row-desc{line-height:1.5!important;margin-bottom:6px!important;}
+.menu-row .menu-variant,.menu-row .combo-select{width:100%;min-width:0;box-sizing:border-box;}
+@media(max-width:600px){
+ .menu-subcategory > .menu-row,.menu-category > .menu-row{grid-template-columns:minmax(0,1fr) 100px;gap:10px!important;padding:13px!important;}
+ .menu-row > .menu-dish-photo{width:100px;}
+ .menu-row > .menu-dish-photo img{width:100px;height:100px;}
+}
+.menu-subcategory > .menu-row,.menu-category > .menu-row{grid-template-rows:minmax(0,1fr) auto;}
+
+/* One understated photo note in the menu introduction. */
+.menu-hero .menu-photo-note{font-size:.75rem!important;line-height:1.5!important;margin:10px auto 0!important;color:rgba(255,255,255,.62)!important;max-width:38rem;}
+
+/* Search visibility must take precedence over the card grid. */
+.menu-row[hidden],
+#cat-combos .combo-row[hidden]{display:none!important;}

@@ -238,3 +238,12 @@
     flex-direction:column;
   }
 }
+
+/* Policy directory: one destination for each authoritative policy. */
+.policy-directory{display:grid;gap:14px;margin:30px 0;}
+.policy-link{display:block;padding:22px;border:1px solid var(--b2);border-radius:14px;background:var(--card);text-decoration:none;overflow-wrap:anywhere;}
+.policy-link-title{display:block;color:#fff;font-family:var(--fh);font-size:1.3rem;line-height:1.4;}
+.policy-link-description{display:block;margin-top:8px;color:var(--t2);font-size:.93rem;line-height:1.7;}
+.policy-link-action{display:block;margin-top:12px;color:#fff;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}
+.policy-link:hover{border-color:var(--red2);background:var(--card2);}
+.policy-link:focus-visible,.legal-body a:focus-visible{outline:3px solid var(--red2);outline-offset:4px;}

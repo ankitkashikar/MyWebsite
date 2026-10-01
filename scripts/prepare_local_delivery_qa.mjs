@@ -19,6 +19,14 @@ try {
  if(!(await db.query("select to_regprocedure('public.admin_customer_detail(uuid,integer)') f")).rows[0].f){
   await db.query(readFileSync(new URL('../supabase/migrations/20260925000100_admin_customers.sql',import.meta.url),'utf8'));
  }
+ // Apply menu validation after all existing order/coupon function upgrades.
+ await db.query(readFileSync(new URL('../supabase/migrations/20260929000100_menu_cart_validation.sql',import.meta.url),'utf8'));
+ if(!(await db.query('select 1 from public.menu_addon_parents limit 1')).rowCount){
+  // Synthetic catalogue only; the loopback and unlinked-project guards above apply.
+  const catalogue=JSON.parse(readFileSync(new URL('../data/menu-options.json',import.meta.url),'utf8'));
+  for(const item of catalogue.items)await db.query("insert into products(id,name,price,active,order_type) values($1,$2,$3,true,'normal') on conflict(id) do nothing",[item.key,item.title,item.options[0].price]);
+  await db.query(readFileSync(new URL('../supabase/migrations/20260929000200_menu_catalogue.sql',import.meta.url),'utf8'));
+ }
  // Explicit synthetic zero-fee fixtures for legacy checkout regression only.
  for(const type of ['normal','bulk']) {
   const row=(await db.query('select version from delivery_rules where order_type=$1',[type])).rows[0];

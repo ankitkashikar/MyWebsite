@@ -1,0 +1,662 @@
+{
+  "sources": [
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken 65.png",
+      "menu_key": "NS-8",
+      "sha256": "d54bfd5fdb2f9b97fbbed415d4270d6c3cb5f1dcaf1ff952ecd5269e7d9d6d20",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-65.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Burnt Garlic Fried Rice.png",
+      "menu_key": "NR-4",
+      "sha256": "e71d958a037fa555196e53664fe8a8de7282a23f74d103b512551fa882739907",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-burnt-garlic-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Chilli Fried Rice.png",
+      "menu_key": "NR-1",
+      "sha256": "41416e2c37e30929ec1c11ee013d79174583e733c4f104148c07cac27d2d5983",
+      "width": 1448,
+      "height": 1086,
+      "path": "images/menu/chicken-chilli-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Chilli Noodles.png",
+      "menu_key": "NN-3",
+      "sha256": "0947a39bfa7a1f9fb0e876a70549b2ba06c2053f98a7c026b498bf4d711585b4",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-chilli-noodles.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Fried Rice Half With Choice Of Starter.png",
+      "menu_key": "CMB5-1",
+      "sha256": "cb743c8dbd053fe85538d3afea30105c80e9be1bf5f3e362ea0cb3c19c65fe09",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-fried-rice-half-with-choice-of-starter.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Garlic And Onion Noodles.png",
+      "menu_key": "NN-5",
+      "sha256": "076425331a64217bddbe61b7542c1e411a5c62c46294a827e8caef1aa2371bfe",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-garlic-and-onion-noodles.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Garlic Dry.png",
+      "menu_key": "NS-4",
+      "sha256": "dc7b1d055f9fc7fac5b57755a03b990e4575f44690b362fd1eb3c9b4b8e4122e",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-garlic-dry.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Hong Kong Fried Rice.png",
+      "menu_key": "NR-7",
+      "sha256": "51f57592a61111122a88d59862c7d9bcf80555616ea99984f001408c3359ab99",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-hong-kong-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Lollipop Masala.png",
+      "menu_key": "NS-6",
+      "sha256": "7f2d154a5f07d29b32b96b55535469426d54d16a2a5d7fa4543bd709b2b65a06",
+      "width": 1537,
+      "height": 1023,
+      "path": "images/menu/chicken-lollipop-masala.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Singapore Fried Rice.png",
+      "menu_key": "NR-9",
+      "sha256": "0ff3e86b6f70405418659b7a672d28a70e61f1cbbb0ba128ea8b03042b3a1ba9",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-singapore-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Triple Schezwan Fried Rice.png",
+      "menu_key": "NR-10",
+      "sha256": "332b8d96d59a65984560f4b0724d42fa08b193c6be1bdbdad8957a28765a5fef",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-triple-schezwan-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Chicken Triple Schezwan Rice.png",
+      "menu_key": "NR-10",
+      "sha256": "332b8d96d59a65984560f4b0724d42fa08b193c6be1bdbdad8957a28765a5fef",
+      "width": 1536,
+      "height": 1024,
+      "duplicate_of": "Chicken Triple Schezwan Fried Rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Egg Fried Rice Half With Choice Of Starter.png",
+      "menu_key": "CMB6-1",
+      "sha256": "0609d819835a650092a0997f8ef712b832e6707dc625cb280f8a4d13e121e30b",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/egg-fried-rice-half-with-choice-of-starter.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Egg Fried Rice.png",
+      "menu_key": "NR-11",
+      "sha256": "b3a4463f5d01e82d7796462921de517891e5e58e588578bed4bb975ed9643f60",
+      "width": 1448,
+      "height": 1086,
+      "path": "images/menu/egg-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Egg Hakka Noodles With Choice Of Starter.png",
+      "menu_key": "CMB3-1",
+      "sha256": "088b11c1895b7d458523412ef905743b481a71bb1467157da1834d4c8b4d05e5",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/egg-hakka-noodles-with-choice-of-starter.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Fried Garlic Rice.png",
+      "menu_key": "VR-2",
+      "sha256": "88eb2e3cb8248a4e9fc3c6931886eaadb224481c909d00df2d0750b782a83e6d",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-fried-garlic-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Fried Rice Half With Choice Of Veg Starter.png",
+      "menu_key": "CMB4-1",
+      "sha256": "4b0de8cd0fa8fc9fd6e2bb52c44a10da5701f1afc321b8547c1f7867ea5c16bf",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-fried-rice-half-with-choice-of-veg-starter.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Fried Rice.png",
+      "menu_key": "VR-1",
+      "sha256": "0e5dabddfed907555882c94e1eb91c87b121e951b3ffa9998b5ac01dc438fff5",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Hakka Noodles.png",
+      "menu_key": "VN-3",
+      "sha256": "2a0b78041911f380cf37e76dbf5d330d38b90549440e1a193d9477ad8f23a56e",
+      "width": 1448,
+      "height": 1086,
+      "path": "images/menu/veg-hakka-noodles.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Manchurian Fried Rice.png",
+      "menu_key": "VR-6",
+      "sha256": "050ccc284b028af462d1bed7bcda87a82ffdf42d0899bf08ea3479c95bb67450",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-manchurian-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Paneer Noodles.png",
+      "menu_key": "VN-10",
+      "sha256": "c2732edbaafeb27e4af75a0a57e7d7bde56aec10ee26e7a3dc56e5016138f109",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-paneer-noodles.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Schezwan Noodles.png",
+      "menu_key": "VN-6",
+      "sha256": "718ab477eae2997af634ab37a7ab4d57ec40513aac9bcf4709597ea6e993ee00",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-schezwan-noodles.png"
+    },
+    {
+      "archive": "zomato upload1.zip",
+      "filename": "Veg Singapore Fried Rice.png",
+      "menu_key": "VR-10",
+      "sha256": "d228351181bb493b2765d7313157292d4f8087dd693c5ee88af916c33d1cf318",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-singapore-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Chicken Chopper Fried Rice.png",
+      "menu_key": "NR-5",
+      "sha256": "5f67e303b9612814b97dc67774863ba9d957a52f62f92863a0ffb8d4d73a1720",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-chopper-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Chicken Hong Kong Noodles.png",
+      "menu_key": "NN-7",
+      "sha256": "b8c0032421da8215c107f021ef3eba5f3dc12911f7bc3cb991c5812833ef6bb5",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-hong-kong-noodles.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Chicken Schezwan (Dry).png",
+      "menu_key": "NS-7",
+      "sha256": "1f4d944b8ed07836ea17c7722de68d6a5e0a4e4cb444bd8ea5219deb8e159f19",
+      "width": 1381,
+      "height": 1139,
+      "path": "images/menu/chicken-schezwan.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Chicken Schezwan Fried Rice.png",
+      "menu_key": "NR-8",
+      "sha256": "4501508dc9189895074bfbb5e43a3fb476717ef837bd10f9aa61845832b78d97",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-schezwan-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Chicken Triple Schezwan Noodles.png",
+      "menu_key": "NN-10",
+      "sha256": "dd3c0f59e11400e9ecc9221ebe65d27ce8dfd13f1bda92f17b57bb29efdf2371",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-triple-schezwan-noodles.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Egg Hakka Noodles.png",
+      "menu_key": "NN-11",
+      "sha256": "717d1447732252c8ffd3348e334391fa3d13f1e493cf2d342ec01b5dd4c9b171",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/egg-hakka-noodles.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Paneer Schezwan Fried Rice.png",
+      "menu_key": "VR-3",
+      "sha256": "646ffee300b522c8af82eadebafaeeda52182aa0e6c046072f6d5bc2bd4d7ba6",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/paneer-schezwan-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Veg Hong Kong Fried Rice.png",
+      "menu_key": "VR-5",
+      "sha256": "951f8407b96ebce2b9555b724c2e0119b01c03c4d76acda9ed0d4c0984434dee",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-hong-kong-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Veg Paneer Fried Rice.png",
+      "menu_key": "VR-7",
+      "sha256": "e1ff911b63d2d1f5e1b938448dd9d772dffa21c3d3f6f1362d4f6f289cf064e4",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-paneer-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Veg Schezwan Fried Rice.png",
+      "menu_key": "VR-9",
+      "sha256": "c3260feed47a6c4b52870a1be3dffac549231216b89bd381da9bf795f3a11369",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-schezwan-fried-rice.png"
+    },
+    {
+      "archive": "zomato upload2.zip",
+      "filename": "Veg Triple Schezwan Fried Rice.png",
+      "menu_key": "VR-11",
+      "sha256": "7ac4f5830ecc538ab544531768de056893f6c9782cd567bcc01b2d072787587b",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-triple-schezwan-fried-rice.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Paneer 65 (Dry).png",
+      "menu_key": "VS-4",
+      "sha256": "ac3753a1834098f07a00efdd6e18b525b30490159265c9fe238565265f6d7c55",
+      "width": 1399,
+      "height": 1124,
+      "path": "images/menu/paneer-65.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Paneer Chilli.png",
+      "menu_key": "VS-1",
+      "sha256": "c93b0f10b27169eff5c80a6e8296fa3bb20f45f1546a51b901898f76791a8edc",
+      "width": 2528,
+      "height": 1696,
+      "path": "images/menu/paneer-chilli.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Paneer Schezwan.png",
+      "menu_key": "VS-5",
+      "sha256": "508e6012bf696fd79dd85e1861e9a0a0ee1dd8cdeadd833a4121191763564b96",
+      "width": 1254,
+      "height": 1254,
+      "path": "images/menu/paneer-schezwan.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Panner Garlic.png",
+      "menu_key": "VS-2",
+      "sha256": "33b7b1d8f7b1d3ebdc162c27f5c342764d7154dca773678da77b5cdfd1f6dcc8",
+      "width": 1530,
+      "height": 1028,
+      "path": "images/menu/paneer-garlic.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Soyabean Chilli (Dry).png",
+      "menu_key": "VS-6",
+      "sha256": "28d15d5fcb4bcc1a8ded8a9ba7ab5fb58b73e8a29c12f0ab95849cc5808f84e9",
+      "width": 1535,
+      "height": 1025,
+      "path": "images/menu/soyabean-chilli.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Veg 65.png",
+      "menu_key": "VS-7",
+      "sha256": "fb4abb6393156bbb4ac32bbb019016ba413e6d846dc486ca65abb42f3843cdfa",
+      "width": 1535,
+      "height": 1025,
+      "path": "images/menu/veg-65.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Veg Chinese Bhel.png",
+      "menu_key": "VS-10",
+      "sha256": "a677d793b8881ee2fac626b79de561405dc54b4087dfd653760ba68d36731f4c",
+      "width": 1254,
+      "height": 1254,
+      "path": "images/menu/veg-chinese-bhel.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Veg Corn Crispy.png",
+      "menu_key": "VS-8",
+      "sha256": "0f9951e652357cd4d0402b9c0813964ba8e753a51ee6ccc7e588edd6c2c4444b",
+      "width": 1537,
+      "height": 1023,
+      "path": "images/menu/veg-corn-crispy.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Veg Crispy.png",
+      "menu_key": "VS-9",
+      "sha256": "cdbcb709149457bb152cfdd270721ff458b4833fcf8da83155af8cd82aeb699c",
+      "width": 1537,
+      "height": 1023,
+      "path": "images/menu/veg-crispy.png"
+    },
+    {
+      "archive": "Veg Starters.zip",
+      "filename": "Veg Manchurian Dry.png",
+      "menu_key": "VS-3",
+      "sha256": "fe49f0cc4d232dfb07a060f735f70cf68f43a83acde9258a79e7dd0311d73d39",
+      "width": 1397,
+      "height": 1126,
+      "path": "images/menu/veg-manchurian.png"
+    },
+    {
+      "archive": "Non Veg Starter.zip",
+      "filename": "Chicken Chilli.png",
+      "menu_key": "NS-1",
+      "sha256": "65dc2142e15b15b297006cf861a09cde91a6d88cae025ec2c1cd8aa66f10c2e9",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-chilli.png"
+    },
+    {
+      "archive": "Non Veg Starter.zip",
+      "filename": "Chicken Chinese Bhel.png",
+      "menu_key": "NS-2",
+      "sha256": "8aa439dc9fd827c6b3c4cc51a95a63c0b550f63dc3fd4c87d3aeab1ff4269d26",
+      "width": 1024,
+      "height": 1536,
+      "path": "images/menu/chicken-chinese-bhel.png"
+    },
+    {
+      "archive": "Non Veg Starter.zip",
+      "filename": "Chicken Crispy.png",
+      "menu_key": "NS-3",
+      "sha256": "87119d915bb402d249b55b716243d9a10af071acb197da7fc5230e3cb87401cf",
+      "width": 1024,
+      "height": 1536,
+      "path": "images/menu/chicken-crispy.png"
+    },
+    {
+      "archive": "Non Veg Starter.zip",
+      "filename": "Chicken Lollipop Dry.png",
+      "menu_key": "NS-5",
+      "sha256": "ef2df54ccc618b314987c8ecedbdae69bc378b6e7a0a57d5959ad66d7b62ca2d",
+      "width": 1024,
+      "height": 1536,
+      "path": "images/menu/chicken-lollipop.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Chilli Garlic Noodles.png",
+      "menu_key": "VN-1",
+      "sha256": "9329dc6c6f4564b084ea6fda68a93dc7b879f97de6268345aaa1fa7c4f16044d",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-chilli-garlic-noodles.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Hakka Noodles Half With Choice Of Veg Starter (Paneer Chilly Half Gravy).png",
+      "menu_key": "CMB1-1",
+      "sha256": "92d1f132bbcafb62cbe6d27b28bd4a7f034b8d74d3b420983c0adaed62afb479",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-hakka-noodles-half-with-choice-of-veg-starter.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Hong Kong Noodles.png",
+      "menu_key": "VN-4",
+      "sha256": "8f7a64bacc6bae3007f7c30678b27fd0cc276eef99600af9d46844f1ecd2540b",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/veg-hong-kong-noodles.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Manchurian Noodles.png",
+      "menu_key": "VN-9",
+      "sha256": "d1e225252f96c1b81cbfebcddf2a71213ac69e4e71f0132af792ef5477e6caec",
+      "width": 1537,
+      "height": 1023,
+      "path": "images/menu/veg-manchurian-noodles.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Singapore Noodles.png",
+      "menu_key": "VN-7",
+      "sha256": "78557ca16449cf961a3ce51531510d14d589bca54888eae26274335d97c4fb5e",
+      "width": 1559,
+      "height": 1009,
+      "path": "images/menu/veg-singapore-noodles.png"
+    },
+    {
+      "archive": "veg Noodles.zip",
+      "filename": "Veg Triple Schezwan Fried Noodles.png",
+      "menu_key": "VN-8",
+      "sha256": "cdde6a645da6db81d4d3c93c5a0d0d8b416151c4b9ddf299b92dbfeda8485ae5",
+      "width": 1537,
+      "height": 1023,
+      "path": "images/menu/veg-triple-schezwan-fried-noodles.png"
+    },
+    {
+      "archive": "non veg noodles.zip",
+      "filename": "Chicken Burnt Garlic Noodles.png",
+      "menu_key": "NN-1",
+      "sha256": "1e86e1ee312c4b069fbb2045e61faf7f7ed4f3185aa5c88f5572599a15164904",
+      "width": 1530,
+      "height": 1028,
+      "path": "images/menu/chicken-burnt-garlic-noodles.png"
+    },
+    {
+      "archive": "non veg noodles.zip",
+      "filename": "Chicken Chilli Garlic Noodles.png",
+      "menu_key": "NN-2",
+      "sha256": "d7dea569ec73ce7a89dbd41a2fbff8816f41e886d9319c485038e35d0a3598f3",
+      "width": 1529,
+      "height": 1029,
+      "path": "images/menu/chicken-chilli-garlic-noodles.png"
+    },
+    {
+      "archive": "non veg noodles.zip",
+      "filename": "Chicken Hakka Noodles Half Choice Of Starter (Chicken Chilly Half).png",
+      "menu_key": "CMB2-1",
+      "sha256": "a372173f1b9a61c9d363b49ffe8492fd08f416072729b46179b2809360f6060e",
+      "width": 1536,
+      "height": 1024,
+      "path": "images/menu/chicken-hakka-noodles-half-choice-of-starter.png"
+    },
+    {
+      "archive": "non veg noodles.zip",
+      "filename": "Chicken Schezwan Noodles.png",
+      "menu_key": "NN-8",
+      "sha256": "7fcda130b1f725b1819916247b302125c26a72244f612f81922035b52f21649f",
+      "width": 1531,
+      "height": 1027,
+      "path": "images/menu/chicken-schezwan-noodles.png"
+    },
+    {
+      "archive": "non veg noodles.zip",
+      "filename": "Chicken Singapore Noodles.png",
+      "menu_key": "NN-9",
+      "sha256": "b06e3bcf8f04739bc956b2bcb245ec303ed12c3d514cb39d74ff46a081db7d3f",
+      "width": 1531,
+      "height": 1027,
+      "path": "images/menu/chicken-singapore-noodles.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Chicken Clear Soup.png",
+      "menu_key": "NSP-1",
+      "sha256": "4979ac0616630b6129a99523b29a77e7b5ee564781146a4f494768c6663b7d47",
+      "width": 1530,
+      "height": 1028,
+      "path": "images/menu/chicken-clear-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Chicken Hot And Sour Soup.png",
+      "menu_key": "NSP-2",
+      "sha256": "f86bebcaa6fc1c11e912721b3fc4ebe449bddbcf115bf7f8c881133cfd618748",
+      "width": 1530,
+      "height": 1028,
+      "path": "images/menu/chicken-hot-and-sour-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Chicken Lemon Coriander Soup.png",
+      "menu_key": "NSP-3",
+      "sha256": "d8a31f1f12a69831e2744fe013e95a7c22afdf02646ebb60446e3fc4b1737dbf",
+      "width": 1402,
+      "height": 1122,
+      "path": "images/menu/chicken-lemon-coriander-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Chicken Munchow Soup.png",
+      "menu_key": "NSP-4",
+      "sha256": "c5cb1fe34cabaedb3333dabd57e72d1921e7879dd46ba1b9430d6ea365b732f5",
+      "width": 1528,
+      "height": 1029,
+      "path": "images/menu/chicken-manchow-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Hot & Sour Soup.png",
+      "menu_key": "VSP-1",
+      "sha256": "b0f211e38d52cf81da97b1087378725de2bb5755afdcdbeafef6da4fb7323cd4",
+      "width": 1530,
+      "height": 1028,
+      "path": "images/menu/hot-and-sour-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Tomato Soup.png",
+      "menu_key": "VSP-2",
+      "sha256": "4f560d8290a1a5e3795bbf88be0b078e8daadd163cd022d21559dece2cda8821",
+      "width": 1529,
+      "height": 1029,
+      "path": "images/menu/tomato-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Veg Clear Soup.png",
+      "menu_key": "VSP-3",
+      "sha256": "c038a017bd6b99523ef2c62d5f842d03251246e11352eb54f202aa43d56f00da",
+      "width": 1528,
+      "height": 1029,
+      "path": "images/menu/veg-clear-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Veg Lemon Coriander Soup.png",
+      "menu_key": "VSP-4",
+      "sha256": "6220706f24448d320a45ca1098856d4021b4a9b1c07d507dc9324a4e1eb7edc8",
+      "width": 1531,
+      "height": 1027,
+      "path": "images/menu/veg-lemon-coriander-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Veg Manchow Soup.png",
+      "menu_key": "VSP-5",
+      "sha256": "9301ad10c67ff467a9fde5e7769550f1b67bd663ce57d22633851a925a2a7500",
+      "width": 1528,
+      "height": 1029,
+      "path": "images/menu/veg-manchow-soup.png"
+    },
+    {
+      "archive": "Soup.zip",
+      "filename": "Veg Noodle Soup.png",
+      "menu_key": "VSP-6",
+      "sha256": "1145d4eee9c7ffc998b42fadbc557fb26e490ea2ed708577ea7d570113c0867e",
+      "width": 1529,
+      "height": 1029,
+      "path": "images/menu/veg-noodle-soup.png"
+    },
+    {
+      "archive": "individual upload",
+      "filename": "Chicken Fried Rice.png",
+      "menu_key": "NR-2",
+      "sha256": "5d5fb83614a7c11f633cf99990ce2b9ffc8c01a61a5387ce0666f7e8bf7f2452",
+      "width": 1264,
+      "height": 848,
+      "path": "images/menu/chicken-fried-rice.png"
+    }
+  ],
+  "missing": [
+    {
+      "key": "VN-2",
+      "title": "Veg Cocktail Noodles"
+    },
+    {
+      "key": "NN-4",
+      "title": "Chicken Drumstick Noodles"
+    },
+    {
+      "key": "NN-6",
+      "title": "Chicken Hakka Noodles"
+    },
+    {
+      "key": "VR-4",
+      "title": "Veg Cocktail Fried Rice"
+    },
+    {
+      "key": "NR-3",
+      "title": "Chicken Garlic And Onion Fried Rice"
+    },
+    {
+      "key": "NR-6",
+      "title": "Chicken Drumstick Fried Rice"
+    }
+  ],
+  "photo_policy": "One static photo per dish across all preparation and starter choices.",
+  "remaining_photo_status": "Owner accepts remaining dishes without photos; keep at bottom of sections."
+}

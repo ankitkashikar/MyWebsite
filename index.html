@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Chinese Bliss – The Real Deal on Indo Chinese Food</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="home-explore.css" />
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+  <link rel="stylesheet" href="brand-logo.css?v=1" />
+  <link rel="stylesheet" href="public-spacing.css?v=1" />
 </head>
 <body>
 
 <!-- NAVBAR -->
 <header class="navbar" id="navbar">
   <a href="index.html" class="logo-wrap">
-    <img src="images/chinese logo.png" alt="The Chinese Bliss">
+    <img class="site-brand-logo" src="images/chinese logo.png" alt="The Chinese Bliss">
   </a>
   <nav class="nav-links">
     <a href="index.html" class="active">Home</a>
@@ -93,7 +98,7 @@
   <div class="tb-sep"></div>
   <div class="tb-item">
     <svg width="22" height="22" fill="none" stroke="#e84545" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <div><div class="tb-title">Direct Delivery</div><div class="tb-sub">4 PM – 12 AM</div></div>
+    <div><div class="tb-title">Direct Delivery</div><div class="tb-sub">4:00 PM – 12:00 AM</div></div>
   </div>
   <div class="tb-sep"></div>
   <div class="tb-item">
@@ -111,30 +116,39 @@
     </div>
   </div>
   <div class="fav-grid">
-    <div class="fav-card reveal">
+    <a class="fav-card reveal explore-dish" href="menu.html#cat-noodles" aria-label="Explore Hakka Noodles on the menu">
       <div class="fav-img-wrap">
-        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/01.jpg" alt="Hakka Noodles"/>
+        <img src="images/menu/veg-hakka-noodles.png" alt="Hakka Noodles from The Chinese Bliss" width="1448" height="1086" loading="lazy" decoding="async" />
+        <span class="explore-dish-label">Veg · Noodles</span>
       </div>
       <div class="fav-body">
-        <div class="fav-row"><span class="fav-name">Hakka Noodles</span><a class="fav-price" href="menu.html">View menu</a></div>
+        <h3 class="fav-name">Hakka Noodles</h3>
+        <p class="explore-dish-desc">Wok-tossed noodles with vegetables.</p>
+        <span class="explore-dish-link">Explore dishes <span aria-hidden="true">↗</span></span>
       </div>
-    </div>
-    <div class="fav-card reveal" style="transition-delay:.1s">
+    </a>
+    <a class="fav-card reveal explore-dish" href="menu.html#cat-starters" aria-label="Explore Chilli Chicken on the menu">
       <div class="fav-img-wrap">
-        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/02.jpg" alt="Chilli Chicken"/>
+        <img src="images/menu/chicken-chilli.png" alt="Chilli Chicken from The Chinese Bliss" width="1536" height="1024" loading="lazy" decoding="async" />
+        <span class="explore-dish-label">Non-Veg · Starters</span>
       </div>
       <div class="fav-body">
-        <div class="fav-row"><span class="fav-name">Chilli Chicken</span><a class="fav-price" href="menu.html">View menu</a></div>
+        <h3 class="fav-name">Chilli Chicken</h3>
+        <p class="explore-dish-desc">Chicken, peppers and bold chilli flavour.</p>
+        <span class="explore-dish-link">Explore dishes <span aria-hidden="true">↗</span></span>
       </div>
-    </div>
-    <div class="fav-card reveal" style="transition-delay:.2s">
+    </a>
+    <a class="fav-card reveal explore-dish" href="menu.html#cat-rice" aria-label="Explore Schezwan Fried Rice on the menu">
       <div class="fav-img-wrap">
-        <img src="https://wixmp-19e700b7666f74a00729a0dd.wixmp.com/Instagram/Asian_Restaurant_(The_Noodle_Way)/03.jpg" alt="Schezwan Fried Rice"/>
+        <img src="images/menu/veg-schezwan-fried-rice.png" alt="Schezwan Fried Rice from The Chinese Bliss" width="1536" height="1024" loading="lazy" decoding="async" />
+        <span class="explore-dish-label">Veg · Fried Rice</span>
       </div>
       <div class="fav-body">
-        <div class="fav-row"><span class="fav-name">Schezwan Fried Rice</span><a class="fav-price" href="menu.html">View menu</a></div>
+        <h3 class="fav-name">Schezwan Fried Rice</h3>
+        <p class="explore-dish-desc">Fried rice with a spicy Schezwan kick.</p>
+        <span class="explore-dish-link">Explore dishes <span aria-hidden="true">↗</span></span>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -185,32 +199,41 @@
   </div>
 </section>
 
+<section class="home-track" aria-labelledby="home-track-title">
+  <div><p class="home-track-eyebrow">ALREADY ORDERED?</p><h2 id="home-track-title">Check on your order.</h2><p>Have your order number and checkout mobile number ready.</p></div>
+  <a class="home-track-button" href="order-status.html">Track Order <span aria-hidden="true">→</span></a>
+</section>
+
 <!-- FOOTER -->
 <footer id="contact">
   <div class="footer-main">
     <div class="fcol fcol-brand">
       <div class="footer-logo-row">
-        <img src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
+        <img class="site-brand-logo" src="images/chinese logo.png" alt="The Chinese Bliss" width="42" height="42" style="object-fit:contain;border-radius:50%"/>
         <div class="footer-brand-name">THE CHINESE<br><span>BLISS</span></div>
       </div>
       <p class="footer-tagline">Authentic Indo-Chinese.<br>Made Fresh, Made for You.</p>
-      <a href="https://www.instagram.com/thechinesebliss/" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Instagram (opens in a new tab)">Instagram</a>
-      <a href="https://www.facebook.com/profile.php?id=61592222770168" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Facebook (opens in a new tab)">Facebook</a>
+      <div class="footer-brand-socials" role="group" aria-label="Follow The Chinese Bliss">
+<a class="footer-brand-social" href="https://www.instagram.com/thechinesebliss/" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Instagram (opens in a new tab)" title="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+<a class="footer-brand-social" href="https://www.facebook.com/profile.php?id=61592222770168" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Facebook (opens in a new tab)" title="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14 22v-9h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4A24 24 0 0 0 15 1c-3 0-5 1.9-5 5.4V9H7v4h3v9z"/></svg></a>
+</div>
 
     </div>
     <div class="fcol">
       <h4 class="fcol-title">Quick Links</h4>
       <a href="index.html">Home</a>
       <a href="menu.html">Menu</a>
+      <a href="order-status.html">Track Order</a>
       <a href="our-story.html">Our Story</a>
       <a href="bulk-order.html">Bulk Order</a>
       <a href="#contact">Contact Us</a>
     </div>
     <div class="fcol">
       <h4 class="fcol-title">Contact Us</h4>
+      <p>The Chinese Bliss<br/>FSSAI: 21525083001763</p>
       <a href="tel:+918956150583">+91-8956150583</a>
       <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a>
-      <p>Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
+      <p class="footer-address">Shop No A1, Street of Europe, 24, Maan Rd, Hinjawadi Phase-1, Pune, Maharashtra 411057 </p>
     </div>
     <div class="fcol">
       <h4 class="fcol-title">Direct Order Hours</h4>
@@ -221,6 +244,7 @@
   <div class="footer-bottom">
     <p>© 2026 by The Chinese Bliss. All rights reserved.</p>
     <div class="footer-bottom-links">
+      <a href="policies.html">Policies &amp; Support</a>
       <a href="privacy.html">Privacy</a>
       <a href="delivery-policy.html">Delivery</a>
       <a href="refund-policy.html">Cancellation &amp; Refund</a>

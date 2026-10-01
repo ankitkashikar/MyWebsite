@@ -19,3 +19,16 @@ node_modules/
 
 # Synthetic recovery backups and reports
 .recovery-qa/
+
+# Local testing, credentials and generated files
+.menu-layout-review/
+.local-supabase-qa/
+.migration-rehearsal/
+.recovery-qa/
+node_modules/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+supabase/.temp/

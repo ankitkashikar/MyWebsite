@@ -1,0 +1,18 @@
+/* Public-page spacing: one rhythm, without changing checkout controls. */
+footer .footer-main{box-sizing:border-box;grid-template-columns:minmax(180px,1.1fr) minmax(120px,.7fr) minmax(240px,1.35fr) minmax(150px,.8fr)!important;padding:40px 40px 36px!important;column-gap:36px!important;row-gap:30px!important;align-items:start!important;}
+footer .fcol{min-width:0;}
+footer .fcol-title{margin:0 0 16px!important;padding:0!important;line-height:1.4!important;}
+footer .fcol-title::after{content:""!important;position:absolute;left:0;bottom:-7px;width:26px;height:2px;background:var(--red2,#e84545);border-radius:2px;opacity:.85;}
+footer .fcol-brand{gap:16px!important;}
+footer .footer-tagline{margin:0!important;}
+footer .footer-brand-socials{margin-top:0!important;}
+footer .footer-main>.fcol:nth-child(3)>a,footer .footer-main>.fcol:nth-child(3)>p{margin:0 0 10px!important;line-height:1.65!important;overflow-wrap:anywhere;}
+footer .footer-main>.fcol:nth-child(3)>:last-child{margin-bottom:0!important;}
+footer .footer-bottom{box-sizing:border-box;padding:18px 40px!important;gap:14px!important;}
+footer .footer-bottom-links{flex-wrap:wrap;column-gap:20px;row-gap:8px;}
+.favorites-section{padding-top:56px!important;padding-bottom:56px!important;}
+.our-story .story-left{padding-top:52px!important;padding-bottom:52px!important;}
+.legal-main{padding-top:48px!important;padding-bottom:56px!important;}
+.legal-hero{margin-bottom:26px!important;}
+@media(max-width:1050px){footer .footer-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:32px!important;padding:36px 28px!important;}footer .footer-bottom{padding:18px 28px!important;}}
+@media(max-width:600px){footer .footer-main{grid-template-columns:minmax(0,1fr)!important;padding:30px 22px!important;gap:28px!important;}footer .fcol-title{margin-bottom:12px!important;}footer .footer-bottom{padding:18px 22px!important;}.favorites-section{padding-top:36px!important;padding-bottom:36px!important;}.our-story .story-left{padding-top:36px!important;padding-bottom:36px!important;}.legal-main{padding-top:34px!important;padding-bottom:40px!important;}}

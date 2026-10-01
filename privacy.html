@@ -6,15 +6,15 @@
   <title>Privacy Policy | The Chinese Bliss</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="legal-pages.css" />
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+  <link rel="stylesheet" href="brand-logo.css?v=1" />
+  <link rel="stylesheet" href="public-spacing.css?v=1" />
 </head>
 <body class="legal-body">
   <header class="legal-header">
     <a href="index.html" class="legal-brand" aria-label="The Chinese Bliss home">
-      <img src="images/chinese logo.png" alt="The Chinese Bliss" />
-      <span class="legal-brand-copy">
-        <span class="legal-brand-name">The Chinese Bliss</span>
-        <span class="legal-brand-sub">Indo-Chinese Kitchen</span>
-      </span>
+      <img class="site-brand-logo" src="images/chinese logo.png" alt="The Chinese Bliss" />
     </a>
     <a href="index.html" class="legal-back">Back to Home</a>
   </header>
@@ -23,7 +23,7 @@
     <section class="legal-hero">
       <p class="legal-eyebrow">Website Policy</p>
       <h1 class="legal-title">Privacy Policy</h1>
-      <p class="legal-updated">Last updated: 15 September 2026</p>
+      <p class="legal-updated">Last updated: 29 September 2026</p>
     </section>
 
     <p class="legal-intro">
@@ -48,20 +48,21 @@
       <h2>2. How we use information</h2>
       <p>We use information provided through the website as reasonably necessary to:</p>
       <ul>
-        <li>accept, confirm, prepare, schedule, and fulfil orders;</li>
-        <li>arrange delivery and communicate delivery instructions;</li>
-        <li>verify payment status and investigate failed or duplicate payments;</li>
-        <li>contact you about availability, timing, substitutions, cancellations, refunds, or support;</li>
-        <li>manage coupons, fraud prevention, abuse prevention, and website security;</li>
-        <li>maintain order, accounting, complaint, and operational records as reasonably required; and</li>
+        <li>accept, confirm, prepare, schedule, and fulfil orders.</li>
+        <li>arrange delivery and communicate delivery instructions.</li>
+        <li>verify payment status and investigate failed or duplicate payments.</li>
+        <li>contact you about availability, timing, substitutions, cancellations, refunds, or support.</li>
+        <li>manage coupons, fraud prevention, abuse prevention, and website security.</li>
+        <li>maintain order, accounting, complaint, and operational records as reasonably required.</li>
+        <li>provide authorised administrators with customer contact details, order-time addresses, website order history, order counts, frequently ordered items and common ordering times in IST for customer service and operational review.</li>
         <li>improve the reliability and usability of the ordering experience.</li>
       </ul>
     </section>
 
     <section class="legal-section">
       <h2>3. Order and delivery notifications</h2>
-      <p>When direct-order notifications are enabled, we may use the contact details you provide to send or make order-related communications, such as an order acknowledgement, confirmation request, scheduled-order reminder, delivery update, payment-status message, or support response.</p>
-      <p>Transactional communications are intended to help fulfil or support your order. Promotional marketing, if introduced later, should be handled separately and in accordance with applicable consent and communications requirements.</p>
+      <p>Order progress is available on the <a href="order-status.html">Order Status</a> using your order number and the mobile number used for that order. The website does not send automated WhatsApp, SMS or email order notifications. We may still use your contact details to clarify or support an order or arrange delivery.</p>
+      <p>The status page remembers your most recent order number and mobile number in your browser’s session storage to make repeat checks easier during that session. Avoid using a shared device for order lookup, or close the tab when finished.</p>
     </section>
 
     <section class="legal-section">
@@ -73,7 +74,7 @@
     <section class="legal-section">
       <h2>5. Payments</h2>
       <p>When an online payment provider is enabled, payment processing may be handled by that provider. Payment providers may receive transaction information needed to process and verify your payment.</p>
-      <p>We should not store sensitive authentication credentials such as your UPI PIN, card PIN, CVV, or online-banking password. Where payment confirmation is initially manual, we may retain the payment reference or verification status reasonably needed to reconcile the order.</p>
+      <p>Do not send us sensitive authentication credentials such as your UPI PIN, card PIN, CVV, or online-banking password. Where payment confirmation is initially manual, we may retain the payment reference or verification status reasonably needed to reconcile the order.</p>
     </section>
 
     <section class="legal-section">
@@ -84,13 +85,14 @@
 
     <section class="legal-section">
       <h2>7. Technical information</h2>
+      <p>Errors may include a support reference that helps us locate technical diagnostics. When reporting an error, provide that reference and a short description. Do not send passwords, payment credentials or unnecessary personal information.</p>
       <p>When you access the website, hosting and infrastructure services may automatically process basic technical information such as IP address, browser or device information, timestamps, request logs, error logs, and security signals. This can be used for troubleshooting, fraud or abuse prevention, security, and service reliability.</p>
     </section>
 
     <section class="legal-section">
       <h2>8. Data retention</h2>
-      <p>We aim to keep personal information only for as long as it is reasonably needed for order fulfilment, customer support, payment reconciliation, accounting or record-keeping, complaint handling, security, dispute resolution, or applicable legal requirements. Different records may therefore be retained for different periods.</p>
-      <p>When information is no longer reasonably required, it should be deleted, anonymised, or otherwise handled in accordance with applicable requirements and the capabilities of the systems involved.</p>
+      <p>We retain order and customer records for fulfilment, customer support, payment reconciliation, accounting, complaint handling, security and dispute resolution. We have not yet set fixed retention periods for each category of record.</p>
+      <p>There is currently no automatic deletion schedule. You may contact us about your information using the details below. A request does not automatically erase records. It requires review of the relevant records and any applicable retention or other legal obligations.</p>
     </section>
 
     <section class="legal-section">
@@ -101,7 +103,7 @@
 
     <section class="legal-section">
       <h2>10. Security</h2>
-      <p>We use reasonable measures intended to protect information handled through the website and should limit sensitive business credentials to server-side systems where appropriate. No internet service or storage system can be guaranteed completely secure, so please avoid sending information that is not required for your order or support request.</p>
+      <p>Order and customer records are held in our Supabase-backed systems, with access restricted to authorised operations and administration. Sensitive server credentials are not provided through the public website. No internet service or storage system can be guaranteed completely secure, so please avoid sending information that is not required for your order or support request.</p>
     </section>
 
     <section class="legal-section">
@@ -116,17 +118,22 @@
 
     <section class="legal-section">
       <h2>13. Contact</h2>
-      <p>For privacy questions or requests, contact The Chinese Bliss at <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a> or <a href="tel:+918956150583">+91-8956150583</a>.</p>
+      <p>For privacy questions or requests, contact The Chinese Bliss Support using our existing contact details: <a href="mailto:chinesebliss1@gmail.com">chinesebliss1@gmail.com</a> or <a href="tel:+918956150583">+91-8956150583</a>.</p>
     </section>
 
     <div class="legal-note">
-      This policy is designed around the current direct-order model and should be reviewed again when the final payment gateway, notification provider, and delivery integration are selected. A final Indian legal/compliance review is recommended before production launch.
+      For a privacy question or request, use the support contact details above. Please provide only the information needed to identify your order or explain your request.
     </div>
   </main>
 
   <footer class="legal-footer">
+    <div class="footer-brand-socials" role="group" aria-label="Follow The Chinese Bliss">
+<a class="footer-brand-social" href="https://www.instagram.com/thechinesebliss/" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Instagram (opens in a new tab)" title="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+<a class="footer-brand-social" href="https://www.facebook.com/profile.php?id=61592222770168" target="_blank" rel="noopener noreferrer" aria-label="The Chinese Bliss on Facebook (opens in a new tab)" title="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14 22v-9h3l.5-4H14V7c0-1.2.4-2 2-2h2V1.4A24 24 0 0 0 15 1c-3 0-5 1.9-5 5.4V9H7v4h3v9z"/></svg></a>
+</div>
     <span>© 2026 The Chinese Bliss. All rights reserved.</span>
     <nav class="legal-footer-links" aria-label="Legal links">
+      <a href="policies.html">Policies &amp; Support</a>
       <a href="privacy.html" aria-current="page">Privacy</a>
       <a href="delivery-policy.html">Delivery</a>
       <a href="refund-policy.html">Cancellation &amp; Refund</a>

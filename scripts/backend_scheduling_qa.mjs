@@ -6,6 +6,7 @@ const source = stripTypeScriptTypes(readFileSync(new URL('../supabase/functions/
 let instant = '2026-09-23T10:30:00Z', saved = null, lookupError = null, writes = 0, fn;
 class Clock extends Date { constructor(...args) {super(...(args.length ? args : [instant]));} }
 const client = {async rpc(name) {
+ if(name==='validate_menu_cart') return {data:true};
  if(name === 'consume_security_rate_limit') return {data:true};
  if(name === 'lookup_order_request') return {data:saved, error:lookupError};
  throw Error('Unexpected RPC');

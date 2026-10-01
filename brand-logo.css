@@ -1,0 +1,25 @@
+/* One logo treatment across public pages and staff screens. */
+img.site-brand-logo {
+  display:block;
+  width:60px!important;
+  height:60px!important;
+  max-width:none!important;
+  max-height:none!important;
+  aspect-ratio:1;
+  object-fit:contain!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  flex-shrink:0;
+}
+.footer-logo-row img.site-brand-logo {width:42px!important;height:42px!important;}
+.admin-home-logo {display:inline-flex;flex-shrink:0;}
+.login-wrap > .admin-home-logo {margin-bottom:16px;}
+.admin-heading-brand {display:flex;align-items:center;gap:14px;min-width:0;}
+.admin-heading-brand h1 {margin:0;}
+@media(max-width:768px){
+  img.site-brand-logo {width:50px!important;height:50px!important;}
+  .footer-logo-row img.site-brand-logo {width:42px!important;height:42px!important;}
+}

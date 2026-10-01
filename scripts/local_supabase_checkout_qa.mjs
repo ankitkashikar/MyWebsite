@@ -42,9 +42,16 @@ try {
    return url.hostname==='127.0.0.1'&&['4173','55321'].includes(url.port)?route.continue():route.abort();
   });
   await page.goto('http://127.0.0.1:4173/'+file);
+  if(type==='normal')await page.locator('.menu-variant').first().selectOption({index:1});
   const product=await page.locator('.menu-row').first().evaluate(el=>({id:el.dataset.id,price:Number(el.dataset.price)}));
-  await db.query('insert into products(id,name,price,active,order_type) values($1,$2,$3,true,$4) on conflict(id) do update set price=excluded.price,active=true,order_type=excluded.order_type',[product.id,'Local synthetic dish',product.price,type]);
+  if(type==='bulk')await db.query('insert into products(id,name,price,active,order_type) values($1,$2,$3,true,$4) on conflict(id) do update set price=excluded.price,active=true,order_type=excluded.order_type',[product.id,'Local synthetic dish',product.price,type]);
   await page.locator('.qty-plus').first().click();await page.locator('.qty-plus').first().click();
+  let addonPrice=0;
+  if(type==='normal'){
+   const panel=page.locator('.menu-row').first().locator('.inline-addons');await panel.waitFor({state:'visible'});
+   const checkbox=panel.locator('input').first();await checkbox.check();
+   addonPrice=Number((await db.query('select price from products where id=$1',[await checkbox.inputValue()])).rows[0].price);
+  }
   await page.locator('#cartBarInner').click();await page.locator('#btnToAddress').click();
   await page.locator('#custName').fill('Local QA Customer');await page.locator('#custPhone').fill('9123456780');
   await page.locator('#custAddress').fill('Synthetic local test address apartment 12');
@@ -74,7 +81,8 @@ try {
   assert.equal(quote.success,true,'Delivery quote failed');
   try {await page.locator('#btnConfirmPayment').waitFor({state:'visible',timeout:10000});}
   catch {throw new Error('Payment step did not open. Alerts: '+alerts.join(' | ')+'; browser errors: '+errors.join(' | '));}
-  const expected=(product.price*200-Math.floor(product.price*200*0.1))/100;
+  const subtotalPaise=(product.price+addonPrice)*200;
+  const expected=(subtotalPaise-Math.floor(subtotalPaise*0.1))/100;
   const [response]=await Promise.all([
    page.waitForResponse(r=>isOrderResponse(r)&&r.request().postDataJSON()?.action!=='quote'),
    page.locator('#btnConfirmPayment').click(),
@@ -86,7 +94,11 @@ try {
    assert.match(await page.locator('#successTitle').textContent(),/Payment Pending Confirmation/);
    const row=(await db.query(`select * from ${type}_orders where idempotency_key=$1`,[payload.idempotency_key])).rows[0];
    assert.equal(row.payment_status,'pending');assert.equal(Number(row.total),expected);
-   assert.equal((await db.query(`select count(*)::int n from ${type}_order_items where order_id=$1`,[row.id])).rows[0].n,1);
+   assert.equal((await db.query(`select count(*)::int n from ${type}_order_items where order_id=$1`,[row.id])).rows[0].n,type==='normal'?2:1);
+   if(type==='normal'){
+    const lines=(await db.query('select product_name from normal_order_items where order_id=$1',[row.id])).rows;
+    assert.ok(lines.some(x=>x.product_name.includes('Semi Gravy')));assert.ok(lines.some(x=>x.product_name.includes('Extra Schezwan Chutney')));
+   }
   });
   await test(`${type} ${width}: replay and conflicting replay through gateway`,async()=>{
    const repeat=await (await endpoint('place-order',payload)).json();assert.equal(repeat.duplicate,true);assert.equal(repeat.order_number,result.order_number);

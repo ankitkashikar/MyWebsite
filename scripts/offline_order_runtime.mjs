@@ -17,6 +17,7 @@ if (options.schemaPath) {
 }
 await db.exec(readFileSync(new URL('../supabase/migrations/20260920000100_coupon_validation.sql', import.meta.url),'utf8'));
 await db.exec(readFileSync(new URL('../supabase/migrations/20260920000200_atomic_orders.sql', import.meta.url),'utf8'));
+await db.exec(readFileSync(new URL('../supabase/migrations/20260929000100_menu_cart_validation.sql', import.meta.url),'utf8'));
 await db.exec(`insert into coupon_product_categories values ('dish','noodles'),('other','rice');`);
 async function quote(code, cart=[{id: 'dish', qty: 2}], type='normal', customer='9123456780') {
   return (await db.query('select quote_coupon($1,$2,$3,$4::jsonb) as q',[code,type,customer,JSON.stringify(cart)])).rows[0].q;
@@ -24,6 +25,9 @@ async function quote(code, cart=[{id: 'dish', qty: 2}], type='normal', customer=
 let rateAllowed=true;
 const client={
  async rpc(name,args) {
+  if(name==='validate_menu_cart') {
+   try{return {data:(await db.query('select validate_menu_cart($1,$2::jsonb) q',[args.p_type,JSON.stringify(args.p_items)])).rows[0].q};}catch(error){return {error:{code:error.code}};}
+  }
   if(name==='consume_security_rate_limit')return {data:rateAllowed};
   if (name==='quote_delivery_fee') {
    try{return {data:(await db.query('select quote_delivery_fee($1,$2) q',[args.p_type,args.p_net])).rows[0].q};}catch(error){return {error:{code:error.code}};}

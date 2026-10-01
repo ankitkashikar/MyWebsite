@@ -1,15 +1,21 @@
 # The Chinese Bliss — Customer Terms & Policy Pack
 
 **Status:** Working draft for business/legal review  
-**Operating area:** Hinjewadi Phase 1, Pune — direct-delivery PIN 411057  
-**Last reviewed:** 15 September 2026
+**Operating area:** Hinjewadi Phase 1, Pune — normal delivery PIN 411057; bulk destinations subject to kitchen acceptance
+**Last reviewed:** 29 September 2026 — operational disclosure pass; payment/compliance finalisation pending
 
 > This document consolidates the customer-facing operating rules for direct website orders. It is intended to guide the website implementation and legal review. It is not a substitute for professional legal advice.
+
+## Owner-confirmed business disclosures — 29 September 2026
+
+- Business/legal entity name supplied by owner: The Chinese Bliss.
+- FSSAI registration/licence number supplied by owner: 21525083001763; not independently verified in this edit.
+- Consumer support and grievances: existing contact number +91 8956150583 and email chinesebliss1@gmail.com. No separate individual name/designation supplied.
 
 ## 1. Confirmed direct-order operating model
 
 - Customer-facing positioning: **The Chinese Bliss / Indo-Chinese Kitchen / Delivery**. Do not describe the business as dine-in or use “cloud kitchen” in public copy.
-- Direct website delivery area: serviceable addresses in **PIN 411057**, Hinjewadi Phase 1, Pune.
+- Normal website delivery area: serviceable addresses in **PIN 411057**, Hinjewadi Phase 1, Pune. Bulk is not restricted to that PIN; destination acceptance and delivery availability must be confirmed.
 - Direct website delivery window: **4:00 PM to 12:00 AM**.
 - Normal delivery target for standard orders: **approximately 35–50 minutes from order confirmation**, clearly presented as an estimate rather than a guarantee.
 - Normal preparation guidance:
@@ -21,30 +27,19 @@
 - Delivery may be fulfilled through a third-party hyperlocal logistics provider. Porter, Shiprocket and Borzo are currently under consideration; the final provider or routing logic is not yet selected.
 - Orders with food subtotal **₹799 or above**: planned free direct delivery within the supported area.
 - Orders below ₹799: customer pays the applicable delivery charge. The final website should show the delivery charge before payment/order confirmation. A live delivery quote should only be automated after the logistics provider/API is selected.
-- Scheduled orders: supported. A scheduled time is a requested delivery window and should generate transactional notifications.
+- Scheduled orders: supported. A scheduled time is a requested delivery window. Customer updates are website-only.
 - Cash on Delivery: **not currently planned for direct website orders**.
-- Bulk orders: request at least **1–2 days in advance**, **50% advance to confirm**, remaining **50% before dispatch**, with no post-delivery credit planned.
+- Bulk orders: request at least **24 hours before requested delivery in Asia/Kolkata**, **50% advance to confirm**, remaining **50% before dispatch**, with no post-delivery credit planned.
 
-## 2. Recommended customer notification lifecycle
+## 2. Selected customer status updates
 
-The website should notify the customer for meaningful order events. Recommended transactional events:
-
-1. **Order received** — order number, items, amount, delivery address/slot and payment state.
-2. **Order confirmed** — confirmation that TCB accepted the order and current estimated delivery window.
-3. **Payment update** — payment pending, payment confirmed, payment failed or payment action required.
-4. **Scheduled-order reminder** — for future orders, a reminder before preparation begins.
-5. **Preparing order** — optional but useful once the operational process is stable.
-6. **Rider assigned / dispatched** — provider/rider or tracking link where the logistics partner supports it.
-7. **Delay update** — proactively notify the customer when the expected delivery is materially outside the earlier estimate.
-8. **Delivered** — delivery completion and support contact.
-
-For launch, order confirmation + payment status + rider/dispatch + delay notification are higher priority than building a complex live-tracking interface.
+Website status page only: Accepted → Preparing → Food is Ready → Dispatched. Staff update progress; Dispatched does not mean delivered. No automated WhatsApp, SMS or email notifications, live rider map or external tracking. Support contact remains available.
 
 ## 3. Delivery policy principles
 
 ### Serviceability
 
-Direct delivery is intended for PIN 411057, but final serviceability depends on the exact address and delivery-partner availability.
+Normal delivery is restricted to PIN 411057. Bulk is not restricted to that PIN; serviceability depends on kitchen acceptance of the destination, capacity and delivery availability.
 
 ### Delivery ETA
 
@@ -116,7 +111,7 @@ TCB should never ask a customer to disclose a UPI PIN, card PIN, CVV or online-b
 
 ## 7. Bulk-order policy
 
-- Minimum planning notice: **1–2 days**.
+- Minimum planning notice: **24 hours before requested delivery in Asia/Kolkata**.
 - Final menu, quantities, delivery time, address, packaging requirements and special instructions must be confirmed before production.
 - Order becomes commercially confirmed after TCB accepts the order details and receives **50% advance payment**.
 - Remaining **50% must be received and verified before dispatch**.
@@ -173,7 +168,7 @@ The final pre-launch legal/compliance review should confirm at least:
 - cancellation/refund wording under the Consumer Protection Act and E-Commerce Rules;
 - customer data/privacy obligations under applicable Indian data-protection law;
 - payment-gateway merchant terms, settlement, refund and chargeback rules;
-- consent/template requirements for WhatsApp/SMS transactional notifications;
+- outbound WhatsApp/SMS/email notifications are excluded from the selected scope;
 - final logistics-provider terms and liability allocation.
 
 ## 12. Industry-policy patterns used as references
@@ -206,7 +201,7 @@ Before merging the website to production:
 - [ ] Select payment gateway / payment method and test signed webhook verification.
 - [ ] Select logistics partner/routing method.
 - [ ] Implement and test delivery-fee calculation or clear pre-payment quote.
-- [ ] Confirm whether all direct website deliveries are limited to PIN 411057.
+- [x] Normal delivery is limited to PIN 411057; bulk is not, subject to kitchen acceptance.
 - [ ] Add actual Swiggy/Zomato/other restaurant URLs.
 - [ ] Add real Our Story content and founder/kitchen photos.
 - [ ] Replace menu description placeholders with owner-approved descriptions.
