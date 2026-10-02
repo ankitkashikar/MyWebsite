@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0c">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>The Chinese Bliss — Quick Menu</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="brand">
+      <div class="mark" aria-hidden="true">TCB</div>
+      <div>
+        <p class="eyebrow">QUICK MENU</p>
+        <h1>The Chinese <span>Bliss</span></h1>
+        <p class="sub">Browse menu · Order at counter</p>
+      </div>
+    </header>
+    <nav id="categoryNav" class="categories" aria-label="Menu categories" hidden></nav>
+    <section class="panel" aria-live="polite">
+      <div id="loading" class="state"><div class="spinner"></div><p>Loading menu…</p></div>
+      <div id="error" class="state" hidden><h2>Menu is temporarily unavailable</h2><p>Please ask at the counter for the latest menu.</p><button id="retry" type="button">Try again</button></div>
+      <div id="empty" class="state" hidden><h2>Menu is being updated</h2><p>Please ask at the counter for the latest menu.</p></div>
+      <div id="menu" class="menu" hidden></div>
+    </section>
+    <footer class="counter"><strong>Please order at counter</strong></footer>
+  </main>
+  <script src="./config.js"></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
